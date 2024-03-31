@@ -9,7 +9,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
@@ -112,7 +111,7 @@ public abstract class Labeled extends Control implements
         return textAlignmentProperty;
     }
 
-    private final Property<Paint> textFillProperty = new SimpleObjectProperty<>(Color.BLACK);
+    private final Property<Paint> textFillProperty = new SimpleObjectProperty<>(/* null for CSS */);
 
     @Override
     public Property<Paint> textFillProperty() {

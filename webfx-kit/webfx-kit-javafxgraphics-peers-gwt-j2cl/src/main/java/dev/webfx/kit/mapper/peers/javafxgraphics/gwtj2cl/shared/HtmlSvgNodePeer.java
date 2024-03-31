@@ -49,6 +49,8 @@ public abstract class HtmlSvgNodePeer
         <E extends Element, N extends Node, NB extends NodePeerBase<N, NB, NM>, NM extends NodePeerMixin<N, NB, NM>>
         extends NodePeerImpl<N, NB, NM> {
 
+    private static final String DISABLED_CSS_CLASS = "disabled";
+
     private final E element;
     private Element container;
     private boolean containerInvisible;
@@ -523,7 +525,6 @@ public abstract class HtmlSvgNodePeer
         setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
     }
 
-
     @Override
     public boolean isTreeVisible() {
         if (container instanceof HTMLElement)
@@ -576,7 +577,16 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void updateDisabled(Boolean disabled) {
-        setElementAttribute(getElement(),"disabled", Booleans.isTrue(disabled) ? "disabled" : null);
+        // Here we just tag/untag the element with "disabled" css class, so the disabled appearance can be managed by CSS.
+        DOMTokenList classList = getElement().classList;
+        boolean disabledCssClassPresent = classList.contains(DISABLED_CSS_CLASS);
+        if (Booleans.isTrue(disabled)) {
+            if (!disabledCssClassPresent)
+                classList.add(DISABLED_CSS_CLASS);
+        } else {
+            if (disabledCssClassPresent)
+                classList.remove(DISABLED_CSS_CLASS);
+        }
     }
 
     @Override

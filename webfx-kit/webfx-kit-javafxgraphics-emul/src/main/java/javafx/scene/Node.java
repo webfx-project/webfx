@@ -335,20 +335,6 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return disabled;
     }
 
-    private void updateDisabled() {
-        boolean isDisabled = false; //isDisable();
-        if (!isDisabled) {
-            isDisabled = getParent() != null ? getParent().isDisabled() :
-                    false ; //getSubScene() != null && getSubScene().isDisabled();
-        }
-        setDisabled(isDisabled);
-/*
-        if (this instanceof SubScene) {
-            ((SubScene)this).getRoot().setDisabled(isDisabled);
-        }
-*/
-    }
-
     public final void setDisable(boolean value) {
         disableProperty().setValue(value);
     }
