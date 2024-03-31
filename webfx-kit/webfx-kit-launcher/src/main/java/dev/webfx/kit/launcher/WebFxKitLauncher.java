@@ -4,7 +4,7 @@ import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.function.Factory;
-import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
+import dev.webfx.platform.service.SingleServiceProvider;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;

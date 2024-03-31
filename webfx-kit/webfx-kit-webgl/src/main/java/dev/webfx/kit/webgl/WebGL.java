@@ -1,7 +1,7 @@
 package dev.webfx.kit.webgl;
 
 import dev.webfx.kit.webgl.spi.WebGLProvider;
-import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
+import dev.webfx.platform.service.SingleServiceProvider;
 import javafx.scene.canvas.Canvas;
 
 import java.util.ServiceLoader;
