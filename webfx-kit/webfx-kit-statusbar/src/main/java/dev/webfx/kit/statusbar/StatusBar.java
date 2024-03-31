@@ -1,7 +1,7 @@
 package dev.webfx.kit.statusbar;
 
 import dev.webfx.kit.statusbar.spi.StatusBarProvider;
-import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
+import dev.webfx.platform.service.SingleServiceProvider;
 import javafx.scene.paint.Color;
 
 import java.util.ServiceLoader;

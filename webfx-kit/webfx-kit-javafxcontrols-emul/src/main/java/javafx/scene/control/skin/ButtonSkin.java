@@ -10,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 /**
@@ -50,8 +49,6 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
             registerChangeListener(button.fontProperty(), "FONT");
             registerChangeListener(button.paddingProperty(), "PADDING");
         }
-        // Setting text color to gray when disabled (normal text fill otherwise)
-        getSkinnable().disabledProperty().addListener((observable, oldValue, disabled) -> getSkinnable().setTextFill(disabled ? Color.GRAY : getSkinnable().getTextFill()));
     }
 
     private boolean paddingExplicitlySetByUser;

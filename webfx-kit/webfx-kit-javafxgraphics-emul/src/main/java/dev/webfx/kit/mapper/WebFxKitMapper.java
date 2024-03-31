@@ -6,7 +6,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.StagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
 import dev.webfx.kit.mapper.spi.WebFxKitMapperProvider;
-import dev.webfx.platform.util.serviceloader.SingleServiceProvider;
+import dev.webfx.platform.service.SingleServiceProvider;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;

@@ -5,7 +5,6 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 /**
@@ -22,7 +21,7 @@ public abstract class Shape extends Node implements
         HasStrokeMiterLimitProperty,
         HasStrokeDashOffsetProperty {
 
-    private final ObjectProperty<Paint> fillProperty = new SimpleObjectProperty<>(Color.BLACK);
+    private final ObjectProperty<Paint> fillProperty = new SimpleObjectProperty<>(/* null for CSS */);
     @Override
     public ObjectProperty<Paint> fillProperty() {
         return fillProperty;

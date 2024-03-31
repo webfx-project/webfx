@@ -4,7 +4,7 @@ module webfx.kit.statusbar {
 
     // Direct dependencies modules
     requires javafx.graphics;
-    requires webfx.platform.util;
+    requires webfx.platform.service;
 
     // Exported packages
     exports dev.webfx.kit.statusbar;
