@@ -21,6 +21,7 @@
         <module>webfx-kit-javafxgraphics-emul</module>
         <module>webfx-kit-javafxmedia-emul</module>
         <module>webfx-kit-javafxweb-emul</module>
+        <module>webfx-kit-cssprotocol-openjfx-plugin</module>
         <module>webfx-kit-javafxcontrols-peers-base</module>
         <module>webfx-kit-javafxcontrols-peers-gwt-j2cl</module>
         <module>webfx-kit-javafxcontrols-registry</module>

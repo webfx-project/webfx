@@ -23,6 +23,5 @@ module webfx.kit.javafxgraphics.openjfx {
     // Provided services
     provides dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider with dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider;
     provides dev.webfx.platform.uischeduler.spi.UiSchedulerProvider with dev.webfx.platform.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider;
-    provides java.net.spi.URLStreamHandlerProvider with dev.webfx.kit.launcher.spi.impl.openjfx.CssProtocol;
 
 }

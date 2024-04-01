@@ -36,7 +36,7 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <configuration>
-                        <skippedModules>webfx-kit-javafxweb-registry,webfx-kit-javafxweb-registry-gwt-j2cl,webfx-kit-javafxgraphics-fat-j2cl</skippedModules>
+                        <skippedModules>webfx-kit-cssprotocol-java-plugin,webfx-kit-javafxweb-registry,webfx-kit-javafxweb-registry-gwt-j2cl,webfx-kit-javafxgraphics-fat-j2cl</skippedModules>
                     </configuration>
                 </plugin>
             </plugins>

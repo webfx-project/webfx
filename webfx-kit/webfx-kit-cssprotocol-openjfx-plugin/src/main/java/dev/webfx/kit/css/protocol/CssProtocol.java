@@ -1,4 +1,4 @@
-package dev.webfx.kit.launcher.spi.impl.openjfx;
+package dev.webfx.kit.css.protocol;
 
 import dev.webfx.kit.launcher.WebFxKitLauncher;
 
