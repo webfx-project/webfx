@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <exported-packages>
+        <source-packages/>
+        <resource-packages/>
+    </exported-packages>
+
+    <dependencies>
+        <used-by-source-modules/>
+    </dependencies>
+
+    <providers>
+        <provider interface="java.net.spi.URLStreamHandlerProvider">dev.webfx.kit.css.protocol.CssProtocol</provider>
+    </providers>
+
+</project>

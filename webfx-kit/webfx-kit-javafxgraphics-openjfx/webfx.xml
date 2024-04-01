@@ -8,11 +8,11 @@
     <providers>
         <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider</provider>
         <provider interface="dev.webfx.platform.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</provider>
-        <provider interface="java.net.spi.URLStreamHandlerProvider">dev.webfx.kit.launcher.spi.impl.openjfx.CssProtocol</provider>
     </providers>
 
     <dependencies>
         <used-by-source-modules/>
+        <plugin-module>webfx-kit-cssprotocol-openjfx-plugin</plugin-module>
     </dependencies>
 
     <graalvm-reflection-json>
