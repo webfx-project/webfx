@@ -251,7 +251,7 @@ WebFX is a free, open-source software licensed under the [Apache License 2.0](..
 
 [webfx-website]: https://webfx.dev
 [webfx-docs]: https://docs.webfx.dev
-[webfx-discord]: https://discord.gg/NN4R3cH8
+[webfx-discord]: https://discord.gg/XxKZg5eT
 [webfx-twitter]: https://twitter.com/WebFXProject
 [webfx-demos]: https://github.com/webfx-demos
 [webfx-guide]: https://docs.webfx.dev/#_getting_started
