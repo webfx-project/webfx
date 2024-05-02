@@ -4,6 +4,8 @@ import dev.webfx.platform.util.Arrays;
 import dev.webfx.platform.util.Objects;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Converter;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
@@ -64,4 +66,11 @@ public final class ObservableLists {
     public static <T> void runOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
         list.addListener(listener);
     }
+
+    public static <T> ObservableBooleanValue isEmpty(ObservableList<T> list) {
+        SimpleBooleanProperty isEmpty = new SimpleBooleanProperty(list.isEmpty());
+        runOnListChange(c -> isEmpty.setValue(list.isEmpty()), list);
+        return isEmpty;
+    }
+
 }
