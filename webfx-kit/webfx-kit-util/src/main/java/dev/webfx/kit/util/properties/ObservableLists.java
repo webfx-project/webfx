@@ -6,6 +6,7 @@ import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Converter;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
@@ -46,7 +47,7 @@ public final class ObservableLists {
         setAllNonNulls(bList, Collections.map(aList, aToBConverter));
     }
 
-    public static <T> void bind(ObservableList<T> list1, ObservableList<T> list2) {
+    public static <A, B extends A> void bind(ObservableList<A> list1, ObservableList<B> list2) {
         runNowAndOnListChange(c -> list1.setAll(list2), list2);
     }
 
@@ -56,6 +57,12 @@ public final class ObservableLists {
 
     public static <A, B> void bindConverted(ObservableList<A> aList, ObservableList<B> bList, Converter<B, A> bToAConverter) {
         runNowAndOnListChange(c -> setAllConverted(bList, bToAConverter, aList), bList);
+    }
+
+    public static <A, B> ObservableList<A> map(ObservableList<B> bList, Converter<B, A> bToAConverter) {
+        ObservableList<A> aList = FXCollections.observableArrayList();
+        bindConverted(aList, bList, bToAConverter);
+        return aList;
     }
 
     public static <T> void runNowAndOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
