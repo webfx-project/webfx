@@ -805,7 +805,7 @@ public class TabPaneSkin extends BehaviorSkinBase<TabPane, TabPaneBehavior> {
             });*/
 
             // WebFX addition (styling tab-header-area)
-            headerBackground.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+            headerBackground.setBackground(Background.fill(Color.LIGHTGRAY));
             //setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THIN)));
             setPadding(new Insets(5, 0, 0, 10)); // Setting for TOP
         }

@@ -180,7 +180,7 @@ public class ContextMenuSkin implements Skin<ContextMenu> {
         }
 */
         // WebFX hardcoded style
-        root.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderStroke.THIN)));
+        root.setBorder(Border.stroke(Color.LIGHTGRAY));
         root.setPadding(new Insets(2, 0, 3 , 0));
     }
 

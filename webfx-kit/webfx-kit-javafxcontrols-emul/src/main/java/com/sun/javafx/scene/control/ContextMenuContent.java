@@ -1175,7 +1175,7 @@ public class ContextMenuContent extends Region {
 
             // WebFX hardcoded style
             setOnMouseEntered(e -> {
-                setBackground(new Background(new BackgroundFill(Color.web("#0096c9"), null, null)));
+                setBackground(Background.fill(Color.web("#0096c9")));
                 getLabel().setTextFill(Color.WHITE);
             });
             setOnMouseExited(e -> {
