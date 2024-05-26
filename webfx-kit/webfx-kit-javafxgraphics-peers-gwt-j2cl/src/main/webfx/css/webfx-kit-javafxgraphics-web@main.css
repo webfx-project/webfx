@@ -1,3 +1,10 @@
 .disabled fx-text {
     color: gray;
 }
+
+/* When fill and stroke are not set by application code, we make them transparent by default like in JavaFX (otherwise
+ the browser will make them black). */
+fx-svgpath svg {
+    fill: none;
+    stroke: none;
+}
