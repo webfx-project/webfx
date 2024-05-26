@@ -1,5 +1,6 @@
-.disabled fx-text {
-    color: gray;
+/* Making disabled nodes semi-transparent */
+.disabled {
+    opacity: 50%;
 }
 
 /* When fill and stroke are not set by application code, we make them transparent by default like in JavaFX (otherwise
