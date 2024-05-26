@@ -163,7 +163,7 @@ public abstract class SvgNodePeer
     }
 
     private String toPaintAttribute(String name, Paint paint) {
-        String value = "none";
+        String value;
         if (paint instanceof Color)
             value = HtmlPaints.toSvgCssPaint(paint);
         else if (paint instanceof LinearGradient) {
@@ -182,6 +182,11 @@ public abstract class SvgNodePeer
                 svgRadialGradients.put(name, svgRadialGradient = getSvgRoot().addDef(SvgUtil.createRadialGradient()));
             SvgUtil.updateRadialGradient((RadialGradient) paint, svgRadialGradient);
             value = SvgUtil.getDefUrl(svgRadialGradient);
+        } else { // Default value when there is no paint set by the application code
+            value = null; // null value will remove any DOM style attribute (ex: fill, or stroke property)
+            // This is preferred to "none", as this will allow CSS customization. The WebFX default CSS will however
+            // set fill and stroke to "none" to match the JavaFX default behaviour, but the application can override
+            // these default values with CSS (as opposed to hardcoding value = "none" here).
         }
         return value;
     }
