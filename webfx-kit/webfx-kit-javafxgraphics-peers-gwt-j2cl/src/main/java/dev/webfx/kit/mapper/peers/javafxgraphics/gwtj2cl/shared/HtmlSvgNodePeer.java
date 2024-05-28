@@ -406,12 +406,14 @@ public abstract class HtmlSvgNodePeer
         AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
         passiveOption.setPassive(false); // May be set to true in some cases to improve Lighthouse score
         htmlTarget.addEventListener(type, e -> {
+            UserInteraction.setUserInteracting(true);
             boolean fxConsumed = passHtmlTouchEventOnToFx((TouchEvent) e, type, fxTarget);
             if (fxConsumed) {
                 e.stopPropagation();
                 if (!UserInteraction.nextUserRunnableRequiresTouchEventDefault())
                     e.preventDefault();
             }
+            UserInteraction.setUserInteracting(false);
         }, passiveOption);
     }
 

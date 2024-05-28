@@ -32,12 +32,6 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
 
     public GwtJ2clPrimaryStagePeer(Stage stage) {
         super(stage);
-        // Disabling browser horizontal and vertical scroll bars
-        HtmlUtil.setStyleAttribute(document.documentElement, "overflow", "hidden");
-        // Removing the default margin around the body, so it fills the whole browser tab
-        HtmlUtil.setStyleAttribute(document.body, "margin", "0");
-        // Disabling default text selection (as in JavaFX) to avoid nasty selection graphical elements (buttons etc...)
-        HtmlUtil.setStyleAttribute(document.body, "user-select", "none");
         // Considering the current window size
         changedWindowSize();
         // And subsequent changes in the future
