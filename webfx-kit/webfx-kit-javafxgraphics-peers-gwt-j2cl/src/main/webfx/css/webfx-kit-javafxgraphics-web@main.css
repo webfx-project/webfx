@@ -1,3 +1,15 @@
+/* Mocking some basic JavaFX behaviours */
+body {
+    overflow: hidden; /* Disabling browser horizontal and vertical scroll bars */
+    margin: 0; /* Removing the default margin around the body */
+    /* Disabling user selection by default */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 /* Making disabled nodes semi-transparent */
 .disabled {
     opacity: 50%;
