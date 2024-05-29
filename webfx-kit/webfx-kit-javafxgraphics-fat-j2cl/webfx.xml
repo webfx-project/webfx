@@ -37,6 +37,28 @@
     <maven-pom-manual>
         <build>
             <plugins>
+
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>append-main</id>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <phase>compile</phase>
+                            <configuration>
+                                <target>
+                                    <!-- Copying the WebFX folder from webfx-kit-javafxgraphics-peers-gwt-j2cl (CSS file) -->
+                                    <sync todir="${project.basedir}/src/main/webfx">
+                                        <fileset dir="${project.basedir}/../webfx-kit-javafxgraphics-peers-gwt-j2cl/src/main/webfx"/>
+                                    </sync>
+                                </target>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
