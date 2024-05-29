@@ -30,8 +30,7 @@
                             <target>
                                 <!-- Copying the WebFX folder from webfx-kit-javafxgraphics-peers-gwt-j2cl (CSS file) -->
                                 <sync todir="${project.basedir}/src/main/webfx">
-                                    <fileset dir="${project.basedir}/../webfx-kit-javafxgraphics-peers-gwt-j2cl/src/main/webfx">
-                                    </fileset>
+                                    <fileset dir="${project.basedir}/../webfx-kit-javafxgraphics-peers-gwt-j2cl/src/main/webfx"/>
                                 </sync>
                             </target>
                         </configuration>
