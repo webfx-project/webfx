@@ -1,6 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxweb.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxweb.base.WebViewPeerMixin;
+import javafx.scene.paint.Color;
 import javafx.scene.web.WebView;
 
 public interface EmulWebViewPeerMixin
@@ -10,4 +11,6 @@ public interface EmulWebViewPeerMixin
     void updateUrl(String url);
 
     void updateLoadContent(String content);
+
+    void updatePageFill(Color pageFill);
 }

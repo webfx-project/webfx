@@ -2,6 +2,7 @@ package dev.webfx.kit.mapper.peers.javafxweb.spi.gwt;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.CSSProperties;
@@ -9,6 +10,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLIFrameElement;
 import javafx.event.EventHandler;
+import javafx.scene.paint.Color;
 import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 
@@ -129,5 +131,10 @@ public class HtmlWebViewPeer
     public void updateLoadContent(String content) {
         if (content != null)
             iFrame.srcdoc = content;
+    }
+
+    @Override
+    public void updatePageFill(Color pageFill) {
+        HtmlUtil.setStyleAttribute(iFrame, "background", HtmlPaints.toCssColor(pageFill));
     }
 }
