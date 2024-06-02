@@ -4,9 +4,7 @@ import dev.webfx.kit.mapper.peers.javafxweb.engine.WebEnginePeerBase;
 import dev.webfx.kit.mapper.peers.javafxweb.spi.gwt.HtmlWebViewPeer;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.scheduler.Scheduler;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLIFrameElement;
-import elemental2.dom.Window;
+import elemental2.dom.*;
 import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -24,16 +22,24 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
         FXProperties.runNowAndOnPropertiesChange(e -> updateState(), webView == null ? null : webView.sceneProperty());
     }
 
-    private Window getScriptWindow() {
-        Window iFrameWindow = null;
+    private HTMLIFrameElement getIFrame() {
         WebView webView = webEngine.getWebView();
         HtmlWebViewPeer peer = webView == null ? null : (HtmlWebViewPeer) webView.getNodePeer();
-        if (peer != null) {
-            HTMLIFrameElement iFrame = peer.getIFrame();
-            if (iFrame != null)
-                iFrameWindow = iFrame.contentWindow;
-        }
+        if (peer != null)
+            return peer.getIFrame();
+        return null;
+    }
+
+    private Window getScriptWindow() {
+        HTMLIFrameElement iFrame = getIFrame();
+        Window iFrameWindow = iFrame == null ? null : iFrame.contentWindow;
         return iFrameWindow != null ? iFrameWindow : DomGlobal.window;
+    }
+
+    private Document getDocument() {
+        HTMLIFrameElement iFrame = getIFrame();
+        Document iFrameDocument = iFrame == null ? null : iFrame.contentDocument;
+        return iFrameDocument != null ? iFrameDocument : DomGlobal.document;
     }
 
     private void updateState() {
@@ -52,4 +58,8 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
         return GwtJSObject.eval(getScriptWindow(), script);
     }
 
+    @Override
+    public void updateUserStyleSheetLocation(String userStyleSheetLocation) {
+        // TODO
+    }
 }

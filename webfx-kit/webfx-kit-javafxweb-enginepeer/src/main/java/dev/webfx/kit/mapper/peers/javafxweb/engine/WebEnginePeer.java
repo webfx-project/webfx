@@ -11,4 +11,6 @@ public interface WebEnginePeer {
 
     Object executeScript(String script);
 
+    void updateUserStyleSheetLocation(String userStyleSheetLocation);
+
 }
