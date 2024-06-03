@@ -32,6 +32,12 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
 
     public GwtJ2clPrimaryStagePeer(Stage stage) {
         super(stage);
+        // TODO: see how to replace this with immediate CSS
+        // Disabling browser horizontal and vertical scroll bars
+        HtmlUtil.setStyleAttribute(document.documentElement, "overflow", "hidden");
+        // Removing the default margin around the body, so it fills the whole browser tab
+        HtmlUtil.setStyleAttribute(document.body, "margin", "0");
+
         // Considering the current window size
         changedWindowSize();
         // And subsequent changes in the future
