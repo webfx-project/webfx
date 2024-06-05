@@ -18,14 +18,16 @@ public class EmulWebViewPeerBase
         requestUpdateOnPropertiesChange(sceneRequester
                 , node.urlProperty()
                 , node.loadContentProperty()
+                , node.pageFillProperty()
         );
     }
 
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
-                || updateProperty(node.urlProperty(), changedProperty, mixin::updateUrl)
-                || updateProperty(node.loadContentProperty(), changedProperty, mixin::updateLoadContent)
+               || updateProperty(node.urlProperty(), changedProperty, mixin::updateUrl)
+               || updateProperty(node.loadContentProperty(), changedProperty, mixin::updateLoadContent)
+               || updateProperty(node.pageFillProperty(), changedProperty, mixin::updatePageFill)
                 ;
     }
 

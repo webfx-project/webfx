@@ -3,11 +3,9 @@ package javafx.scene.web;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
 import dev.webfx.kit.registry.javafxweb.JavaFxWebRegistry;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.scene.Parent;
+import javafx.scene.paint.Color;
 
 /**
  * @author Bruno Salmon
@@ -20,6 +18,7 @@ public class WebView extends Parent {
     private static final double DEFAULT_PREF_HEIGHT = 600;
     private static final double DEFAULT_MAX_WIDTH = Double.MAX_VALUE;
     private static final double DEFAULT_MAX_HEIGHT = Double.MAX_VALUE;
+    private static final Color DEFAULT_PAGE_FILL = Color.WHITE;
 
     private final WebEngine engine = new WebEngine(this);
 
@@ -435,6 +434,23 @@ public class WebView extends Parent {
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         return bounds.deriveWithNewBounds(0, 0, 0, (float) getWidth(), (float) getHeight(), 0);
+    }
+
+    private ObjectProperty<Color> pageFill;
+
+    public final void setPageFill(Color value) {
+        pageFillProperty().set(value);
+    }
+
+    public final Color getPageFill() {
+        return pageFill == null ? DEFAULT_PAGE_FILL : pageFill.get();
+    }
+
+    public final ObjectProperty<Color> pageFillProperty() {
+        if (pageFill == null) {
+            pageFill = new SimpleObjectProperty<>(DEFAULT_PAGE_FILL);
+        }
+        return pageFill;
     }
 
     static {

@@ -1,9 +1,11 @@
 package javafx.scene.web;
 
-import dev.webfx.kit.registry.javafxweb.JavaFxWebRegistry;
 import dev.webfx.kit.mapper.peers.javafxweb.engine.WebEnginePeer;
+import dev.webfx.kit.registry.javafxweb.JavaFxWebRegistry;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.StringPropertyBase;
 import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
 
@@ -64,4 +66,35 @@ public class WebEngine {
     public Object executeScript(String script) {
         return webEnginePeer.executeScript(script);
     }
+
+    private StringProperty userStyleSheetLocation;
+
+    public final void setUserStyleSheetLocation(String value) {
+        userStyleSheetLocationProperty().set(value);
+    }
+
+    public final String getUserStyleSheetLocation() {
+        return userStyleSheetLocation == null ? null : userStyleSheetLocation.get();
+    }
+
+    public final StringProperty userStyleSheetLocationProperty() {
+        if (userStyleSheetLocation == null) {
+            userStyleSheetLocation = new StringPropertyBase(null) {
+
+                @Override public void invalidated() {
+                    webEnginePeer.updateUserStyleSheetLocation(get());
+                }
+
+                @Override public Object getBean() {
+                    return WebEngine.this;
+                }
+
+                @Override public String getName() {
+                    return "userStyleSheetLocation";
+                }
+            };
+        }
+        return userStyleSheetLocation;
+    }
+
 }
