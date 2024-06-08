@@ -45,8 +45,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     public HtmlScenePeer(Scene scene) {
         super(scene);
+        // TODO: see how to replace this with immediate CSS
         HtmlUtil.setStyleAttribute(container, "width", "100%");
-        HtmlUtil.setStyleAttribute(container, "height", "100vh"); // 100% is not good on mobile when the browser navigation bar is hidden, but 100vh works
+        HtmlUtil.setStyleAttribute(container, "height", "100dvh"); // dvh is better than vh on mobiles (keeps working when navigation bar hides or reappears)
         FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
         installMouseListeners();
         HtmlSvgNodePeer.installTouchListeners(container, scene);
