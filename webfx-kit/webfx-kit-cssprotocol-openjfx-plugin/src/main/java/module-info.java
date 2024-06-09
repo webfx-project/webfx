@@ -9,6 +9,6 @@ module webfx.kit.cssprotocol.openjfx.plugin {
     exports dev.webfx.kit.css.protocol;
 
     // Provided services
-    provides java.net.spi.URLStreamHandlerProvider with dev.webfx.kit.css.protocol.CssProtocol;
+    provides java.net.spi.URLStreamHandlerProvider with dev.webfx.kit.css.protocol.WebFXCssProtocol;
 
 }

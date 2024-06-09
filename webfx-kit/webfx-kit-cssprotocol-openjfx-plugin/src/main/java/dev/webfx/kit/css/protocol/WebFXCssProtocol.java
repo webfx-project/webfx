@@ -12,11 +12,13 @@ import java.net.spi.URLStreamHandlerProvider;
 /**
  * @author Bruno Salmon
  */
-public class CssProtocol extends URLStreamHandlerProvider {
+public class WebFXCssProtocol extends URLStreamHandlerProvider {
+
+    private static final String PROTOCOL_NAME = "webfx-css";
 
     @Override
     public URLStreamHandler createURLStreamHandler(String protocol) {
-        if ("css".equals(protocol)) {
+        if (PROTOCOL_NAME.equalsIgnoreCase(protocol)) {
             return new URLStreamHandler() {
                 @Override
                 protected URLConnection openConnection(URL u) throws IOException {
