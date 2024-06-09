@@ -11,7 +11,7 @@
     </dependencies>
 
     <providers>
-        <provider interface="java.net.spi.URLStreamHandlerProvider">dev.webfx.kit.css.protocol.CssProtocol</provider>
+        <provider interface="java.net.spi.URLStreamHandlerProvider">dev.webfx.kit.css.protocol.WebFXCssProtocol</provider>
     </providers>
 
 </project>
