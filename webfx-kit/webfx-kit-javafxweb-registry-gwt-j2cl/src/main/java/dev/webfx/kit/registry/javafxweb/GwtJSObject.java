@@ -61,7 +61,7 @@ final class GwtJSObject extends JSObject {
         WebToJavaCallbacks.bindCallbackMethods(javaInstance);
     }
 
-    private static Object wrapJSObject(Object o) {
+    public static Object wrapJSObject(Object o) {
         if ("object".equals(Js.typeof(o)))
             o = new GwtJSObject(o);
         return o;
