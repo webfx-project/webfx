@@ -4,12 +4,14 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
+import dev.webfx.kit.mapper.peers.javafxweb.engine.WorkerImpl;
+import dev.webfx.platform.scheduler.Scheduled;
+import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Strings;
-import elemental2.dom.CSSProperties;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLIFrameElement;
+import elemental2.dom.*;
+import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
@@ -36,8 +38,8 @@ public class HtmlWebViewPeer
         HtmlUtil.setStyleAttribute(iFrame, "width", "100%");  // 100% of <fx-webview>
         HtmlUtil.setStyleAttribute(iFrame, "height", "100%"); // 100% of <fx-webview>
         // Allowing fullscreen and autoplay for videos
-        HtmlUtil.setAttribute(iFrame, "allowfullscreen", "true");
-        iFrame.allow = "fullscreen; autoplay";
+        iFrame.allow = "fullscreen; autoplay"; // new way
+        HtmlUtil.setAttribute(iFrame, "allowfullscreen", "true"); // old way (must be executed second otherwise warning)
         // Error management. Actually this listener is never called by the browser for an unknown reason. So if it's
         // important for the application code to be aware of errors (ex: network errors), webfx provides an alternative
         // iFrame loading mode called prefetch which is able to report such errors (see updateUrl()).
@@ -51,15 +53,18 @@ public class HtmlWebViewPeer
             if (DomGlobal.document.activeElement == iFrame) { // and the active element should be the iFrame.
                 // Then, we set the WebView as the new focus owner in JavaFX
                 N webView = getNode();
-                webView.getScene().focusOwnerProperty().setValue(webView);
+                Scene scene = webView == null ? null : webView.getScene();
+                if (scene != null)
+                    scene.focusOwnerProperty().setValue(webView);
             }
         });
         // 2) Detecting when the iFrame lost focus
         DomGlobal.window.addEventListener("focus", e -> { // when iFrame lost focus, the parent window gained focus
             // If the WebView is still the focus owner in JavaFX, we clear that focus to report the WebView lost focus
             N webView = getNode();
-            if (webView.getScene().getFocusOwner() == webView) {
-                webView.getScene().focusOwnerProperty().setValue(null);
+            Scene scene = webView == null ? null : webView.getScene();
+            if (scene != null && scene.getFocusOwner() == webView) {
+                scene.focusOwnerProperty().setValue(null);
             }
         });
     }
@@ -90,6 +95,8 @@ public class HtmlWebViewPeer
             if (!Strings.isEmpty(iFrame.src))
                 iFrame.src = "";
         } else {
+            WorkerImpl<Void> worker = (WorkerImpl<Void>) getNode().getEngine().getLoadWorker();
+            worker.setState(Worker.State.SCHEDULED);
             // WebFX proposes different loading mode for the iFrame:
             Object webfxLoadingMode = getNode().getProperties().get("webfx-loadingMode");
             if ("prefetch".equals(webfxLoadingMode)) { // prefetch mode
@@ -98,14 +105,18 @@ public class HtmlWebViewPeer
                 iFrame.contentWindow.fetch(url)
                         .then(response -> {
                             response.text().then(text -> {
+                                worker.setState(Worker.State.RUNNING);
                                 updateLoadContent(text);
+                                worker.setState(Worker.State.SUCCEEDED);
                                 return null;
                             }).catch_(error -> {
+                                worker.setState(Worker.State.FAILED);
                                 reportError();
                                 return null;
                             });
                             return null;
                         }).catch_(error -> {
+                            worker.setState(Worker.State.FAILED);
                             reportError();
                             return null;
                         });
@@ -115,7 +126,47 @@ public class HtmlWebViewPeer
                 // in all situations (ex: embed YouTube videos are not loading in this mode).
                 iFrame.contentWindow.location.replace(url);
             } else { // Standard loading mode
+                Scheduled iFrameStateChecker = UiScheduler.schedulePeriodic(100, scheduled -> {
+                    // Note: iFrame.contentDocument can be inaccessible (returns null) with cross-origin
+                    Document contentDocument = iFrame.contentDocument;
+                    if (contentDocument != null) {
+                        String readyState = contentDocument.readyState.toLowerCase();
+                        //DomGlobal.console.log("iFrame readyState = " + readyState);
+                        switch (readyState) {
+                            case "uninitialized":
+                                worker.setState(Worker.State.READY);
+                                break;
+                            case "loading":
+                                worker.setState(Worker.State.SCHEDULED);
+                                break;
+                            case "loaded":
+                            case "interactive":
+                                worker.setState(Worker.State.RUNNING);
+                                break;
+                            case "complete":
+                                DomGlobal.console.log("iFrame readyState = " + readyState);
+                                worker.setState(Worker.State.SUCCEEDED);
+                                scheduled.cancel();
+                                break;
+                        }
+                    }
+                });
+                iFrame.onload = e -> {
+                    worker.setState(Worker.State.SUCCEEDED);
+                    iFrameStateChecker.cancel();
+                };
+                iFrame.onerror = e -> {
+                    worker.setState(Worker.State.FAILED);
+                    iFrameStateChecker.cancel();
+                    return null;
+                };
+                iFrame.onabort = e -> {
+                    worker.setState(Worker.State.CANCELLED);
+                    iFrameStateChecker.cancel();
+                    return null;
+                };
                 iFrame.src = url; // Standard way to load an iFrame
+
                 // But it has 2 downsides (which is why webfx proposes alternative loading modes):
                 // 1) it doesn't report any network errors (iFrame.onerror not called). Issue addressed by the webfx
                 // "prefetch" mode

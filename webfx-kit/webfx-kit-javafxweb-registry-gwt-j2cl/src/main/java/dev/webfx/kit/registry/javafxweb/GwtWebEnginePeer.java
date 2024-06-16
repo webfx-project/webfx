@@ -2,10 +2,11 @@ package dev.webfx.kit.registry.javafxweb;
 
 import dev.webfx.kit.mapper.peers.javafxweb.engine.WebEnginePeerBase;
 import dev.webfx.kit.mapper.peers.javafxweb.spi.gwt.HtmlWebViewPeer;
-import dev.webfx.kit.util.properties.FXProperties;
-import dev.webfx.platform.scheduler.Scheduler;
-import elemental2.dom.*;
-import javafx.concurrent.Worker;
+import dev.webfx.platform.console.Console;
+import elemental2.dom.Document;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLIFrameElement;
+import elemental2.dom.Window;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -14,12 +15,11 @@ import javafx.scene.web.WebView;
  */
 final class GwtWebEnginePeer extends WebEnginePeerBase {
 
+    // Note - WebFX convention: if webEngine.getWebView() is null, it's a webEngine that applies to the global window
     private final WebEngine webEngine;
 
     public GwtWebEnginePeer(WebEngine webEngine) {
         this.webEngine = webEngine;
-        WebView webView = webEngine.getWebView();
-        FXProperties.runNowAndOnPropertiesChange(e -> updateState(), webView == null ? null : webView.sceneProperty());
     }
 
     private HTMLIFrameElement getIFrame() {
@@ -32,8 +32,11 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
 
     private Window getScriptWindow() {
         HTMLIFrameElement iFrame = getIFrame();
+        // contentWindow is set only once the iFrame is inserted to the DOM, before that it is null
         Window iFrameWindow = iFrame == null ? null : iFrame.contentWindow;
-        return iFrameWindow != null ? iFrameWindow : DomGlobal.window;
+        if (iFrameWindow == null && webEngine.getWebView() == null)
+            iFrameWindow = DomGlobal.window;
+        return iFrameWindow;
     }
 
     private Document getDocument() {
@@ -42,20 +45,16 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
         return iFrameDocument != null ? iFrameDocument : DomGlobal.document;
     }
 
-    private void updateState() {
-        Window scriptWindow = getScriptWindow();
-        if (scriptWindow != null)
-            worker.setState(Worker.State.READY);
-        else {
-            worker.setState(Worker.State.SCHEDULED);
-            if (webEngine.getWebView().getScene() != null)
-                Scheduler.scheduleDelay(100, this::updateState);
-        }
-    }
-
     @Override
     public Object executeScript(String script) {
-        return GwtJSObject.eval(getScriptWindow(), script);
+        Window scriptWindow = getScriptWindow();
+        if (scriptWindow != null) {
+            if ("window".equals(script))
+                return GwtJSObject.wrapJSObject(scriptWindow);
+            return GwtJSObject.eval(scriptWindow, script);
+        }
+        Console.log("⚠️ Couldn't execute script because the webEngine window is not ready (" + (getIFrame() == null ? "iFrame is null)" : getIFrame().contentWindow == null ? "iFrame.contentWindow is null)" : "???)"));
+        return null;
     }
 
     @Override
