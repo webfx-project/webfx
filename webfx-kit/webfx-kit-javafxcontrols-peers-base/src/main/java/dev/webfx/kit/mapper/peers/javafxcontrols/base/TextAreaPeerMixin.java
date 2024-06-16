@@ -9,4 +9,6 @@ public interface TextAreaPeerMixin
         <N extends TextArea, NB extends TextAreaPeerBase<N, NB, NM>, NM extends TextAreaPeerMixin<N, NB, NM>>
 
         extends TextInputControlPeerMixin<N, NB, NM> {
+
+    void updateWrapText(boolean wrapText);
 }

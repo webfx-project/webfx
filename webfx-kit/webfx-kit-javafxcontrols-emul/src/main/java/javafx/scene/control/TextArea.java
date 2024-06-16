@@ -1,6 +1,8 @@
 package javafx.scene.control;
 
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 /**
  * @author Bruno Salmon
@@ -25,6 +27,13 @@ public class TextArea extends TextInputControl {
         //setAccessibleRole(AccessibleRole.TEXT_FIELD);
         setText(text);
     }
+
+    private final BooleanProperty wrapTextProperty = new SimpleBooleanProperty(false);
+
+    public final BooleanProperty wrapTextProperty() { return wrapTextProperty; }
+    public final boolean isWrapText() { return wrapTextProperty.getValue(); }
+    public final void setWrapText(boolean value) { wrapTextProperty.setValue(value); }
+
 
     static {
         JavaFxControlsRegistry.registerTextArea();

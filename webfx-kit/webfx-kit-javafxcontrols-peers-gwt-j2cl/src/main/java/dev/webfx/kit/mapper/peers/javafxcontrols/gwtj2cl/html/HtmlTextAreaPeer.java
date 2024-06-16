@@ -20,4 +20,8 @@ public final class HtmlTextAreaPeer
         getElement().style.resize = "none"; // To disable the html text area resize feature
     }
 
+    @Override
+    public void updateWrapText(boolean wrapText) {
+        setElementStyleAttribute("word-break", wrapText ? "break-word" : "normal");
+    }
 }
