@@ -15,29 +15,18 @@
         <plugin-module>webfx-kit-cssprotocol-openjfx-plugin</plugin-module>
     </dependencies>
 
-    <graalvm-reflection-json>
-        <![CDATA[
-[
-    {
-        "name" : "dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication",
-        "methods" : [
-            { "name" : "<init>", "parameterTypes" : [] }
-        ]
-    },
-    {
-        "name" : "dev.webfx.kit.mapper.peers.javafxcontrols.openjfx.skin.FxControlPeerSkin",
-        "methods" : [
-            { "name" : "<init>", "parameterTypes" : ["javafx.scene.control.Control"] }
-        ]
-    },
-    {
-        "name" : "javafx.scene.control.TableColumnBase",
-        "methods" : [
-            { "name" : "<init>", "parameterTypes" : [] }
-        ]
-    }
-]
-        ]]>
-    </graalvm-reflection-json>
+    <java-callbacks>
+        <callback-class name="dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication">
+            <callback-constructor/>
+        </callback-class>
+        <callback-class name="dev.webfx.kit.mapper.peers.javafxcontrols.openjfx.skin.FxControlPeerSkin">
+            <callback-constructor>
+                <callback-argument class="javafx.scene.control.Control"/>
+            </callback-constructor>
+        </callback-class>
+        <callback-class name="javafx.scene.control.TableColumnBase">
+            <callback-constructor/>
+        </callback-class>
+    </java-callbacks>
 
 </project>
