@@ -25,6 +25,7 @@ public class HtmlWebViewPeer
         implements EmulWebViewPeerMixin<N, NB, NM>, HasNoChildrenPeers {
 
     private final HTMLIFrameElement iFrame;
+    private Scheduled iFrameStateChecker;
 
     public HtmlWebViewPeer() {
         this((NB) new EmulWebViewPeerBase(), HtmlUtil.createElement("fx-webview"));
@@ -126,12 +127,14 @@ public class HtmlWebViewPeer
                 // in all situations (ex: embed YouTube videos are not loading in this mode).
                 iFrame.contentWindow.location.replace(url);
             } else { // Standard loading mode
-                Scheduled iFrameStateChecker = UiScheduler.schedulePeriodic(100, scheduled -> {
+                if (iFrameStateChecker != null)
+                    iFrameStateChecker.cancel();
+                iFrameStateChecker = UiScheduler.schedulePeriodic(100, scheduled -> {
                     // Note: iFrame.contentDocument can be inaccessible (returns null) with cross-origin
                     Document contentDocument = iFrame.contentDocument;
                     if (contentDocument != null) {
                         String readyState = contentDocument.readyState.toLowerCase();
-                        //DomGlobal.console.log("iFrame readyState = " + readyState);
+                        DomGlobal.console.log("iFrame readyState = " + readyState);
                         switch (readyState) {
                             case "uninitialized":
                                 worker.setState(Worker.State.READY);
@@ -139,12 +142,11 @@ public class HtmlWebViewPeer
                             case "loading":
                                 worker.setState(Worker.State.SCHEDULED);
                                 break;
-                            case "loaded":
+                            case "loaded": // doesn't exist?
                             case "interactive":
                                 worker.setState(Worker.State.RUNNING);
                                 break;
                             case "complete":
-                                DomGlobal.console.log("iFrame readyState = " + readyState);
                                 worker.setState(Worker.State.SUCCEEDED);
                                 scheduled.cancel();
                                 break;
@@ -152,15 +154,18 @@ public class HtmlWebViewPeer
                     }
                 });
                 iFrame.onload = e -> {
+                    DomGlobal.console.log("iFrame onload is called");
                     worker.setState(Worker.State.SUCCEEDED);
                     iFrameStateChecker.cancel();
                 };
                 iFrame.onerror = e -> {
+                    DomGlobal.console.log("iFrame onerror is called");
                     worker.setState(Worker.State.FAILED);
                     iFrameStateChecker.cancel();
                     return null;
                 };
                 iFrame.onabort = e -> {
+                    DomGlobal.console.log("iFrame onabort is called");
                     worker.setState(Worker.State.CANCELLED);
                     iFrameStateChecker.cancel();
                     return null;
