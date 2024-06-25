@@ -24,6 +24,8 @@ public class HtmlWebViewPeer
         extends HtmlNodePeer<N, NB, NM>
         implements EmulWebViewPeerMixin<N, NB, NM>, HasNoChildrenPeers {
 
+    private static final boolean DEBUG = false;
+
     private final HTMLIFrameElement iFrame;
     private Scheduled iFrameStateChecker;
 
@@ -41,13 +43,6 @@ public class HtmlWebViewPeer
         // Allowing fullscreen and autoplay for videos
         iFrame.allow = "fullscreen; autoplay"; // new way
         HtmlUtil.setAttribute(iFrame, "allowfullscreen", "true"); // old way (must be executed second otherwise warning)
-        // Error management. Actually this listener is never called by the browser for an unknown reason. So if it's
-        // important for the application code to be aware of errors (ex: network errors), webfx provides an alternative
-        // iFrame loading mode called prefetch which is able to report such errors (see updateUrl()).
-        iFrame.onerror = e -> {
-            reportError();
-            return null;
-        };
         // Focus management.
         // 1) Detecting when the iFrame gained focus
         DomGlobal.window.addEventListener("blur", e -> { // when iFrame gained focus, the parent window lost focus
@@ -91,12 +86,26 @@ public class HtmlWebViewPeer
     }
 
     @Override
+    public void updatePageFill(Color pageFill) {
+        HtmlUtil.setStyleAttribute(iFrame, "background", HtmlPaints.toCssColor(pageFill));
+    }
+
+    @Override
+    public void updateLoadContent(String content) {
+        if (content != null)
+            iFrame.srcdoc = content;
+    }
+
+    @Override
     public void updateUrl(String url) {
         if (url == null) {
             if (!Strings.isEmpty(iFrame.src))
                 iFrame.src = "";
         } else {
-            WorkerImpl<Void> worker = (WorkerImpl<Void>) getNode().getEngine().getLoadWorker();
+            // We move the web engine worker state to SCHEDULED, but to ensure the change of state can be eventually
+            // detected by the application code (because it may be already in that state), we move it first to READY
+            WorkerImpl<Void> worker = getWebEngineLoadWorker();
+            worker.setState(Worker.State.READY);
             worker.setState(Worker.State.SCHEDULED);
             // WebFX proposes different loading mode for the iFrame:
             Object webfxLoadingMode = getNode().getProperties().get("webfx-loadingMode");
@@ -121,76 +130,107 @@ public class HtmlWebViewPeer
                             reportError();
                             return null;
                         });
-            } else if ("replace".equals(webfxLoadingMode)) {
-                // Using iframe location replace() instead of setting iFrame.src has the benefit to not interfere with
-                // the parent window history (see explanation in standard loading mode below). However, it doesn't work
-                // in all situations (ex: embed YouTube videos are not loading in this mode).
-                iFrame.contentWindow.location.replace(url);
-            } else { // Standard loading mode
-                if (iFrameStateChecker != null)
-                    iFrameStateChecker.cancel();
-                iFrameStateChecker = UiScheduler.schedulePeriodic(100, scheduled -> {
-                    // Note: iFrame.contentDocument can be inaccessible (returns null) with cross-origin
-                    Document contentDocument = iFrame.contentDocument;
-                    if (contentDocument != null) {
-                        String readyState = contentDocument.readyState.toLowerCase();
-                        DomGlobal.console.log("iFrame readyState = " + readyState);
-                        switch (readyState) {
-                            case "uninitialized":
-                                worker.setState(Worker.State.READY);
-                                break;
-                            case "loading":
-                                worker.setState(Worker.State.SCHEDULED);
-                                break;
-                            case "loaded": // doesn't exist?
-                            case "interactive":
-                                worker.setState(Worker.State.RUNNING);
-                                break;
-                            case "complete":
-                                worker.setState(Worker.State.SUCCEEDED);
-                                scheduled.cancel();
-                                break;
-                        }
-                    }
-                });
-                iFrame.onload = e -> {
-                    DomGlobal.console.log("iFrame onload is called");
-                    worker.setState(Worker.State.SUCCEEDED);
-                    iFrameStateChecker.cancel();
+            } else { // Standard or replace mode
+                if (!"replace".equals(webfxLoadingMode)) { // Standard mode
+                    iFrame.src = url; // Standard way to load an iFrame
+                    // But it has 2 downsides (which is why webfx proposes alternative loading modes):
+                    // 1) it doesn't report any network errors (iFrame.onerror not called). Issue addressed by the webfx
+                    // "prefetch" mode
+                    // 2) it has a side effect on the parent window navigation when the url changes several times. The first
+                    // time has no side effect, but the subsequent times add an unwanted new entry in the parent window
+                    // history, so the user needs to click twice to go back to the previous page, instead of a single click.
+                    // Issue addressed by the webfx "replace" mode.
+                } else { // replace mode
+                    // Using iframe location replace() instead of setting iFrame.src has the benefit to not interfere with
+                    // the parent window history (see explanation in standard loading mode below). However, it doesn't work
+                    // in all situations (ex: embed YouTube videos are not loading in this mode).
+                    iFrame.contentWindow.location.replace(url);
+                }
+                // We also need to continue updating the web engine load worker state to report how the loading is going
+                // in case the application code is listening these states.
+                startIFrameStateChecker();
+                iFrame.onload = e -> { // Note: if the iFrame is removed and then reinserted into the DOM, the browser
+                    // will unload and then reload the iFrame. So onLoad may be called several times.
+                    logDebug("iFrame onload is called");
+                    startIFrameStateChecker(); // We ensure the state checker is running (will restart it if it's a reload)
+                    updateWebEngineLoadWorkerState(); // Will include a reload detection
                 };
+                // Error management. Note: this listener is not called when network errors occur. If the application
+                // code wants to detect them, it can try the "prefetch" loading mode can be used instead.
                 iFrame.onerror = e -> {
-                    DomGlobal.console.log("iFrame onerror is called");
+                    logDebug("iFrame onerror is called");
                     worker.setState(Worker.State.FAILED);
-                    iFrameStateChecker.cancel();
+                    stopIFrameStateChecker();
+                    reportError();
                     return null;
                 };
                 iFrame.onabort = e -> {
-                    DomGlobal.console.log("iFrame onabort is called");
+                    logDebug("iFrame onabort is called");
                     worker.setState(Worker.State.CANCELLED);
-                    iFrameStateChecker.cancel();
+                    stopIFrameStateChecker();
                     return null;
                 };
-                iFrame.src = url; // Standard way to load an iFrame
-
-                // But it has 2 downsides (which is why webfx proposes alternative loading modes):
-                // 1) it doesn't report any network errors (iFrame.onerror not called). Issue addressed by the webfx
-                // "prefetch" mode
-                // 2) it has a side effect on the parent window navigation when the url changes several times. The first
-                // time has no side effect, but the subsequent times add an unwanted new entry in the parent window
-                // history, so the user needs to click twice to go back to the previous page, instead of a single click.
-                // Issue addressed by the webfx "replace" mode.
             }
         }
     }
 
-    @Override
-    public void updateLoadContent(String content) {
-        if (content != null)
-            iFrame.srcdoc = content;
+    private WorkerImpl<Void> getWebEngineLoadWorker() {
+        return (WorkerImpl<Void>) getNode().getEngine().getLoadWorker();
     }
 
-    @Override
-    public void updatePageFill(Color pageFill) {
-        HtmlUtil.setStyleAttribute(iFrame, "background", HtmlPaints.toCssColor(pageFill));
+    private void startIFrameStateChecker() {
+        if (iFrameStateChecker != null && iFrameStateChecker.isRunning())
+            return;
+        iFrameStateChecker = UiScheduler.schedulePeriodic(100, scheduled -> {
+            updateWebEngineLoadWorkerState();
+            if (getWebEngineLoadWorker().getState() == Worker.State.SUCCEEDED) {
+                scheduled.cancel();
+            }
+        });
     }
+
+    private void stopIFrameStateChecker() {
+        if (iFrameStateChecker != null)
+            iFrameStateChecker.cancel();
+        iFrameStateChecker = null;
+    }
+
+    private String getIFrameDocumentReadyState() {
+        // Note: iFrame.contentDocument can be inaccessible (returns null) with cross-origin
+        Document contentDocument = iFrame.contentDocument;
+        return contentDocument == null ? null : contentDocument.readyState.toLowerCase();
+    }
+
+    private void updateWebEngineLoadWorkerState() {
+        WorkerImpl<Void> worker = (WorkerImpl<Void>) getNode().getEngine().getLoadWorker();
+        String readyState = getIFrameDocumentReadyState();
+        logDebug("iFrame readyState = " + readyState);
+        if (readyState != null) {
+            switch (readyState) {
+                case "loading":
+                    // Reload detection:
+                    // At this stage, the state should be SCHEDULED, if not, this indicates that it's a reload
+                    if (worker.getState() != Worker.State.SCHEDULED) {
+                        // We re-execute the initial state sequence
+                        worker.setState(Worker.State.READY); // this transition can be used by the application code to detect a reload
+                        worker.setState(Worker.State.SCHEDULED);
+                    }
+                    break;
+                case "interactive":
+                    worker.setState(Worker.State.RUNNING);
+                    break;
+                case "complete":
+                    worker.setState(Worker.State.SUCCEEDED);
+                    break;
+                default:
+                    DomGlobal.console.log("Unknown iFrame readyState: " + readyState);
+            }
+        }
+    }
+
+    private static void logDebug(String message) {
+        if (DEBUG)
+            DomGlobal.console.log(message);
+    }
+
 }
