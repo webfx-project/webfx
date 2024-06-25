@@ -24,10 +24,11 @@ public class HtmlWebViewPeer
         extends HtmlNodePeer<N, NB, NM>
         implements EmulWebViewPeerMixin<N, NB, NM>, HasNoChildrenPeers {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     private final HTMLIFrameElement iFrame;
     private Scheduled iFrameStateChecker;
+    private boolean onLoadAlreadyCalled;
 
     public HtmlWebViewPeer() {
         this((NB) new EmulWebViewPeerBase(), HtmlUtil.createElement("fx-webview"));
@@ -102,11 +103,7 @@ public class HtmlWebViewPeer
             if (!Strings.isEmpty(iFrame.src))
                 iFrame.src = "";
         } else {
-            // We move the web engine worker state to SCHEDULED, but to ensure the change of state can be eventually
-            // detected by the application code (because it may be already in that state), we move it first to READY
-            WorkerImpl<Void> worker = getWebEngineLoadWorker();
-            worker.setState(Worker.State.READY);
-            worker.setState(Worker.State.SCHEDULED);
+            resetWebEngineLoadWorkerState();
             // WebFX proposes different loading mode for the iFrame:
             Object webfxLoadingMode = getNode().getProperties().get("webfx-loadingMode");
             if ("prefetch".equals(webfxLoadingMode)) { // prefetch mode
@@ -115,18 +112,18 @@ public class HtmlWebViewPeer
                 iFrame.contentWindow.fetch(url)
                         .then(response -> {
                             response.text().then(text -> {
-                                worker.setState(Worker.State.RUNNING);
+                                setWebEngineLoadWorkerState(Worker.State.RUNNING);
                                 updateLoadContent(text);
-                                worker.setState(Worker.State.SUCCEEDED);
+                                setWebEngineLoadWorkerState(Worker.State.SUCCEEDED);
                                 return null;
                             }).catch_(error -> {
-                                worker.setState(Worker.State.FAILED);
+                                setWebEngineLoadWorkerState(Worker.State.FAILED);
                                 reportError();
                                 return null;
                             });
                             return null;
                         }).catch_(error -> {
-                            worker.setState(Worker.State.FAILED);
+                            setWebEngineLoadWorkerState(Worker.State.FAILED);
                             reportError();
                             return null;
                         });
@@ -146,27 +143,33 @@ public class HtmlWebViewPeer
                     // in all situations (ex: embed YouTube videos are not loading in this mode).
                     iFrame.contentWindow.location.replace(url);
                 }
+                // TODO: extend the following state management to the prefetch mode as well
                 // We also need to continue updating the web engine load worker state to report how the loading is going
                 // in case the application code is listening these states.
                 startIFrameStateChecker();
                 iFrame.onload = e -> { // Note: if the iFrame is removed and then reinserted into the DOM, the browser
                     // will unload and then reload the iFrame. So onLoad may be called several times.
                     logDebug("iFrame onload is called");
-                    startIFrameStateChecker(); // We ensure the state checker is running (will restart it if it's a reload)
-                    updateWebEngineLoadWorkerState(); // Will include a reload detection
+                    if (!onLoadAlreadyCalled) { // initial onLoad (not reload)
+                        onLoadAlreadyCalled = true;
+                        updateWebEngineLoadWorkerState();
+                    } else { // reload
+                        logDebug("Detected iFrame reload (from onload)");
+                        onReloadDetected();
+                    }
                 };
                 // Error management. Note: this listener is not called when network errors occur. If the application
                 // code wants to detect them, it can try the "prefetch" loading mode can be used instead.
                 iFrame.onerror = e -> {
                     logDebug("iFrame onerror is called");
-                    worker.setState(Worker.State.FAILED);
+                    setWebEngineLoadWorkerState(Worker.State.FAILED);
                     stopIFrameStateChecker();
                     reportError();
                     return null;
                 };
                 iFrame.onabort = e -> {
                     logDebug("iFrame onabort is called");
-                    worker.setState(Worker.State.CANCELLED);
+                    setWebEngineLoadWorkerState(Worker.State.CANCELLED);
                     stopIFrameStateChecker();
                     return null;
                 };
@@ -178,12 +181,32 @@ public class HtmlWebViewPeer
         return (WorkerImpl<Void>) getNode().getEngine().getLoadWorker();
     }
 
+    private Worker.State getWebEngineLoadWorkerState() {
+        return getWebEngineLoadWorker().getState();
+    }
+
+    private void setWebEngineLoadWorkerState(Worker.State state) {
+        getWebEngineLoadWorker().setState(state);
+    }
+
+    private void resetWebEngineLoadWorkerState() {
+        // We move the web engine worker state to SCHEDULED, but to ensure the change of state can be eventually
+        // detected by the application code (because it may be already in that state), we move it first to READY
+        setWebEngineLoadWorkerState(Worker.State.READY); // this transition can be used by the application code to detect a reload
+        setWebEngineLoadWorkerState(Worker.State.SCHEDULED);
+    }
+
+    private void onReloadDetected() {
+        resetWebEngineLoadWorkerState();
+        startIFrameStateChecker(); // We ensure the state checker is running (will restart it if it's a reload)
+    }
+
     private void startIFrameStateChecker() {
         if (iFrameStateChecker != null && iFrameStateChecker.isRunning())
             return;
         iFrameStateChecker = UiScheduler.schedulePeriodic(100, scheduled -> {
             updateWebEngineLoadWorkerState();
-            if (getWebEngineLoadWorker().getState() == Worker.State.SUCCEEDED) {
+            if (getWebEngineLoadWorkerState() == Worker.State.SUCCEEDED) {
                 scheduled.cancel();
             }
         });
@@ -202,25 +225,28 @@ public class HtmlWebViewPeer
     }
 
     private void updateWebEngineLoadWorkerState() {
-        WorkerImpl<Void> worker = (WorkerImpl<Void>) getNode().getEngine().getLoadWorker();
         String readyState = getIFrameDocumentReadyState();
         logDebug("iFrame readyState = " + readyState);
-        if (readyState != null) {
+        if (readyState == null) { // Can happen due to cross-origin restrictions, or at the end of iFrame state lifecycle
+            if (onLoadAlreadyCalled) { // We stop the checker at this point (otherwise it can run indefinitely on null state)
+                logDebug("Stopping iFrame state checker because readyState is null");
+                stopIFrameStateChecker();
+            }
+        } else {
             switch (readyState) {
                 case "loading":
                     // Reload detection:
                     // At this stage, the state should be SCHEDULED, if not, this indicates that it's a reload
-                    if (worker.getState() != Worker.State.SCHEDULED) {
-                        // We re-execute the initial state sequence
-                        worker.setState(Worker.State.READY); // this transition can be used by the application code to detect a reload
-                        worker.setState(Worker.State.SCHEDULED);
+                    if (getWebEngineLoadWorkerState() != Worker.State.SCHEDULED) {
+                        logDebug("Detected iFrame reload (from readyState)");
+                        onReloadDetected();
                     }
                     break;
                 case "interactive":
-                    worker.setState(Worker.State.RUNNING);
+                    setWebEngineLoadWorkerState(Worker.State.RUNNING);
                     break;
                 case "complete":
-                    worker.setState(Worker.State.SUCCEEDED);
+                    setWebEngineLoadWorkerState(Worker.State.SUCCEEDED);
                     break;
                 default:
                     DomGlobal.console.log("Unknown iFrame readyState: " + readyState);
