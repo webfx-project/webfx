@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.DomType;
@@ -25,15 +26,22 @@ public abstract class HtmlRegionPeer
         extends HtmlNodePeer<N, NB, NM>
         implements RegionPeerMixin<N, NB, NM> {
 
-    private final HTMLElement fxBackground = createBehindElement("fx-background");
-    private final HTMLElement fxBorder = createBehindElement("fx-border");
+    private final HTMLElement fxBackground;
+    private final HTMLElement fxBorder;
 
     protected HtmlRegionPeer(NB base, HTMLElement element) {
         super(base, element);
-        fxBorder.style.boxSizing = "border-box";
-        HTMLElement fxChildren = createBehindElement("fx-children");
-        setChildrenContainer(fxChildren);
-        HtmlUtil.setChildren(element, fxBackground, fxBorder, fxChildren);
+        if (this instanceof HasNoChildrenPeers) {
+            fxBackground = element;
+            fxBorder = element;
+        } else {
+            fxBackground = createBehindElement("fx-background");
+            fxBorder = createBehindElement("fx-border");
+            fxBorder.style.boxSizing = "border-box";
+            HTMLElement fxChildren = createBehindElement("fx-children");
+            setChildrenContainer(fxChildren);
+            HtmlUtil.setChildren(element, fxBackground, fxBorder, fxChildren);
+        }
     }
 
     private static HTMLElement createBehindElement(String tag) {
@@ -92,7 +100,7 @@ public abstract class HtmlRegionPeer
 
     @Override
     protected HTMLElement getEffectElement() {
-        return fxBackground;
+        return getBackgroundElement();
     }
 
     @Override
