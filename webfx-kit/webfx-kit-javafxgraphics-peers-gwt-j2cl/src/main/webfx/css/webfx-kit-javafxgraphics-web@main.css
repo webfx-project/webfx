@@ -15,9 +15,8 @@ body {
     opacity: 50%;
 }
 
-/* When fill and stroke are not set by application code, we make them transparent by default like in JavaFX (otherwise
- the browser will make them black). */
+/* When fill and stroke are not explicitly set by application code, we apply the JavaFX default values */
 fx-svgpath svg {
-    fill: none;
-    stroke: none;
+    fill: black;  /* black by default */
+    stroke: none; /* transparent by default */
 }
