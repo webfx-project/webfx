@@ -12,8 +12,6 @@ import netscape.javascript.JSObject;
  */
 final class GwtJSObject extends JSObject {
 
-    private static final Function EVAL_FUNCTION = (Function) Js.asPropertyMap(DomGlobal.window).get("eval");
-
     private final JsPropertyMap<Object> jsMap;
 
     public GwtJSObject(Object javaScriptObject) {
@@ -73,11 +71,16 @@ final class GwtJSObject extends JSObject {
 
     public static Object call(JsPropertyMap<Object> jsMap, String methodName, Object... args) throws JSException {
         Function f = (Function) jsMap.get(methodName);
+        if (f == null) {
+            DomGlobal.console.log("Function '" + methodName + "' not found on following object:");
+            DomGlobal.console.log(jsMap);
+            throw new IllegalArgumentException("Function '" + methodName + "' not found on object '" + jsMap + "'");
+        }
         return callFunctionAndWrapResult(f, jsMap, args);
     }
 
     public static Object eval(Object javaScriptObject, String script) throws JSException {
-        return callFunctionAndWrapResult(EVAL_FUNCTION, javaScriptObject, script);
+        return call(Js.asPropertyMap(javaScriptObject), "eval", script);
     }
 
     private static Object callFunctionAndWrapResult(Function f, Object o, Object... args) {
