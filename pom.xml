@@ -27,7 +27,6 @@
         </repository>
     </repositories>
 
-
     <build>
         <pluginManagement>
             <plugins>

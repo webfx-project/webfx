@@ -205,8 +205,8 @@ public class Event extends EventObject implements Cloneable {
     // back to the browser even if it has been consumed by JavaFX. This is the purpose of the propagateToPeerEvent field.
     private static Event propagateToPeerEvent;
 
-    // This setter can be called by the control (or behaviour) that consumed the event in JavaFX to request WebFX to
-    // not stop its propagation, but pass it to the peer.
+    // This setter is called by TextInputControl that consumed an event in JavaFX (to stop its propagation in JavaFX),
+    // but still requests WebFX to pass the event to the html peer to solve the case explained above.
     public static void setPropagateToPeerEvent(Event propagateToPeerEvent) {
         Event.propagateToPeerEvent = propagateToPeerEvent;
     }

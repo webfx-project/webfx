@@ -13,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.LayoutFlags;
-import javafx.scene.layout.PreferenceResizableNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -412,14 +411,6 @@ public class Parent extends Node {
                     break;
                 }
                 performingLayout = true;
-                // Temporary webfx code to automatically bind the height to the preferred height
-                if (bindHeightToPrefHeight) {
-                    PreferenceResizableNode resizableNode = (PreferenceResizableNode) this;
-                    double prefHeight = resizableNode.getPrefHeight();
-                    if (prefHeight == -1)
-                        prefHeight = resizableNode.prefHeight(resizableNode.getWidth());
-                    resizableNode.setHeight(prefHeight);
-                }
                 layoutChildren();
                 // Intended fall-through
             case DIRTY_BRANCH:
@@ -437,17 +428,6 @@ public class Parent extends Node {
                 break;
         }
     }
-
-    // Temporary webfx field to automatically bind the height to the preferred height
-    private boolean bindHeightToPrefHeight;
-
-    public void setBindHeightToPrefHeight(boolean bindHeightToPrefHeight) {
-        if (this instanceof PreferenceResizableNode)
-            this.bindHeightToPrefHeight = bindHeightToPrefHeight;
-        else
-            throw new IllegalStateException("Parent.setBindHeightToPrefHeight() can be called only if implementing PreferenceResizableNode");
-    }
-
 
     /**
      * Invoked during the layout pass to layout the children in this

@@ -5,6 +5,8 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFontProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasPromptTextProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextProperty;
 import javafx.beans.property.*;
+import javafx.event.Event;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 
 /**
@@ -97,5 +99,24 @@ public abstract class TextInputControl extends Control implements
 
         void selectRange(int anchor, int caretPosition);
 
+    }
+
+    {
+        // Although the key events are entirely managed by the html peer, we consume them in JavaFX to not propagate
+        // these events to further JavaFX controls.
+        addEventHandler(KeyEvent.ANY, e -> {
+            if (isFocused()) {
+                // Exception is made for accelerators such as Enter or ESC, as they should be passed beyond this control
+                switch (e.getCode()) {
+                    case ENTER:
+                    case ESCAPE:
+                        return;
+                }
+                // Otherwise, we stop the propagation in JavaFX
+                e.consume();
+                // But we still ask WebFX to propagate them to the peer.
+                Event.setPropagateToPeerEvent(e); // See WebFX comments on Event class for more explanation.
+            }
+        });
     }
 }

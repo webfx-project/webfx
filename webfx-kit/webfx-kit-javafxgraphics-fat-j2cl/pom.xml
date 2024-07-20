@@ -13,7 +13,6 @@
 
     <artifactId>webfx-kit-javafxgraphics-fat-j2cl</artifactId>
 
-
     <build>
         <plugins>
 
