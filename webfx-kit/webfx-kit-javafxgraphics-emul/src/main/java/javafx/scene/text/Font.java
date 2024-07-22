@@ -68,7 +68,7 @@ public class Font {
 
     private Font(String name, String family, FontWeight weight, FontPosture posture, double size, String url) {
         this.name = name;
-        this.family = family != null ? family : DEFAULT_FAMILY;
+        this.family = family; //family != null ? family : DEFAULT_FAMILY;
         this.weight = weight != null ? weight : FontWeight.NORMAL;
         this.posture = posture != null ? posture : FontPosture.REGULAR;
         this.size = size;
