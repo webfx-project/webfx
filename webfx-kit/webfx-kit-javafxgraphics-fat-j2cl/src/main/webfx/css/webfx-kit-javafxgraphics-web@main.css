@@ -1,3 +1,7 @@
+:root {
+    --fx-svg-path-fill: black;
+}
+
 /* Mocking some basic JavaFX behaviours */
 body {
     overflow: hidden; /* Disabling browser horizontal and vertical scroll bars */
@@ -17,9 +21,9 @@ body {
 
 /* Applying the default JavaFX behaviour for SVGPath */
 fx-svgpath svg path:not([fill]):not([stroke]) { /* if the application code didn't set neither fill nor stroke */
-    fill: black;  /* then the fill is black */
+    fill: var(--fx-svg-path-fill);  /* then the fill is black */
 }
 
 fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the stroke but not the fill */
-    fill: transparent; /* then the fill is transparent */
+    --fx-svg-path-fill: transparent; /* then the fill is transparent */
 }
