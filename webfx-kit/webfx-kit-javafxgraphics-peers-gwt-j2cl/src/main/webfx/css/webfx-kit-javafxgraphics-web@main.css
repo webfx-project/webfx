@@ -26,4 +26,5 @@ fx-svgpath svg path:not([fill]):not([stroke]) { /* if the application code didn'
 
 fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the stroke but not the fill */
     --fx-svg-path-fill: transparent; /* then the fill is transparent */
+    fill: var(--fx-svg-path-fill);
 }
