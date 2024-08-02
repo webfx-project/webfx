@@ -11,6 +11,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerImpl;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg.SvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.*;
@@ -132,6 +133,11 @@ public abstract class HtmlSvgNodePeer
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         installFocusListeners();
+    }
+
+    protected ScenePeer getScenePeer() {
+        Scene scene = getNode().getScene();
+        return scene == null ? null : scene.impl_getPeer();
     }
 
     /******************************************** Drag & drop support *************************************************/
@@ -591,17 +597,27 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
+    private HtmlSvgNodePeer clipPeer;
+
     @Override
     public void updateClip(Node clip) {
+        if (clipPeer != null) {
+            clipPeer.clipNodes.remove(getNode());
+            clipPeer.cleanClipMaskIfUnused();
+        }
         if (clip == null)
             applyClipPath(null);
-        else
-            ((HtmlSvgNodePeer) clip.getOrCreateAndBindNodePeer()).bindAsClip(getNode());
+        else {
+            clipPeer = (HtmlSvgNodePeer) clip.getOrCreateAndBindNodePeer();
+            clipPeer.bindAsClip(getNode());
+        }
     }
 
     protected boolean clip; // true when this node is actually used as a clip (=> not part of the scene graph)
-    protected List<Node> clipNodes; // Contains the list of nodes that use this node as a clip
     protected String clipPath;
+    protected Element clipMask;
+    private static int clipMaskSeq;
+    protected List<Node> clipNodes; // Contains the list of nodes that use this node as a clip
 
     private void bindAsClip(Node clipNode) {
         clip = true;
@@ -609,27 +625,39 @@ public abstract class HtmlSvgNodePeer
             clipNodes = new ArrayList<>();
         if (!clipNodes.contains(clipNode))
             clipNodes.add(clipNode);
-        applyClipPathToClipNode(clipNode);
+        applyClipToClipNode(clipNode);
     }
 
     protected final boolean isClip() {
         return clip;
     }
 
-    protected final void applyClipPathToClipNodes() { // Should be called when this node is a clip and that its properties has changed
+    protected final void applyClipClipNodes() { // Should be called when this node is a clip and that its properties has changed
         clipPath = null; // To force computation
         N thisClip = getNode();
         for (Iterator<Node> it = clipNodes.iterator(); it.hasNext(); ) {
             Node clipNode = it.next();
             if (clipNode.getClip() == thisClip) // checking the node is still using that clip
-                applyClipPathToClipNode(clipNode);
+                applyClipToClipNode(clipNode);
             else // Otherwise we remove that node from the clip nodes
                 it.remove();
         }
+        cleanClipMaskIfUnused();
     }
 
-    private void applyClipPathToClipNode(Node clipNode) {
-        ((HtmlSvgNodePeer) clipNode.getNodePeer()).applyClipPath(getClipPath());
+    private void cleanClipMaskIfUnused() {
+        if (clipMask != null && clipNodes.isEmpty()) {
+            getSvgRoot().getDefsElement().removeChild(clipMask);
+            clipMask = null;
+        }
+    }
+
+    private void applyClipToClipNode(Node clipNode) {
+        getNode().setScene(clipNode.getScene()); // Ensuring this clip node as the same scene as the node it is applied
+        // A clip can be applied either through a clip path or through a svg mask
+        HtmlSvgNodePeer clipPeer = (HtmlSvgNodePeer) clipNode.getNodePeer();
+        clipPeer.applyClipPath(getClipPath());
+        clipPeer.applyClipMask(getClipMask());
     }
 
     private String getClipPath() {
@@ -638,12 +666,33 @@ public abstract class HtmlSvgNodePeer
         return clipPath;
     }
 
-    protected String computeClipPath() { // To override for nodes that can be used as clip (ex: rectangle, circle, etc...)
+    public String computeClipPath() { // To override for nodes that can be used as clip (ex: rectangle, circle, etc...)
         return null;
     }
 
     protected void applyClipPath(String clipPah) {
         setElementAttribute("clip-path", clipPah);
+    }
+
+    private Element getClipMask() {
+        if (clipMask == null) {
+            clipMask = computeClipMask();
+            if (clipMask != null) {
+                clipMask.setAttribute("id", "mask-" + ++clipMaskSeq);
+                getSvgRoot().addDef(clipMask);
+            }
+        }
+        return clipMask;
+    }
+
+    protected abstract SvgRoot getSvgRoot();
+
+    public Element computeClipMask() { // To override for nodes that can be used as clip (ex: rectangle, circle, etc...)
+        return null;
+    }
+
+    protected void applyClipMask(Element clipMask) {
+        setElementStyleAttribute("mask", SvgUtil.getDefUrl(clipMask));
     }
 
     @Override

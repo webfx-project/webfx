@@ -26,15 +26,15 @@ public final class HtmlCirclePeer
     }
 
     @Override
-    protected String computeClipPath() {
+    public String computeClipPath() {
         Circle c = getNode();
-        return "circle(" + toPx(c.getRadius()) + " at " + toPx(c.getCenterX()) + " " + toPx(c.getCenterY());
+        return "circle(" + toPx(c.getRadius()) + " at " + toPx(c.getCenterX()) + " " + toPx(c.getCenterY()) + ")";
     }
 
     @Override
     public void updateCenterX(Double centerX) {
         if (isClip())
-            applyClipPathToClipNodes();
+            applyClipClipNodes();
         else
             getElement().style.left = (centerX - getNode().getRadius()) + "px";
     }
@@ -42,7 +42,7 @@ public final class HtmlCirclePeer
     @Override
     public void updateCenterY(Double centerY) {
         if (isClip())
-            applyClipPathToClipNodes();
+            applyClipClipNodes();
         else
             getElement().style.top = toPx(centerY - getNode().getRadius());
     }
@@ -50,7 +50,7 @@ public final class HtmlCirclePeer
     @Override
     public void updateRadius(Double radius) {
         if (isClip())
-            applyClipPathToClipNodes();
+            applyClipClipNodes();
         else {
             CSSStyleDeclaration style = getElement().style;
             String px = toPx(2 * radius);

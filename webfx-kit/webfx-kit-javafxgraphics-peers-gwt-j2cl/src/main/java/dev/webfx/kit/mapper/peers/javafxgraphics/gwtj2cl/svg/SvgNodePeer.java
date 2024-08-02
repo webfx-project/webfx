@@ -1,5 +1,13 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
+import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRoot;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.SvgUtil;
 import elemental2.dom.Element;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -9,14 +17,6 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.text.TextAlignment;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
-import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRoot;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.SvgUtil;
 
 import java.util.*;
 
@@ -36,18 +36,24 @@ public abstract class SvgNodePeer
     }
 
     @Override
-    protected String computeClipPath() {
-        if (svgClipPath == null)
-            svgClipPath = getSvgRoot().addDef(SvgUtil.createClipPath());
-        HtmlUtil.setChild(svgClipPath, getElement());
-        return SvgUtil.getDefUrl(svgClipPath);
+    protected SvgScenePeer getScenePeer() {
+        return (SvgScenePeer) super.getScenePeer();
     }
 
-    private SvgRoot getSvgRoot() {
+    @Override
+    protected SvgRoot getSvgRoot() {
         ScenePeer scenePeer = getNode().getScene().impl_getPeer();
         if (scenePeer instanceof SvgRoot)
             return (SvgRoot) scenePeer;
         return (SvgRoot) getNode().getProperties().get("svgRoot");
+    }
+
+    @Override
+    public String computeClipPath() {
+        if (svgClipPath == null)
+            svgClipPath = getSvgRoot().addDef(SvgUtil.createClipPath());
+        HtmlUtil.setChild(svgClipPath, getElement());
+        return SvgUtil.getDefUrl(svgClipPath);
     }
 
     @Override

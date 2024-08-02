@@ -66,6 +66,10 @@ public class JavaFxGraphicsRegistry {
         registerNodePeerFactory(Line.class, HtmlLinePeer::new);
     }
 
+    public static void registerSubtractShape() {
+        registerNodePeerFactory(SubtractShape.class, HtmlSubtractShapePeer::new);
+    }
+
     public static void registerText() {
         registerNodePeerFactory(Text.class, HtmlTextPeer::new);
     }

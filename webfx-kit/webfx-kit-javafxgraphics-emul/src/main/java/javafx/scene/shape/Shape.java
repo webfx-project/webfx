@@ -79,4 +79,8 @@ public abstract class Shape extends Node implements
     public ObservableList<Double> getStrokeDashArray() {
         return getStrokeDashArray;
     }
+
+    public static Shape subtract(final Shape shape1, final Shape shape2) {
+        return new SubtractShape(shape1, shape2);
+    }
 }
