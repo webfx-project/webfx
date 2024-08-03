@@ -189,7 +189,7 @@ public class Font {
 
         if (Double.compare(font.size, size) != 0) return false;
         if (!Objects.equals(name, font.name)) return false;
-        if (!family.equals(font.family)) return false;
+        if (!Objects.equals(family, font.family)) return false;
         if (weight != font.weight) return false;
         if (posture != font.posture) return false;
         return Objects.equals(url, font.url);
@@ -198,13 +198,11 @@ public class Font {
     @Override
     public int hashCode() {
         int result;
-        long temp;
         result = name != null ? name.hashCode() : 0;
-        result = 31 * result + family.hashCode();
+        result = family != null ? 31 * result + family.hashCode() : 0;
         result = 31 * result + weight.hashCode();
         result = 31 * result + posture.hashCode();
-        temp = Double.doubleToLongBits(size);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Double.hashCode(size);
         result = 31 * result + (url != null ? url.hashCode() : 0);
         return result;
     }
