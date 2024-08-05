@@ -112,8 +112,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
         this.mediaElement = mediaElement;
         if (!audioClip) {
             mediaElement.onloadedmetadata = e -> {
-                setMediaDuration(mediaElement.duration);
-                mediaPlayer.setStatus(MediaPlayer.Status.READY);
+                readAndSetMediaDuration(true);
                 return null;
             };
         }
@@ -136,12 +135,17 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
         return mediaElement;
     }
 
-    private void setMediaDuration(double seconds) {
-        setMediaDuration(Duration.seconds(seconds));
-    }
-
-    private void setMediaDuration(Duration duration) {
-        mediaPlayer.getMedia().setDuration(duration);
+    private double readAndSetMediaDuration(boolean setMediaPlayerStatusToReady) {
+        double durationSeconds = hasMediaElement() ? mediaElement.duration : audioBuffer.duration;
+        if (Double.isFinite(durationSeconds)) {
+            Duration duration = Duration.seconds(durationSeconds);
+            Media media = mediaPlayer.getMedia();
+            if (!Objects.equals(media.getDuration(), duration))
+                media.setDuration(duration);
+        }
+        if (setMediaPlayerStatusToReady)
+            mediaPlayer.setStatus(MediaPlayer.Status.READY);
+        return durationSeconds;
     }
 
     private void setMediaPlayerCurrentTime(double seconds) {
@@ -199,10 +203,8 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
                     .then(getAudioContext()::decodeAudioData)
                     .then(buffer -> {
                         audioBuffer = buffer;
-                        if (!audioClip) {
-                            mediaPlayer.setStatus(MediaPlayer.Status.READY);
-                            setMediaDuration(audioBuffer.duration);
-                        }
+                        if (!audioClip)
+                            readAndSetMediaDuration(true);
                         onAudioBufferReady();
                         return null;
                     })
@@ -543,15 +545,17 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
 
     @Override
     public void seek(Duration duration) { // This method is never called for AudioClip
-        double jsDuration = Math.max(0, duration.toSeconds()); // Can't be negative
-        jsDuration = Math.min(jsDuration, mediaPlayer.getMedia().getDuration().toSeconds());
-        setMediaPlayerCurrentTime(jsDuration);
+        double durationSeconds = Math.max(0, duration.toSeconds()); // Can't be negative
+        double mediaDurationSeconds = readAndSetMediaDuration(false);
+        if (Double.isFinite(mediaDurationSeconds)) // Sometimes mediaElement.duration returns infinite for some unknown reason
+            durationSeconds = Math.min(durationSeconds, mediaDurationSeconds);
+        setMediaPlayerCurrentTime(durationSeconds);
         if (hasMediaElement())
-            mediaElement.currentTime = jsDuration;
+            mediaElement.currentTime = durationSeconds;
         else {
-            bufferSourceStopWatchMillis.startAt(secondsDoubleToMillisLong(jsDuration));
+            bufferSourceStopWatchMillis.startAt(secondsDoubleToMillisLong(durationSeconds));
             bufferSourceStopWatchMillis.pause();
-            bufferSourceStartOffset = jsDuration;
+            bufferSourceStartOffset = durationSeconds;
             if (bufferSource != null && bufferSourcePlayed) {
                 seekingBufferSource = true;
                 bufferSourceWasPlayingOnSeeking = !isBufferSourcePaused();
