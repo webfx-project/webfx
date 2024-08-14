@@ -605,9 +605,10 @@ public abstract class HtmlSvgNodePeer
             clipPeer.clipNodes.remove(getNode());
             clipPeer.cleanClipMaskIfUnused();
         }
-        if (clip == null)
+        if (clip == null) {
             applyClipPath(null);
-        else {
+            applyClipMask(null);
+        } else {
             clipPeer = (HtmlSvgNodePeer) clip.getOrCreateAndBindNodePeer();
             clipPeer.bindAsClip(getNode());
         }
