@@ -4,7 +4,6 @@ import dev.webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlRegionPeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.UiScheduler;
@@ -24,7 +23,7 @@ public final class HtmlScrollPanePeer
         <N extends ScrollPane, NB extends ScrollPanePeerBase<N, NB, NM>, NM extends ScrollPanePeerMixin<N, NB, NM>>
 
         extends HtmlRegionPeer<N, NB, NM>
-        implements ScrollPanePeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements ScrollPanePeerMixin<N, NB, NM> {
 
     public HtmlScrollPanePeer() {
         this((NB) new ScrollPanePeerBase(), HtmlUtil.createElement("fx-scrollpane"));
