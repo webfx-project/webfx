@@ -143,7 +143,8 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
             if (!Objects.equals(media.getDuration(), duration))
                 media.setDuration(duration);
         }
-        if (setMediaPlayerStatusToReady)
+        // if requested, we set the player status to READY, checking however its status was UNKNOWN (initial state)
+        if (setMediaPlayerStatusToReady && mediaPlayer.getStatus() == MediaPlayer.Status.UNKNOWN)
             mediaPlayer.setStatus(MediaPlayer.Status.READY);
         return durationSeconds;
     }
