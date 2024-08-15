@@ -8,6 +8,7 @@ import dev.webfx.platform.service.SingleServiceProvider;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -131,6 +132,10 @@ public final class WebFxKitLauncher {
             webFxCssPath = webFxCssPath.substring(1);
         // We resolve the relative path from the css resource folder
         return "dev/webfx/kit/css/" + webFxCssPath;
+    }
+
+    public static Insets getSafeAreaInsets() {
+        return getProvider().getSafeAreaInsets();
     }
 
 }

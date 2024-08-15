@@ -14,6 +14,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.useragent.UserAgent;
+import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Factory;
@@ -25,6 +26,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -253,5 +255,28 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
     @Override
     public Application getApplication() {
         return application;
+    }
+
+    @Override
+    public Insets getSafeAreaInsets() {
+        /* The following code is relying on this CSS rule present in webfx-kit-javafxgraphics-web@main.css
+        :root {
+            --safe-area-inset-top:    env(safe-area-inset-top);
+            --safe-area-inset-right:  env(safe-area-inset-right);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            --safe-area-inset-left:   env(safe-area-inset-left);
+        }
+         */
+        CSSStyleDeclaration computedStyle = Js.<ViewCSS>uncheckedCast(DomGlobal.window).getComputedStyle(DomGlobal.document.documentElement);
+        String top    = computedStyle.getPropertyValue("--safe-area-inset-top");
+        String right  = computedStyle.getPropertyValue("--safe-area-inset-right");
+        String bottom = computedStyle.getPropertyValue("--safe-area-inset-bottom");
+        String left   = computedStyle.getPropertyValue("--safe-area-inset-left");
+        return new Insets(
+                Numbers.doubleValue(Strings.removeSuffix(top, "px")),
+                Numbers.doubleValue(Strings.removeSuffix(right, "px")),
+                Numbers.doubleValue(Strings.removeSuffix(bottom, "px")),
+                Numbers.doubleValue(Strings.removeSuffix(left, "px"))
+        );
     }
 }

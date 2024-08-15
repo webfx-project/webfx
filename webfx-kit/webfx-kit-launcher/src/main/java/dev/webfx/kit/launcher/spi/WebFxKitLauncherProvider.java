@@ -6,6 +6,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -94,5 +95,9 @@ public interface WebFxKitLauncherProvider {
 
     default ObservableList<Font> loadingFonts() {
         return FXCollections.emptyObservableList(); // Default implementation fpr synchronous font loading toolkits (such as OpenJFX)
+    }
+
+    default Insets getSafeAreaInsets() {
+        return Insets.EMPTY;
     }
 }
