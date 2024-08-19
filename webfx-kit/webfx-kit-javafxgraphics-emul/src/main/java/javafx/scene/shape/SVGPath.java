@@ -181,7 +181,7 @@ public class SVGPath extends Shape {
     private static boolean warned;
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        NodePeer nodePeer = getNodePeer();
+        NodePeer nodePeer = getOrCreateAndBindNodePeer();
         if (nodePeer instanceof LayoutMeasurable) {
             Bounds layoutBounds = ((LayoutMeasurable) nodePeer).getLayoutBounds();
             return new BoxBounds((float) layoutBounds.getMinX(), (float) layoutBounds.getMinY(), 0, (float) layoutBounds.getMaxX(), (float) layoutBounds.getMaxY(), 0);
