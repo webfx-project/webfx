@@ -767,4 +767,13 @@ public class HtmlGraphicsContext implements GraphicsContext {
         Console.log("WARNING: HtmlGraphicsContext.applyEffect() not implemented");
     }
 
+    @Override
+    public void setImageSmoothing(boolean imageSmoothing) {
+        ctx.imageSmoothingEnabled = imageSmoothing;
+    }
+
+    @Override
+    public boolean isImageSmoothing() {
+        return ctx.imageSmoothingEnabled;
+    }
 }
