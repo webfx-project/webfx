@@ -23,6 +23,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-util</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 </project>
