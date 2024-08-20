@@ -15,6 +15,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg.SvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.*;
+import dev.webfx.platform.console.Console;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Booleans;
 import dev.webfx.platform.util.Strings;
@@ -395,6 +396,16 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
+    private static boolean SCENE_TOUCH_PASSIVE_MODE = false;
+
+    public static void setSceneTouchPassiveMode(boolean passive) {
+        SCENE_TOUCH_PASSIVE_MODE = passive;
+    }
+
+    public static boolean isSceneTouchPassiveMode() {
+        return SCENE_TOUCH_PASSIVE_MODE;
+    }
+
     private static final GestureRecognizers gestureRecognizers = new GestureRecognizers();
 
 
@@ -406,28 +417,49 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static void registerTouchListener(EventTarget htmlTarget, String type, javafx.event.EventTarget fxTarget) {
-        // We don't enable the browsers built-in touch scrolling features, because this is not a standard behaviour in
-        // JavaFX, and this can interfere with the user experience, especially with games.
-        // Note that this will cause a downgrade in Lighthouse.
-        AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
-        passiveOption.setPassive(false); // May be set to true in some cases to improve Lighthouse score
-        htmlTarget.addEventListener(type, e -> {
+        EventListener touchListener = e -> {
             UserInteraction.setUserInteracting(true);
             boolean fxConsumed = passHtmlTouchEventOnToFx((TouchEvent) e, type, fxTarget);
             if (fxConsumed) {
-                e.stopPropagation();
+                if (SCENE_TOUCH_PASSIVE_MODE) {
+                    Console.log("[WARNING] ⚠️ a touch event has been consumed by the JavaFX application code while a ScrollPane entered the JS passive mode, so its propagation couldn't be stopped as requested");
+                }
+                e.stopPropagation(); // doesn't work in passive mode
                 if (!UserInteraction.nextUserRunnableRequiresTouchEventDefault())
-                    e.preventDefault();
+                    e.preventDefault(); // doesn't work in passive mode
             }
             UserInteraction.setUserInteracting(false);
-        }, passiveOption);
+        };
+        if (fxTarget instanceof Scene) {
+            AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
+            passiveOption.setPassive(true);
+            htmlTarget.addEventListener(type, e -> {
+                if (SCENE_TOUCH_PASSIVE_MODE) {
+                    touchListener.handleEvent(e);
+                }
+            }, passiveOption);
+            passiveOption = AddEventListenerOptions.create();
+            passiveOption.setPassive(false); // May be set to true in some cases to improve Lighthouse score
+            htmlTarget.addEventListener(type, e -> {
+                if (!SCENE_TOUCH_PASSIVE_MODE) {
+                    touchListener.handleEvent(e);
+                }
+            }, passiveOption);
+        } else {
+            // We don't enable the browsers built-in touch scrolling features, because this is not a standard behaviour in
+            // JavaFX, and this can interfere with the user experience, especially with games.
+            // Note that this will cause a downgrade in Lighthouse.
+            AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
+            passiveOption.setPassive(false); // May be set to true in some cases to improve Lighthouse score
+            htmlTarget.addEventListener(type, touchListener, passiveOption);
+        }
     }
 
     protected static boolean passHtmlTouchEventOnToFx(TouchEvent e, String type, javafx.event.EventTarget fxTarget) {
         javafx.scene.input.TouchEvent fxTouchEvent = toFxTouchEvent(e, type, fxTarget);
         boolean consumed = passOnToFx(fxTarget, fxTouchEvent);
         // We simulate the JavaFX behaviour where unconsumed touch events are fired again as mouse events.
-        if (!consumed && fxTarget instanceof Scene) { // Only at the scene level
+        if (!consumed && fxTarget instanceof Scene && !SCENE_TOUCH_PASSIVE_MODE) { // Only at the scene level, and not in passive mode
             javafx.scene.input.TouchPoint p = fxTouchEvent.getTouchPoint();
             EventType<javafx.scene.input.TouchEvent> fxType = fxTouchEvent.getEventType();
             EventType<javafx.scene.input.MouseEvent> eventType = fxType == javafx.scene.input.TouchEvent.TOUCH_PRESSED ? javafx.scene.input.MouseEvent.MOUSE_PRESSED : fxType == javafx.scene.input.TouchEvent.TOUCH_MOVED ? javafx.scene.input.MouseEvent.MOUSE_DRAGGED : javafx.scene.input.MouseEvent.MOUSE_RELEASED;
