@@ -7,14 +7,13 @@ import dev.webfx.platform.console.Console;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.scheduler.Scheduler;
 import dev.webfx.platform.uischeduler.UiScheduler;
-import elemental2.core.Global;
 import elemental2.core.JsObject;
 import elemental2.core.Uint8Array;
 import elemental2.dom.*;
 import elemental2.media.*;
+import elemental2.promise.Promise;
 import elemental2.webstorage.Storage;
 import elemental2.webstorage.WebStorageWindow;
-import elemental2.promise.Promise;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.media.AudioSpectrumListener;
@@ -24,6 +23,8 @@ import javafx.util.Duration;
 import jsinterop.base.Js;
 
 import java.util.Objects;
+
+import static elemental2.core.Global.JSON;
 
 /**
  * @author Bruno Salmon
@@ -196,24 +197,24 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
             init.setMode("no-cors");
             Request request = new Request(mediaUrl, init);
             DomGlobal.window.fetch(request)
-                    .then(response -> {
-                        if (!response.ok)
-                            Console.log("HTTP error when fetching '" + mediaUrl + "', status = " + response.status);
-                        return response.arrayBuffer();
-                    })
-                    .then(getAudioContext()::decodeAudioData)
-                    .then(buffer -> {
-                        audioBuffer = buffer;
-                        if (!audioClip)
-                            readAndSetMediaDuration(true);
-                        onAudioBufferReady();
-                        return null;
-                    })
-                    .catch_((Promise.CatchOnRejectedCallbackFn<?>) error -> {
-                        Console.log("Error while fetching '" + mediaUrl + "'");
-                        Console.logNative(error);
-                        return null;
-                    });
+                .then(response -> {
+                    if (!response.ok)
+                        Console.log("HTTP error when fetching '" + mediaUrl + "', status = " + response.status);
+                    return response.arrayBuffer();
+                })
+                .then(getAudioContext()::decodeAudioData)
+                .then(buffer -> {
+                    audioBuffer = buffer;
+                    if (!audioClip)
+                        readAndSetMediaDuration(true);
+                    onAudioBufferReady();
+                    return null;
+                })
+                .catch_((Promise.CatchOnRejectedCallbackFn<?>) error -> {
+                    Console.log("Error while fetching '" + mediaUrl + "'");
+                    Console.logNative(error);
+                    return null;
+                });
             fetched = true;
         } else if (UserInteraction.hasUserNotInteractedYet())
             UserInteraction.runOnNextUserInteraction(() -> fetchAudioBuffer(true));
@@ -315,12 +316,18 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
         setUpCors();
         // Now we try to play, and call onMediaElementPlaySuccess() on success (implying we were not blocked by CORS)
         mediaElement.play()
-                .then(e -> { onMediaElementPlaySuccess(mediaElement); return null; });
+            .then(e -> {
+                onMediaElementPlaySuccess(mediaElement);
+                return null;
+            });
         // If the CORS strategy was unknown, the previous play was in cors mode, and we try a second play in no-cors mode
         // and if it succeeds, we call onMediaElementPlaySuccess() which will understand that the working strategy is no-cors
         if (noCorsMediaElement != null)
             noCorsMediaElement.play()
-                    .then(e -> { onMediaElementPlaySuccess(noCorsMediaElement); return null; });
+                .then(e -> {
+                    onMediaElementPlaySuccess(noCorsMediaElement);
+                    return null;
+                });
     }
 
     private void onMediaElementPlaySuccess(HTMLMediaElement mediaElement) {
@@ -676,7 +683,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
             Storage localStorage = WebStorageWindow.of(DomGlobal.window).localStorage;
             if (localStorage != null) {
                 String item = localStorage.getItem(LOCAL_STORAGE_WORKING_CROSS_ORIGINS_KEY);
-                WORKING_CROSS_ORIGINS = Js.cast(Global.JSON.parse(item));
+                WORKING_CROSS_ORIGINS = Js.cast(JSON.parse(item)); // ok to pass null (will return null)
             }
             if (WORKING_CROSS_ORIGINS == null)
                 WORKING_CROSS_ORIGINS = JsObject.create(null);
@@ -706,7 +713,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
                 HtmlUtil.setJsJavaObjectAttribute(WORKING_CROSS_ORIGINS, mediaOrigin, workingCrossOrigin);
                 Storage localStorage = WebStorageWindow.of(DomGlobal.window).localStorage;
                 if (localStorage != null) {
-                    localStorage.setItem(LOCAL_STORAGE_WORKING_CROSS_ORIGINS_KEY, "" + WORKING_CROSS_ORIGINS.toJSON());
+                    localStorage.setItem(LOCAL_STORAGE_WORKING_CROSS_ORIGINS_KEY, JSON.stringify(WORKING_CROSS_ORIGINS));
                 }
             }
         }
