@@ -66,14 +66,14 @@ public final class HtmlScrollPanePeer
                 if (!HtmlSvgNodePeer.isSceneTouchPassiveMode()) {
                     HtmlSvgNodePeer.setSceneTouchPassiveMode(true);
                     // It's also important to detect the end of this touch scroll to go back to the standard mode
-                    UiScheduler.schedulePeriodic(200, scheduled -> { // every 200ms
+                    UiScheduler.schedulePeriodic(300, scheduled -> { // every 300ms
                         // if since the last 200ms no scroll events have been generated and the element looks stationary
                         if (!cssScrollDetected && element.scrollLeft == scrollLeft && element.scrollTop == scrollTop) {
                             // we consider it's the end of the touch scroll and go back to the standard mode
                             HtmlSvgNodePeer.setSceneTouchPassiveMode(false);
                             scheduled.cancel(); // we can stop this periodic check
                         } else { // otherwise the scroll is still happening
-                            cssScrollDetected = false; // for next check in 200ms
+                            cssScrollDetected = false; // for next check in 300ms
                         }
                     });
                 }
