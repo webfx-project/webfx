@@ -65,15 +65,20 @@ public final class HtmlScrollPanePeer
                 // and switching to passive mode, the CSS overflow scrollbars wouldn't react to the touch events.
                 if (!HtmlSvgNodePeer.isSceneTouchPassiveMode()) {
                     HtmlSvgNodePeer.setSceneTouchPassiveMode(true);
-                    // It's also important to detect the end of this touch scroll to go back to the standard mode
-                    UiScheduler.schedulePeriodic(200, scheduled -> { // every 200ms
-                        // if since the last 200ms no scroll events have been generated and the element looks stationary
+                    // It's also important to detect the end of this touch scroll to go back to the standard mode, so we
+                    // set up a periodic timer for that. It's important to choose a good value for the periodicity. If
+                    // it's too short, this can lead to false stop detection, and switching off the passive mode will
+                    // immediately interrupt the scroll, which is not a nice user experience. But a too long value will
+                    // prevent the user to have standard interaction with JavaFX buttons for example just after the
+                    // scroll stops. 400ms seems a good compromise.
+                    UiScheduler.schedulePeriodic(400, scheduled -> {
+                        // if since the last 400ms no scroll events have been generated and the element looks stationary
                         if (!cssScrollDetected && element.scrollLeft == scrollLeft && element.scrollTop == scrollTop) {
                             // we consider it's the end of the touch scroll and go back to the standard mode
                             HtmlSvgNodePeer.setSceneTouchPassiveMode(false);
                             scheduled.cancel(); // we can stop this periodic check
                         } else { // otherwise the scroll is still happening
-                            cssScrollDetected = false; // for next check in 200ms
+                            cssScrollDetected = false; // for next check in 400ms
                         }
                     });
                 }
