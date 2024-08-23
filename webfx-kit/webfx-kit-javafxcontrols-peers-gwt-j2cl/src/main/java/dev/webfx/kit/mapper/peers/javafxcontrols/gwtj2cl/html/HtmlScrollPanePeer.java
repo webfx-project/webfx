@@ -8,7 +8,9 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.os.OperatingSystem;
+import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.UiScheduler;
+import elemental2.dom.AddEventListenerOptions;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import javafx.geometry.BoundingBox;
@@ -18,6 +20,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.TouchEvent;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
+
+import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon
@@ -63,26 +67,46 @@ public final class HtmlScrollPanePeer
                 // standard mode (non-passive). By chance, this detection happens just before it is passed to the scene,
                 // and it's the only and last opportunity to activate the passive mode. Without catching this event
                 // and switching to passive mode, the CSS overflow scrollbars wouldn't react to the touch events.
-                if (!HtmlSvgNodePeer.isSceneTouchPassiveMode()) {
-                    HtmlSvgNodePeer.setSceneTouchPassiveMode(true);
+                if (!HtmlSvgNodePeer.isScrolling()) {
+                    HtmlSvgNodePeer.setScrolling(true);
                     // It's also important to detect the end of this touch scroll to go back to the standard mode, so we
-                    // set up a periodic timer for that. It's important to choose a good value for the periodicity. If
-                    // it's too short, this can lead to false stop detection, and switching off the passive mode will
-                    // immediately interrupt the scroll, which is not a nice user experience. But a too long value will
-                    // prevent the user to have standard interaction with JavaFX buttons for example just after the
-                    // scroll stops. 400ms seems a good compromise.
-                    UiScheduler.schedulePeriodic(400, scheduled -> {
-                        // if since the last 400ms no scroll events have been generated and the element looks stationary
-                        if (!cssScrollDetected && element.scrollLeft == scrollLeft && element.scrollTop == scrollTop) {
-                            // we consider it's the end of the touch scroll and go back to the standard mode
-                            HtmlSvgNodePeer.setSceneTouchPassiveMode(false);
-                            scheduled.cancel(); // we can stop this periodic check
-                        } else { // otherwise the scroll is still happening
-                            cssScrollDetected = false; // for next check in 400ms
+                    // set up a periodic timer for that.
+                    UiScheduler.schedulePeriodicInAnimationFrame(100, new Consumer<>() {
+                        private long lastMillis = System.currentTimeMillis();
+                        private double lastScrollTop = element.scrollTop, lastScrollLeft = element.scrollLeft;
+                        private double scrollTopInertia, scrollLeftInertia;
+                        @Override
+                        public void accept(Scheduled scheduled) {
+                            // We check if the scroll has become stationary since last call
+                            double deltaTop  = element.scrollTop  - lastScrollTop;
+                            double deltaLeft = element.scrollLeft - lastScrollLeft;
+                            boolean stationary = deltaTop == 0 && deltaLeft == 0 && !cssScrollDetected; // also considering any scroll event
+                            // Note:
+                            long nowMillis = System.currentTimeMillis();
+                            long delayMillis = nowMillis - lastMillis;
+                            // Skipping suspicious false stop detection for 2s
+                            if (stationary && delayMillis < 2000 && (Math.abs(scrollTopInertia) > 0.05 || Math.abs(scrollLeftInertia) > 0.05)) {
+                                return;
+                            }
+                            scrollTopInertia = deltaTop / delayMillis;
+                            scrollLeftInertia = deltaLeft / delayMillis;
+                            // if since the last period no scroll events have been generated and the element looks stationary
+                            if (stationary) {
+                                // we consider it's the end of the touch scroll and go back to the standard mode
+                                HtmlSvgNodePeer.setScrolling(false);
+                                scheduled.cancel(); // we can stop this periodic check
+                            } else {
+                                lastScrollLeft = element.scrollLeft;
+                                lastScrollTop = element.scrollTop;
+                                lastMillis = nowMillis;
+                                cssScrollDetected = false;
+                            }
                         }
                     });
                 }
             });
+            AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
+            passiveOption.setPassive(true);
             // We intercept the JS scroll events to update the ScrollPane position in JavaFX when the html one changes
             element.addEventListener("scroll", e -> {
                 if (element.scrollTop != scrollTop)
@@ -92,7 +116,7 @@ public final class HtmlScrollPanePeer
                 // Also if this happens during a touch scroll, we report the detection of the scroll and reschedule the
                 // css scroll end detector.
                 cssScrollDetected = true;
-            });
+            }, passiveOption);
         }
         node.setOnChildrenLayout(HtmlScrollPanePeer.this::scheduleUiUpdate);
         // The following listener is to reestablish the scroll position on scene change. For ex when the user 1) switches
