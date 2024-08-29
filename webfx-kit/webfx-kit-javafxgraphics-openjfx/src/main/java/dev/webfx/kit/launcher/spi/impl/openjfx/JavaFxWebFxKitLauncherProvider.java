@@ -7,7 +7,10 @@ import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.util.function.Factory;
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -122,7 +125,6 @@ public final class JavaFxWebFxKitLauncherProvider extends WebFxKitLauncherProvid
                 application.start(primaryStage);
             }
         }
-
     }
 
     @Override
@@ -143,5 +145,12 @@ public final class JavaFxWebFxKitLauncherProvider extends WebFxKitLauncherProvid
         measurementText.setText("Baseline text");
         measurementText.setFont(font);
         return measurementText.getBaselineOffset();
+    }
+
+    private final ReadOnlyObjectProperty<Insets> safeAreaInsetsProperty = new SimpleObjectProperty<>(Insets.EMPTY);
+
+    @Override
+    public ReadOnlyObjectProperty<Insets> safeAreaInsetsProperty() {
+        return safeAreaInsetsProperty;
     }
 }

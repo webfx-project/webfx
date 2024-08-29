@@ -21,8 +21,7 @@ import dev.webfx.platform.util.function.Factory;
 import elemental2.dom.*;
 import javafx.application.Application;
 import javafx.application.HostServices;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
@@ -257,8 +256,19 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         return application;
     }
 
+    private ObjectProperty<Insets> safeAreaInsetsProperty = null;
+
     @Override
-    public Insets getSafeAreaInsets() {
+    public ReadOnlyObjectProperty<Insets> safeAreaInsetsProperty() {
+        if (safeAreaInsetsProperty == null) {
+            safeAreaInsetsProperty = new SimpleObjectProperty<>(Insets.EMPTY);
+            FXProperties.runNowAndOnPropertiesChange(this::updateSafeAreaInsets,
+                getPrimaryStage().widthProperty(), getPrimaryStage().heightProperty());
+        }
+        return safeAreaInsetsProperty;
+    }
+
+    public void updateSafeAreaInsets() {
         /* The following code is relying on this CSS rule present in webfx-kit-javafxgraphics-web@main.css
         :root {
             --safe-area-inset-top:    env(safe-area-inset-top);
@@ -272,11 +282,11 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         String right  = computedStyle.getPropertyValue("--safe-area-inset-right");
         String bottom = computedStyle.getPropertyValue("--safe-area-inset-bottom");
         String left   = computedStyle.getPropertyValue("--safe-area-inset-left");
-        return new Insets(
-                Numbers.doubleValue(Strings.removeSuffix(top, "px")),
-                Numbers.doubleValue(Strings.removeSuffix(right, "px")),
-                Numbers.doubleValue(Strings.removeSuffix(bottom, "px")),
-                Numbers.doubleValue(Strings.removeSuffix(left, "px"))
-        );
+        safeAreaInsetsProperty.set(new Insets(
+            Numbers.doubleValue(Strings.removeSuffix(top, "px")),
+            Numbers.doubleValue(Strings.removeSuffix(right, "px")),
+            Numbers.doubleValue(Strings.removeSuffix(bottom, "px")),
+            Numbers.doubleValue(Strings.removeSuffix(left, "px"))
+        ));
     }
 }
