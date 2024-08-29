@@ -13,6 +13,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
+import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.useragent.UserAgent;
 import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
@@ -264,6 +265,9 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
             safeAreaInsetsProperty = new SimpleObjectProperty<>(Insets.EMPTY);
             FXProperties.runNowAndOnPropertiesChange(this::updateSafeAreaInsets,
                 getPrimaryStage().widthProperty(), getPrimaryStage().heightProperty());
+            // Workaround for a bug observed in the Gmail internal browser on iPad where the window width/height
+            // are still not final at the first opening. So we schedule a subsequent update to get final values.
+            UiScheduler.scheduleDelay(500, this::updateSafeAreaInsets); // 500ms seem enough
         }
         return safeAreaInsetsProperty;
     }
