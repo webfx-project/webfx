@@ -15,13 +15,43 @@ public class ScrollPane extends Control {
     private Runnable onChildrenLayout;
 
     public ScrollPane() {
-        // The purpose of this code is to register the mouse handler so it captures focus on mouse click
-        new BehaviorSkinBase<ScrollPane, ScrollPaneBehavior>(this, new ScrollPaneBehavior(this)) {};
+        // The purpose of this code is to register the mouse handler, so it captures focus on mouse click
+        new BehaviorSkinBase<>(this, new ScrollPaneBehavior(this)) {};
     }
 
     public ScrollPane(Node content) {
         this();
         setContent(content);
+    }
+
+    public boolean shouldUseLayoutMeasurable() {
+        return false;
+    }
+
+    @Override protected double computeMinWidth(double height) {
+        return 0;
+    }
+
+    @Override protected double computePrefWidth(double height) {
+        Node content = getContent();
+        return content == null ? 0 : content.prefWidth(height);
+    }
+
+    @Override protected double computeMaxWidth(double height) {
+        return Double.MAX_VALUE;
+    }
+
+    @Override protected double computeMinHeight(double width) {
+        return 0;
+    }
+
+    @Override protected double computePrefHeight(double width) {
+        Node content = getContent();
+        return content == null ? 0 : content.prefHeight(width);
+    }
+
+    @Override protected double computeMaxHeight(double width) {
+        return Double.MAX_VALUE;
     }
 
     @Override
@@ -40,7 +70,7 @@ public class ScrollPane extends Control {
         super.localToScene(pt);
     }
 
-    private Property<ScrollBarPolicy> hbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
+    private final Property<ScrollBarPolicy> hbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
 
     public Property<ScrollBarPolicy> hbarPolicyProperty() {
         return hbarPolicyProperty;
@@ -54,7 +84,7 @@ public class ScrollPane extends Control {
         return hbarPolicyProperty.getValue();
     }
 
-    private Property<ScrollBarPolicy> vbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
+    private final Property<ScrollBarPolicy> vbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
 
     public Property<ScrollBarPolicy> vbarPolicyProperty() {
         return vbarPolicyProperty;

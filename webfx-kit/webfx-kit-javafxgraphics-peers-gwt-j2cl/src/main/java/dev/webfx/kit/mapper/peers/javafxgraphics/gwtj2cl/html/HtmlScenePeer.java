@@ -4,9 +4,12 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRoot;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRootBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.FxEvents;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.SvgUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.uischeduler.UiScheduler;
@@ -14,6 +17,7 @@ import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.*;
+import elemental2.svg.SVGSVGElement;
 import elemental2.webstorage.WebStorageWindow;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -522,6 +526,21 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 return keyCode;
             }
         }
+    }
+
+    private SvgRoot svgRoot;
+
+    public SvgRoot getSvgRoot() {
+        if (svgRoot == null) {
+            SVGSVGElement svgRootBaseSvg = SvgUtil.createSvgElement();
+            svgRootBaseSvg.setAttribute("width", "0");
+            svgRootBaseSvg.setAttribute("height", "0");
+            svgRoot = new SvgRootBase();
+            svgRootBaseSvg.append(svgRoot.getDefsElement());
+            document.body.appendChild(svgRootBaseSvg);
+            Console.log("svgRootBaseSvg added to document.body");
+        }
+        return svgRoot;
     }
 
     // Utility method to help mapping observable lists

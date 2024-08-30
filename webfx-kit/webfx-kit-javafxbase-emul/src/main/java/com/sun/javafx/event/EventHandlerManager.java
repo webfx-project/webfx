@@ -1,10 +1,13 @@
 package com.sun.javafx.event;
 
+import dev.webfx.platform.util.tuples.Pair;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -229,15 +232,21 @@ public class EventHandlerManager extends BasicEventDispatcher {
     public interface EventSourcesListener {
         void onEventSource(EventType<?> eventType, Object eventSource);
     }
-    private static EventSourcesListener eventSourcesListener;
-
-    public static void setEventSourcesListener(EventSourcesListener eventSourcesListener) {
-        EventHandlerManager.eventSourcesListener = eventSourcesListener;
-    }
+    private static EventSourcesListener EVENT_SOURCES_LISTENER;
+    private static final List<Pair<EventType<?>, Object>> PENDING_NOTIFY_EVENTS = new ArrayList<>();
 
     private static void notifyEventSourcesListener(EventType<?> eventType, Object eventSource) {
-        if (eventSourcesListener != null)
-            eventSourcesListener.onEventSource(eventType, eventSource);
+        if (EVENT_SOURCES_LISTENER != null) {
+            EVENT_SOURCES_LISTENER.onEventSource(eventType, eventSource);
+        } else {
+            PENDING_NOTIFY_EVENTS.add(new Pair<>(eventType, eventSource));
+        }
+    }
+
+    public static void setEventSourcesListener(EventSourcesListener eventSourcesListener) {
+        EVENT_SOURCES_LISTENER = eventSourcesListener;
+        PENDING_NOTIFY_EVENTS.forEach(pair -> eventSourcesListener.onEventSource(pair.get1(), pair.get2()));
+        PENDING_NOTIFY_EVENTS.clear();
     }
 
 }

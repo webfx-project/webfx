@@ -29,7 +29,7 @@ public final class HtmlRectanglePeer
     }
 
     @Override
-    protected String computeClipPath() {
+    public String computeClipPath() {
         Rectangle r = getNode();
         double width = r.getWidth();
         double height = r.getHeight();
@@ -56,7 +56,7 @@ public final class HtmlRectanglePeer
     @Override
     public void updateX(Double x) {
         if (isClip())
-            applyClipPathToClipNodes();
+            applyClipClipNodes();
         else
             getElement().style.left = toPx(x);
     }
@@ -64,7 +64,7 @@ public final class HtmlRectanglePeer
     @Override
     public void updateY(Double y) {
         if (isClip())
-            applyClipPathToClipNodes();
+            applyClipClipNodes();
         else
             getElement().style.top = toPx(y);
     }
@@ -72,7 +72,7 @@ public final class HtmlRectanglePeer
     @Override
     public void updateWidth(Double width) {
         if (isClip())
-            applyClipPathToClipNodes();
+            applyClipClipNodes();
         else
             getElement().style.width = CSSProperties.WidthUnionType.of(toPx(width));
     }
@@ -80,7 +80,7 @@ public final class HtmlRectanglePeer
     @Override
     public void updateHeight(Double height) {
         if (isClip())
-            applyClipPathToClipNodes();
+            applyClipClipNodes();
         else
             getElement().style.height = CSSProperties.HeightUnionType.of(toPx(height));
     }
@@ -97,7 +97,7 @@ public final class HtmlRectanglePeer
 
     private void updateBorderRadius() {
         if (isClip())
-            applyClipPathToClipNodes();
+            applyClipClipNodes();
         else {
             Rectangle r = getNode();
             getElement().style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(r.getArcWidth()/2) + " " + toPx(r.getArcHeight()/2));

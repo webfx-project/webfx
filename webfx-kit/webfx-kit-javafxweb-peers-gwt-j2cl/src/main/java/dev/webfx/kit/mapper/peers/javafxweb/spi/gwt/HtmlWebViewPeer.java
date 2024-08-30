@@ -128,7 +128,7 @@ public class HtmlWebViewPeer
                             return null;
                         });
             } else { // Standard or replace mode
-                if (!"replace".equals(webfxLoadingMode)) { // Standard mode
+                if (!"replace".equals(webfxLoadingMode) || iFrame.contentWindow == null) { // Standard mode
                     iFrame.src = url; // Standard way to load an iFrame
                     // But it has 2 downsides (which is why webfx proposes alternative loading modes):
                     // 1) it doesn't report any network errors (iFrame.onerror not called). Issue addressed by the webfx

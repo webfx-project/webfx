@@ -3,6 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRoot;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlTransforms;
 import dev.webfx.platform.util.Strings;
@@ -29,6 +30,16 @@ public abstract class HtmlNodePeer
 
     public HtmlNodePeer(NB base, HTMLElement element) {
         super(base, element);
+    }
+
+    @Override
+    protected HtmlScenePeer getScenePeer() {
+        return (HtmlScenePeer) super.getScenePeer();
+    }
+
+    @Override
+    protected SvgRoot getSvgRoot() {
+        return getScenePeer().getSvgRoot();
     }
 
     @Override
@@ -120,10 +131,6 @@ public abstract class HtmlNodePeer
 
     public static String toPx(double position) {
         return position + "px";
-    }
-
-    public static double fromPx(String px) {
-        return px == null || !px.endsWith("px") ? 0 : Double.parseDouble(px.substring(0, px.length() - 2));
     }
 
 }

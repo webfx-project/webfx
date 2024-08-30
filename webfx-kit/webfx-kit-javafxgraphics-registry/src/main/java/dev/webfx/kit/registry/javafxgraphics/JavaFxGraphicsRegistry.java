@@ -12,6 +12,8 @@ public class JavaFxGraphicsRegistry {
 
     public static native void registerLine();
 
+    public static native void registerSubtractShape();
+
     public static native void registerText();
 
     public static native void registerImageView();

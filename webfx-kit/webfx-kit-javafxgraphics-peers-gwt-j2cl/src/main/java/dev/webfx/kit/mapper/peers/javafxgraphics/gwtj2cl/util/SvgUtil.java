@@ -1,11 +1,12 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util;
 
+import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.Element;
+import elemental2.svg.SVGSVGElement;
 import javafx.scene.paint.*;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeType;
-import dev.webfx.platform.util.collection.Collections;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -20,8 +21,8 @@ public final class SvgUtil {
         return document.createElementNS(svgNS, tag);
     }
 
-    public static /*SVGElement Elemental2 compilation error */ Element createSvgElement() {
-        return /*SVGElement*/ createSvgElement("svg");
+    public static SVGSVGElement createSvgElement() {
+        return (SVGSVGElement) createSvgElement("svg");
     }
 
     public static Element createSvgDefs() {

@@ -3,11 +3,13 @@ package dev.webfx.kit.launcher;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
 import dev.webfx.platform.console.Console;
-import dev.webfx.platform.util.function.Factory;
 import dev.webfx.platform.service.SingleServiceProvider;
+import dev.webfx.platform.util.function.Factory;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -131,6 +133,14 @@ public final class WebFxKitLauncher {
             webFxCssPath = webFxCssPath.substring(1);
         // We resolve the relative path from the css resource folder
         return "dev/webfx/kit/css/" + webFxCssPath;
+    }
+
+    public static ReadOnlyObjectProperty<Insets> safeAreaInsetsProperty() {
+        return getProvider().safeAreaInsetsProperty();
+    }
+
+    public static Insets getSafeAreaInsets() {
+        return getProvider().getSafeAreaInsets();
     }
 
 }

@@ -9,7 +9,7 @@ import javafx.scene.shape.Shape;
 /**
  * @author Bruno Salmon
  */
-public abstract class ShapePeerBase
+public class ShapePeerBase
         <N extends Shape, NB extends ShapePeerBase<N, NB, NM>, NM extends ShapePeerMixin<N, NB, NM>>
 
         extends NodePeerBase<N, NB, NM> {

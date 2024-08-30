@@ -1,9 +1,5 @@
 /***** Global variables *****/
 :root {
-    --fx-border-color: #c0c0c0;
-    --fx-border-radius: 5px;
-    --fx-border-style: solid;
-    --fx-border-width: 1px;
     --fx-border-color-focus: #0096D6;
     --fx-textfield-background: white;
 }

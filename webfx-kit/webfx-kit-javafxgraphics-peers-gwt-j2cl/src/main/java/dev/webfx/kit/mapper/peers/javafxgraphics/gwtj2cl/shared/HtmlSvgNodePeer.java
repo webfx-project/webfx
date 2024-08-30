@@ -11,9 +11,11 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerImpl;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg.SvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.*;
+import dev.webfx.platform.console.Console;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Booleans;
 import dev.webfx.platform.util.Strings;
@@ -132,6 +134,11 @@ public abstract class HtmlSvgNodePeer
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         installFocusListeners();
+    }
+
+    protected ScenePeer getScenePeer() {
+        Scene scene = getNode().getScene();
+        return scene == null ? null : scene.impl_getPeer();
     }
 
     /******************************************** Drag & drop support *************************************************/
@@ -389,9 +396,6 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
-    private static final GestureRecognizers gestureRecognizers = new GestureRecognizers();
-
-
     public static void installTouchListeners(EventTarget htmlTarget, javafx.event.EventTarget fxTarget) {
         registerTouchListener(htmlTarget, "touchstart", fxTarget);
         registerTouchListener(htmlTarget, "touchmove", fxTarget);
@@ -403,25 +407,41 @@ public abstract class HtmlSvgNodePeer
         // We don't enable the browsers built-in touch scrolling features, because this is not a standard behaviour in
         // JavaFX, and this can interfere with the user experience, especially with games.
         // Note that this will cause a downgrade in Lighthouse.
+        boolean passive = false; // May be set to true in some cases to improve Lighthouse score
         AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
-        passiveOption.setPassive(false); // May be set to true in some cases to improve Lighthouse score
+        passiveOption.setPassive(passive);
         htmlTarget.addEventListener(type, e -> {
             UserInteraction.setUserInteracting(true);
             boolean fxConsumed = passHtmlTouchEventOnToFx((TouchEvent) e, type, fxTarget);
             if (fxConsumed) {
                 e.stopPropagation();
-                if (!UserInteraction.nextUserRunnableRequiresTouchEventDefault())
-                    e.preventDefault();
+                if (!UserInteraction.nextUserRunnableRequiresTouchEventDefault()) {
+                    if (passive) {
+                        Console.log("Couldn't prevent event default in passive mode");
+                    } else {
+                        e.preventDefault(); // doesn't work in passive mode
+                    }
+                }
             }
             UserInteraction.setUserInteracting(false);
         }, passiveOption);
+    }
+
+    private static boolean SCROLLING = false;
+
+    public static void setScrolling(boolean scrolling) {
+        SCROLLING = scrolling;
+    }
+
+    public static boolean isScrolling() {
+        return SCROLLING;
     }
 
     protected static boolean passHtmlTouchEventOnToFx(TouchEvent e, String type, javafx.event.EventTarget fxTarget) {
         javafx.scene.input.TouchEvent fxTouchEvent = toFxTouchEvent(e, type, fxTarget);
         boolean consumed = passOnToFx(fxTarget, fxTouchEvent);
         // We simulate the JavaFX behaviour where unconsumed touch events are fired again as mouse events.
-        if (!consumed && fxTarget instanceof Scene) { // Only at the scene level
+        if (!consumed && fxTarget instanceof Scene && !SCROLLING) { // Not during scrolling
             javafx.scene.input.TouchPoint p = fxTouchEvent.getTouchPoint();
             EventType<javafx.scene.input.TouchEvent> fxType = fxTouchEvent.getEventType();
             EventType<javafx.scene.input.MouseEvent> eventType = fxType == javafx.scene.input.TouchEvent.TOUCH_PRESSED ? javafx.scene.input.MouseEvent.MOUSE_PRESSED : fxType == javafx.scene.input.TouchEvent.TOUCH_MOVED ? javafx.scene.input.MouseEvent.MOUSE_DRAGGED : javafx.scene.input.MouseEvent.MOUSE_RELEASED;
@@ -456,6 +476,8 @@ public abstract class HtmlSvgNodePeer
                 0, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
     }
 
+    private static final GestureRecognizers GESTURE_RECOGNIZERS = new GestureRecognizers();
+
     private static TouchPoint toFxTouchPoint(Touch touch, TouchEvent e, javafx.event.EventTarget fxTarget) {
         TouchPoint.State state = TouchPoint.State.STATIONARY;
         //if (e.changedTouches.asList().contains(touch)) {
@@ -473,10 +495,10 @@ public abstract class HtmlSvgNodePeer
             long time = (long) (e.timeStamp * 1_000_000);
             SwipeGestureRecognizer.CURRENT_TARGET = fxTarget;
             if (state == TouchPoint.State.PRESSED)
-                gestureRecognizers.notifyBeginTouchEvent(time, 0, false, 1);
-            gestureRecognizers.notifyNextTouchEvent(time, state.name(), touchId, (int) touchX, (int) touchY, (int) touch.screenX, (int) touch.screenY);
+                GESTURE_RECOGNIZERS.notifyBeginTouchEvent(time, 0, false, 1);
+            GESTURE_RECOGNIZERS.notifyNextTouchEvent(time, state.name(), touchId, (int) touchX, (int) touchY, (int) touch.screenX, (int) touch.screenY);
             if (state == TouchPoint.State.RELEASED)
-                gestureRecognizers.notifyEndTouchEvent(time);
+                GESTURE_RECOGNIZERS.notifyEndTouchEvent(time);
         }
         PickResult pickResult = new PickResult(fxTarget, touchX, touchY);
         return new TouchPoint(touchId, state, touchX, touchY, touch.screenX, touch.screenY, fxTarget, pickResult);
@@ -591,17 +613,28 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
+    private HtmlSvgNodePeer clipPeer;
+
     @Override
     public void updateClip(Node clip) {
-        if (clip == null)
+        if (clipPeer != null) {
+            clipPeer.clipNodes.remove(getNode());
+            clipPeer.cleanClipMaskIfUnused();
+        }
+        if (clip == null) {
             applyClipPath(null);
-        else
-            ((HtmlSvgNodePeer) clip.getOrCreateAndBindNodePeer()).bindAsClip(getNode());
+            applyClipMask(null);
+        } else {
+            clipPeer = (HtmlSvgNodePeer) clip.getOrCreateAndBindNodePeer();
+            clipPeer.bindAsClip(getNode());
+        }
     }
 
     protected boolean clip; // true when this node is actually used as a clip (=> not part of the scene graph)
-    protected List<Node> clipNodes; // Contains the list of nodes that use this node as a clip
     protected String clipPath;
+    protected Element clipMask;
+    private static int clipMaskSeq;
+    protected List<Node> clipNodes; // Contains the list of nodes that use this node as a clip
 
     private void bindAsClip(Node clipNode) {
         clip = true;
@@ -609,27 +642,39 @@ public abstract class HtmlSvgNodePeer
             clipNodes = new ArrayList<>();
         if (!clipNodes.contains(clipNode))
             clipNodes.add(clipNode);
-        applyClipPathToClipNode(clipNode);
+        applyClipToClipNode(clipNode);
     }
 
     protected final boolean isClip() {
         return clip;
     }
 
-    protected final void applyClipPathToClipNodes() { // Should be called when this node is a clip and that its properties has changed
+    protected final void applyClipClipNodes() { // Should be called when this node is a clip and that its properties has changed
         clipPath = null; // To force computation
         N thisClip = getNode();
         for (Iterator<Node> it = clipNodes.iterator(); it.hasNext(); ) {
             Node clipNode = it.next();
             if (clipNode.getClip() == thisClip) // checking the node is still using that clip
-                applyClipPathToClipNode(clipNode);
+                applyClipToClipNode(clipNode);
             else // Otherwise we remove that node from the clip nodes
                 it.remove();
         }
+        cleanClipMaskIfUnused();
     }
 
-    private void applyClipPathToClipNode(Node clipNode) {
-        ((HtmlSvgNodePeer) clipNode.getNodePeer()).applyClipPath(getClipPath());
+    private void cleanClipMaskIfUnused() {
+        if (clipMask != null && clipNodes.isEmpty()) {
+            getSvgRoot().getDefsElement().removeChild(clipMask);
+            clipMask = null;
+        }
+    }
+
+    private void applyClipToClipNode(Node clipNode) {
+        getNode().setScene(clipNode.getScene()); // Ensuring this clip node as the same scene as the node it is applied
+        // A clip can be applied either through a clip path or through a svg mask
+        HtmlSvgNodePeer clipPeer = (HtmlSvgNodePeer) clipNode.getNodePeer();
+        clipPeer.applyClipPath(getClipPath());
+        clipPeer.applyClipMask(getClipMask());
     }
 
     private String getClipPath() {
@@ -638,12 +683,33 @@ public abstract class HtmlSvgNodePeer
         return clipPath;
     }
 
-    protected String computeClipPath() { // To override for nodes that can be used as clip (ex: rectangle, circle, etc...)
+    public String computeClipPath() { // To override for nodes that can be used as clip (ex: rectangle, circle, etc...)
         return null;
     }
 
     protected void applyClipPath(String clipPah) {
         setElementAttribute("clip-path", clipPah);
+    }
+
+    private Element getClipMask() {
+        if (clipMask == null) {
+            clipMask = computeClipMask();
+            if (clipMask != null) {
+                clipMask.setAttribute("id", "mask-" + ++clipMaskSeq);
+                getSvgRoot().addDef(clipMask);
+            }
+        }
+        return clipMask;
+    }
+
+    protected abstract SvgRoot getSvgRoot();
+
+    public Element computeClipMask() { // To override for nodes that can be used as clip (ex: rectangle, circle, etc...)
+        return null;
+    }
+
+    protected void applyClipMask(Element clipMask) {
+        setElementStyleAttribute("mask", SvgUtil.getDefUrl(clipMask));
     }
 
     @Override

@@ -53,6 +53,12 @@ public final class FxUiSchedulerProvider extends UiSchedulerProviderBase {
     };
 
     @Override
+    protected boolean isSystemAnimationFrameRunning() {
+        // As opposed to the browser, OpenJFX never stops running animation frames
+        return true;
+    }
+
+    @Override
     protected void requestAnimationFrame(Runnable runnable) {
         animationRunnable = runnable;
         animationTimer.start();

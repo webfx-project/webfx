@@ -13,18 +13,20 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
+import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.useragent.UserAgent;
+import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Factory;
 import elemental2.dom.*;
 import javafx.application.Application;
 import javafx.application.HostServices;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -253,5 +255,42 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
     @Override
     public Application getApplication() {
         return application;
+    }
+
+    private ObjectProperty<Insets> safeAreaInsetsProperty = null;
+
+    @Override
+    public ReadOnlyObjectProperty<Insets> safeAreaInsetsProperty() {
+        if (safeAreaInsetsProperty == null) {
+            safeAreaInsetsProperty = new SimpleObjectProperty<>(Insets.EMPTY);
+            FXProperties.runNowAndOnPropertiesChange(this::updateSafeAreaInsets,
+                getPrimaryStage().widthProperty(), getPrimaryStage().heightProperty());
+            // Workaround for a bug observed in the Gmail internal browser on iPad where the window width/height
+            // are still not final at the first opening. So we schedule a subsequent update to get final values.
+            UiScheduler.scheduleDelay(500, this::updateSafeAreaInsets); // 500ms seem enough
+        }
+        return safeAreaInsetsProperty;
+    }
+
+    public void updateSafeAreaInsets() {
+        /* The following code is relying on this CSS rule present in webfx-kit-javafxgraphics-web@main.css
+        :root {
+            --safe-area-inset-top:    env(safe-area-inset-top);
+            --safe-area-inset-right:  env(safe-area-inset-right);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            --safe-area-inset-left:   env(safe-area-inset-left);
+        }
+         */
+        CSSStyleDeclaration computedStyle = Js.<ViewCSS>uncheckedCast(DomGlobal.window).getComputedStyle(DomGlobal.document.documentElement);
+        String top    = computedStyle.getPropertyValue("--safe-area-inset-top");
+        String right  = computedStyle.getPropertyValue("--safe-area-inset-right");
+        String bottom = computedStyle.getPropertyValue("--safe-area-inset-bottom");
+        String left   = computedStyle.getPropertyValue("--safe-area-inset-left");
+        safeAreaInsetsProperty.set(new Insets(
+            Numbers.doubleValue(Strings.removeSuffix(top, "px")),
+            Numbers.doubleValue(Strings.removeSuffix(right, "px")),
+            Numbers.doubleValue(Strings.removeSuffix(bottom, "px")),
+            Numbers.doubleValue(Strings.removeSuffix(left, "px"))
+        ));
     }
 }

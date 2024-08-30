@@ -3,9 +3,11 @@ package dev.webfx.kit.launcher.spi;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -94,5 +96,11 @@ public interface WebFxKitLauncherProvider {
 
     default ObservableList<Font> loadingFonts() {
         return FXCollections.emptyObservableList(); // Default implementation fpr synchronous font loading toolkits (such as OpenJFX)
+    }
+
+    ReadOnlyObjectProperty<Insets> safeAreaInsetsProperty();
+
+    default Insets getSafeAreaInsets() {
+        return safeAreaInsetsProperty().get();
     }
 }

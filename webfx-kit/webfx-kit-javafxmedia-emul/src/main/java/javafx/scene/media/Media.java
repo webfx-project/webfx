@@ -30,7 +30,7 @@ public final class Media {
     }
 
     public Duration getDuration() {
-        return durationProperty.get();
+        return durationProperty().get();
     }
 
     // For WebFX internal usage only
