@@ -1263,4 +1263,32 @@ public interface GraphicsContext {
      */
     void applyEffect(Effect e);
 
+    /**
+     * Sets the image smoothing state.
+     * Image smoothing is an <a href="#image-attr">Image attribute</a>
+     * used to enable or disable image smoothing for
+     * {@link #drawImage(javafx.scene.image.Image, double, double) drawImage(all forms)}
+     * as specified in the <a href="#attr-ops-table">Rendering Attributes Table</a>.<br>
+     * If image smoothing is {@code true}, images will be scaled using a higher
+     * quality filtering when transforming or scaling the source image to fit
+     * in the destination rectangle.<br>
+     * If image smoothing is {@code false}, images will be scaled without filtering
+     * (or by using a lower quality filtering) when transforming or scaling the
+     * source image to fit in the destination rectangle.
+     *
+     * @defaultValue {@code true}
+     * @param imageSmoothing {@code true} to enable or {@code false} to disable smoothing
+     * @since 12
+     */
+    void setImageSmoothing(boolean imageSmoothing);
+
+    /**
+     * Gets the current image smoothing state.
+     *
+     * @defaultValue {@code true}
+     * @return image smoothing state
+     * @since 12
+     */
+    boolean isImageSmoothing();
+
 }
