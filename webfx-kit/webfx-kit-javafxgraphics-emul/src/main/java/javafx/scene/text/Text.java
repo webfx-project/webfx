@@ -136,6 +136,32 @@ public class Text extends Shape implements
         return boundsType;
     }
 
+    /**
+     * Defines if each line of text should have a line through it.
+     *
+     * @return if each line of text should have a line through it
+     * @defaultValue false
+     */
+    public final BooleanProperty strikethroughProperty() {
+        if (strikethroughProperty == null)
+            strikethroughProperty = new SimpleBooleanProperty();
+        return strikethroughProperty;
+    }
+
+    private BooleanProperty strikethroughProperty;
+
+    public final void setStrikethrough(boolean value) {
+        strikethroughProperty().set(value);
+    }
+
+    public final boolean isStrikethrough() {
+        if (strikethroughProperty == null) {
+            return false;
+        }
+        return strikethroughProperty.get();
+    }
+
+
     @Override
     public double getBaselineOffset() {
         Font font = getFont();

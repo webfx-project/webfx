@@ -173,6 +173,12 @@ public final class HtmlSvgTextPeer
     }
 
     @Override
+    public void updateStrikethrough(Boolean strikethrough) {
+        svgTextPeer.updateStrikethrough(strikethrough);
+        updateViewBox();
+    }
+
+    @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
         svgTextPeer.updateTextAlignment(textAlignment);
     }
