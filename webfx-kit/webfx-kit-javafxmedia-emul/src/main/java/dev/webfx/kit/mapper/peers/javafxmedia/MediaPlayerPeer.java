@@ -33,10 +33,6 @@ public interface MediaPlayerPeer {
 
     void setAudioSpectrumListener(AudioSpectrumListener listener);
 
-    void setOnEndOfMedia(Runnable onEndOfMedia);
-
-    void setOnPlaying(Runnable onPlaying);
-
     void seek(Duration duration);
 
 }

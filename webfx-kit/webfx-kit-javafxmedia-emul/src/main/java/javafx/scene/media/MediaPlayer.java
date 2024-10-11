@@ -211,14 +211,6 @@ public class MediaPlayer {
         peer.setAudioSpectrumListener(listener);
     }
 
-    public final void setOnEndOfMedia(Runnable onEndOfMedia) {
-        peer.setOnEndOfMedia(onEndOfMedia);
-    }
-
-    public final void setOnPlaying(Runnable onPlaying) {
-        peer.setOnPlaying(onPlaying);
-    }
-
     public ObjectProperty<Duration> currentTimeProperty() {
         return peer.mediaPlayerCurrentTimeProperty();
     }
@@ -229,12 +221,260 @@ public class MediaPlayer {
 
     public ReadOnlyObjectProperty<Status> statusProperty() {
         if (statusProperty == null)
-            statusProperty = new SimpleObjectProperty<>(Status.UNKNOWN);
+            statusProperty = new SimpleObjectProperty<>(Status.UNKNOWN) {
+                @Override
+                protected void invalidated() {
+                    Runnable statusRunnable = getStatusRunnable();
+                    if (statusRunnable != null)
+                        statusRunnable.run();
+                }
+            };
         return statusProperty;
+    }
+
+    private Runnable getStatusRunnable() {
+        switch (getStatus()) {
+            case READY:   return getOnReady();
+            case PAUSED:  return getOnPaused();
+            case PLAYING: return getOnPlaying();
+            case STOPPED: return getOnStopped();
+            case STALLED: return getOnStalled();
+            case HALTED:  return getOnHalted();
+        }
+        // Note: onRepeat & endOfMedia are not called by this class, this responsibility is delegated to the peer
+        return null;
     }
 
     public Status getStatus() {
         return statusProperty == null ? Status.UNKNOWN : statusProperty.get();
+    }
+
+    private ObjectProperty<Runnable> onEndOfMedia;
+
+    /**
+     * Sets the end of media event handler.
+     * @param value the event handler or <code>null</code>.
+     */
+    public final void setOnEndOfMedia(Runnable value) {
+        onEndOfMediaProperty().set(value);
+    }
+
+    /**
+     * Retrieves the end of media event handler.
+     * @return the event handler or <code>null</code>.
+     */
+    public final Runnable getOnEndOfMedia() {
+        return onEndOfMedia == null ? null : onEndOfMedia.get();
+    }
+
+    public ObjectProperty<Runnable> onEndOfMediaProperty() {
+        if (onEndOfMedia == null) {
+            onEndOfMedia = new SimpleObjectProperty<Runnable>(this, "onEndOfMedia");
+        }
+        return onEndOfMedia;
+    }
+
+    /**
+     * Event handler invoked when the status changes to
+     * <code>READY</code>.
+     */
+    private ObjectProperty<Runnable> onReady; // Player is ready and media has prerolled
+
+    /**
+     * Sets the {@link Status#READY} event handler.
+     * @param value the event handler or <code>null</code>.
+     */
+    public final void setOnReady(Runnable value) {
+        onReadyProperty().set(value);
+    }
+
+    /**
+     * Retrieves the {@link Status#READY} event handler.
+     * @return the event handler or <code>null</code>.
+     */
+    public final Runnable getOnReady() {
+        return onReady == null ? null : onReady.get();
+    }
+
+    public ObjectProperty<Runnable> onReadyProperty() {
+        if (onReady == null) {
+            onReady = new SimpleObjectProperty<Runnable>(this, "onReady");
+        }
+        return onReady;
+    }
+
+    /**
+     * Event handler invoked when the status changes to
+     * <code>PLAYING</code>.
+     */
+    private ObjectProperty<Runnable> onPlaying; // Media has reached its end.
+
+    /**
+     * Sets the {@link Status#PLAYING} event handler.
+     * @param value the event handler or <code>null</code>.
+     */
+    public final void setOnPlaying(Runnable value) {
+        onPlayingProperty().set(value);
+    }
+
+    /**
+     * Retrieves the {@link Status#PLAYING} event handler.
+     * @return the event handler or <code>null</code>.
+     */
+    public final Runnable getOnPlaying() {
+        return onPlaying == null ? null : onPlaying.get();
+    }
+
+    public ObjectProperty<Runnable> onPlayingProperty() {
+        if (onPlaying == null) {
+            onPlaying = new SimpleObjectProperty<Runnable>(this, "onPlaying");
+        }
+        return onPlaying;
+    }
+
+    /**
+     * Event handler invoked when the status changes to <code>PAUSED</code>.
+     */
+    private ObjectProperty<Runnable> onPaused; // Media has reached its end.
+
+    /**
+     * Sets the {@link Status#PAUSED} event handler.
+     * @param value the event handler or <code>null</code>.
+     */
+    public final void setOnPaused(Runnable value) {
+        onPausedProperty().set(value);
+    }
+
+    /**
+     * Retrieves the {@link Status#PAUSED} event handler.
+     * @return the event handler or <code>null</code>.
+     */
+    public final Runnable getOnPaused() {
+        return onPaused == null ? null : onPaused.get();
+    }
+
+    public ObjectProperty<Runnable> onPausedProperty() {
+        if (onPaused == null) {
+            onPaused = new SimpleObjectProperty<Runnable>(this, "onPaused");
+        }
+        return onPaused;
+    }
+
+    /**
+     * Event handler invoked when the status changes to
+     * <code>STOPPED</code>.
+     */
+    private ObjectProperty<Runnable> onStopped; // Media has reached its end.
+
+    /**
+     * Sets the {@link Status#STOPPED} event handler.
+     * @param value the event handler or <code>null</code>.
+     */
+    public final void setOnStopped(Runnable value) {
+        onStoppedProperty().set(value);
+    }
+
+    /**
+     * Retrieves the {@link Status#STOPPED} event handler.
+     * @return the event handler or <code>null</code>.
+     */
+    public final Runnable getOnStopped() {
+        return onStopped == null ? null : onStopped.get();
+    }
+
+    public ObjectProperty<Runnable> onStoppedProperty() {
+        if (onStopped == null) {
+            onStopped = new SimpleObjectProperty<Runnable>(this, "onStopped");
+        }
+        return onStopped;
+    }
+
+    /**
+     * Event handler invoked when the status changes to <code>HALTED</code>.
+     */
+    private ObjectProperty<Runnable> onHalted; // Media caught an irrecoverable error.
+
+    /**
+     * Sets the {@link Status#HALTED} event handler.
+     * @param value the event handler or <code>null</code>.
+     */
+    public final void setOnHalted(Runnable value) {
+        onHaltedProperty().set(value);
+    }
+
+    /**
+     * Retrieves the {@link Status#HALTED} event handler.
+     * @return the event handler or <code>null</code>.
+     */
+    public final Runnable getOnHalted() {
+        return onHalted == null ? null : onHalted.get();
+    }
+
+    public ObjectProperty<Runnable> onHaltedProperty() {
+        if (onHalted == null) {
+            onHalted = new SimpleObjectProperty<Runnable>(this, "onHalted");
+        }
+        return onHalted;
+    }
+    /**
+     * Event handler invoked when the player <code>currentTime</code> reaches
+     * <code>stopTime</code> and <i>will be</i> repeating. This callback is made
+     * prior to seeking back to <code>startTime</code>.
+     *
+     * @see cycleCount
+     */
+    private ObjectProperty<Runnable> onRepeat;
+
+    /**
+     * Sets the repeat event handler.
+     * @param value the event handler or <code>null</code>.
+     */
+    public final void setOnRepeat(Runnable value) {
+        onRepeatProperty().set(value);
+    }
+
+    /**
+     * Retrieves the repeat event handler.
+     * @return the event handler or <code>null</code>.
+     */
+    public final Runnable getOnRepeat() {
+        return onRepeat == null ? null : onRepeat.get();
+    }
+
+    public ObjectProperty<Runnable> onRepeatProperty() {
+        if (onRepeat == null) {
+            onRepeat = new SimpleObjectProperty<Runnable>(this, "onRepeat");
+        }
+        return onRepeat;
+    }
+
+    /**
+     * Event handler invoked when the status changes to
+     * <code>STALLED</code>.
+     */
+    private ObjectProperty<Runnable> onStalled;
+
+    /**
+     * Sets the {@link Status#STALLED} event handler.
+     * @param value the event handler or <code>null</code>.
+     */
+    public final void setOnStalled(Runnable value) {
+        onStalledProperty().set(value);
+    }
+
+    /**
+     * Retrieves the {@link Status#STALLED} event handler.
+     * @return the event handler or <code>null</code>.
+     */
+    public final Runnable getOnStalled() {
+        return onStalled == null ? null : onStalled.get();
+    }
+
+    public ObjectProperty<Runnable> onStalledProperty() {
+        if (onStalled == null) {
+            onStalled = new SimpleObjectProperty<Runnable>(this, "onStalled");
+        }
+        return onStalled;
     }
 
     // For internal WebFX usage only
