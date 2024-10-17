@@ -36,7 +36,8 @@ jobs:
 
       # Build JavaDoc
       - name: Build JavaDoc
-        run: mvn -B javadoc:aggregate -Ddoclint=none -Dmaven.compiler.release=8 # Using Java 8 for now due to JavaDoc errors with modules
+        # Note: package is necessary only to prevent error with webfx-kit-javafxgraphics-fat-j2cl module which uses unpack
+        run: mvn -B package javadoc:aggregate -Ddoclint=none -Dmaven.compiler.release=8 # Using Java 8 for now due to JavaDoc errors with modules
 
       - name: Publish JavaDoc to ${{ env.web-push-branch }} branch
         uses: cpina/github-action-push-to-another-repository@master
