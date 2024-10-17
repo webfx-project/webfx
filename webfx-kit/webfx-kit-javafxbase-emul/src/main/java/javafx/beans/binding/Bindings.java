@@ -481,4 +481,43 @@ public final class Bindings {
         return Bindings.divide(op1, IntegerConstant.valueOf(op2), op1);
     }
 
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if a given {@link javafx.collections.ObservableList} is empty.
+     *
+     * @param op
+     *            the {@code ObservableList}
+     * @param <E> type of the {@code List} elements
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableList} is {@code null}
+     * @since JavaFX 2.1
+     */
+    public static <E> BooleanBinding isEmpty(final ObservableList<E> op) {
+        if (op == null) {
+            throw new NullPointerException("List cannot be null.");
+        }
+
+        return new BooleanBinding() {
+            {
+                super.bind(op);
+            }
+
+            @Override
+            public void dispose() {
+                super.unbind(op);
+            }
+
+            @Override
+            protected boolean computeValue() {
+                return op.isEmpty();
+            }
+
+            @Override
+            public ObservableList<?> getDependencies() {
+                return FXCollections.singletonObservableList(op);
+            }
+        };
+    }
+
 }

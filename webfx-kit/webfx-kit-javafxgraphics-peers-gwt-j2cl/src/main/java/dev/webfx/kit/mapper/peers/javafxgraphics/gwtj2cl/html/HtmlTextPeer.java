@@ -173,6 +173,11 @@ public final class HtmlTextPeer
     }
 
     @Override
+    public void updateStrikethrough(Boolean strikethrough) {
+        setElementStyleAttribute("text-decoration", Boolean.TRUE.equals(strikethrough) ? "line-through" : null);
+    }
+
+    @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
         setElementStyleAttribute("text-align", toCssTextAlignment(textAlignment));
         clearCache();

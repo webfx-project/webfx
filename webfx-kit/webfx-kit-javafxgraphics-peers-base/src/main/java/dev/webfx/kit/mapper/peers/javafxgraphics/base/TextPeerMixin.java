@@ -22,7 +22,10 @@ public interface TextPeerMixin
     void updateY(Double y);
 
     void updateWrappingWidth(Double wrappingWidth);
+
     void updateLineSpacing(Number lineSpacing);
+
+    void updateStrikethrough(Boolean strikethrough);
 
     void updateTextAlignment(TextAlignment textAlignment);
 

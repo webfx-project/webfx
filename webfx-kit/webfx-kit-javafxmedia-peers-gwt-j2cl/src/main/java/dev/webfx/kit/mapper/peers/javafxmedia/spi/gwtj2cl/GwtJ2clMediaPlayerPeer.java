@@ -66,7 +66,6 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
     private float[] magnitudes, phases;
     private int cycleCount = 1;
     private int playedCycleCount = 0;
-    private Runnable onEndOfMedia, onPlaying;
 
     public GwtJ2clMediaPlayerPeer(MediaPlayer mediaPlayer, boolean audioClip) {
         this.mediaPlayer = mediaPlayer;
@@ -145,8 +144,9 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
                 media.setDuration(duration);
         }
         // if requested, we set the player status to READY, checking however its status was UNKNOWN (initial state)
-        if (setMediaPlayerStatusToReady && mediaPlayer.getStatus() == MediaPlayer.Status.UNKNOWN)
+        if (setMediaPlayerStatusToReady && mediaPlayer.getStatus() == MediaPlayer.Status.UNKNOWN) {
             mediaPlayer.setStatus(MediaPlayer.Status.READY);
+        }
         return durationSeconds;
     }
 
@@ -513,21 +513,9 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
         this.listener = listener;
     }
 
-    @Override
-    public void setOnEndOfMedia(Runnable onEndOfMedia) {
-        this.onEndOfMedia = onEndOfMedia;
-    }
-
-    @Override
-    public void setOnPlaying(Runnable onPlaying) {
-        this.onPlaying = onPlaying;
-    }
-
     private void doOnPlaying() {
         if (!audioClip)
             mediaPlayer.setStatus(MediaPlayer.Status.PLAYING);
-        if (onPlaying != null)
-            onPlaying.run();
     }
 
     private void doOnEnded() {
@@ -538,16 +526,22 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
             return;
         }
         playedCycleCount++;
-        if (playedCycleCount < cycleCount)
+        if (playedCycleCount < cycleCount) {
             playOnceCycle();
-        else {
+            if (!audioClip) {
+                Runnable onRepeat = mediaPlayer.getOnRepeat();
+                if (onRepeat != null)
+                    onRepeat.run();
+            }
+        } else {
             if (!audioClip) {
                 stopMediaPlayerCurrentTimePropertyPeriodicSyncer();
                 mediaPlayer.setStatus(MediaPlayer.Status.STOPPED);
+                Runnable onEndOfMedia = mediaPlayer.getOnEndOfMedia();
+                if (onEndOfMedia != null)
+                    onEndOfMedia.run();
             }
             bufferSourceStartOffset = 0;
-            if (onEndOfMedia != null)
-                onEndOfMedia.run();
         }
     }
 

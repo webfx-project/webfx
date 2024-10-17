@@ -79,6 +79,11 @@ public final class SvgTextPeer
     }
 
     @Override
+    public void updateStrikethrough(Boolean strikethrough) {
+        // TODO: implement SVG strikethrough
+    }
+
+    @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
         setElementAttribute("text-anchor", textAlignmentToSvgTextAnchor(textAlignment));
     }
