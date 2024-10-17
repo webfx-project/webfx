@@ -12,7 +12,7 @@ jobs:
       # WebFX requires at least JDK 13 due to javac bugs in prior versions (otherwise JDK 11+ should be enough in theory)
       jdk-version: '19'
       repo-dir: .
-      target-javadoc-dir: ./target/site/apidocs
+      target-javadoc-dir: ./target/reports/apidocs
       web-push-repository-name:  'webfx-netlify'
       web-push-repository-owner: 'webfx-project'
       web-push-branch: 'javadoc'
@@ -36,7 +36,7 @@ jobs:
 
       # Build JavaDoc
       - name: Build JavaDoc
-        run: mvn -B package javadoc:aggregate -Ddoclint=none -Dmaven.compiler.release=8 # Using Java 8 for now due to JavaDoc errors with modules
+        run: mvn -B javadoc:aggregate -Ddoclint=none -Dmaven.compiler.release=8 # Using Java 8 for now due to JavaDoc errors with modules
 
       - name: Publish JavaDoc to ${{ env.web-push-branch }} branch
         uses: cpina/github-action-push-to-another-repository@master
