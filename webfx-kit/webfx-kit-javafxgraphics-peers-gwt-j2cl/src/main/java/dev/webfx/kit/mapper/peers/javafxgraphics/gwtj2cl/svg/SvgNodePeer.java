@@ -198,23 +198,25 @@ public abstract class SvgNodePeer
     }
 
     static String vPosToSvgAlignmentBaseLine(VPos vpos) {
-        if (vpos != null)
+        if (vpos != null) {
             switch (vpos) {
                 case TOP: return "text-before-edge";
                 case CENTER: return "central";
                 case BASELINE: return "baseline";
                 case BOTTOM: return "text-after-edge";
             }
+        }
         return null;
     }
 
     static String textAlignmentToSvgTextAnchor(TextAlignment textAlignment) {
-        if (textAlignment != null)
+        if (textAlignment != null) {
             switch (textAlignment) {
                 case LEFT: return "start";
                 case CENTER: return "middle";
                 case RIGHT: return "end";
             }
+        }
         return null;
     }
 }

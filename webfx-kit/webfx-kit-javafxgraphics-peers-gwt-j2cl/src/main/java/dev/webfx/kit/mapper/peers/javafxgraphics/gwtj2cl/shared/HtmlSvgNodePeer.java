@@ -557,7 +557,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected String getStyleAttribute(String name) {
-        if (containerType == DomType.HTML)
+        if (containerType == DomType.HTML) {
             switch (name) {
                 case "pointer-events": return "pointerEvents";
                 case "clip-path": return "clipPath";
@@ -572,6 +572,7 @@ public abstract class HtmlSvgNodePeer
                 case "transform":
                     return name;
             }
+        }
         return null;
     }
 

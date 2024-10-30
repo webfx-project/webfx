@@ -106,12 +106,13 @@ public abstract class HtmlNodePeer
     }
 
     public static String toCssTextAlignment(TextAlignment textAlignment) {
-        if (textAlignment != null)
+        if (textAlignment != null) {
             switch (textAlignment) {
                 case LEFT: return "left";
                 case CENTER: return "center";
                 case RIGHT: return "right";
             }
+        }
         return null;
     }
 
@@ -120,12 +121,13 @@ public abstract class HtmlNodePeer
     }
 
     static String toCssTextAlignment(HPos hPos) {
-        if (hPos != null)
+        if (hPos != null) {
             switch (hPos) {
                 case LEFT: return "left";
                 case CENTER: return "center";
                 case RIGHT: return "right";
             }
+        }
         return null;
     }
 

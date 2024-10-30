@@ -141,7 +141,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private static String toCompositeOperation(BlendMode op) {
-        if (op != null)
+        if (op != null) {
             switch (op) {
                 case DARKEN: return "darken";
                 case SCREEN: return "screen";
@@ -161,6 +161,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                 case BLUE: // ??
                 case GREEN: // ??
             }
+        }
         return null;
     }
 
@@ -338,13 +339,14 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private static String toCssBaseLine(VPos baseline) {
-        if (baseline != null)
+        if (baseline != null) {
             switch (baseline) {
                 case TOP: return "top";
                 case CENTER: return "middle";
                 case BASELINE: return "alphabetic";
                 case BOTTOM: return "bottom";
             }
+        }
         return null;
     }
 

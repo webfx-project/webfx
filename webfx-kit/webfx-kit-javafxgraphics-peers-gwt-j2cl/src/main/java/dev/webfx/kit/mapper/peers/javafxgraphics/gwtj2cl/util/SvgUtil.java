@@ -117,32 +117,35 @@ public final class SvgUtil {
     }
 
     public static String toSvgStrokeLineCap(StrokeLineCap strokeLineCap) {
-        if (strokeLineCap != null)
+        if (strokeLineCap != null) {
             switch (strokeLineCap) {
                 case BUTT: return "butt";
                 case ROUND: return "round";
                 case SQUARE: return "square";
             }
+        }
         return null;
     }
 
     public static String toSvgStrokeLineJoin(StrokeLineJoin strokeLineJoin) {
-        if (strokeLineJoin != null)
+        if (strokeLineJoin != null) {
             switch (strokeLineJoin) {
                 case BEVEL: return "bevel";
                 case MITER: return "miter";
                 case ROUND: return "round";
             }
+        }
         return null;
     }
 
     public static String toSvgStrokeAlignment(StrokeType strokeType) {
-        if (strokeType != null)
+        if (strokeType != null) {
             switch (strokeType) {
                 case CENTERED: return "center";
                 case INSIDE: return "inner";
                 case OUTSIDE: return "outer";
             }
+        }
         return null;
     }
 }
