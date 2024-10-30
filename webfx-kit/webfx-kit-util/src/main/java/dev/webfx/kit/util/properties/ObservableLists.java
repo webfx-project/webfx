@@ -4,8 +4,8 @@ import dev.webfx.platform.util.Arrays;
 import dev.webfx.platform.util.Objects;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Converter;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanExpression;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -75,9 +75,7 @@ public final class ObservableLists {
     }
 
     public static <T> BooleanExpression isEmpty(ObservableList<T> list) {
-        SimpleBooleanProperty isEmpty = new SimpleBooleanProperty(list.isEmpty());
-        runOnListChange(c -> isEmpty.setValue(list.isEmpty()), list);
-        return isEmpty;
+        return Bindings.isEmpty(list);
     }
 
 }
