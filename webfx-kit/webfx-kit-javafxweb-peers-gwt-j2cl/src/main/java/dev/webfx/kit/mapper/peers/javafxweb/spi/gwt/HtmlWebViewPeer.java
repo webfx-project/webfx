@@ -43,7 +43,7 @@ public class HtmlWebViewPeer
         HtmlUtil.setStyleAttribute(iFrame, "height", "100%"); // 100% of <fx-webview>
         // Allowing fullscreen and autoplay for videos
         iFrame.allow = "fullscreen; autoplay"; // new way
-        HtmlUtil.setAttribute(iFrame, "allowfullscreen", "true"); // old way (must be executed second otherwise warning)
+        //HtmlUtil.setAttribute(iFrame, "allowfullscreen", "true"); // old way (must be executed second otherwise warning)
         // Focus management.
         // 1) Detecting when the iFrame gained focus
         DomGlobal.window.addEventListener("blur", e -> { // when iFrame gained focus, the parent window lost focus
@@ -68,6 +68,24 @@ public class HtmlWebViewPeer
 
     public HTMLIFrameElement getIFrame() { // called by GwtWebEnginePeer
         return iFrame;
+    }
+
+    private Window getSafeContentWindow() {
+        try {
+            return iFrame.contentWindow; // May raise a SecurityError (or be null) if not from the same origin
+        } catch (Exception e) {
+            logDebug("⚠️ Browser is blocking access to iFrame.contentWindow");
+            return null;
+        }
+    }
+
+    private Document getSafeContentDocument() {
+        try {
+            return iFrame.contentDocument; // May raises a SecurityError (or be null) if not from the same origin
+        } catch (Exception e) {
+            logDebug("⚠️ Browser is blocking access to iFrame.contentDocument");
+            return null;
+        }
     }
 
     private void reportError() {
@@ -102,14 +120,16 @@ public class HtmlWebViewPeer
         if (url == null) {
             if (!Strings.isEmpty(iFrame.src))
                 iFrame.src = "";
+            //setWebEngineLoadWorkerState(Worker.State.READY);
         } else {
             resetWebEngineLoadWorkerState();
             // WebFX proposes different loading mode for the iFrame:
             Object webfxLoadingMode = getNode().getProperties().get("webfx-loadingMode");
-            if ("prefetch".equals(webfxLoadingMode)) { // prefetch mode
+            Window contentWindow = getSafeContentWindow();
+            if ("prefetch".equals(webfxLoadingMode) && contentWindow != null) { // prefetch mode
                 // For a better error reporting, we prefetch the url, and then inject the result into the iFrame, but
                 // this alternative loading mode is not perfect either, as it may face security issue like CORS.
-                iFrame.contentWindow.fetch(url)
+                contentWindow.fetch(url)
                         .then(response -> {
                             response.text().then(text -> {
                                 setWebEngineLoadWorkerState(Worker.State.RUNNING);
@@ -128,7 +148,7 @@ public class HtmlWebViewPeer
                             return null;
                         });
             } else { // Standard or replace mode
-                if (!"replace".equals(webfxLoadingMode) || iFrame.contentWindow == null) { // Standard mode
+                if (!"replace".equals(webfxLoadingMode) || contentWindow == null) { // Standard mode
                     iFrame.src = url; // Standard way to load an iFrame
                     // But it has 2 downsides (which is why webfx proposes alternative loading modes):
                     // 1) it doesn't report any network errors (iFrame.onerror not called). Issue addressed by the webfx
@@ -141,7 +161,7 @@ public class HtmlWebViewPeer
                     // Using iframe location replace() instead of setting iFrame.src has the benefit to not interfere with
                     // the parent window history (see explanation in standard loading mode below). However, it doesn't work
                     // in all situations (ex: embed YouTube videos are not loading in this mode).
-                    iFrame.contentWindow.location.replace(url);
+                    contentWindow.location.replace(url);
                 }
                 // TODO: extend the following state management to the prefetch mode as well
                 // We also need to continue updating the web engine load worker state to report how the loading is going
@@ -219,8 +239,7 @@ public class HtmlWebViewPeer
     }
 
     private String getIFrameDocumentReadyState() {
-        // Note: iFrame.contentDocument can be inaccessible (returns null) with cross-origin
-        Document contentDocument = iFrame.contentDocument;
+        Document contentDocument = getSafeContentDocument();
         return contentDocument == null ? null : contentDocument.readyState.toLowerCase();
     }
 
@@ -231,6 +250,7 @@ public class HtmlWebViewPeer
             if (onLoadAlreadyCalled) { // We stop the checker at this point (otherwise it can run indefinitely on null state)
                 logDebug("Stopping iFrame state checker because readyState is null");
                 stopIFrameStateChecker();
+                //setWebEngineLoadWorkerState(Worker.State.FAILED);
             }
         } else {
             switch (readyState) {
@@ -249,14 +269,18 @@ public class HtmlWebViewPeer
                     setWebEngineLoadWorkerState(Worker.State.SUCCEEDED);
                     break;
                 default:
-                    DomGlobal.console.log("Unknown iFrame readyState: " + readyState);
+                    log("Unknown iFrame readyState: " + readyState);
             }
         }
     }
 
-    private static void logDebug(String message) {
+    private void logDebug(String message) {
         if (DEBUG)
-            DomGlobal.console.log(message);
+            log(message);
+    }
+
+    private void log(String message) {
+        DomGlobal.console.log(message + " | " + this);
     }
 
 }
