@@ -30,10 +30,28 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
         return null;
     }
 
+    private Window getSafeContentWindow(HTMLIFrameElement iFrame) {
+        try {
+            return iFrame == null ? null : iFrame.contentWindow;
+        } catch (Exception e) {
+            Console.log("⚠️ Browser is blocking access to iFrame.contentWindow | " + this);
+            return null;
+        }
+    }
+
+    private Document getSafeContentDocument(HTMLIFrameElement iFrame) {
+        try {
+            return iFrame == null ? null : iFrame.contentDocument;
+        } catch (Exception e) {
+            Console.log("⚠️ Browser is blocking access to iFrame.contentDocument | " + this);
+            return null;
+        }
+    }
+
     private Window getScriptWindow() {
         HTMLIFrameElement iFrame = getIFrame();
         // contentWindow is set only once the iFrame is inserted to the DOM, before that it is null
-        Window iFrameWindow = iFrame == null ? null : iFrame.contentWindow;
+        Window iFrameWindow = getSafeContentWindow(iFrame);
         if (iFrameWindow == null && webEngine.getWebView() == null)
             iFrameWindow = DomGlobal.window;
         return iFrameWindow;
@@ -41,7 +59,7 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
 
     private Document getDocument() {
         HTMLIFrameElement iFrame = getIFrame();
-        Document iFrameDocument = iFrame == null ? null : iFrame.contentDocument;
+        Document iFrameDocument = getSafeContentDocument(iFrame);
         return iFrameDocument != null ? iFrameDocument : DomGlobal.document;
     }
 
@@ -53,7 +71,8 @@ final class GwtWebEnginePeer extends WebEnginePeerBase {
                 return GwtJSObject.wrapJSObject(scriptWindow);
             return GwtJSObject.eval(scriptWindow, script);
         }
-        Console.log("⚠️ Couldn't execute script because the webEngine window is not ready (" + (getIFrame() == null ? "iFrame is null)" : getIFrame().contentWindow == null ? "iFrame.contentWindow is null)" : "???)"));
+        HTMLIFrameElement iFrame = getIFrame();
+        Console.log("⚠️ Couldn't execute script because the webEngine window is not ready (" + (iFrame == null ? "iFrame is null)" : getSafeContentWindow(iFrame) == null ? "iFrame.contentWindow is null)" : "???)"));
         return null;
     }
 
