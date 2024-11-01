@@ -1,9 +1,10 @@
 package javafx.scene.media;
 
 import com.gluonhq.attach.storage.StorageService;
-import dev.webfx.platform.console.Console;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.audio.Audio;
 import dev.webfx.platform.audio.AudioService;
+import dev.webfx.platform.console.Console;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.scheduler.Scheduler;
 import dev.webfx.platform.uischeduler.UiScheduler;
@@ -87,6 +88,7 @@ public class MediaPlayer {
      * time within the media is performed, playing will continue from the
      * new media time.
      * </p>
+     *
      * @since JavaFX 2.0
      */
     public enum Status {
@@ -136,10 +138,12 @@ public class MediaPlayer {
          * State of the player after dispose() method is invoked. This state indicates
          * player is disposed, all resources are free and player SHOULD NOT be used again.
          * <code>Media</code> and <code>MediaView</code> objects associated with disposed player can be reused.
+         *
          * @since JavaFX 8.0
          */
         DISPOSED
     }
+
     public static final int INDEFINITE = -1; // Note: this is a count, not a Duration.
     private static File privateStorage;
 
@@ -150,15 +154,12 @@ public class MediaPlayer {
     private Scheduled mediaPlayerCurrentTimePeriodicSyncer;
 
     private final ObjectProperty<Duration> currentTimeProperty = new SimpleObjectProperty<>(Duration.ZERO);
-    private final ObjectProperty<Status> statusProperty = new SimpleObjectProperty<>(Status.UNKNOWN) {
-        @Override
-        protected void invalidated() {
-            if (playWhenReady && get() == Status.READY) {
-                playWhenReady = false;
-                play();
-            }
+    private final ObjectProperty<Status> statusProperty = FXProperties.newObjectProperty(Status.UNKNOWN, status -> {
+        if (playWhenReady && status == Status.READY) {
+            playWhenReady = false;
+            play();
         }
-    };
+    });
 
     public MediaPlayer(Media media) {
         this.media = media;
@@ -169,28 +170,30 @@ public class MediaPlayer {
             if (extForm.startsWith("http")) {
                 if (privateStorage == null) {
                     privateStorage = StorageService.create()
-                            .flatMap(StorageService::getPrivateStorage)
-                            .orElseThrow(() -> new RuntimeException("Error accessing Private Storage folder"));
+                        .flatMap(StorageService::getPrivateStorage)
+                        .orElseThrow(() -> new RuntimeException("Error accessing Private Storage folder"));
                 }
                 String fileName = extForm.substring(extForm.lastIndexOf("/") + 1);
                 Path file = privateStorage.toPath()
-                        .resolve("assets")
-                        .resolve("audio")
-                        .resolve(fileName);
+                    .resolve("assets")
+                    .resolve("audio")
+                    .resolve(fileName);
                 audioFileReady = Files.exists(file);
                 if (!audioFileReady) {
                     if (!Files.exists(file.getParent()))
                         Files.createDirectories(file.getParent());
-                    Scheduler.runInBackground(() -> { try {
-                        Console.log("[WebFX Platform]: Downloading " + extForm);
-                        InputStream in = url.openStream();
-                        Files.copy(in, file, StandardCopyOption.REPLACE_EXISTING);
-                        Console.log("[WebFX Platform]: File size: " + Files.size(file));
-                        UiScheduler.runInUiThread(() -> loadGluonMusicNow(extForm));
-                    } catch (IOException e) {
-                        Console.log("[WebFX Platform]: Error while downloading " + extForm, e);
-                        statusProperty.set(Status.HALTED);
-                    }});
+                    Scheduler.runInBackground(() -> {
+                        try {
+                            Console.log("[WebFX Platform]: Downloading " + extForm);
+                            InputStream in = url.openStream();
+                            Files.copy(in, file, StandardCopyOption.REPLACE_EXISTING);
+                            Console.log("[WebFX Platform]: File size: " + Files.size(file));
+                            UiScheduler.runInUiThread(() -> loadGluonMusicNow(extForm));
+                        } catch (IOException e) {
+                            Console.log("[WebFX Platform]: Error while downloading " + extForm, e);
+                            statusProperty.set(Status.HALTED);
+                        }
+                    });
                 }
             }
             if (audioFileReady)
@@ -234,6 +237,7 @@ public class MediaPlayer {
             mediaPlayerCurrentTimePeriodicSyncer = Scheduler.schedulePeriodic(250, this::syncMediaPlayerCurrentTime);
         }
     }
+
     private void syncMediaPlayerCurrentTime() {
         currentTimeProperty.set(Duration.millis(stopWatch.getStopWatchElapsedTime()));
     }

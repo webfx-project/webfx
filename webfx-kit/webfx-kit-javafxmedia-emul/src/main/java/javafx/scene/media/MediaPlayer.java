@@ -2,6 +2,7 @@ package javafx.scene.media;
 
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import dev.webfx.kit.mapper.peers.javafxmedia.WebFxKitMediaMapper;
+import dev.webfx.kit.util.properties.FXProperties;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -74,6 +75,7 @@ public class MediaPlayer {
      * time within the media is performed, playing will continue from the
      * new media time.
      * </p>
+     *
      * @since JavaFX 2.0
      */
     public enum Status {
@@ -123,10 +125,12 @@ public class MediaPlayer {
          * State of the player after dispose() method is invoked. This state indicates
          * player is disposed, all resources are free and player SHOULD NOT be used again.
          * <code>Media</code> and <code>MediaView</code> objects associated with disposed player can be reused.
+         *
          * @since JavaFX 8.0
          */
         DISPOSED
     }
+
     public static final int INDEFINITE = -1; // Note: this is a count, not a Duration.
 
     private final Media media;
@@ -192,6 +196,7 @@ public class MediaPlayer {
 
     /**
      * Sets the value of the audio spectrum notification interval in seconds.
+     *
      * @param value a positive value specifying the spectral update interval
      */
     public final void setAudioSpectrumInterval(double value) {
@@ -200,6 +205,7 @@ public class MediaPlayer {
 
     /**
      * Sets the number of bands in the audio spectrum.
+     *
      * @param value the number of spectral bands; <code>value</code>must be &ge; 2
      */
     public final void setAudioSpectrumNumBands(int value) {
@@ -221,25 +227,28 @@ public class MediaPlayer {
 
     public ReadOnlyObjectProperty<Status> statusProperty() {
         if (statusProperty == null)
-            statusProperty = new SimpleObjectProperty<>(Status.UNKNOWN) {
-                @Override
-                protected void invalidated() {
-                    Runnable statusRunnable = getStatusRunnable();
-                    if (statusRunnable != null)
-                        statusRunnable.run();
-                }
-            };
+            statusProperty = FXProperties.newObjectProperty(Status.UNKNOWN, () -> {
+                Runnable statusRunnable = getStatusRunnable();
+                if (statusRunnable != null)
+                    statusRunnable.run();
+            });
         return statusProperty;
     }
 
     private Runnable getStatusRunnable() {
         switch (getStatus()) {
-            case READY:   return getOnReady();
-            case PAUSED:  return getOnPaused();
-            case PLAYING: return getOnPlaying();
-            case STOPPED: return getOnStopped();
-            case STALLED: return getOnStalled();
-            case HALTED:  return getOnHalted();
+            case READY:
+                return getOnReady();
+            case PAUSED:
+                return getOnPaused();
+            case PLAYING:
+                return getOnPlaying();
+            case STOPPED:
+                return getOnStopped();
+            case STALLED:
+                return getOnStalled();
+            case HALTED:
+                return getOnHalted();
         }
         // Note: onRepeat & endOfMedia are not called by this class, this responsibility is delegated to the peer
         return null;
@@ -253,6 +262,7 @@ public class MediaPlayer {
 
     /**
      * Sets the end of media event handler.
+     *
      * @param value the event handler or <code>null</code>.
      */
     public final void setOnEndOfMedia(Runnable value) {
@@ -261,6 +271,7 @@ public class MediaPlayer {
 
     /**
      * Retrieves the end of media event handler.
+     *
      * @return the event handler or <code>null</code>.
      */
     public final Runnable getOnEndOfMedia() {
@@ -282,6 +293,7 @@ public class MediaPlayer {
 
     /**
      * Sets the {@link Status#READY} event handler.
+     *
      * @param value the event handler or <code>null</code>.
      */
     public final void setOnReady(Runnable value) {
@@ -290,6 +302,7 @@ public class MediaPlayer {
 
     /**
      * Retrieves the {@link Status#READY} event handler.
+     *
      * @return the event handler or <code>null</code>.
      */
     public final Runnable getOnReady() {
@@ -311,6 +324,7 @@ public class MediaPlayer {
 
     /**
      * Sets the {@link Status#PLAYING} event handler.
+     *
      * @param value the event handler or <code>null</code>.
      */
     public final void setOnPlaying(Runnable value) {
@@ -319,6 +333,7 @@ public class MediaPlayer {
 
     /**
      * Retrieves the {@link Status#PLAYING} event handler.
+     *
      * @return the event handler or <code>null</code>.
      */
     public final Runnable getOnPlaying() {
@@ -339,6 +354,7 @@ public class MediaPlayer {
 
     /**
      * Sets the {@link Status#PAUSED} event handler.
+     *
      * @param value the event handler or <code>null</code>.
      */
     public final void setOnPaused(Runnable value) {
@@ -347,6 +363,7 @@ public class MediaPlayer {
 
     /**
      * Retrieves the {@link Status#PAUSED} event handler.
+     *
      * @return the event handler or <code>null</code>.
      */
     public final Runnable getOnPaused() {
@@ -368,6 +385,7 @@ public class MediaPlayer {
 
     /**
      * Sets the {@link Status#STOPPED} event handler.
+     *
      * @param value the event handler or <code>null</code>.
      */
     public final void setOnStopped(Runnable value) {
@@ -376,6 +394,7 @@ public class MediaPlayer {
 
     /**
      * Retrieves the {@link Status#STOPPED} event handler.
+     *
      * @return the event handler or <code>null</code>.
      */
     public final Runnable getOnStopped() {
@@ -396,6 +415,7 @@ public class MediaPlayer {
 
     /**
      * Sets the {@link Status#HALTED} event handler.
+     *
      * @param value the event handler or <code>null</code>.
      */
     public final void setOnHalted(Runnable value) {
@@ -404,6 +424,7 @@ public class MediaPlayer {
 
     /**
      * Retrieves the {@link Status#HALTED} event handler.
+     *
      * @return the event handler or <code>null</code>.
      */
     public final Runnable getOnHalted() {
@@ -416,6 +437,7 @@ public class MediaPlayer {
         }
         return onHalted;
     }
+
     /**
      * Event handler invoked when the player <code>currentTime</code> reaches
      * <code>stopTime</code> and <i>will be</i> repeating. This callback is made
@@ -427,6 +449,7 @@ public class MediaPlayer {
 
     /**
      * Sets the repeat event handler.
+     *
      * @param value the event handler or <code>null</code>.
      */
     public final void setOnRepeat(Runnable value) {
@@ -435,6 +458,7 @@ public class MediaPlayer {
 
     /**
      * Retrieves the repeat event handler.
+     *
      * @return the event handler or <code>null</code>.
      */
     public final Runnable getOnRepeat() {
@@ -456,6 +480,7 @@ public class MediaPlayer {
 
     /**
      * Sets the {@link Status#STALLED} event handler.
+     *
      * @param value the event handler or <code>null</code>.
      */
     public final void setOnStalled(Runnable value) {
@@ -464,6 +489,7 @@ public class MediaPlayer {
 
     /**
      * Retrieves the {@link Status#STALLED} event handler.
+     *
      * @return the event handler or <code>null</code>.
      */
     public final Runnable getOnStalled() {

@@ -1,7 +1,6 @@
 package dev.webfx.kit.util.properties;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import dev.webfx.platform.util.collection.Collections;
@@ -125,32 +124,115 @@ public final class FXProperties {
 
     public static <A, B> void bindConvertedBidirectional(Property<A> pA, Property<B> pB, Function<B, A> baConverter, Function<A, B> abConverter) {
         boolean[] converting = { false };
-        pB.addListener(new ChangeListener<B>() {
-            @Override
-            public void changed(ObservableValue<? extends B> observable, B oldValue, B newValue) {
-                if (!converting[0]) {
-                    converting[0] = true;
-                    try {
-                        pA.setValue(baConverter.apply(newValue));
-                    } finally {
-                        converting[0] = false;
-                    }
+        pB.addListener((observable, oldValue, newValue) -> {
+            if (!converting[0]) {
+                converting[0] = true;
+                try {
+                    pA.setValue(baConverter.apply(newValue));
+                } finally {
+                    converting[0] = false;
                 }
             }
         });
-        pA.addListener(new ChangeListener<A>() {
-            @Override
-            public void changed(ObservableValue<? extends A> observable, A oldValue, A newValue) {
-                if (!converting[0]) {
-                    converting[0] = true;
-                    try {
-                        pB.setValue(abConverter.apply(newValue));
-                    } finally {
-                        converting[0] = false;
-                    }
+        pA.addListener((observable, oldValue, newValue) -> {
+            if (!converting[0]) {
+                converting[0] = true;
+                try {
+                    pB.setValue(abConverter.apply(newValue));
+                } finally {
+                    converting[0] = false;
                 }
             }
         });
     }
+
+    public static BooleanProperty newBooleanProperty(boolean initialValue, Consumer<Boolean> onInvalidated) {
+        return new SimpleBooleanProperty(initialValue) {
+            @Override
+            protected void invalidated() {
+                if (onInvalidated != null)
+                    onInvalidated.accept(get());
+            }
+        };
+    }
+
+    public static BooleanProperty newBooleanProperty(boolean initialValue, Runnable onInvalidated) {
+        return newBooleanProperty(initialValue, e -> onInvalidated.run());
+    }
+
+    public static BooleanProperty newBooleanProperty(Consumer<Boolean> onInvalidated) {
+        return newBooleanProperty(false, onInvalidated);
+    }
+
+    public static BooleanProperty newBooleanProperty(Runnable onInvalidated) {
+        return newBooleanProperty(false, onInvalidated);
+    }
+
+    public static IntegerProperty newIntegerProperty(int initialValue, Consumer<Integer> onInvalidated) {
+        return new SimpleIntegerProperty(initialValue) {
+            @Override
+            protected void invalidated() {
+                if (onInvalidated != null)
+                    onInvalidated.accept(get());
+            }
+        };
+    }
+
+    public static IntegerProperty newIntegerProperty(int initialValue, Runnable onInvalidated) {
+        return newIntegerProperty(initialValue, e -> onInvalidated.run());
+    }
+
+    public static IntegerProperty newIntegerProperty(Consumer<Integer> onInvalidated) {
+        return newIntegerProperty(0, onInvalidated);
+    }
+
+    public static IntegerProperty newIntegerProperty(Runnable onInvalidated) {
+        return newIntegerProperty(0, onInvalidated);
+    }
+
+    public static <T> ObjectProperty<T> newObjectProperty(T initialValue, Consumer<T> onInvalidated) {
+        return new SimpleObjectProperty<>(initialValue) {
+            @Override
+            protected void invalidated() {
+                if (onInvalidated != null)
+                    onInvalidated.accept(get());
+            }
+        };
+    }
+
+    public static DoubleProperty newDoubleProperty(double initialValue, Consumer<Double> onInvalidated) {
+        return new SimpleDoubleProperty(initialValue) {
+            @Override
+            protected void invalidated() {
+                if (onInvalidated != null)
+                    onInvalidated.accept(get());
+            }
+        };
+    }
+
+    public static DoubleProperty newDoubleProperty(double initialValue, Runnable onInvalidated) {
+        return newDoubleProperty(initialValue, e -> onInvalidated.run());
+    }
+
+    public static DoubleProperty newDoubleProperty(Consumer<Double> onInvalidated) {
+        return newDoubleProperty(0, onInvalidated);
+    }
+
+    public static DoubleProperty newDoubleProperty(Runnable onInvalidated) {
+        return newDoubleProperty(0, onInvalidated);
+    }
+
+    public static <T> ObjectProperty<T> newObjectProperty(T initialValue, Runnable onInvalidated) {
+        return newObjectProperty(initialValue, e -> onInvalidated.run());
+    }
+
+    public static <T> ObjectProperty<T> newObjectProperty(Consumer<T> onInvalidated) {
+        return newObjectProperty(null, onInvalidated);
+    }
+
+    public static <T> ObjectProperty<T> newObjectProperty(Runnable onInvalidated) {
+        return newObjectProperty(null, onInvalidated);
+    }
+
 
 }
