@@ -6,6 +6,7 @@ import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Converter;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanExpression;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -72,6 +73,16 @@ public final class ObservableLists {
 
     public static <T> void runOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
         list.addListener(listener);
+    }
+
+    public static <T> void runNowAndOnListOrPropertiesChange(ListChangeListener<T> listener, ObservableList<T> list, ObservableValue... properties) {
+        listener.onChanged(null);
+        runOnListOrPropertiesChange(listener, list, properties);
+    }
+
+    public static <T> void runOnListOrPropertiesChange(ListChangeListener<T> listener, ObservableList<T> list, ObservableValue... properties) {
+        runOnListChange(listener, list);
+        FXProperties.runOnPropertiesChange(() -> listener.onChanged(null), properties);
     }
 
     public static <T> BooleanExpression isEmpty(ObservableList<T> list) {
