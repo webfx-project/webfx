@@ -1,9 +1,10 @@
 package dev.webfx.kit.util.properties;
 
+import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.collection.Collections;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import dev.webfx.platform.util.collection.Collections;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -54,11 +55,21 @@ public final class FXProperties {
         return runOnPropertiesChange(p -> runnable.run(), properties);
     }
 
+    public static <T> ObservableValue<T> deferredProperty(ObservableValue<T> p) {
+        Property<T> dp = new SimpleObjectProperty<>();
+        dp.setValue(p.getValue());
+        FXProperties.runOnPropertiesChange(() -> UiScheduler.scheduleDeferred(() -> dp.setValue(p.getValue())), p);
+        return dp;
+    }
 
     public static <T, R> ObservableValue<R> compute(ObservableValue<? extends T> p, Function<? super T, ? extends R> function) {
         Property<R> combinedProperty = new SimpleObjectProperty<>();
-        runNowAndOnPropertiesChange(arg -> combinedProperty.setValue(function.apply(p.getValue())), p);
+        runNowAndOnPropertiesChange(o -> combinedProperty.setValue(function.apply(p.getValue())), p);
         return combinedProperty;
+    }
+
+    public static <T, R> ObservableValue<R> computeDeferred(ObservableValue<? extends T> p, Function<? super T, ? extends R> function) {
+        return compute(deferredProperty(p), function);
     }
 
     public static <T1, T2, R> ObservableValue<R> combine(ObservableValue<? extends T1> p1, ObservableValue<? extends T2> p2, BiFunction<? super T1, ? super T2, ? extends R> combineFunction) {
@@ -233,6 +244,5 @@ public final class FXProperties {
     public static <T> ObjectProperty<T> newObjectProperty(Runnable onInvalidated) {
         return newObjectProperty(null, onInvalidated);
     }
-
 
 }
