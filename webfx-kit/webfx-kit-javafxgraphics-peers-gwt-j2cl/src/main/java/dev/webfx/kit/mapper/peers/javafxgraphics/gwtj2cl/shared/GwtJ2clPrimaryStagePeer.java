@@ -21,6 +21,9 @@ import static elemental2.dom.DomGlobal.window;
  */
 public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
 
+    // Can be set to true when debugging Scheduler for other purposes than this class (reduces Scheduler sollicitations,
+    private static final boolean SKIP_TRACK_WINDOW_POSITION_DEBUG_FLAG = false; // especially in Browser dev tools)
+
     // Variable that will contain the correction to apply on HTML window.screenY, because browsers return a wrong value!
     // What WebFX expects from window.screenY is to return the position on the screen of the top left corner of the
     // browser PAGE (good). However, browsers (at least on macOS) return the position of the top left corner of the
@@ -59,10 +62,12 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
         // Now we are managing the subsequent window position changes. There is no listener in HTML for that, so we will
         // need to set a periodic timer. However, we can assume that this is necessary only when the mouse is outside
         // the page. So we start that timer only when the mouse leaves the page.
-        document.addEventListener("mouseleave", e -> {
-            if (windowPositionWatcher == null)
-                windowPositionWatcher = UiScheduler.schedulePeriodicInAnimationFrame(this::fireEventIfLocationChanged);
-        });
+        if (!SKIP_TRACK_WINDOW_POSITION_DEBUG_FLAG) {
+            document.addEventListener("mouseleave", e -> {
+                if (windowPositionWatcher == null)
+                    windowPositionWatcher = UiScheduler.schedulePeriodicInAnimationFrame(this::fireEventIfLocationChanged);
+            });
+        }
         // And we stop that timer when the mouse enters the page again.
         document.addEventListener("mouseenter", e -> {
             if (windowPositionWatcher != null) {
