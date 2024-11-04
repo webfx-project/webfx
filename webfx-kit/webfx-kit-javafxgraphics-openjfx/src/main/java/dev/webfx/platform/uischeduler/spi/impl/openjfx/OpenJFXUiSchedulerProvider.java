@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 /**
  * @author Bruno Salmon
  */
-public final class FxUiSchedulerProvider extends UiSchedulerProviderBase {
+public final class OpenJFXUiSchedulerProvider extends UiSchedulerProviderBase {
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
 

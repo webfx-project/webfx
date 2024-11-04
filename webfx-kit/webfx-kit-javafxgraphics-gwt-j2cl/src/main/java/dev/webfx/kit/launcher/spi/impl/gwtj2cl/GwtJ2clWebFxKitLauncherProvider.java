@@ -4,6 +4,7 @@ import com.sun.javafx.application.ParametersImpl;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.kit.mapper.WebFxKitMapper;
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.CanvasElementHelper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.Context2DHelper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlNodePeer;
@@ -28,6 +29,7 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -292,5 +294,36 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
             Numbers.doubleValue(Strings.removeSuffix(bottom, "px")),
             Numbers.doubleValue(Strings.removeSuffix(left, "px"))
         ));
+    }
+
+    @Override
+    public boolean isFullscreenEnabled() {
+        return DomGlobal.document.fullscreenEnabled;
+    }
+
+    @Override
+    public boolean requestNodeFullscreen(Node node) {
+        if (!isFullscreenEnabled())
+            return false;
+        NodePeer nodePeer = node == null ? null : node.getOrCreateAndBindNodePeer();
+        if (nodePeer instanceof HtmlNodePeer) {
+            ((HtmlNodePeer) node.getNodePeer()).getElement().requestFullscreen();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean exitFullscreen() {
+        if (DomGlobal.document.fullscreenElement == null && !getPrimaryStage().isFullScreen())
+            return false;
+        DomGlobal.document.exitFullscreen();
+        return true;
+    }
+
+    {
+        DomGlobal.document.addEventListener("fullscreenchange", e ->
+            getPrimaryStage().fullScreenPropertyImpl().set(DomGlobal.document.fullscreenElement != null)
+        );
     }
 }
