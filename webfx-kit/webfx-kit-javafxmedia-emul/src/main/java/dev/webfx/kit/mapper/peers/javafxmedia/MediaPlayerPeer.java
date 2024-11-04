@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxmedia;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.util.Duration;
@@ -26,6 +27,8 @@ public interface MediaPlayerPeer {
     Duration getCurrentTime();
 
     ObjectProperty<Duration> mediaPlayerCurrentTimeProperty();
+
+    BooleanProperty muteProperty();
 
     void setAudioSpectrumInterval(double value);
 

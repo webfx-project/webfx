@@ -3,6 +3,7 @@ package javafx.scene.media;
 import dev.webfx.kit.mapper.peers.javafxmedia.MediaPlayerPeer;
 import dev.webfx.kit.mapper.peers.javafxmedia.WebFxKitMediaMapper;
 import dev.webfx.kit.util.properties.FXProperties;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -185,13 +186,24 @@ public class MediaPlayer {
         peer.setVolume(volume);
     }
 
+    public BooleanProperty muteProperty() {
+        return peer.muteProperty();
+    }
 
     public final void setMute(boolean mute) {
         peer.setMute(mute);
     }
 
+    public ReadOnlyObjectProperty<Duration> currentTimeProperty() {
+        return peer.mediaPlayerCurrentTimeProperty();
+    }
+
     public final Duration getCurrentTime() {
         return peer.getCurrentTime();
+    }
+
+    public void seek(Duration duration) {
+        peer.seek(duration);
     }
 
     /**
@@ -215,14 +227,6 @@ public class MediaPlayer {
 
     public final void setAudioSpectrumListener(AudioSpectrumListener listener) {
         peer.setAudioSpectrumListener(listener);
-    }
-
-    public ObjectProperty<Duration> currentTimeProperty() {
-        return peer.mediaPlayerCurrentTimeProperty();
-    }
-
-    public void seek(Duration duration) {
-        peer.seek(duration);
     }
 
     public ReadOnlyObjectProperty<Status> statusProperty() {
