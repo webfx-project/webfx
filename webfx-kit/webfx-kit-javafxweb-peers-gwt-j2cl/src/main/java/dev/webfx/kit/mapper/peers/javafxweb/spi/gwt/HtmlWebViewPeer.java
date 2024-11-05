@@ -24,7 +24,11 @@ public class HtmlWebViewPeer
         extends HtmlNodePeer<N, NB, NM>
         implements EmulWebViewPeerMixin<N, NB, NM>, HasNoChildrenPeers {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
+
+    private static final String LOADING_READY_STATE = "loading";
+    private static final String INTERACTIVE_READY_STATE = "interactive";
+    private static final String COMPLETE_READY_STATE = "complete";
 
     private final HTMLIFrameElement iFrame;
     private Scheduled iFrameStateChecker;
@@ -167,12 +171,17 @@ public class HtmlWebViewPeer
                 // We also need to continue updating the web engine load worker state to report how the loading is going
                 // in case the application code is listening these states.
                 startIFrameStateChecker();
+                onLoadAlreadyCalled = false;
                 iFrame.onload = e -> { // Note: if the iFrame is removed and then reinserted into the DOM, the browser
                     // will unload and then reload the iFrame. So onLoad may be called several times.
-                    logDebug("iFrame onload is called");
                     if (!onLoadAlreadyCalled) { // initial onLoad (not reload)
+                        logDebug("Detected iFrame onload");
                         onLoadAlreadyCalled = true;
-                        updateWebEngineLoadWorkerState();
+                        String readyState = readReadyStateAndUpdateWebEngineLoadWorkerState();
+                        if (readyState == null) { // readyState may not be accessible due to CORS issues, but since we
+                            // received the onLoad event, it's very likely that the readyState is complete
+                            updateWebEngineLoadWorkerStateFromReadyState(COMPLETE_READY_STATE);
+                        }
                     } else { // reload
                         logDebug("Detected iFrame reload (from onload)");
                         onReloadDetected();
@@ -225,7 +234,7 @@ public class HtmlWebViewPeer
         if (iFrameStateChecker != null && iFrameStateChecker.isRunning())
             return;
         iFrameStateChecker = UiScheduler.schedulePeriodic(100, scheduled -> {
-            updateWebEngineLoadWorkerState();
+            readReadyStateAndUpdateWebEngineLoadWorkerState();
             if (getWebEngineLoadWorkerState() == Worker.State.SUCCEEDED) {
                 scheduled.cancel();
             }
@@ -243,34 +252,38 @@ public class HtmlWebViewPeer
         return contentDocument == null ? null : contentDocument.readyState.toLowerCase();
     }
 
-    private void updateWebEngineLoadWorkerState() {
+    private String readReadyStateAndUpdateWebEngineLoadWorkerState() {
         String readyState = getIFrameDocumentReadyState();
         logDebug("iFrame readyState = " + readyState);
-        if (readyState == null) { // Can happen due to cross-origin restrictions, or at the end of iFrame state lifecycle
+        if (readyState != null) {
+            updateWebEngineLoadWorkerStateFromReadyState(readyState);
+        } else { // Can happen due to cross-origin restrictions, or at the end of iFrame state lifecycle
             if (onLoadAlreadyCalled) { // We stop the checker at this point (otherwise it can run indefinitely on null state)
                 logDebug("Stopping iFrame state checker because readyState is null");
                 stopIFrameStateChecker();
-                //setWebEngineLoadWorkerState(Worker.State.FAILED);
             }
-        } else {
-            switch (readyState) {
-                case "loading":
-                    // Reload detection:
-                    // At this stage, the state should be SCHEDULED, if not, this indicates that it's a reload
-                    if (getWebEngineLoadWorkerState() != Worker.State.SCHEDULED) {
-                        logDebug("Detected iFrame reload (from readyState)");
-                        onReloadDetected();
-                    }
-                    break;
-                case "interactive":
-                    setWebEngineLoadWorkerState(Worker.State.RUNNING);
-                    break;
-                case "complete":
-                    setWebEngineLoadWorkerState(Worker.State.SUCCEEDED);
-                    break;
-                default:
-                    log("Unknown iFrame readyState: " + readyState);
-            }
+        }
+        return readyState;
+    }
+
+    private void updateWebEngineLoadWorkerStateFromReadyState(String readyState) {
+        switch (readyState) {
+            case LOADING_READY_STATE:
+                // Reload detection:
+                // At this stage, the state should be SCHEDULED, if not, this indicates that it's a reload
+                if (getWebEngineLoadWorkerState() != Worker.State.SCHEDULED) {
+                    logDebug("Detected iFrame reload (from readyState)");
+                    onReloadDetected();
+                }
+                break;
+            case INTERACTIVE_READY_STATE:
+                setWebEngineLoadWorkerState(Worker.State.RUNNING);
+                break;
+            case COMPLETE_READY_STATE:
+                setWebEngineLoadWorkerState(Worker.State.SUCCEEDED);
+                break;
+            default:
+                log("Unknown iFrame readyState: " + readyState);
         }
     }
 
