@@ -188,8 +188,8 @@ public final class OpenJFXWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         fullscreenPreviousScene = primaryStage.getScene();
         primaryStage.setScene(new Scene(new BorderPane(node)));
         primaryStage.setFullScreen(true);
-        fullscreenExitListener = FXProperties.runOnPropertiesChange(() -> {
-            if (!primaryStage.isFullScreen()) {
+        fullscreenExitListener = FXProperties.runOnPropertyChange(fullscreen -> {
+            if (!fullscreen) {
                 moveBackFullscreenNode();
                 primaryStage.setScene(fullscreenPreviousScene);
                 fullscreenExitListener.unregister();

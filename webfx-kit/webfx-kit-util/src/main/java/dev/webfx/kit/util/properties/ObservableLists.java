@@ -66,13 +66,17 @@ public final class ObservableLists {
         return aList;
     }
 
+    public static <T> void runOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
+        list.addListener(listener);
+    }
+
+    public static <T> void runOnListChange(Runnable listener, ObservableList<T> list) {
+        runOnListChange(change -> listener.run(), list);
+    }
+
     public static <T> void runNowAndOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
         listener.onChanged(null);
         runOnListChange(listener, list);
-    }
-
-    public static <T> void runOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
-        list.addListener(listener);
     }
 
     public static <T> void runNowAndOnListOrPropertiesChange(ListChangeListener<T> listener, ObservableList<T> list, ObservableValue... properties) {

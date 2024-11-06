@@ -52,7 +52,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         // TODO: see how to replace this with immediate CSS
         HtmlUtil.setStyleAttribute(container, "width", "100%");
         HtmlUtil.setStyleAttribute(container, "height", "100dvh"); // dvh is better than vh on mobiles (keeps working when navigation bar hides or reappears)
-        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
+        FXProperties.runNowAndOnPropertyChange(this::updateContainerFill, scene.fillProperty());
         installMouseListeners();
         HtmlSvgNodePeer.installTouchListeners(container, scene);
         installKeyboardListeners(scene);
@@ -272,9 +272,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installCursorListener() {
-        FXProperties.runNowAndOnPropertiesChange(() -> {
-            HtmlUtil.setStyleAttribute(getSceneNode(), "cursor", HtmlSvgNodePeer.toCssCursor(getScene().getCursor()));
-        }, getScene().cursorProperty());
+        FXProperties.runNowAndOnPropertyChange(cursor ->
+            HtmlUtil.setStyleAttribute(getSceneNode(), "cursor", HtmlSvgNodePeer.toCssCursor(cursor)), getScene().cursorProperty()
+        );
     }
 
 

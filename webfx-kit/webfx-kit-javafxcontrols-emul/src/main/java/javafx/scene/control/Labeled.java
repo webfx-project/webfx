@@ -419,6 +419,7 @@ public abstract class Labeled extends Control implements
 
     { // WebFX
         // Requesting a new layout pass on text and image properties change
-        FXProperties.runOnPropertiesChange(this::requestParentLayout, textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
+        FXProperties.runOnPropertiesChange(this::requestParentLayout,
+            textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
     }
 }

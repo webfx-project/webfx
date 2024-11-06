@@ -34,9 +34,9 @@ public final class SvgScenePeer extends ScenePeerBase implements SvgRoot {
     public SvgScenePeer(Scene scene) {
         super(scene);
         HtmlUtil.setAttribute(container, "width", "100%");
-        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerWidth(), scene.widthProperty());
-        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
-        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
+        FXProperties.runNowAndOnPropertyChange(this::updateContainerWidth, scene.widthProperty());
+        FXProperties.runNowAndOnPropertyChange(this::updateContainerHeight, scene.heightProperty());
+        FXProperties.runNowAndOnPropertyChange(this::updateContainerFill, scene.fillProperty());
     }
 
     private void updateContainerWidth() {

@@ -5,6 +5,7 @@ import dev.webfx.platform.util.collection.Collections;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WritableBooleanValue;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -17,6 +18,43 @@ import java.util.function.Predicate;
  * @author Bruno Salmon
  */
 public final class FXProperties {
+
+    public static <T> Unregisterable runOnPropertyChange(ChangeListener<? super T> listener, ObservableValue<T> property) {
+        return new UnregisterableListener(listener, property);
+    }
+
+    public static <T> Unregisterable runOnPropertyChange(Consumer<? super T> newValueListener, ObservableValue<T> property) {
+        return runOnPropertyChange((o, oldValue, newValue) -> newValueListener.accept(newValue), property);
+    }
+
+    public static <T> Unregisterable runOnPropertyChange(Runnable listener, ObservableValue<T> property) {
+        return runOnPropertyChange(p -> listener.run(), property);
+    }
+
+    public static Unregisterable runOnDoublePropertyChange(Consumer<Double> newValueListener, ObservableValue<Number> property) {
+        return runOnPropertyChange(n -> newValueListener.accept(n.doubleValue()), property);
+    }
+
+    public static Unregisterable runOnIntegerPropertyChange(Consumer<Integer> newValueListener, ObservableValue<Number> property) {
+        return runOnPropertyChange(n -> newValueListener.accept(n.intValue()), property);
+    }
+
+    public static <T> Unregisterable runNowAndOnPropertyChange(ChangeListener<? super T> listener, ObservableValue<T> property) {
+        listener.changed(property, property.getValue(), property.getValue());
+        return runOnPropertyChange(listener, property);
+    }
+
+    public static <T> Unregisterable runNowAndOnPropertyChange(Consumer<? super T> newValueListener, ObservableValue<T> property) {
+        return runNowAndOnPropertyChange((o, oldValue, newValue) -> newValueListener.accept(newValue), property);
+    }
+
+    public static <T> Unregisterable runNowAndOnPropertyChange(Runnable listener, ObservableValue<T> property) {
+        return runNowAndOnPropertyChange(p -> listener.run(), property);
+    }
+
+    public static Unregisterable runNowAndOnDoublePropertyChange(Consumer<Double> newValueListener, ObservableValue<Number> property) {
+        return runNowAndOnPropertyChange(n -> newValueListener.accept(n.doubleValue()), property);
+    }
 
     public static Unregisterable runOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
         return new UnregisterableListener(consumer, properties);
@@ -58,7 +96,7 @@ public final class FXProperties {
     public static <T> ObservableValue<T> deferredProperty(ObservableValue<T> p) {
         Property<T> dp = new SimpleObjectProperty<>();
         dp.setValue(p.getValue());
-        FXProperties.runOnPropertiesChange(() -> UiScheduler.scheduleDeferred(() -> dp.setValue(p.getValue())), p);
+        FXProperties.runOnPropertyChange(() -> UiScheduler.scheduleDeferred(() -> dp.setValue(p.getValue())), p);
         return dp;
     }
 
@@ -117,7 +155,7 @@ public final class FXProperties {
             if (value != null)
                 valueConsumer.accept(value);
             else
-                property.addListener(new ChangeListener<T>() {
+                property.addListener(new ChangeListener<>() {
                     @Override
                     public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
                         if (newValue != null) {
@@ -243,6 +281,10 @@ public final class FXProperties {
 
     public static <T> ObjectProperty<T> newObjectProperty(Runnable onInvalidated) {
         return newObjectProperty(null, onInvalidated);
+    }
+
+    public static void toggleProperty(WritableBooleanValue p) {
+        p.set(!p.get());
     }
 
 }

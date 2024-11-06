@@ -124,7 +124,7 @@ public final class HtmlScrollPanePeer
         // scene = null until 2) => scene reestablished, but Perfect scrollbar lost its state when removed from the DOM.
         // This listener will trigger a schedule update at 2) which will restore the perfect scrollbar state (scrollTop
         // & scrollLeft will be reapplied).
-        FXProperties.runOnPropertiesChange(this::scheduleUiUpdate, node.sceneProperty());
+        FXProperties.runOnPropertyChange(this::scheduleUiUpdate, node.sceneProperty());
     }
 
     private void setScrollTop(double scrollTop) {
