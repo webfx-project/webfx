@@ -18,6 +18,29 @@ import java.util.function.Predicate;
  */
 public final class FXProperties {
 
+    public static <T> void runOnPropertyChange(ObservableValue<T> property, ChangeListener<? super T> listener) {
+        property.addListener(listener);
+    }
+
+    public static <T> void runOnPropertyChange(ObservableValue<T> property, Consumer<? super T> newValueListener) {
+        runOnPropertyChange(property, (o, oldValue, newValue) -> newValueListener.accept(newValue));
+    }
+
+/*
+    public static <T> void runOnPropertyChange(ObservableValue<T> property, Runnable listener) {
+        runOnPropertyChange(property, p -> listener.run());
+    }
+
+    public static void runOnDoublePropertyChange(ObservableValue<Number> property, Consumer<Double> newValueListener) {
+        runOnPropertyChange(property, n -> newValueListener.accept(n.doubleValue()));
+    }
+*/
+
+    public static <T> void runNowAndOnPropertyChange(ObservableValue<T> property, ChangeListener<? super T> listener) {
+        runOnPropertyChange(property, listener);
+        listener.changed(property, null, property.getValue());
+    }
+
     public static Unregisterable runOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
         return new UnregisterableListener(consumer, properties);
     }
