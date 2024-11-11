@@ -5,7 +5,7 @@ import dev.webfx.platform.util.collection.Collections;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.beans.value.WritableBooleanValue;
+import javafx.beans.value.WritableValue;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -21,6 +21,12 @@ public final class FXProperties {
 
     public static <T> Unregisterable runOnPropertyChange(ChangeListener<? super T> listener, ObservableValue<T> property) {
         return new UnregisterableListener(listener, property);
+    }
+
+    public static <T> Unregisterable runOrUnregisterOnPropertyChange(UnregisterableChangeListener<T> unregisterableChangeListener, ObservableValue<T> property) {
+        UnregisterableListener[] thisListener = new UnregisterableListener[1];
+        thisListener[0] = new UnregisterableListener((o, oldValue, newValue) -> unregisterableChangeListener.changed(thisListener[0], (T) oldValue, (T) newValue), property);
+        return thisListener[0];
     }
 
     public static <T> Unregisterable runOnPropertyChange(Consumer<? super T> newValueListener, ObservableValue<T> property) {
@@ -155,15 +161,12 @@ public final class FXProperties {
             if (value != null)
                 valueConsumer.accept(value);
             else
-                property.addListener(new ChangeListener<>() {
-                    @Override
-                    public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
-                        if (newValue != null) {
-                            observable.removeListener(this);
-                            valueConsumer.accept(newValue);
-                        }
+                runOrUnregisterOnPropertyChange((thisListener, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        thisListener.unregister();
+                        valueConsumer.accept(newValue);
                     }
-                });
+                }, property);
         }
     }
 
@@ -283,8 +286,8 @@ public final class FXProperties {
         return newObjectProperty(null, onInvalidated);
     }
 
-    public static void toggleProperty(WritableBooleanValue p) {
-        p.set(!p.get());
+    public static void toggleProperty(WritableValue<Boolean> p) {
+        p.setValue(!p.getValue());
     }
 
 }
