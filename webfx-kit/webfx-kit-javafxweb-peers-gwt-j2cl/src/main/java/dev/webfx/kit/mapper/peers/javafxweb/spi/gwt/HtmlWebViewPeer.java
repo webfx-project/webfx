@@ -16,6 +16,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.web.WebErrorEvent;
 import javafx.scene.web.WebView;
 
+import java.util.Objects;
+
 /**
  * @author Bruno Salmon
  */
@@ -30,9 +32,14 @@ public class HtmlWebViewPeer
     private static final String INTERACTIVE_READY_STATE = "interactive";
     private static final String COMPLETE_READY_STATE = "complete";
 
+    private static final String WEBFX_LOADING_MODE_PROPERTIES_KEY = "webfx-loadingMode";
+    private static final String WEBFX_LOADING_MODE_PREFETCH = "prefetch";
+    private static final String WEBFX_LOADING_MODE_REPLACE = "replace";
+
     private final HTMLIFrameElement iFrame;
     private Scheduled iFrameStateChecker;
     private boolean onLoadAlreadyCalled;
+    private String lastRequestedUrl; // used to reload the iFrame with correct content in some cases
 
     public HtmlWebViewPeer() {
         this((NB) new EmulWebViewPeerBase(), HtmlUtil.createElement("fx-webview"));
@@ -68,6 +75,9 @@ public class HtmlWebViewPeer
                 scene.focusOwnerProperty().setValue(null);
             }
         });
+        // Note: webViewElement.connectedCallback & webViewElement.disconnectedCallback don't work
+        // TODO: investigate if we can make them work to detect subtil iFrame unload like immediate DOM remove + insert
+        //  see https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements
     }
 
     public HTMLIFrameElement getIFrame() { // called by GwtWebEnginePeer
@@ -128,9 +138,9 @@ public class HtmlWebViewPeer
         } else {
             resetWebEngineLoadWorkerState();
             // WebFX proposes different loading mode for the iFrame:
-            Object webfxLoadingMode = getNode().getProperties().get("webfx-loadingMode");
+            Object webfxLoadingMode = getNode().getProperties().get(WEBFX_LOADING_MODE_PROPERTIES_KEY);
             Window contentWindow = getSafeContentWindow();
-            if ("prefetch".equals(webfxLoadingMode) && contentWindow != null) { // prefetch mode
+            if (WEBFX_LOADING_MODE_PREFETCH.equals(webfxLoadingMode) && contentWindow != null) { // prefetch mode
                 // For a better error reporting, we prefetch the url, and then inject the result into the iFrame, but
                 // this alternative loading mode is not perfect either, as it may face security issue like CORS.
                 contentWindow.fetch(url)
@@ -152,7 +162,7 @@ public class HtmlWebViewPeer
                             return null;
                         });
             } else { // Standard or replace mode
-                if (!"replace".equals(webfxLoadingMode) || contentWindow == null) { // Standard mode
+                if (!WEBFX_LOADING_MODE_REPLACE.equals(webfxLoadingMode) || contentWindow == null) { // Standard mode
                     iFrame.src = url; // Standard way to load an iFrame
                     // But it has 2 downsides (which is why webfx proposes alternative loading modes):
                     // 1) it doesn't report any network errors (iFrame.onerror not called). Issue addressed by the webfx
@@ -172,6 +182,7 @@ public class HtmlWebViewPeer
                 // in case the application code is listening these states.
                 startIFrameStateChecker();
                 onLoadAlreadyCalled = false;
+                // Note: iFrame.onbeforeunload is quite useless (never called)
                 iFrame.onload = e -> { // Note: if the iFrame is removed and then reinserted into the DOM, the browser
                     // will unload and then reload the iFrame. So onLoad may be called several times.
                     if (!onLoadAlreadyCalled) { // initial onLoad (not reload)
@@ -204,6 +215,7 @@ public class HtmlWebViewPeer
                 };
             }
         }
+        lastRequestedUrl = url;
     }
 
     private WorkerImpl<Void> getWebEngineLoadWorker() {
@@ -225,9 +237,15 @@ public class HtmlWebViewPeer
         setWebEngineLoadWorkerState(Worker.State.SCHEDULED);
     }
 
-    private void onReloadDetected() {
-        resetWebEngineLoadWorkerState();
-        startIFrameStateChecker(); // We ensure the state checker is running (will restart it if it's a reload)
+    private void onReloadDetected() { // Very probably caused by (unwanted) DOM remove + insert
+        //  The iFrame may be "reloaded" with empty content (especially with "prefetch" & "replace" webfx load methods)
+        if (!Objects.equals(iFrame.src, lastRequestedUrl)) { // => needs to reload the iFrame with the requested url
+            updateUrl(lastRequestedUrl);
+        } else { // otherwise, ok (the iFrame reloaded with correct url) but the application code might need to be
+            // notified of this reload (ex: WebFX Extras WebViewPane):
+            resetWebEngineLoadWorkerState();
+            startIFrameStateChecker(); // We ensure the state checker is running (will restart it if it's a reload)
+        }
     }
 
     private void startIFrameStateChecker() {
