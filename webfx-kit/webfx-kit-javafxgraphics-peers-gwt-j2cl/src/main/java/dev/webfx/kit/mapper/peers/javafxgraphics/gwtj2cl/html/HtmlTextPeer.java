@@ -146,7 +146,7 @@ public final class HtmlTextPeer
         // First, we set the HTML line height with no extra spacing between lines (lineSpacing = 0).
         // Note: it looks like JavaFX doesn't apply the same line height for single-line and multi-lines texts.
         // For single-line, it looks like HTML "normal", and for multi-line it looks like 130% (empiric value).
-        style.lineHeight = CSSProperties.LineHeightUnionType.of(isWrapping ? "130%" : "normal"); // Note: 100% < normal < 130%
+        style.lineHeight = isWrapping ? CSSProperties.LineHeightUnionType.of("130%") : null; // Note: 100% < normal < 130%
         // We correct the line height if an additional line spacing is requested
         if (isWrapping && lineSpacing != 0) { // not necessary if not wrapping (i.e. single line text)
             // There is no HTML equivalent of the JavaFX lineSpacing which specifies only the extra space (expressed in
@@ -165,7 +165,7 @@ public final class HtmlTextPeer
         // Mapping the wrapping with using the HTML width style attribute
         style.width = isWrapping ? CSSProperties.WidthUnionType.of(toPx(wrappingWidth)) : null;
         // Mapping the wrapping mode using the HTML white-space style attribute
-        style.whiteSpace = isWrapping ? "normal" : "nowrap";
+        style.whiteSpace = isWrapping ? "pre-wrap" : "pre";
         // Clearing the measurement cache because HTML attributes have changed
         clearCache();
         // An update of Y may be necessary (to consider textOrigin)
