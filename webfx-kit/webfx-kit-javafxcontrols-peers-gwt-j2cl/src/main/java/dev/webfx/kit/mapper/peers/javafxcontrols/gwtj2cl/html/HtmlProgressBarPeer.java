@@ -34,7 +34,7 @@ public final class HtmlProgressBarPeer
         double progressValue = progress.doubleValue();
         if (progressValue == ProgressBar.INDETERMINATE_PROGRESS)
             progressElement.removeAttribute("value");
-        else
+        else if (!Double.isNaN(progressValue))
             progressElement.value = progressValue * 100;
     }
 
