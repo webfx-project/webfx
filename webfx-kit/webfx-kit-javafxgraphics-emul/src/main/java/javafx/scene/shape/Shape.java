@@ -33,10 +33,10 @@ public abstract class Shape extends Node implements
         return smoothProperty;
     }
 
-    private final ObjectProperty<Paint> stokeProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Paint> strokeProperty = new SimpleObjectProperty<>();
     @Override
     public ObjectProperty<Paint> strokeProperty() {
-        return stokeProperty;
+        return strokeProperty;
     }
 
     private final ObjectProperty<StrokeType> strokeTypeProperty = new SimpleObjectProperty<>(StrokeType.CENTERED);
