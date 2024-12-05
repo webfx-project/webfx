@@ -184,23 +184,20 @@ public final class HtmlScenePeer extends ScenePeerBase {
         // font). To fix those issues, we call onCssOrFontLoaded() which forces a layout of the whole scene graph.
 
         // Best way to detect when a font is loaded = via document.fonts.onloadingdone but not all browsers support it
-        document.fonts.setOnloadingdone(e -> { // not called by Safari on my iMac 2014, but called by Chrome & FF
-            Console.log("🟥🟥🟥🟥🟥 onLoadingdone called");
-            onCssOrFontLoaded(); // forces whole scene graph layout
+        document.fonts.setOnloadingdone(e -> { // called back by Chrome & FF, but not Safari
+            onCssOrFontLoaded(); // forces whole scene graph layout to correct wrong text positions
             BROWSER_SUPPORTS_FONTS_LOADING_NOTIFICATION = true;
             return null;
         });
         // Fallback for browsers not supporting fonts loading notification: calling onCssOrFontLoaded() every second for
         // 10s, starting when fonts are ready
-        document.fonts.getReady().then(p0 -> {
-            Console.log("🟥🟥🟥🟥🟥 getReady() called");
+        document.fonts.getReady().then(fontFaceSet -> {
             int fontsLoadingDoneFallbackCount[] = { 0 };
             UiScheduler.scheduleNowAndPeriodic(1000, scheduled -> {
                 // Stopping this timer after 10s (assuming it's enough to load all fonts), or if the browser supports fonts loading notification
                 if (++fontsLoadingDoneFallbackCount[0] > 10 || BROWSER_SUPPORTS_FONTS_LOADING_NOTIFICATION)
                     scheduled.cancel();
                 else {
-                    Console.log("🟥🟥🟥🟥🟥 fallback checker");
                     onCssOrFontLoaded();
                 }
             });
