@@ -145,11 +145,11 @@ public abstract class BooleanExpression implements ObservableBooleanValue {
      * @throws NullPointerException
      *             if {@code other} is {@code null}
      */
-/*
+
     public BooleanBinding or(final ObservableBooleanValue other) {
         return Bindings.or(this, other);
     }
-*/
+
 
     /**
      * Creates a new {@code BooleanExpression} that calculates the negation of

@@ -279,22 +279,24 @@ public final class Bindings {
     // boolean
     // =================================================================================================================
 
-    private static class BooleanAndBinding extends BooleanBinding {
-
-        private final ObservableBooleanValue op1;
-        private final ObservableBooleanValue op2;
+    // Generic boolean bi operator with shortcut value
+    private static abstract class BooleanBiOpBinding extends BooleanBinding {
+        protected final ObservableBooleanValue op1;
+        protected final ObservableBooleanValue op2;
         private final InvalidationListener observer;
 
-        public BooleanAndBinding(ObservableBooleanValue op1, ObservableBooleanValue op2) {
+        public BooleanBiOpBinding(ObservableBooleanValue op1, ObservableBooleanValue op2, boolean op1ShortcutValue) {
+            if ((op1 == null) || (op2 == null)) {
+                throw new NullPointerException("Operands cannot be null.");
+            }
             this.op1 = op1;
             this.op2 = op2;
 
-            observer = new ShortCircuitAndInvalidator(this);
+            observer = new ShortCircuitBooleanInvalidator(this, op1ShortcutValue);
 
             op1.addListener(observer);
             op2.addListener(observer);
         }
-
 
         @Override
         public void dispose() {
@@ -303,38 +305,49 @@ public final class Bindings {
         }
 
         @Override
-        protected boolean computeValue() {
-            return op1.get() && op2.get();
-        }
-
-        @Override
         public ObservableList<?> getDependencies() {
             return new ImmutableObservableList<>(op1, op2);
         }
     }
 
-    private static class ShortCircuitAndInvalidator implements InvalidationListener {
+    private static class ShortCircuitBooleanInvalidator implements InvalidationListener {
 
-        private final WeakReference<BooleanAndBinding> ref;
+        private final WeakReference<BooleanBiOpBinding> ref;
+        private final boolean op1ShortcutValue;
 
-        private ShortCircuitAndInvalidator(BooleanAndBinding binding) {
+        private ShortCircuitBooleanInvalidator(BooleanBiOpBinding binding, boolean op1ShortcutValue) {
             assert binding != null;
             ref = new WeakReference<>(binding);
+            this.op1ShortcutValue = op1ShortcutValue;
         }
 
         @Override
         public void invalidated(Observable observable) {
-            final BooleanAndBinding binding = ref.get();
+            final BooleanBiOpBinding binding = ref.get();
             if (binding == null) {
                 observable.removeListener(this);
             } else {
                 // short-circuit invalidation. This BooleanBinding becomes
                 // only invalid if the first operator changes or the
                 // first parameter is true.
-                if ((binding.op1.equals(observable) || (binding.isValid() && binding.op1.get()))) {
+                if ((binding.op1.equals(observable) || (binding.isValid() && binding.op1.get() != op1ShortcutValue))) {
                     binding.invalidate();
                 }
             }
+        }
+    }
+
+    // =================================================================================================================
+    // And
+    private static class BooleanAndBinding extends BooleanBiOpBinding {
+
+        public BooleanAndBinding(ObservableBooleanValue op1, ObservableBooleanValue op2) {
+            super(op1, op2, false);
+        }
+
+        @Override
+        protected boolean computeValue() {
+            return op1.get() && op2.get();
         }
 
     }
@@ -353,11 +366,39 @@ public final class Bindings {
      *             if one of the operands is {@code null}
      */
     public static BooleanBinding and(final ObservableBooleanValue op1, final ObservableBooleanValue op2) {
-        if ((op1 == null) || (op2 == null)) {
-            throw new NullPointerException("Operands cannot be null.");
+        return new BooleanAndBinding(op1, op2);
+    }
+
+    // =================================================================================================================
+    // Or
+    private static class BooleanOrBinding extends BooleanBiOpBinding {
+
+        public BooleanOrBinding(ObservableBooleanValue op1, ObservableBooleanValue op2) {
+            super(op1, op2, true);
         }
 
-        return new BooleanAndBinding(op1, op2);
+        @Override
+        protected boolean computeValue() {
+            return op1.get() || op2.get();
+        }
+
+    }
+
+    /**
+     * Creates a {@link BooleanBinding} that calculates the conditional-AND
+     * operation on the value of two instance of
+     * {@link javafx.beans.value.ObservableBooleanValue}.
+     *
+     * @param op1
+     *            first {@code ObservableBooleanValue}
+     * @param op2
+     *            second {@code ObservableBooleanValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if one of the operands is {@code null}
+     */
+    public static BooleanBinding or(final ObservableBooleanValue op1, final ObservableBooleanValue op2) {
+        return new BooleanOrBinding(op1, op2);
     }
 
     // =================================================================================================================
