@@ -4,6 +4,7 @@ import dev.webfx.platform.util.Arrays;
 import dev.webfx.platform.util.Objects;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Converter;
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.value.ObservableValue;
@@ -12,6 +13,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -48,16 +50,16 @@ public final class ObservableLists {
         setAllNonNulls(bList, Collections.map(aList, aToBConverter));
     }
 
-    public static <A, B extends A> void bind(ObservableList<A> list1, ObservableList<B> list2) {
-        runNowAndOnListChange(c -> list1.setAll(list2), list2);
+    public static <A, B extends A> Unregisterable bind(ObservableList<A> list1, ObservableList<B> list2) {
+        return runNowAndOnListChange(c -> list1.setAll(list2), list2);
     }
 
-    public static <A, B> void bindTransformed(ObservableList<A> aList, ObservableList<B> bList, Function<List<B>, List<A>> bToAListTransformer) {
-        runNowAndOnListChange(c -> aList.setAll(bToAListTransformer.apply(bList)), bList);
+    public static <A, B> Unregisterable bindTransformed(ObservableList<A> aList, ObservableList<B> bList, Function<List<B>, List<A>> bToAListTransformer) {
+        return runNowAndOnListChange(c -> aList.setAll(bToAListTransformer.apply(bList)), bList);
     }
 
-    public static <A, B> void bindConverted(ObservableList<A> aList, ObservableList<B> bList, Converter<B, A> bToAConverter) {
-        runNowAndOnListChange(c -> setAllConverted(bList, bToAConverter, aList), bList);
+    public static <A, B> Unregisterable bindConverted(ObservableList<A> aList, ObservableList<B> bList, Converter<B, A> bToAConverter) {
+        return runNowAndOnListChange(c -> setAllConverted(bList, bToAConverter, aList), bList);
     }
 
     public static <A, B> ObservableList<A> map(ObservableList<B> bList, Converter<B, A> bToAConverter) {
@@ -66,17 +68,28 @@ public final class ObservableLists {
         return aList;
     }
 
-    public static <T> void runOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
+    public static <T> Unregisterable runOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
         list.addListener(listener);
+        return new Unregisterable() {
+            @Override
+            public void register() {
+                list.addListener(listener);
+            }
+
+            @Override
+            public void unregister() {
+                list.removeListener(listener);
+            }
+        };
     }
 
     public static <T> void runOnListChange(Runnable listener, ObservableList<T> list) {
         runOnListChange(change -> listener.run(), list);
     }
 
-    public static <T> void runNowAndOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
+    public static <T> Unregisterable runNowAndOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
         listener.onChanged(null);
-        runOnListChange(listener, list);
+        return runOnListChange(listener, list);
     }
 
     public static <T> void runNowAndOnListOrPropertiesChange(ListChangeListener<T> listener, ObservableList<T> list, ObservableValue... properties) {
@@ -91,6 +104,19 @@ public final class ObservableLists {
 
     public static <T> BooleanExpression isEmpty(ObservableList<T> list) {
         return Bindings.isEmpty(list);
+    }
+
+    public static <T> ObservableList<T> newObservableList(Consumer<ObservableList<T>> onInvalidated) {
+        ObservableList<T> list = FXCollections.observableArrayList();
+        list.addListener((InvalidationListener) observable -> {
+            if (onInvalidated != null)
+                onInvalidated.accept(list);
+        });
+        return list;
+    }
+
+    public static <T> ObservableList<T> newObservableList(Runnable onInvalidated) {
+        return newObservableList(list -> onInvalidated.run());
     }
 
 }
