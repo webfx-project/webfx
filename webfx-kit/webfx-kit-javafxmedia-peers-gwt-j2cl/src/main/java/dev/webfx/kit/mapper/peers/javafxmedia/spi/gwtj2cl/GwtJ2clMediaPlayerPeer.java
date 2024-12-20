@@ -14,7 +14,9 @@ import elemental2.media.*;
 import elemental2.promise.Promise;
 import elemental2.webstorage.Storage;
 import elemental2.webstorage.WebStorageWindow;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
@@ -37,6 +39,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
     private static AudioContext AUDIO_CONTEXT; // One single audio context for the whole application
     private final MediaPlayer mediaPlayer;
     private ObjectProperty<Duration> mediaPlayerCurrentTimeProperty;
+    private BooleanProperty mediaPlayerMuteProperty;
     private final String mediaUrl;
     private final boolean audioClip;
     private AudioBuffer audioBuffer;
@@ -436,6 +439,15 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
     @Override
     public void setMute(boolean mute) {
         this.mute = mute;
+        if (mediaPlayerMuteProperty != null)
+            mediaPlayerMuteProperty.set(mute);
+    }
+
+    @Override
+    public BooleanProperty muteProperty() {
+        if (mediaPlayerMuteProperty == null)
+            mediaPlayerMuteProperty = new SimpleBooleanProperty(mute);
+        return mediaPlayerMuteProperty;
     }
 
     private AnalyserNode getOrCreateAnalyzer() {

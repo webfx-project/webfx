@@ -92,7 +92,7 @@ public abstract class SvgShapePeer
             setElementAttribute("stroke-linejoin", hasStroke ? SvgUtil.toSvgStrokeLineJoin(n.getStrokeLineJoin()) : null);
             setElementAttribute("stroke-miterlimit", hasStroke ? n.getStrokeMiterLimit() : null);
             setElementAttribute("stroke-dashoffset", hasStroke ? n.getStrokeDashOffset() : null);
-            setElementAttribute("stroke-dasharray", hasStroke ? Collections.toStringWithNoBrackets(n.getStrokeDashArray()) : null);
+            setElementAttribute("stroke-dasharray", hasStroke ? Collections.toStringCommaSeparated(n.getStrokeDashArray()) : null);
             setElementAttribute("stroke-alignment", hasStroke ? SvgUtil.toSvgStrokeAlignment(n.getStrokeType()) : null);
         }
     }

@@ -6,8 +6,8 @@
     </exported-packages>
 
     <providers>
-        <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider</provider>
-        <provider interface="dev.webfx.platform.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider</provider>
+        <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.openjfx.OpenJFXWebFxKitLauncherProvider</provider>
+        <provider interface="dev.webfx.platform.uischeduler.spi.UiSchedulerProvider">dev.webfx.platform.uischeduler.spi.impl.openjfx.OpenJFXUiSchedulerProvider</provider>
     </providers>
 
     <dependencies>
@@ -16,7 +16,7 @@
     </dependencies>
 
     <java-callbacks>
-        <callback-class name="dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider$FxKitWrapperApplication">
+        <callback-class name="dev.webfx.kit.launcher.spi.impl.openjfx.OpenJFXWebFxKitLauncherProvider$FxKitWrapperApplication">
             <callback-constructor/>
         </callback-class>
         <callback-class name="dev.webfx.kit.mapper.peers.javafxcontrols.openjfx.skin.FxControlPeerSkin">

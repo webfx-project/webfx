@@ -13,12 +13,10 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.SvgUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.uischeduler.UiScheduler;
-import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.*;
 import elemental2.svg.SVGSVGElement;
-import elemental2.webstorage.WebStorageWindow;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventType;
@@ -52,7 +50,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         // TODO: see how to replace this with immediate CSS
         HtmlUtil.setStyleAttribute(container, "width", "100%");
         HtmlUtil.setStyleAttribute(container, "height", "100dvh"); // dvh is better than vh on mobiles (keeps working when navigation bar hides or reappears)
-        FXProperties.runNowAndOnPropertiesChange(property -> updateContainerFill(), scene.fillProperty());
+        FXProperties.runNowAndOnPropertyChange(this::updateContainerFill, scene.fillProperty());
         installMouseListeners();
         HtmlSvgNodePeer.installTouchListeners(container, scene);
         installKeyboardListeners(scene);
@@ -171,38 +169,47 @@ public final class HtmlScenePeer extends ScenePeerBase {
         });
     }
 
+    private static boolean BROWSER_SUPPORTS_FONTS_LOADING_NOTIFICATION;
+
     private void installFontsListener() {
-        // Listening the fonts requested by the application code
-        mapObservableList(Font.getRequestedFonts(), fonts -> addFonts(fonts), fonts -> removeFonts(fonts));
-        // Listening other possible fonts loaded from HTML CSS
-        document.fonts.getReady().then(p0 -> {
-            // Once a font is loaded, the browser will apply it to all text elements set to use that font, and this will
-            // probably change their size, but JavaFX won't detect that change, and this will create layout issues (ex:
-            // a text supposed to be centered won't appear centered anymore with the new font). To fix those issues, we
-            // call onCssOrFontLoaded() which forces a layout of the whole scene graph. However, we postpone that call
-            // a few animation frames later, because the measurement of the text elements is still not considering the
-            // new font at this point, a little delay seems necessary after fonts.getReady() (browser bug?).
-            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 5);  // 5 animation frames seem enough on localhost or when fonts were cached
-            UiScheduler.scheduleInAnimationFrame(this::onCssOrFontLoaded, 30); // 30 animation frames seem enough on internet on first page load
-            // Temporary code to test other frameCount values if the previous ones were not enough:
-            String fontsReadySubsequentFrameCount = WebStorageWindow.of(DomGlobal.window).localStorage.getItem("fontsReadySubsequentFrameCount");
-            if (fontsReadySubsequentFrameCount != null) {
-                int frameCount = Numbers.parseInteger(fontsReadySubsequentFrameCount);
-                Console.log("fontsReadySubsequentFrameCount = " + frameCount);
-                UiScheduler.scheduleInAnimationFrame(() -> {
+        // Transferring the fonts programmatically requested by the application code to the browser
+        mapObservableList(Font.getRequestedFonts(), // this list is managed by WebFX when app code calls Font.loadFont()
+            fonts -> addToDocumentFonts(fonts), // new requested fonts -> + document.fonts -> load
+            fonts -> removeFromDocumentFonts(fonts) // removed fonts -> - document.fonts
+        );
+
+        // Once a font is loaded (either programmatically or via CSS), the browser will apply it to all text elements
+        // styled with that font, and this will probably change their size, but JavaFX won't detect that change, and
+        // this will create layout issues (ex: a text supposed to be centered won't appear centered anymore with the new
+        // font). To fix those issues, we call onCssOrFontLoaded() which forces a layout of the whole scene graph.
+
+        // Best way to detect when a font is loaded = via document.fonts.onloadingdone but not all browsers support it
+        document.fonts.setOnloadingdone(e -> { // called back by Chrome & FF, but not Safari
+            onCssOrFontLoaded(); // forces whole scene graph layout to correct wrong text positions
+            BROWSER_SUPPORTS_FONTS_LOADING_NOTIFICATION = true;
+            return null;
+        });
+        // Fallback for browsers not supporting fonts loading notification: calling onCssOrFontLoaded() every second for
+        // 10s, starting when fonts are ready
+        document.fonts.getReady().then(fontFaceSet -> {
+            int fontsLoadingDoneFallbackCount[] = { 0 };
+            UiScheduler.scheduleNowAndPeriodic(1000, scheduled -> {
+                // Stopping this timer after 10s (assuming it's enough to load all fonts), or if the browser supports fonts loading notification
+                if (++fontsLoadingDoneFallbackCount[0] > 10 || BROWSER_SUPPORTS_FONTS_LOADING_NOTIFICATION)
+                    scheduled.cancel();
+                else {
                     onCssOrFontLoaded();
-                    Console.log("Subsequent onCssOrFontLoaded() on fonts ready called");
-                }, frameCount);
-            }
+                }
+            });
             return null;
         });
     }
 
     private final Map<String /* url  => */, FontFace> fontFaces = new HashMap<>();
 
-    private void addFonts(List<? extends Font> fonts) {
+    private void addToDocumentFonts(List<? extends Font> fonts) {
         fonts.forEach(font -> {
-            FontFace fontFace = new FontFace(font.getFamily(), "url("  + font.getUrl() + ")");
+            FontFace fontFace = new FontFace(font.getFamily(), "url(" + font.getUrl() + ")");
             fontFaces.put(font.getUrl(), fontFace);
             document.fonts.add(fontFace);
             fontFace.load().then(p0 -> {
@@ -213,7 +220,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         });
     }
 
-    private void removeFonts(List<? extends Font> fonts) {
+    private void removeFromDocumentFonts(List<? extends Font> fonts) {
         fonts.forEach(font -> {
             FontFace fontFace = fontFaces.remove(font.getUrl());
             if (fontFace != null)
@@ -272,9 +279,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installCursorListener() {
-        FXProperties.runNowAndOnPropertiesChange(() -> {
-            HtmlUtil.setStyleAttribute(getSceneNode(), "cursor", HtmlSvgNodePeer.toCssCursor(getScene().getCursor()));
-        }, getScene().cursorProperty());
+        FXProperties.runNowAndOnPropertyChange(cursor ->
+            HtmlUtil.setStyleAttribute(getSceneNode(), "cursor", HtmlSvgNodePeer.toCssCursor(cursor)), getScene().cursorProperty()
+        );
     }
 
 
@@ -380,7 +387,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     public static void installKeyboardListeners(Scene scene) {
         registerKeyboardListener("keydown", scene);
-        registerKeyboardListener( "keyup", scene);
+        registerKeyboardListener("keyup", scene);
     }
 
     private static void registerKeyboardListener(String type, Scene scene) {
@@ -388,8 +395,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
             Node focusOwner = scene.getFocusOwner();
             // Resetting the focus owner to scene initial when it's not valid, so in the following cases:
             if (focusOwner == null // 1) No focus set yet
-                    || focusOwner.getScene() != scene // 2) focus doesn't match the scene (probably removed from the scene)
-                    || !focusOwner.impl_isTreeVisible()) { // 3) the focus is not visible in the scene graph (works also as a workaround when scene is not reset to null by WebFX)
+                || focusOwner.getScene() != scene // 2) focus doesn't match the scene (probably removed from the scene)
+                || !focusOwner.impl_isTreeVisible()) { // 3) the focus is not visible in the scene graph (works also as a workaround when scene is not reset to null by WebFX)
                 scene.focusInitial();
                 focusOwner = scene.getFocusOwner();
             }
@@ -517,7 +524,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 else if (length == 4 && htmlKey.startsWith("Key")) // KeyQ, etc...
                     fxKeyName = String.valueOf(htmlKey.charAt(3)); // -> Q, etc...
                 else if (htmlKey.startsWith("Numpad"))
-                    fxKeyName = Strings.replaceAll(htmlKey,"Numpad", "Numpad ");
+                    fxKeyName = Strings.replaceAll(htmlKey, "Numpad", "Numpad ");
                 KeyCode keyCode = KeyCode.getKeyCode(fxKeyName);
                 if (keyCode == null)
                     keyCode = KeyCode.getKeyCode(fxKeyName.toUpperCase());

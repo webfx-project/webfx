@@ -9,6 +9,8 @@ module webfx.kit.javafxgraphics.openjfx {
     requires webfx.kit.javafxgraphics.peers;
     requires webfx.kit.javafxgraphics.peers.base;
     requires webfx.kit.launcher;
+    requires webfx.kit.util;
+    requires webfx.platform.console;
     requires webfx.platform.os;
     requires webfx.platform.scheduler;
     requires webfx.platform.uischeduler;
@@ -21,7 +23,7 @@ module webfx.kit.javafxgraphics.openjfx {
     exports dev.webfx.platform.uischeduler.spi.impl.openjfx;
 
     // Provided services
-    provides dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider with dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider;
-    provides dev.webfx.platform.uischeduler.spi.UiSchedulerProvider with dev.webfx.platform.uischeduler.spi.impl.openjfx.FxUiSchedulerProvider;
+    provides dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider with dev.webfx.kit.launcher.spi.impl.openjfx.OpenJFXWebFxKitLauncherProvider;
+    provides dev.webfx.platform.uischeduler.spi.UiSchedulerProvider with dev.webfx.platform.uischeduler.spi.impl.openjfx.OpenJFXUiSchedulerProvider;
 
 }

@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -103,4 +104,17 @@ public interface WebFxKitLauncherProvider {
     default Insets getSafeAreaInsets() {
         return safeAreaInsetsProperty().get();
     }
+
+    default boolean isFullscreenEnabled() {
+        return false;
+    }
+
+    default boolean requestNodeFullscreen(Node node) {
+        return false;
+    }
+
+    default boolean exitFullscreen() {
+        return false;
+    }
+
 }

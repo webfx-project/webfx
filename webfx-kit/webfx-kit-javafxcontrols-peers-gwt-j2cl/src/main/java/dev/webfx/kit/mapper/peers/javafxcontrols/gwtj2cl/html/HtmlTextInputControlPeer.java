@@ -49,7 +49,7 @@ public abstract class HtmlTextInputControlPeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
-        FXProperties.runNowAndOnPropertiesChange(() -> onSceneChanged(node.getScene()), node.sceneProperty());
+        FXProperties.runNowAndOnPropertyChange(this::onSceneChanged, node.sceneProperty());
     }
 
     private static final Set<Scene> FOCUS_LISTENER_SCENES = new HashSet<>();

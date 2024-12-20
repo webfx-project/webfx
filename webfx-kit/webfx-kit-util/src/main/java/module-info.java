@@ -4,6 +4,7 @@ module webfx.kit.util {
 
     // Direct dependencies modules
     requires javafx.base;
+    requires webfx.platform.uischeduler;
     requires transitive webfx.platform.util;
 
     // Exported packages

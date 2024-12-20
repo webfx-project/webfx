@@ -15,6 +15,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.effect.*;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Transform;
 
@@ -54,10 +55,14 @@ public abstract class HtmlNodePeer
             // The transform origin depends on whether the transforms explicitly expresses the pivot. When using matrix,
             // the pivot is explicitly expressed and the origin is meant to be (0, 0). When using simpler transforms
             // such as rotate() or scale(), the pivot is implicit and is meant to be the center of the node.
+            String cssTransformOrigin;
             if (Strings.contains(transform, "matrix"))
-                style.transformOrigin = CSSProperties.TransformOriginUnionType.of("0px 0px");
+                cssTransformOrigin = "0px 0px";
+            else if (getNode() instanceof Text) // special case tt make labels on Material Design aligned with left text input
+                cssTransformOrigin = "center left"; // TODO: check if side-effect (move code to CSS in that case)
             else
-                style.transformOrigin = CSSProperties.TransformOriginUnionType.of("center");
+                cssTransformOrigin = "center";
+            style.transformOrigin = CSSProperties.TransformOriginUnionType.of(cssTransformOrigin);
         }
     }
 
@@ -106,12 +111,13 @@ public abstract class HtmlNodePeer
     }
 
     public static String toCssTextAlignment(TextAlignment textAlignment) {
-        if (textAlignment != null)
+        if (textAlignment != null) {
             switch (textAlignment) {
                 case LEFT: return "left";
                 case CENTER: return "center";
                 case RIGHT: return "right";
             }
+        }
         return null;
     }
 
@@ -120,12 +126,13 @@ public abstract class HtmlNodePeer
     }
 
     static String toCssTextAlignment(HPos hPos) {
-        if (hPos != null)
+        if (hPos != null) {
             switch (hPos) {
                 case LEFT: return "left";
                 case CENTER: return "center";
                 case RIGHT: return "right";
             }
+        }
         return null;
     }
 

@@ -9,6 +9,8 @@ import javafx.beans.property.StringPropertyBase;
 import javafx.concurrent.Worker;
 import javafx.event.EventHandler;
 
+import java.util.Objects;
+
 /**
  * @author Bruno Salmon
  */
@@ -46,6 +48,10 @@ public class WebEngine {
     }
 
     public void load(String url) {
+        // If the webview is already loaded with this url, we unload it because a call to webEngine.load() should always
+        // cause a webview load.
+        if (Objects.equals(url, webView.getUrl()))
+            webView.setUrl(null);
         webView.setUrl(url);
     }
 
@@ -54,6 +60,10 @@ public class WebEngine {
     }
 
     public void loadContent(String content, String contentType) {
+        // If the webview has already the same content, we unload it because a call to webEngine.loadContent() should
+        // always cause to reload its content.
+        if (Objects.equals(content, webView.getLoadContent()))
+            webView.setLoadContent(null);
         webView.setLoadContent(content);
     }
 

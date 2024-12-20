@@ -510,7 +510,7 @@ public class Window implements EventTarget,
         if (scene != null) {
             scene.impl_setWindow(this);
             // Notifying the peer about the change
-            FXProperties.runNowAndOnPropertiesChange(p -> {
+            FXProperties.runNowAndOnPropertyChange(() -> {
                 if (impl_peer != null)
                     impl_peer.onSceneRootChanged();
             }, scene.rootProperty());

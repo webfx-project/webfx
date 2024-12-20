@@ -15,8 +15,16 @@ public class ScrollPane extends Control {
     private Runnable onChildrenLayout;
 
     public ScrollPane() {
-        // The purpose of this code is to register the mouse handler, so it captures focus on mouse click
-        new BehaviorSkinBase<>(this, new ScrollPaneBehavior(this)) {};
+        // WebFX doesn't use the default JavaFX ScrollPaneSkin, but delegates this to the peer (HtmlScrollPanePeer). The
+        // peer will indeed map the ScrollPane either to a pure HTML/CSS element or to a JS library (PerfectScrollbar).
+        // In both cases, the look of the ScrollPane (including the scrollbars) is managed by the peer. So we don't
+        // have to instantiate ScrollPaneSkin. However, we instantiate a fake basic skin (that doesn't have any visual
+        // effect) with a ScrollPaneBehavior, which implements the basic JavaFX feature (focus captured on mouse click).
+        new BehaviorSkinBase<>(this, new ScrollPaneBehavior(this)) {
+            // We also call consumeMouseEvents(false) like ScrollPaneSkin does, so the mouse events are handled in the
+            // same way as in OpenJFX (ex: if an ancestor of ScrollPane sets a mouse handler, it will be called)
+            { consumeMouseEvents(false); }
+        };
     }
 
     public ScrollPane(Node content) {

@@ -1,1 +1,1 @@
-dev.webfx.kit.launcher.spi.impl.openjfx.JavaFxWebFxKitLauncherProvider
+dev.webfx.kit.launcher.spi.impl.openjfx.OpenJFXWebFxKitLauncherProvider

@@ -52,7 +52,7 @@ public final class HtmlScrollPanePeer
         super.bind(node, sceneRequester);
         HTMLElement element = getElement();
         if (USE_PERFECT_SCROLLBAR) {
-            // Important: perfect scrollbar expect a standard HTML container (won't work with fx-scrollpane)
+            // Important: perfect scrollbar expect a standard HTML container (doesn't work with fx-scrollpane element)
             HTMLElement psContainer = HtmlUtil.setStyle(HtmlUtil.createDivElement(), "position: absolute; width: 100%; height: 100%");
             setChildrenContainer(psContainer);
             HtmlUtil.setChildren(element, psContainer);
@@ -120,11 +120,16 @@ public final class HtmlScrollPanePeer
         }
         node.setOnChildrenLayout(HtmlScrollPanePeer.this::scheduleUiUpdate);
         // The following listener is to reestablish the scroll position on scene change. For ex when the user 1) switches
-        // to another page through UI routing and then 2) come back, this node is removed from the scene graph at 1) =>
+        // to another page through UI routing and then 2) comes back, this node is removed from the scene graph at 1) =>
         // scene = null until 2) => scene reestablished, but Perfect scrollbar lost its state when removed from the DOM.
         // This listener will trigger a schedule update at 2) which will restore the perfect scrollbar state (scrollTop
         // & scrollLeft will be reapplied).
-        FXProperties.runOnPropertiesChange(this::scheduleUiUpdate, node.sceneProperty());
+        FXProperties.runOnPropertiesChange(this::scheduleUiUpdate,
+            node.sceneProperty(), // on scene change (removing from or reinserting to the DOM)
+            node.parentProperty(), // also on parent change (moving inside the DOM)
+            node.maxHeightProperty() // also on maxHeight change to make it work with WebFX Extras TransitionPane
+            // otherwise the leaving ScrollPane is reset to the top while animating the transition.
+        );
     }
 
     private void setScrollTop(double scrollTop) {

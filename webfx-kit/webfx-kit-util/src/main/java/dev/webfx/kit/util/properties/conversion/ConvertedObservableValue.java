@@ -1,5 +1,6 @@
 package dev.webfx.kit.util.properties.conversion;
 
+import dev.webfx.kit.util.properties.FXProperties;
 import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,9 +21,9 @@ public class ConvertedObservableValue<A, B> implements ObservableValue<A> {
 
     @Override
     public void addListener(ChangeListener<? super A> listener) {
-        observableValue.addListener((observable, oldValue, newValue) -> {
-            listener.changed(ConvertedObservableValue.this, bToAConverter.convert(oldValue), bToAConverter.convert(newValue));
-        });
+        FXProperties.runOnPropertyChange((o, oldValue, newValue) ->
+            listener.changed(ConvertedObservableValue.this, bToAConverter.convert(oldValue), bToAConverter.convert(newValue))
+        , observableValue);
     }
 
     @Override

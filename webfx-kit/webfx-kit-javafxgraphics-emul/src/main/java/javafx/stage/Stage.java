@@ -1,16 +1,15 @@
 package javafx.stage;
 
 import com.sun.javafx.tk.StagePeerListener;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.mapper.WebFxKitMapper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.StagePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTitleProperty;
+import javafx.beans.property.*;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 /**
@@ -241,7 +240,7 @@ public class Stage extends Window implements HasTitleProperty {
 
     /**
      * Returns whether this stage is the primary stage.
-     * When run as an applet, the primary stage will appear in the broswer
+     * When run as an applet, the primary stage will appear in the browser
      *
      * @return true if this stage is the primary stage for the application.
      */
@@ -613,7 +612,24 @@ public class Stage extends Window implements HasTitleProperty {
         }
     }
 
+    private final BooleanProperty fullScreenProperty = new SimpleBooleanProperty();
+
+    public BooleanProperty fullScreenPropertyImpl() { // Will be accessed and updated by WebFxKitLauncher
+        return fullScreenProperty;
+    }
+
+    public final ReadOnlyBooleanProperty fullScreenProperty() {
+        return fullScreenPropertyImpl();
+    }
+
     public final void setFullScreen(boolean value) {
+        if (value) {
+            Scene scene = getScene();
+            if (scene != null)
+                WebFxKitLauncher.requestNodeFullscreen(scene.getRoot()); // will update fullScreenProperty if succeeded
+        } else {
+            WebFxKitLauncher.exitFullscreen(); // will fullScreenProperty if succeeded;
+        }
 /*
         fullScreenPropertyImpl().set(value);
         Toolkit.getToolkit().checkFxUserThread();
@@ -622,15 +638,15 @@ public class Stage extends Window implements HasTitleProperty {
 */
     }
 
-    public void setFullScreenExitHint(String hint) {}
-
     public final boolean isFullScreen() {
-        return false; //fullScreen == null ? false : fullScreen.get();
+        return fullScreenPropertyImpl().get();
     }
 
-    public void setMinWidth(double minWidth) {}
+    public void setFullScreenExitHint(String hint) {} // ignored on purpose (not possible in browser)
 
-    public void setMinHeight(double minHeight) {}
+    public void setMinWidth(double minWidth) {} // ignored on purpose (not possible in browser)
+
+    public void setMinHeight(double minHeight) {} // ignored on purpose (not possible in browser)
 
     private final ObservableList<Image> icons = FXCollections.observableArrayList();
     public final ObservableList<Image> getIcons() {

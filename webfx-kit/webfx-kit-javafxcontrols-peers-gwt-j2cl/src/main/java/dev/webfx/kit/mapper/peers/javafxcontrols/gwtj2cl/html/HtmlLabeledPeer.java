@@ -90,7 +90,8 @@ abstract class HtmlLabeledPeer
     @Override
     public void updateWrapText(boolean wrapText) {
         if (doesSkinRelyOnPeerToProvideVisualContent()) { // Note: for LabeledSkinBase, the wrapping is done though its internal Text node having a wrapping width -> see HtmlTextPeer.updateWrappingWidth()
-            setElementStyleAttribute("white-space", wrapText ? "normal" : "nowrap");
+            // TODO: replace hardcoded rule with CSS (ex: wrap-text class)
+            setElementStyleAttribute("white-space", wrapText ? "pre-wrap" : "pre");
         }
     }
 
