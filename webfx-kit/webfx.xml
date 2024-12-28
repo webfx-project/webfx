@@ -29,6 +29,12 @@
             <library name="javafx-web">
             </library>
 
+            <library name="javafx-swing"> <!-- Not emulated by WebFX but may be used in some pure OpenJFX modules -->
+                <exported-packages>
+                    <package>javafx.embed.swing</package>
+                </exported-packages>
+            </library>
+
         </group>
     </required-libraries>
 
