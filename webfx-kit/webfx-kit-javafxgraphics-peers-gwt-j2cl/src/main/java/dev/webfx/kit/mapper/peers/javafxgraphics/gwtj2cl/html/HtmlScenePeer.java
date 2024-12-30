@@ -93,9 +93,12 @@ public final class HtmlScenePeer extends ScenePeerBase {
             }
             return null;
         };
-        // Disabling default browser drag & drop as JavaFX has its own
-        //container.setAttribute("ondragstart", "return false;");
-        //container.setAttribute("ondrop", "return false;");
+        // Disabling default browser drag & drop as JavaFX has its own. Without doing this, the setOnMouseDragged()
+        // handler would be called only once (when the drag starts) and not continuously during the drag operation.
+        // Also without doing this, the browser would display a ghost image of the dragged element (which is not the
+        // case with JavaFX). Ex of use case: Modality user profile picture drag (in ChangePictureUI).
+        container.setAttribute("ondragstart", "return false;");
+        container.setAttribute("ondrop", "return false;"); // TODO check if this is necessary
     }
 
     private void registerMouseListener(String type) {
