@@ -200,8 +200,8 @@ public class ImageView extends Node implements
         double localFitWidth = getFitWidth();
         double localFitHeight = getFitHeight();
 
-        if (isPreserveRatio() && w > 0 && h > 0 && (localFitWidth > 0 || localFitHeight > 0)) {
-            if (localFitWidth <= 0 || (localFitHeight > 0 && localFitWidth * h > localFitHeight * w)) {
+        if (isPreserveRatio() && w > 0 && h > 0 && (localFitWidth > 0 && localFitHeight <= 0 || localFitHeight > 0 && localFitWidth <= 0)) {
+            if (localFitWidth <= 0) {
                 w = w * localFitHeight / h;
                 h = localFitHeight;
             } else {
@@ -209,10 +209,10 @@ public class ImageView extends Node implements
                 w = localFitWidth;
             }
         } else {
-            if (localFitWidth > 0f) {
+            if (localFitWidth > 0) {
                 w = localFitWidth;
             }
-            if (localFitHeight > 0f) {
+            if (localFitHeight > 0) {
                 h = localFitHeight;
             }
         }
