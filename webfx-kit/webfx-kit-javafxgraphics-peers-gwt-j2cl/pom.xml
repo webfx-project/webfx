@@ -48,11 +48,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.elemental2</groupId>
-            <artifactId>elemental2-webstorage</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.jsinterop</groupId>
             <artifactId>jsinterop-annotations</artifactId>
         </dependency>
