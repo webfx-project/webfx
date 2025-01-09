@@ -28,6 +28,7 @@ package javafx.beans.binding;
 import com.sun.javafx.binding.BidirectionalBinding;
 import com.sun.javafx.binding.IntegerConstant;
 import com.sun.javafx.collections.ImmutableObservableList;
+import dev.webfx.platform.util.Strings;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.Property;
@@ -559,6 +560,42 @@ public final class Bindings {
                 return FXCollections.singletonObservableList(op);
             }
         };
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is empty.
+     * <p>
+     * Note: In this comparison a {@code String} that is {@code null} is
+     * considered to be empty.
+     *
+     * @param op
+     *            the {@code ObservableStringValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableStringValue} is {@code null}
+     * @since JavaFX 8.0
+     */
+    public static BooleanBinding isEmpty(final ObservableStringValue op) {
+        return createBooleanBinding(() -> Strings.isEmpty(op.get()), op);
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of a {@link javafx.beans.value.ObservableStringValue} is not empty.
+     * <p>
+     * Note: In this comparison a {@code String} that is {@code null} is
+     * considered to be empty.
+     *
+     * @param op
+     *            the {@code ObservableStringValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableStringValue} is {@code null}
+     * @since JavaFX 8.0
+     */
+    public static BooleanBinding isNotEmpty(final ObservableStringValue op) {
+        return createBooleanBinding(() -> Strings.isNotEmpty(op.get()), op);
     }
 
 }

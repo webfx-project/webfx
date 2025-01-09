@@ -61,5 +61,22 @@ public abstract class StringExpression implements ObservableStringValue {
         return value == null ? "" : value;
     }
 
-    // removed
+    public BooleanBinding isEmpty() {
+        return Bindings.isEmpty(this);
+    }
+
+    /**
+     * Creates a new {@link BooleanBinding} that holds {@code true} if this
+     * {@code StringExpression} is not empty.
+     * <p>
+     * Note: If the value of this {@code StringExpression} is {@code null},
+     * it is considered to be empty.
+     *
+     * @return the new {@code BooleanBinding}
+     * @since JavaFX 8.0
+     */
+    public BooleanBinding isNotEmpty() {
+        return Bindings.isNotEmpty(this);
+    }
+
 }
