@@ -3,18 +3,23 @@
     --fx-border-color-focus: #0096D6;
     --fx-textfield-background: white;
     --fx-button-background: linear-gradient(180deg, white, #e0e0e0);
+    --fx-togglebutton-selected-background: linear-gradient(180deg, #f0f0f0, #d0d0d0);
 }
 
 ::placeholder {
     color: #888;
 }
 
-fx-button > fx-background {
+fx-button > fx-background, fx-togglebutton > fx-background {
     background: var(--fx-button-background);
     border-radius: var(--fx-border-radius);
 }
 
-fx-button > fx-border, fx-textfield > fx-border, textarea {
+fx-togglebutton.selected > fx-background {
+    background: var(--fx-togglebutton-selected-background);
+}
+
+fx-button > fx-border, fx-togglebutton > fx-border, fx-textfield > fx-border, textarea {
     border-color: var(--fx-border-color);
     border-style: var(--fx-border-style);
     border-width: var(--fx-border-width);

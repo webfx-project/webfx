@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
+import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.HTMLElement;
 import javafx.scene.control.ToggleButton;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ToggleButtonPeerBase;
@@ -18,7 +19,7 @@ public final class HtmlToggleButtonPeer
         implements ToggleButtonPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlToggleButtonPeer() {
-        this((NB) new ToggleButtonPeerBase(), HtmlUtil.createButtonElement());
+        this((NB) new ToggleButtonPeerBase(), HtmlUtil.createElement("fx-togglebutton"));
     }
 
     public HtmlToggleButtonPeer(NB base, HTMLElement element) {
@@ -27,6 +28,7 @@ public final class HtmlToggleButtonPeer
 
     @Override
     public void updateSelected(Boolean selected) {
+        Collections.addIfNotContainsOrRemove(getNode().getStyleClass(), selected,"selected");
     }
 
     @Override
