@@ -735,7 +735,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         double measure = width ? textToMesure.prefWidth(-1) : textToMesure.prefHeight(-1);
         if (textToMesure == this.text) // Restoring the wrapping width if it was changed
             this.text.setWrappingWidth(memorizedTextWrappingWidth);
-        else if (width) // Or memorizing the width for the noWrappingText
+        else if (width && wrappingWidth == 0) // Or memorizing the width for the noWrappingText when it was measured
             noWrappingTextWidth = measure;
         return measure;
     }
