@@ -102,7 +102,7 @@ public class GwtJ2clMediaViewPeer
     }
 
     @Override
-    public double measure(HTMLElement e, boolean width) { // Important correction of measure() for FireFox where offsetWidth/Height is not immediately equals to videoWidth/Height
-        return width ? getVideoWidth() : getVideoHeight();
+    public double measure(HTMLElement e, boolean measureWidth) { // Important correction of measure() for FireFox where offsetWidth/Height is not immediately equals to videoWidth/Height
+        return measureWidth ? getVideoWidth() : getVideoHeight();
     }
 }
