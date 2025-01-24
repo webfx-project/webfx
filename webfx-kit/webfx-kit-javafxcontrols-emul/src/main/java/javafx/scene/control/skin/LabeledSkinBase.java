@@ -691,7 +691,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                 rightInset + rightLabelPadding();
     }
 
-    private double computeTextWidth(Font font, String text, double wrappingWidth) {
+    private double computeTextWidth(Font font, String text, double wrappingWidth) { // Note: always called with wrappingWidth = 0 for some reason
         //return Utils.computeTextWidth(font, text, wrappingWidth); // Not supported by WebFX
         // Alternative WebFX code:
         if (Strings.isEmpty(text))
@@ -706,12 +706,12 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         // Alternative WebFX code:
         /*if (wrappingWidth <= 0 || Strings.isEmpty(text)) // Commented because it doesn't include the extra space around the text like in the html node
             return WebFxKitLauncher.measureText(text, font).getHeight();*/
-        return measureText(font, text, wrappingWidth, false);
+        return measureText(font, text, wrappingWidth, false); // Note: this actually applies the wrappingWidth to the text
+        // TODO: check if there are cases where wrappingWidth = 0 is not applied to the text
     }
 
     private double measureText(Font font, String text, double wrappingWidth, boolean width) { // WebFX code
         Text textToMesure;
-        double memorizedTextWrappingWidth = -1;
         // Using noWrappingText (and not this.text) in case of computation with no wrappingWidth (which happens each
         // time JavaFX computes the label min and pref widths), because if we were using this.text, this constant
         // changing of wrappingWidth (between 0 and the actual value set by the application) would create an infinite
@@ -727,15 +727,12 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             textToMesure = this.text;
             //textToMesure.setFont(font); // already bound in LabeledText
             //textToMesure.setLineSpacing(lineSpacing) // already bound in LabeledText
-            memorizedTextWrappingWidth = this.text.getWrappingWidth(); // memorizing the wrapping width to restore it after the measure
             textToMesure.setWrappingWidth(wrappingWidth);
         }
         FXProperties.setIfNotEquals(textToMesure.textProperty(), text);
         // Measuring the text width or height
         double measure = width ? textToMesure.prefWidth(-1) : textToMesure.prefHeight(-1);
-        if (textToMesure == this.text) // Restoring the wrapping width if it was changed
-            this.text.setWrappingWidth(memorizedTextWrappingWidth);
-        else if (width && wrappingWidth == 0) // Or memorizing the width for the noWrappingText when it was measured
+        if (width && wrappingWidth == 0) // Memorizing the width for the noWrappingText when it was measured
             noWrappingTextWidth = measure;
         return measure;
     }
