@@ -91,10 +91,8 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
             if (otherSizeValue >= 0)
                 style.height = CSSProperties.HeightUnionType.of(pxValue);
         } else {
-            if (otherSizeValue >= 0) {
+            if (otherSizeValue >= 0)
                 style.width = CSSProperties.WidthUnionType.of(pxValue);
-                style.maxWidth = CSSProperties.MaxWidthUnionType.of(pxValue);
-            }
             style.height = null;
         }
         double result = measure(e, measureWidth);
