@@ -543,7 +543,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         if (labeled.isWrapText() /* WebFX addition: */ && wrapWidth < noWrappingTextWidth) { // we don't set the wrapping width if not necessary due to lack of double precision in HTML (rounding to inferior pixel can cause an unwanted text wrap)
             // Note that the wrapping width needs to be set to zero before
             // getting the text's real preferred width.
-            double w = Math.min(text.prefWidth(-1), wrapWidth);
+            double w = wrapWidth; //Math.min(text.prefWidth(-1), wrapWidth);
             text.setWrappingWidth(w);
         } else
             text.setWrappingWidth(0);
@@ -730,8 +730,8 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             textToMesure.setWrappingWidth(wrappingWidth);
         }
         FXProperties.setIfNotEquals(textToMesure.textProperty(), text);
-        // Measuring the text width or height
-        double measure = width ? textToMesure.prefWidth(-1) : textToMesure.prefHeight(-1);
+        // Measuring the text width or height. Note: prefHeight(-1) alone may cause wrong value at initialization (use Podcasts page to test)
+        double measure = width ? textToMesure.prefWidth(-1) : textToMesure.prefHeight(wrappingWidth > 0 ? wrappingWidth : -1);
         if (width && wrappingWidth == 0) // Memorizing the width for the noWrappingText when it was measured
             noWrappingTextWidth = measure;
         return measure;
@@ -783,7 +783,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         double widthPadding = leftInset + leftLabelPadding() +
                 rightInset + rightLabelPadding();
 
-        double textWidth = emptyText ? 0  : computeTextWidth(font, string, 0);
+        double textWidth = emptyText ? 0 : computeTextWidth(font, string, 0);
 
         // Fix for RT-39889
         double graphicWidth = graphic == null ? 0.0 :
