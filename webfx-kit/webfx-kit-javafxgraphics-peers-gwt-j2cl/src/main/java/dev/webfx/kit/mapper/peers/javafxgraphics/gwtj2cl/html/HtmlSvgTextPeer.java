@@ -113,8 +113,8 @@ public final class HtmlSvgTextPeer
     }
 
     @Override
-    public double measure(HTMLElement e, boolean width) {
-        return width ? getBBox().width : getBBox().height;
+    public double measure(HTMLElement e, boolean measureWidth) {
+        return measureWidth ? getBBox().width : getBBox().height;
     }
 
 /*

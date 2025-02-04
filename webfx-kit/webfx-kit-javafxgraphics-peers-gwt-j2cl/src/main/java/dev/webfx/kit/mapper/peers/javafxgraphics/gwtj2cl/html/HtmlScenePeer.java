@@ -232,6 +232,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void onCssOrFontLoaded() {
+        // TODO: reset all caches in HtmlLayoutMeasurable
         forceWholeSceneGraphLayout(scene);
     }
 

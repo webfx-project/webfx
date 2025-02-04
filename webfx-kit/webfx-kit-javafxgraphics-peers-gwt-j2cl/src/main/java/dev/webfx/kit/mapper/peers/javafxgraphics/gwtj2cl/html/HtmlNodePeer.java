@@ -46,9 +46,9 @@ public abstract class HtmlNodePeer
     @Override
     public void updateAllNodeTransforms(List<Transform> allNodeTransforms) {
         Element container = getVisibleContainer();
-        if (!(container instanceof HTMLElement))
+        if (!(container instanceof HTMLElement)) // for SVG elements
             super.updateAllNodeTransforms(allNodeTransforms);
-        else {
+        else { // for HTML elements
             String transform = HtmlTransforms.toHtmlTransforms(allNodeTransforms);
             CSSStyleDeclaration style = ((HTMLElement) container).style;
             style.transform = transform;

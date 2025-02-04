@@ -2,6 +2,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlNodePeer;
+import dev.webfx.platform.console.Console;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.DOMRect;
@@ -14,12 +15,16 @@ import javafx.geometry.Bounds;
  */
 public interface HtmlLayoutMeasurable extends LayoutMeasurable {
 
+    // TODO: reset all caches when fonts are loaded from CSS
+    boolean ENABLE_CACHE = true;
+    boolean DETECT_WRONG_CACHE = false;
+
     HTMLElement getElement();
 
     default Bounds getLayoutBounds() {
         Bounds layoutBounds;
         // Looking the value in the cache (if the peer has one)
-        HtmlLayoutCache cache = getCache();
+        HtmlLayoutCache cache = ENABLE_CACHE ? getCache() : null;
         if (cache != null) {
             layoutBounds = cache.getCachedLayoutBounds();
             if (layoutBounds != null)
@@ -64,49 +69,53 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
     }
 
     default double measureWidth(double height) {
-        return sizeAndMeasure(height, true);
+        return sizeAndMeasure(true, height);
     }
 
     default double measureHeight(double width) {
-        return sizeAndMeasure(width, false);
+        return sizeAndMeasure(false, width);
     }
 
-    default double sizeAndMeasure(double value, boolean width) {
-        HtmlLayoutCache cache = getCache();
-        if (cache != null) {
-            double cachedSize = cache.getCachedSize(value, width);
-            if (cachedSize >= 0)
-                return cachedSize;
-        }
+    default double sizeAndMeasure(boolean measureWidth, double otherSizeValue) {
+        HtmlLayoutCache cache = ENABLE_CACHE ? getCache() : null;
+        double cachedSize = cache == null ? -1 : cache.getCachedSize(otherSizeValue, measureWidth);
+        if (!DETECT_WRONG_CACHE && cachedSize >= 0)
+            return cachedSize;
         HTMLElement e = getElement();
         CSSStyleDeclaration style = e.style;
         CSSProperties.WidthUnionType styleWidth = style.width;
         CSSProperties.HeightUnionType styleHeight = style.height;
-        if (width) {
+        String pxValue = otherSizeValue >= 0 ? HtmlNodePeer.toPx(otherSizeValue) : null;
+        if (measureWidth) {
             style.width = null;
-            if (value >= 0)
-                style.height = CSSProperties.HeightUnionType.of(HtmlNodePeer.toPx(value));
+            if (otherSizeValue >= 0)
+                style.height = CSSProperties.HeightUnionType.of(pxValue);
         } else {
-            if (value >= 0)
-                style.width = CSSProperties.WidthUnionType.of(HtmlNodePeer.toPx(value));
+            if (otherSizeValue >= 0)
+                style.width = CSSProperties.WidthUnionType.of(pxValue);
             style.height = null;
         }
-        double result = measure(e, width);
+        double result = measure(e, measureWidth);
+        if (cache != null && e.isConnected) { // no cache for non-connected elements (as explained above)
+            if (DETECT_WRONG_CACHE && cachedSize >= 0 && cachedSize != result) {
+                Console.log("⚠️ Warning: cached " + (measureWidth ? "width" : "height") + " differs from measured: " + cachedSize + " != " + result + " for " + this + ", style = " + style.cssText);
+            }
+            cache.setCachedSize(otherSizeValue, measureWidth, result);
+        }
+        // Restoring the original style after measurement
         style.width = styleWidth;
         style.height = styleHeight;
-        if (cache != null && e.isConnected) // no cache for non-connected elements (as explained above)
-            cache.setCachedSize(value, width, result);
         return result;
     }
 
-    default double measure(HTMLElement e, boolean width) {
+    default double measure(HTMLElement e, boolean measureWidth) {
         // offsetWidth & offsetHeight return the correct values (including transforms), unfortunately their precision is
         // only integer... This diminution can cause problems (ex: text in Label wrapped to next line while it shouldn't).
-        int i = width ? e.offsetWidth : e.offsetHeight;
+        int i = measureWidth ? e.offsetWidth : e.offsetHeight;
         // So we try to get a better precision (double) using getBoundingClientRect(), unfortunately it doesn't consider
         // transforms... But we will prefer it in case there is no transforms
         DOMRect bcr = e.getBoundingClientRect();
-        double d = width ? bcr.width : bcr.height;
+        double d = measureWidth ? bcr.width : bcr.height;
         if (i == (int) d) // If the double precision matches the integer precision, it's likely there is no transform,
             return d; // so we return this more precise value
         // Otherwise, it's likely that there is a transform, so we return the integer precision value

@@ -65,7 +65,7 @@ public final class HtmlTextPeer
 
     @Override
     public void updateText(String text) {
-        setElementTextContent(text);
+        setElementTextContent(text); // this clears the cache (if text is different)
         updateYInAnimationFrame(true);
     }
 
@@ -146,7 +146,7 @@ public final class HtmlTextPeer
         // First, we set the HTML line height with no extra spacing between lines (lineSpacing = 0).
         // Note: it looks like JavaFX doesn't apply the same line height for single-line and multi-lines texts.
         // For single-line, it looks like HTML "normal", and for multi-line it looks like 130% (empiric value).
-        style.lineHeight = isWrapping ? CSSProperties.LineHeightUnionType.of("130%") : null; // Note: 100% < normal < 130%
+        style.lineHeight = isWrapping ? CSSProperties.LineHeightUnionType.of("130%") : null /*or pre-wrap?*/; // Note: 100% < normal < 130%
         // We correct the line height if an additional line spacing is requested
         if (isWrapping && lineSpacing != 0) { // not necessary if not wrapping (i.e. single line text)
             // There is no HTML equivalent of the JavaFX lineSpacing which specifies only the extra space (expressed in
@@ -162,8 +162,8 @@ public final class HtmlTextPeer
             // 2) Correcting the line height by adding the requested line spacing
             style.lineHeight = CSSProperties.LineHeightUnionType.of(toPx(lineHeightPx + lineSpacing));
         }
-        // Mapping the wrapping with using the HTML width style attribute
-        style.width = isWrapping ? CSSProperties.WidthUnionType.of(toPx(wrappingWidth)) : null;
+        // Mapping the wrapping with using the HTML maxWidth style attribute
+        style.maxWidth = isWrapping ? CSSProperties.MaxWidthUnionType.of(toPx(wrappingWidth)) : null;
         // Mapping the wrapping mode using the HTML white-space style attribute
         style.whiteSpace = isWrapping ? "pre-wrap" : "pre";
         // Clearing the measurement cache because HTML attributes have changed

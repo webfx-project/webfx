@@ -104,7 +104,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         this.scene.setValue(scene);
     }
 
-    private final Property<Boolean> managedProperty = new SimpleObjectProperty<Boolean>(true) {
+    private final BooleanProperty managedProperty = new SimpleBooleanProperty(true) {
         @Override
         protected void invalidated() {
             Parent parent = getParent();
@@ -115,13 +115,13 @@ public abstract class Node implements INode, EventTarget, Styleable {
     };
 
     @Override
-    public Property<Boolean> managedProperty() {
+    public BooleanProperty managedProperty() {
         return managedProperty;
     }
 
-    private final Property<Boolean> mouseTransparentProperty = new SimpleObjectProperty<>(false);
+    private final BooleanProperty mouseTransparentProperty = new SimpleBooleanProperty(false);
     @Override
-    public Property<Boolean> mouseTransparentProperty() {
+    public BooleanProperty mouseTransparentProperty() {
         return mouseTransparentProperty;
     }
 
@@ -163,9 +163,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return getEventHandlerProperties().onMouseClickedProperty();
     }
 
-    private final Property<Boolean> visibleProperty = new SimpleObjectProperty<>(true);
+    private final BooleanProperty visibleProperty = new SimpleBooleanProperty(true);
     @Override
-    public Property<Boolean> visibleProperty() {
+    public BooleanProperty visibleProperty() {
         return visibleProperty;
     }
 
@@ -356,7 +356,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      *
      * @defaultValue false
      */
-    private final Property<Boolean> disableProperty = new SimpleObjectProperty<Boolean>(false) {
+    private final BooleanProperty disableProperty = new SimpleBooleanProperty(false) {
         @Override
         protected void invalidated() {
             updateDisabled();
@@ -377,7 +377,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         }
 
     };
-    public final Property<Boolean> disableProperty() {
+    public final BooleanProperty disableProperty() {
         return disableProperty; //getMiscProperties().disableProperty();
     }
 
@@ -394,7 +394,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      *
      * @defaultValue false
      */
-    private Property<Boolean> hover;
+    private BooleanProperty hover;
 
     protected final void setHover(boolean value) {
         hoverPropertyImpl().setValue(value);
@@ -404,13 +404,13 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return hover == null ? false : hover.getValue();
     }
 
-    public final ReadOnlyProperty<Boolean> hoverProperty() {
+    public final ReadOnlyBooleanProperty hoverProperty() {
         return hoverPropertyImpl()/*.getReadOnlyProperty()*/;
     }
 
-    private Property<Boolean> hoverPropertyImpl() {
+    private BooleanProperty hoverPropertyImpl() {
         if (hover == null) {
-            hover = new SimpleObjectProperty<>(false)/* {
+            hover = new SimpleBooleanProperty(false)/* {
 
                 @Override
                 protected void invalidated() {
@@ -442,7 +442,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      *
      * @defaultValue false
      */
-    private Property<Boolean> pressed;
+    private BooleanProperty pressed;
 
     protected final void setPressed(boolean value) {
         pressedPropertyImpl().setValue(value);
@@ -452,13 +452,13 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return pressed == null ? false : pressed.getValue();
     }
 
-    public final ReadOnlyProperty<Boolean> pressedProperty() {
+    public final ReadOnlyBooleanProperty pressedProperty() {
         return pressedPropertyImpl()/*.getReadOnlyProperty()*/;
     }
 
-    private Property<Boolean> pressedPropertyImpl() {
+    private BooleanProperty pressedPropertyImpl() {
         if (pressed == null) {
-            pressed = new SimpleObjectProperty<>(false)/* {
+            pressed = new SimpleBooleanProperty(false)/* {
 
                 @Override
                 protected void invalidated() {
@@ -868,7 +868,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      * @see #requestFocus()
      * @defaultValue false
      */
-    private Property<Boolean> focusTraversable;
+    private BooleanProperty focusTraversable;
 
     public final void setFocusTraversable(boolean value) {
         focusTraversableProperty().setValue(value);
@@ -877,9 +877,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return focusTraversable == null ? false : focusTraversable.getValue();
     }
 
-    public final Property<Boolean> focusTraversableProperty() {
+    public final BooleanProperty focusTraversableProperty() {
         if (focusTraversable == null) {
-            focusTraversable = new SimpleObjectProperty<>(false)/* {
+            focusTraversable = new SimpleBooleanProperty(false)/* {
 
                 @Override
                 public void invalidated() {

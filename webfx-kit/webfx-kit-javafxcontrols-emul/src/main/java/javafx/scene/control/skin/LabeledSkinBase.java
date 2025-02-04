@@ -543,7 +543,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         if (labeled.isWrapText() /* WebFX addition: */ && wrapWidth < noWrappingTextWidth) { // we don't set the wrapping width if not necessary due to lack of double precision in HTML (rounding to inferior pixel can cause an unwanted text wrap)
             // Note that the wrapping width needs to be set to zero before
             // getting the text's real preferred width.
-            double w = Math.min(text.prefWidth(-1), wrapWidth);
+            double w = wrapWidth; //Math.min(text.prefWidth(-1), wrapWidth);
             text.setWrappingWidth(w);
         } else
             text.setWrappingWidth(0);
@@ -691,17 +691,14 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                 rightInset + rightLabelPadding();
     }
 
-    private double computeTextWidth(Font font, String text, double wrappingWidth) {
+    private double computeTextWidth(Font font, String text, double wrappingWidth) { // Note: always called with wrappingWidth = 0 for some reason
         //return Utils.computeTextWidth(font, text, wrappingWidth); // Not supported by WebFX
         // Alternative WebFX code:
         if (Strings.isEmpty(text))
             return 0;
         /*if (wrappingWidth <= 0) // Commented because it doesn't include the extra space around the text like in the html node
             return WebFxKitLauncher.measureText(text, font).getWidth();*/
-        double textWidth = getTextToMeasure(font, text, wrappingWidth).prefWidth(-1);
-        if (wrappingWidth == 0)
-            noWrappingTextWidth = textWidth;
-        return textWidth;
+        return measureText(font, text, wrappingWidth, true);
     }
 
     private double computeTextHeight(Font font, String text, double wrappingWidth, double lineSpacing, TextBoundsType boundsType) {
@@ -709,10 +706,11 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         // Alternative WebFX code:
         /*if (wrappingWidth <= 0 || Strings.isEmpty(text)) // Commented because it doesn't include the extra space around the text like in the html node
             return WebFxKitLauncher.measureText(text, font).getHeight();*/
-        return getTextToMeasure(font, text, wrappingWidth).prefHeight(-1);
+        return measureText(font, text, wrappingWidth, false); // Note: this actually applies the wrappingWidth to the text
+        // TODO: check if there are cases where wrappingWidth = 0 is not applied to the text
     }
 
-    private Text getTextToMeasure(Font font, String text, double wrappingWidth) { // WebFX code
+    private double measureText(Font font, String text, double wrappingWidth, boolean width) { // WebFX code
         Text textToMesure;
         // Using noWrappingText (and not this.text) in case of computation with no wrappingWidth (which happens each
         // time JavaFX computes the label min and pref widths), because if we were using this.text, this constant
@@ -732,7 +730,11 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             textToMesure.setWrappingWidth(wrappingWidth);
         }
         FXProperties.setIfNotEquals(textToMesure.textProperty(), text);
-        return textToMesure;
+        // Measuring the text width or height. Note: prefHeight(-1) alone may cause wrong value at initialization (use Podcasts page to test)
+        double measure = width ? textToMesure.prefWidth(-1) : textToMesure.prefHeight(wrappingWidth > 0 ? wrappingWidth : -1);
+        if (width && wrappingWidth == 0) // Memorizing the width for the noWrappingText when it was measured
+            noWrappingTextWidth = measure;
+        return measure;
     }
 
     @Override protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -781,7 +783,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         double widthPadding = leftInset + leftLabelPadding() +
                 rightInset + rightLabelPadding();
 
-        double textWidth = emptyText ? 0  : computeTextWidth(font, string, 0);
+        double textWidth = emptyText ? 0 : computeTextWidth(font, string, 0);
 
         // Fix for RT-39889
         double graphicWidth = graphic == null ? 0.0 :
