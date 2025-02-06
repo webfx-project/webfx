@@ -54,8 +54,14 @@ public class HtmlTextFieldPeer
         Node n = node;
         if (n instanceof ToolkitTextBox)
             n = ((ToolkitTextBox) n).getEmbeddingTextField();
-        if (n instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
-            HtmlUtil.setAttribute(getElement(), "type", "password");
+        Object type = n.getProperties().get("webfx-input-type");
+        if (type == null && n instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
+            type =  "password";
+        if (type != null)
+            HtmlUtil.setAttribute(getElement(), "type", type.toString());
+        Object autocomplete = n.getProperties().get("webfx-input-autocomplete");
+        if (autocomplete != null)
+            HtmlUtil.setAttribute(getElement(), "autocomplete", autocomplete.toString());
     }
 
     @Override
