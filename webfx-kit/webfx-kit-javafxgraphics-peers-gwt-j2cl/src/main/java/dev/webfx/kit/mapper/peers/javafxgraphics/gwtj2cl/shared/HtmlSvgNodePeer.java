@@ -608,9 +608,12 @@ public abstract class HtmlSvgNodePeer
         if (Booleans.isTrue(disabled)) {
             if (!disabledCssClassPresent)
                 classList.add(DISABLED_CSS_CLASS);
+            // We also set the disabled attribute
+            getElement().setAttribute("disabled", "true");
         } else {
             if (disabledCssClassPresent)
                 classList.remove(DISABLED_CSS_CLASS);
+            getElement().removeAttribute("disabled");
         }
     }
 
