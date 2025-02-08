@@ -54,12 +54,12 @@ public class HtmlTextFieldPeer
         Node n = node;
         if (n instanceof ToolkitTextBox)
             n = ((ToolkitTextBox) n).getEmbeddingTextField();
-        Object type = n.getProperties().get("webfx-input-type");
+        Object type = n.getProperties().get("webfx-html-input-type");
         if (type == null && n instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
             type =  "password";
         if (type != null)
             HtmlUtil.setAttribute(getElement(), "type", type.toString());
-        Object autocomplete = n.getProperties().get("webfx-input-autocomplete");
+        Object autocomplete = n.getProperties().get("webfx-html-input-autocomplete");
         if (autocomplete != null)
             HtmlUtil.setAttribute(getElement(), "autocomplete", autocomplete.toString());
     }
