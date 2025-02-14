@@ -7,6 +7,7 @@ import dev.webfx.platform.console.Console;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.scheduler.Scheduler;
 import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.stopwatch.StopWatch;
 import elemental2.core.JsObject;
 import elemental2.core.Uint8Array;
 import elemental2.dom.*;
@@ -175,6 +176,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
             getOrCreateAnalyzer().getByteTimeDomainData(byteTimeArray);
             if (byteTimeArray.getAt(0) != 128) {
                 audioBufferFirstSoundDetected = true;
+                bufferSourceStopWatchMillis.reset();
                 bufferSourceStopWatchMillis.startAt(secondsDoubleToMillisLong(bufferSourceStartOffset));
             }
             currentTimeDuration = Duration.ZERO;
@@ -244,6 +246,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
             bufferSource.onended = e -> doOnEnded();
             bufferSourcePlayed = true; // a buffer source can be played only once, so this flag indicates a new bufferSource is needed to play this sound again
             if (!audioClip) {
+                bufferSourceStopWatchMillis.reset();
                 bufferSourceStopWatchMillis.startAt(secondsDoubleToMillisLong(bufferSourceStartOffset));
                 startMediaPlayerCurrentTimePeriodicSyncer();
                 mediaPlayer.setStatus(MediaPlayer.Status.PLAYING);
@@ -379,7 +382,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
     private void pauseBufferSource() {
         bufferSource.playbackRate.value = 0; // Using this trick as there is no pause() method in AudioBufferSourceNode
         if (!audioClip) {
-            bufferSourceStopWatchMillis.pause();
+            bufferSourceStopWatchMillis.off();
             stopMediaPlayerCurrentTimePropertyPeriodicSyncer();
             mediaPlayer.setStatus(MediaPlayer.Status.PAUSED);
         }
@@ -392,7 +395,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
     private void resumeBufferSource() {
         bufferSource.playbackRate.value = 1; // We reestablished the normal speed to resume
         if (!audioClip) {
-            bufferSourceStopWatchMillis.resume();
+            bufferSourceStopWatchMillis.on();
             startMediaPlayerCurrentTimePeriodicSyncer();
             mediaPlayer.setStatus(MediaPlayer.Status.PLAYING);
         }
@@ -567,6 +570,7 @@ public final class GwtJ2clMediaPlayerPeer implements MediaPlayerPeer {
         if (hasMediaElement())
             mediaElement.currentTime = durationSeconds;
         else {
+            bufferSourceStopWatchMillis.reset();
             bufferSourceStopWatchMillis.startAt(secondsDoubleToMillisLong(durationSeconds));
             bufferSourceStopWatchMillis.pause();
             bufferSourceStartOffset = durationSeconds;
