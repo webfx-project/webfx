@@ -46,7 +46,7 @@ fx-textfield > fx-background {
 }
 
 /* Removing borders, outlines and background for input elements (to not interfere with the above) */
-input[type="text"], input[type="password"] {
+input, input[type="text"], input[type="password"] { /* is input rule not enough? */
     border: none;
     outline: none;
     background-color: transparent;

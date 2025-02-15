@@ -137,31 +137,7 @@ public final class Bindings {
      *             if the operand is {@code null}
      */
     public static BooleanBinding not(final ObservableBooleanValue op) {
-        if (op == null) {
-            throw new NullPointerException("Operand cannot be null.");
-        }
-
-        return new BooleanBinding() {
-            {
-                super.bind(op);
-            }
-
-            @Override
-            public void dispose() {
-                super.unbind(op);
-            }
-
-            @Override
-            protected boolean computeValue() {
-                return !op.get();
-            }
-
-            @Override
-            //@ReturnsUnmodifiableCollection
-            public ObservableList<?> getDependencies() {
-                return FXCollections.singletonObservableList(op);
-            }
-        };
+        return createBooleanBinding(() -> !op.get(), op);
     }
 
     // =================================================================================================================
@@ -536,30 +512,7 @@ public final class Bindings {
      * @since JavaFX 2.1
      */
     public static <E> BooleanBinding isEmpty(final ObservableList<E> op) {
-        if (op == null) {
-            throw new NullPointerException("List cannot be null.");
-        }
-
-        return new BooleanBinding() {
-            {
-                super.bind(op);
-            }
-
-            @Override
-            public void dispose() {
-                super.unbind(op);
-            }
-
-            @Override
-            protected boolean computeValue() {
-                return op.isEmpty();
-            }
-
-            @Override
-            public ObservableList<?> getDependencies() {
-                return FXCollections.singletonObservableList(op);
-            }
-        };
+        return createBooleanBinding(op::isEmpty, op);
     }
 
     /**

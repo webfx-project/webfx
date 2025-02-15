@@ -8,6 +8,7 @@ import dev.webfx.platform.console.Console;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.scheduler.Scheduler;
 import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.stopwatch.StopWatch;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -221,10 +222,9 @@ public class MediaPlayer {
     public void play() {
         if (audio != null) {
             audio.play();
-            if (Status.PAUSED.equals(getStatus()))
-                stopWatch.resume();
-            else
-                stopWatch.start();
+            if (!Status.PAUSED.equals(getStatus()))
+                stopWatch.reset();
+            stopWatch.on();
             startMediaPlayerCurrentTimePeriodicSyncer();
             statusProperty.set(Status.PLAYING);
         } else
@@ -252,7 +252,7 @@ public class MediaPlayer {
     public void pause() {
         if (audio != null) {
             audio.pause();
-            stopWatch.pause();
+            stopWatch.off();
             stopMediaPlayerCurrentTimePeriodicSyncer();
             statusProperty.set(Status.PAUSED);
         }
@@ -262,7 +262,7 @@ public class MediaPlayer {
     public void stop() {
         if (audio != null) {
             audio.stop();
-            stopWatch.pause();
+            stopWatch.off();
             stopMediaPlayerCurrentTimePeriodicSyncer();
             statusProperty.set(Status.STOPPED);
         }

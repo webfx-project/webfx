@@ -10,6 +10,7 @@ module javafx.media {
     requires webfx.platform.console;
     requires webfx.platform.scheduler;
     requires webfx.platform.uischeduler;
+    requires webfx.platform.util;
 
     // Exported packages
     exports javafx.scene.media;
