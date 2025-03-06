@@ -1,6 +1,32 @@
+/*
+ * Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+
 package javafx.geometry;
 
-import com.sun.javafx.geom.Point2D;
+import javafx.beans.NamedArg;
+
 
 /**
  * A rectangular bounding box which is used to describe the bounds of a node
@@ -22,7 +48,7 @@ public class BoundingBox extends Bounds {
      * @param height the height of the {@code BoundingBox}
      * @param depth the depth of the {@code BoundingBox}
      */
-    public BoundingBox(double minX, double minY, double minZ, double width, double height, double depth) {
+    public BoundingBox(@NamedArg("minX") double minX, @NamedArg("minY") double minY, @NamedArg("minZ") double minZ, @NamedArg("width") double width, @NamedArg("height") double height, @NamedArg("depth") double depth) {
         super(minX, minY, minZ, width, height, depth);
     }
 
@@ -33,7 +59,7 @@ public class BoundingBox extends Bounds {
      * @param width the width of the {@code BoundingBox}
      * @param height the height of the {@code BoundingBox}
      */
-    public BoundingBox(double minX, double minY, double width, double height) {
+    public BoundingBox(@NamedArg("minX") double minX, @NamedArg("minY") double minY, @NamedArg("width") double width, @NamedArg("height") double height) {
         super(minX, minY, 0, width, height, 0);
     }
 
@@ -51,19 +77,17 @@ public class BoundingBox extends Bounds {
      */
     @Override public boolean contains(Point2D p) {
         if (p == null) return false;
-        return contains(p.x, p.y, 0.0f);
+        return contains(p.getX(), p.getY(), 0.0f);
     }
 
     /**
      * {@inheritDoc}
      * The points on the boundary are considered to lie inside the {@code BoundingBox}.
      */
-/*
-    @Override public boolean contains(Point3D p) {
+    /*@Override public boolean contains(Point3D p) {
         if (p == null) return false;
         return contains(p.getX(), p.getY(), p.getZ());
-    }
-*/
+    }*/
 
     /**
      * {@inheritDoc}
@@ -80,7 +104,7 @@ public class BoundingBox extends Bounds {
     @Override public boolean contains(double x, double y, double z) {
         if (isEmpty()) return false;
         return x >= getMinX() && x <= getMaxX() && y >= getMinY() && y <= getMaxY()
-                && z >= getMinZ() && z <= getMaxZ();
+               && z >= getMinZ() && z <= getMaxZ();
     }
 
     /**
@@ -90,7 +114,7 @@ public class BoundingBox extends Bounds {
     @Override public boolean contains(Bounds b) {
         if ((b == null) || b.isEmpty()) return false;
         return contains(b.getMinX(), b.getMinY(), b.getMinZ(),
-                b.getWidth(), b.getHeight(), b.getDepth());
+            b.getWidth(), b.getHeight(), b.getDepth());
     }
 
     /**
@@ -117,7 +141,7 @@ public class BoundingBox extends Bounds {
     @Override public boolean intersects(Bounds b) {
         if ((b == null) || b.isEmpty()) return false;
         return intersects(b.getMinX(), b.getMinY(), b.getMinZ(),
-                b.getWidth(), b.getHeight(), b.getDepth());
+            b.getWidth(), b.getHeight(), b.getDepth());
     }
 
     /**
@@ -152,11 +176,11 @@ public class BoundingBox extends Bounds {
         if (obj instanceof BoundingBox) {
             BoundingBox other = (BoundingBox) obj;
             return getMinX() == other.getMinX()
-                    && getMinY() == other.getMinY()
-                    && getMinZ() == other.getMinZ()
-                    && getWidth() == other.getWidth()
-                    && getHeight() == other.getHeight()
-                    && getDepth() == other.getDepth();
+                   && getMinY() == other.getMinY()
+                   && getMinZ() == other.getMinZ()
+                   && getWidth() == other.getWidth()
+                   && getHeight() == other.getHeight()
+                   && getDepth() == other.getDepth();
         } else return false;
     }
 
@@ -187,16 +211,15 @@ public class BoundingBox extends Bounds {
      */
     @Override public String toString() {
         return "BoundingBox ["
-                + "minX:" + getMinX()
-                + ", minY:" + getMinY()
-                + ", minZ:" + getMinZ()
-                + ", width:" + getWidth()
-                + ", height:" + getHeight()
-                + ", depth:" + getDepth()
-                + ", maxX:" + getMaxX()
-                + ", maxY:" + getMaxY()
-                + ", maxZ:" + getMaxZ()
-                + "]";
+               + "minX:" + getMinX()
+               + ", minY:" + getMinY()
+               + ", minZ:" + getMinZ()
+               + ", width:" + getWidth()
+               + ", height:" + getHeight()
+               + ", depth:" + getDepth()
+               + ", maxX:" + getMaxX()
+               + ", maxY:" + getMaxY()
+               + ", maxZ:" + getMaxZ()
+               + "]";
     }
 }
-
