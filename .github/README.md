@@ -249,6 +249,11 @@ You want to get involved in the development as well? You are very welcome! Pleas
 
 WebFX is a free, open-source software licensed under the [Apache License 2.0](../LICENSE)
 
+## Supported by
+[![IntelliJ IDEA logo](https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA.svg)](https://jb.gg/OpenSourceSupport)
+
+Special thanks to JetBrains for supporting WebFX by generously providing a free license for IntelliJ IDEA Ultimate.
+
 [webfx-website]: https://webfx.dev
 [webfx-docs]: https://docs.webfx.dev
 [webfx-discord]: https://discord.gg/xJcvmGvqh9
