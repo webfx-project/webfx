@@ -4,11 +4,9 @@ import dev.webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlRegionPeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.os.OperatingSystem;
-import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.dom.AddEventListenerOptions;
 import elemental2.dom.Element;
@@ -17,11 +15,8 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.TouchEvent;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
-
-import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon
@@ -37,7 +32,6 @@ public final class HtmlScrollPanePeer
 
     private double scrollTop, scrollLeft;
     private boolean syncing;
-    private boolean cssScrollDetected;
 
     public HtmlScrollPanePeer() {
         this((NB) new ScrollPanePeerBase(), HtmlUtil.createElement("fx-scrollpane"));
@@ -51,60 +45,12 @@ public final class HtmlScrollPanePeer
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         HTMLElement element = getElement();
-        if (USE_PERFECT_SCROLLBAR) {
+        if (USE_PERFECT_SCROLLBAR) { // better on desktops
             // Important: perfect scrollbar expect a standard HTML container (doesn't work with fx-scrollpane element)
             HTMLElement psContainer = HtmlUtil.setStyle(HtmlUtil.createDivElement(), "position: absolute; width: 100%; height: 100%");
             setChildrenContainer(psContainer);
             HtmlUtil.setChildren(element, psContainer);
-        } else { // CSS mode which relies on the overflow-x & overflow-y values
-            // Important: the CSS mode will react to touch events only if the Scene touch events thar are passed to
-            // JavaFX originates from an event listener in passive mode, which is not the case by default with webfx,
-            // because the passive mode doesn't let us stop the propagation which is a feature that the application code
-            // requests when calling event.consume(). But it's very likely ok to disable this feature during a touch
-            // scroll to enjoy the smoothness of the scroll in passive mode on mobiles.
-            node.addEventHandler(TouchEvent.ANY, e -> {
-                // The purpose of this handler is to detect any touch event that targets the scroll pane while still in
-                // standard mode (non-passive). By chance, this detection happens just before it is passed to the scene,
-                // and it's the only and last opportunity to activate the passive mode. Without catching this event
-                // and switching to passive mode, the CSS overflow scrollbars wouldn't react to the touch events.
-                if (!HtmlSvgNodePeer.isScrolling()) {
-                    HtmlSvgNodePeer.setScrolling(true);
-                    // It's also important to detect the end of this touch scroll to go back to the standard mode, so we
-                    // set up a periodic timer for that.
-                    UiScheduler.schedulePeriodicInAnimationFrame(100, new Consumer<>() {
-                        private long lastMillis = System.currentTimeMillis();
-                        private double lastScrollTop = element.scrollTop, lastScrollLeft = element.scrollLeft;
-                        private double scrollTopInertia, scrollLeftInertia;
-                        @Override
-                        public void accept(Scheduled scheduled) {
-                            // We check if the scroll has become stationary since last call
-                            double deltaTop  = element.scrollTop  - lastScrollTop;
-                            double deltaLeft = element.scrollLeft - lastScrollLeft;
-                            boolean stationary = deltaTop == 0 && deltaLeft == 0 && !cssScrollDetected; // also considering any scroll event
-                            // Note:
-                            long nowMillis = System.currentTimeMillis();
-                            long delayMillis = nowMillis - lastMillis;
-                            // Skipping suspicious false stop detection for 2s
-                            if (stationary && delayMillis < 2000 && (Math.abs(scrollTopInertia) > 0.05 || Math.abs(scrollLeftInertia) > 0.05)) {
-                                return;
-                            }
-                            scrollTopInertia = deltaTop / delayMillis;
-                            scrollLeftInertia = deltaLeft / delayMillis;
-                            // if since the last period no scroll events have been generated and the element looks stationary
-                            if (stationary) {
-                                // we consider it's the end of the touch scroll and go back to the standard mode
-                                HtmlSvgNodePeer.setScrolling(false);
-                                scheduled.cancel(); // we can stop this periodic check
-                            } else {
-                                lastScrollLeft = element.scrollLeft;
-                                lastScrollTop = element.scrollTop;
-                                lastMillis = nowMillis;
-                                cssScrollDetected = false;
-                            }
-                        }
-                    });
-                }
-            });
+        } else { // CSS mode which relies on the overflow-x & overflow-y values, better on mobiles (much smoother)
             AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
             passiveOption.setPassive(true);
             // We intercept the JS scroll events to update the ScrollPane position in JavaFX when the html one changes
@@ -113,9 +59,6 @@ public final class HtmlScrollPanePeer
                     setScrollTop(element.scrollTop);
                 if (element.scrollLeft != scrollLeft)
                     setScrollLeft(element.scrollLeft);
-                // Also if this happens during a touch scroll, we report the detection of the scroll and reschedule the
-                // css scroll end detector.
-                cssScrollDetected = true;
             }, passiveOption);
         }
         node.setOnChildrenLayout(HtmlScrollPanePeer.this::scheduleUiUpdate);
