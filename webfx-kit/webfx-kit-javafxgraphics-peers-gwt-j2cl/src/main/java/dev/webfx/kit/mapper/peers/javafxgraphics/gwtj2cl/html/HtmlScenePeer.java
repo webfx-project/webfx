@@ -51,7 +51,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         HtmlUtil.setStyleAttribute(container, "width", "100%");
         HtmlUtil.setStyleAttribute(container, "height", "100dvh"); // dvh is better than vh on mobiles (keeps working when navigation bar hides or reappears)
         FXProperties.runNowAndOnPropertyChange(this::updateContainerFill, scene.fillProperty());
-        installMouseListeners();
+        installPointerListeners();
         HtmlSvgNodePeer.installTouchListeners(container, scene);
         installKeyboardListeners(scene);
         installStylesheetsListener(scene);
@@ -67,13 +67,19 @@ public final class HtmlScenePeer extends ScenePeerBase {
         }
     }
 
-    private void installMouseListeners() {
-        registerMouseListener("mousedown");
-        registerMouseListener("mouseup");
-        //registerMouseListener("click"); // Not necessary as the JavaFX Scene already generates them based on the mouse pressed and released events
-        registerMouseListener("mouseenter");
-        registerMouseListener("mouseleave");
-        registerMouseListener("mousemove");
+    private void installPointerListeners() {
+        // Important to use pointer events (not just mouse events) in order to support touch screens. This is how JavaFX
+        // setOnMouseXXX() handlers - including setOnMouseDragged() - will also work with touch events (like in JavaFX).
+        // Note that setOnTouchXXX() handlers will also be mapped to touch listeners on DOM nodes (via HtmlSvgNodePeer),
+        // and such listeners will actually be prioritized, but if they don't consume the event, it will finally be
+        // passed to these scene listeners.
+        registerPointerListener("pointerdown");
+        registerPointerListener("pointerup");
+        registerPointerListener("pointerenter");
+        registerPointerListener("pointerleave");
+        registerPointerListener("pointermove");
+        // Note: not necessary to register "clicked", as the JavaFX Scene has its own way to generate mouse clicked
+        // events based on the pressed and released events.
         container.oncontextmenu = e -> {
             //e.stopPropagation();
             e.preventDefault(); // To prevent the browser default context menu
@@ -101,17 +107,18 @@ public final class HtmlScenePeer extends ScenePeerBase {
         container.setAttribute("ondrop", "return false;"); // TODO check if this is necessary
     }
 
-    private void registerMouseListener(String type) {
-        container.addEventListener(type, e -> passHtmlMouseEventOnToFx((MouseEvent) e, type));
+    private void registerPointerListener(String type) {
+        container.addEventListener(type, e -> passHtmlPointerEventOnToFx((MouseEvent) e, type));
     }
 
     private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
 
-    private void passHtmlMouseEventOnToFx(MouseEvent e, String type) {
+    private void passHtmlPointerEventOnToFx(MouseEvent e, String type) { // PointerEvent extends MouseEvent (will be available in elemental2 1.2.3)
         javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(e, type);
         if (fxMouseEvent != null) {
-            boolean isMousePressed = fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_PRESSED;
-            boolean isMouseReleased = fxMouseEvent.getEventType() == javafx.scene.input.MouseEvent.MOUSE_RELEASED;
+            EventType<? extends javafx.scene.input.MouseEvent> fxType = fxMouseEvent.getEventType();
+            boolean isMousePressed = fxType == javafx.scene.input.MouseEvent.MOUSE_PRESSED;
+            boolean isMouseReleased = fxType == javafx.scene.input.MouseEvent.MOUSE_RELEASED;
             UserInteraction.setUserInteracting(isMousePressed || isMouseReleased);
             // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFX stack
             Scene scene = getScene();

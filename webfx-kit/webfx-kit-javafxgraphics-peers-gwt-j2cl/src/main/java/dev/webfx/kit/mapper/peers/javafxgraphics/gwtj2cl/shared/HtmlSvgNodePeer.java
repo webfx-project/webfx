@@ -441,6 +441,7 @@ public abstract class HtmlSvgNodePeer
         javafx.scene.input.TouchEvent fxTouchEvent = toFxTouchEvent(e, type, fxTarget);
         boolean consumed = passOnToFx(fxTarget, fxTouchEvent);
         // We simulate the JavaFX behaviour where unconsumed touch events are fired again as mouse events.
+        /* Commented, as this is now managed with pointer events in HtmlScenePeer
         if (!consumed && fxTarget instanceof Scene && !SCROLLING) { // Not during scrolling
             javafx.scene.input.TouchPoint p = fxTouchEvent.getTouchPoint();
             EventType<javafx.scene.input.TouchEvent> fxType = fxTouchEvent.getEventType();
@@ -450,14 +451,14 @@ public abstract class HtmlSvgNodePeer
             // the buttons are down in generated mouse event (this is how the mouse handler will detect the end of pdr).
             boolean requestPdrExit = eventType == javafx.scene.input.MouseEvent.MOUSE_RELEASED;
             javafx.scene.input.MouseEvent mouseEvent = new javafx.scene.input.MouseEvent(eventType, p.getSceneX(), p.getSceneY(), p.getScreenX(), p.getScreenY(), MouseButton.PRIMARY, fxTouchEvent.getTouchCount(), fxTouchEvent.isShiftDown(), fxTouchEvent.isControlDown(), fxTouchEvent.isAltDown(), fxTouchEvent.isMetaDown(),
-                    !requestPdrExit /* primaryButtonDown must be false for a pdr exit, true otherwise */, false, false, false, false, false, null);
+                    !requestPdrExit *//* primaryButtonDown must be false for a pdr exit, true otherwise *//*, false, false, false, false, false, null);
             ((Scene) fxTarget).impl_processMouseEvent(mouseEvent);
             // We return true (even if not consumed) to always prevent browsers built-in touch scrolling, unless if the
             // target is a standard html tag that reacts to touch elements, such as:
             consumed = !(e.target instanceof HTMLAnchorElement) // <a> clickable link
                        && !(e.target instanceof HTMLInputElement) // <input> (ex: slider)
                        && !(e.target instanceof HTMLLabelElement); // <label> that may embed an <input> such as WebFX Extras FilePicker button
-        }
+        }*/
         return consumed; // should be normally: return consumed
     }
 
