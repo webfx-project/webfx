@@ -41,7 +41,7 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
 
     default Bounds measureLayoutBounds() {
         HTMLElement e = getElement();
-        return new BoundingBox(0, 0, 0, measure(e, true), measure(e, false), 0);
+        return new BoundingBox(0, 0, 0, measureElement(e, true), measureElement(e, false), 0);
     }
 
     default double minWidth(double height) {
@@ -69,46 +69,50 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
     }
 
     default double measureWidth(double height) {
-        return sizeAndMeasure(true, height);
+        return getCacheOrMeasureElement(getElement(), true, height);
     }
 
     default double measureHeight(double width) {
-        return sizeAndMeasure(false, width);
+        return getCacheOrMeasureElement(getElement(), false, width);
     }
 
-    default double sizeAndMeasure(boolean measureWidth, double otherSizeValue) {
+    default double getCacheOrMeasureElement(HTMLElement e, boolean measureWidth, double otherSizeValue) {
         HtmlLayoutCache cache = ENABLE_CACHE ? getCache() : null;
         double cachedSize = cache == null ? -1 : cache.getCachedSize(otherSizeValue, measureWidth);
         if (!DETECT_WRONG_CACHE && cachedSize >= 0)
             return cachedSize;
-        HTMLElement e = getElement();
+        double measure = prepareAndMeasureElement(e, measureWidth, otherSizeValue);
+        if (cache != null && e.isConnected) { // no cache for non-connected elements (as explained above)
+            if (DETECT_WRONG_CACHE && cachedSize >= 0 && cachedSize != measure) {
+                Console.log("⚠️ Warning: cached " + (measureWidth ? "width" : "height") + " differs from measured: " + cachedSize + " != " + measure + " for " + this + ", style = " + e.style.cssText);
+            }
+            cache.setCachedSize(otherSizeValue, measureWidth, measure);
+        }
+        return measure;
+    }
+
+    default double prepareAndMeasureElement(HTMLElement e, boolean measureWidth, double otherSizeValue) {
         CSSStyleDeclaration style = e.style;
-        CSSProperties.WidthUnionType styleWidth = style.width;
-        CSSProperties.HeightUnionType styleHeight = style.height;
-        String pxValue = otherSizeValue >= 0 ? HtmlNodePeer.toPx(otherSizeValue) : null;
+        CSSProperties.WidthUnionType originalStyleWidth = style.width;
+        CSSProperties.HeightUnionType originalStyleHeight = style.height;
+        String otherSizeValuePx = otherSizeValue >= 0 ? HtmlNodePeer.toPx(otherSizeValue) : null;
         if (measureWidth) {
             style.width = null;
             if (otherSizeValue >= 0)
-                style.height = CSSProperties.HeightUnionType.of(pxValue);
+                style.height = CSSProperties.HeightUnionType.of(otherSizeValuePx);
         } else {
             if (otherSizeValue >= 0)
-                style.width = CSSProperties.WidthUnionType.of(pxValue);
+                style.width = CSSProperties.WidthUnionType.of(otherSizeValuePx);
             style.height = null;
         }
-        double result = measure(e, measureWidth);
-        if (cache != null && e.isConnected) { // no cache for non-connected elements (as explained above)
-            if (DETECT_WRONG_CACHE && cachedSize >= 0 && cachedSize != result) {
-                Console.log("⚠️ Warning: cached " + (measureWidth ? "width" : "height") + " differs from measured: " + cachedSize + " != " + result + " for " + this + ", style = " + style.cssText);
-            }
-            cache.setCachedSize(otherSizeValue, measureWidth, result);
-        }
+        double measure = measureElement(e, measureWidth);
         // Restoring the original style after measurement
-        style.width = styleWidth;
-        style.height = styleHeight;
-        return result;
+        style.width = originalStyleWidth;
+        style.height = originalStyleHeight;
+        return measure;
     }
 
-    default double measure(HTMLElement e, boolean measureWidth) {
+    default double measureElement(HTMLElement e, boolean measureWidth) {
         // offsetWidth & offsetHeight return the correct values (including transforms), unfortunately their precision is
         // only integer... This diminution can cause problems (ex: text in Label wrapped to next line while it shouldn't).
         int i = measureWidth ? e.offsetWidth : e.offsetHeight;

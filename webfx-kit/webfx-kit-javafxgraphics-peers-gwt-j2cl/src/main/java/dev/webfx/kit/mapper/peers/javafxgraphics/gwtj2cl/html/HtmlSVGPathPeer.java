@@ -71,7 +71,7 @@ public final class HtmlSVGPathPeer
     }
 
     @Override
-    public double sizeAndMeasure(boolean measureWidth, double otherSizeValue) {
+    public double prepareAndMeasureElement(HTMLElement e, boolean measureWidth, double otherSizeValue) {
         return measureWidth ? getBBox().width : getBBox().height;
     }
 

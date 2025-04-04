@@ -547,6 +547,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             text.setWrappingWidth(w);
         } else
             text.setWrappingWidth(0);
+        updateLineClamp(); // WebFX addition
     }
 
     /**
@@ -1217,5 +1218,21 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             default: return super.queryAccessibleAttribute(attribute, parameters);
         }
     }*/
+
+    // WebFX addition for ellipsis display (the label must have the "ellipsis" style class to enable this feature).
+    // This method set the line clamp property, which indicates how many lines of text should be displayed before
+    // truncating with an ellipsis. This WebFX property is then managed by the peer (see HtmlTextPeer)
+    private void updateLineClamp() {
+        int lineClamp = 0;
+        C skinnable = getSkinnable();
+        if (text.getWrappingWidth() > 0 && skinnable.getStyleClass().contains("ellipsis")) {
+            double lineHeight = noWrappingText.prefHeight(-1);
+            double height = skinnable.getHeight();
+            double lineSpacing = skinnable.getLineSpacing();
+            lineClamp = (int) (height / (lineHeight + lineSpacing));
+            //Console.log("lineHeight: " + lineHeight + ", lineSpacing: " + lineSpacing + ", height: " + height + ", lineClamp: " + lineClamp);
+        }
+        text.setLineClamp(lineClamp); // HtmlTextPeer will map this into CSS
+    }
 }
 

@@ -286,6 +286,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 parent.getChildren().forEach(HtmlScenePeer::forceLayoutOnThisNodeAndChildren);
             }
             node.onPeerSizeChanged();
+            Object runnable = node.getProperties().get("webfx-onCssOrFontLoadedRunnable");
+            if (runnable instanceof Runnable)
+                ((Runnable) runnable).run();
         }
     }
 

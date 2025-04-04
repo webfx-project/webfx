@@ -1,8 +1,11 @@
 package com.sun.javafx.scene.control;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasLineClampProperty;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Labeled;
 import javafx.scene.text.Text;
-import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 
 /**
  * LabeledText allows the Text to be styled by the CSS properties of Labeled
@@ -10,7 +13,7 @@ import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
  *
  * LabeledText has the style class "text"
  */
-public class LabeledText extends Text {
+public class LabeledText extends Text /* WebFX addition: */ implements HasLineClampProperty {
 
     private final Labeled labeled;
 
@@ -275,6 +278,16 @@ public class LabeledText extends Text {
         private final StyleableProperty<T> property;
     }
 */
+
+    // WebFX addition: Line clamp property (ellipsis management for text inside a label with a restricted height)
+
+    private final IntegerProperty lineClampProperty = new SimpleIntegerProperty();
+
+    @Override
+    public IntegerProperty lineClampProperty() {
+        return lineClampProperty;
+    }
+
 
     static  {
         JavaFxControlsRegistry.registerLabeledText();

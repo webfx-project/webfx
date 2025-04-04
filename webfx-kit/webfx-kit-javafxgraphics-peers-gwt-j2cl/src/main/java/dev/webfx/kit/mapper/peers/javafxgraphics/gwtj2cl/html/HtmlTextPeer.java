@@ -146,18 +146,19 @@ public final class HtmlTextPeer
         // First, we set the HTML line height with no extra spacing between lines (lineSpacing = 0).
         // Note: it looks like JavaFX doesn't apply the same line height for single-line and multi-lines texts.
         // For single-line, it looks like HTML "normal", and for multi-line it looks like 130% (empiric value).
-        style.lineHeight = isWrapping ? CSSProperties.LineHeightUnionType.of("130%") : null /*or pre-wrap?*/; // Note: 100% < normal < 130%
+        style.lineHeight = CSSProperties.LineHeightUnionType.of("130%");
         // We correct the line height if an additional line spacing is requested
         if (isWrapping && lineSpacing != 0) { // not necessary if not wrapping (i.e. single line text)
             // There is no HTML equivalent of the JavaFX lineSpacing which specifies only the extra space (expressed in
             // pixels) between lines of space (and not the whole line height). So, to map this into HTML, we need to
             // 1) get the value of the HTML line height expressed in pixels, and 2) correct it by adding lineSpacing.
+
             // 1) Getting the value of line height in pixels (rather than "normal" or "130%"). To do that, we measure
             // the current height of the element for a single line of text.
             String currentText = element.textContent; // Memorising the current text (it may be a multi-line text)
             element.textContent = "W"; // Temporarily changing the text content to a single letter (=> ensures single-line)
             clearCache(); // Clearing the cache to ensure a fresh measurement
-            double lineHeightPx = measure(element, false); // We mesure the height = line height in pixels
+            double lineHeightPx = measureElement(element, false); // We mesure the height = line height in pixels
             element.textContent = currentText; // Re-establishing the current text
             // 2) Correcting the line height by adding the requested line spacing
             style.lineHeight = CSSProperties.LineHeightUnionType.of(toPx(lineHeightPx + lineSpacing));
@@ -199,6 +200,46 @@ public final class HtmlTextPeer
         setElementStyleAttribute("-webkit-text-stroke-color", hasStroke ? color : null);
         setElementStyleAttribute("-webkit-text-stroke-width", hasStroke ? toPx(strokeWidth) : null);
         clearCache();
+    }
+
+    private String cssLineClamp;
+    private CSSProperties.MaxHeightUnionType cssLineClampMaxHeight;
+
+    @Override
+    public void updateLineClamp(int lineClamp) {
+        if (lineClamp > 0) {
+            cssLineClamp = String.valueOf(lineClamp);
+            cssLineClampMaxHeight = CSSProperties.MaxHeightUnionType.of(lineClamp + "lh");
+            applyLineClamp(getElement().style);
+        } else {
+            cssLineClamp = null;
+            cssLineClampMaxHeight = null;
+            removeLineClamp(getElement().style);
+        }
+    }
+
+    // Line clamp management (ellipsis management for text inside a label with a restricted height)
+
+    private void applyLineClamp(CSSStyleDeclaration style) {
+        if (cssLineClamp != null) {
+            style.setProperty("-webkit-line-clamp", cssLineClamp);
+            style.maxHeight = cssLineClampMaxHeight;
+            style.overflow = "hidden";
+        }
+    }
+
+    private void removeLineClamp(CSSStyleDeclaration style) {
+        style.removeProperty("-webkit-line-clamp");
+        style.maxHeight = null;
+        style.overflow = null;
+    }
+
+    @Override
+    public double prepareAndMeasureElement(HTMLElement e, boolean measureWidth, double otherSizeValue) {
+        removeLineClamp(e.style);
+        double measure = HtmlLayoutMeasurableNoHGrow.super.prepareAndMeasureElement(e, measureWidth, otherSizeValue);
+        applyLineClamp(e.style);
+        return measure;
     }
 
     private final HtmlLayoutCache cache = new HtmlLayoutCache();

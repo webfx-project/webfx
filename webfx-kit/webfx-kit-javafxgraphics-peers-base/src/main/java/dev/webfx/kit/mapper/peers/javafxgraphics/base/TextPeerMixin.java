@@ -31,4 +31,6 @@ public interface TextPeerMixin
 
     void updateFont(Font font);
 
+    void updateLineClamp(int lineClamp);
+
 }
