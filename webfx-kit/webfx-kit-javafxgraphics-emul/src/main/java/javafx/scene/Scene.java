@@ -1743,9 +1743,9 @@ public class Scene implements EventTarget,
 
         public ClickGenerator() {
             for (MouseButton mb : MouseButton.values()) {
-                if (mb != MouseButton.NONE) {
+                //if (mb != MouseButton.NONE) { // Commented for WebFX to prevent NPE (because WebFX may generate some MOUSE_RELEASED events with MouseButton.NONE!) TODO: investigate if this case can be prevented in first place
                     counters.put(mb, new ClickCounter());
-                }
+                //}
             }
         }
 
