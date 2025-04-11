@@ -16,7 +16,7 @@ public final class HtmlCheckBoxPeer
         implements CheckBoxPeerMixin<N, NB, NM> {
 
     public HtmlCheckBoxPeer() {
-        this((NB) new CheckBoxPeerBase(), HtmlUtil.createSpanElement());
+        this((NB) new CheckBoxPeerBase(), HtmlUtil.createElement("fx-checkbox"));
     }
 
     public HtmlCheckBoxPeer(NB base, HTMLElement element) {

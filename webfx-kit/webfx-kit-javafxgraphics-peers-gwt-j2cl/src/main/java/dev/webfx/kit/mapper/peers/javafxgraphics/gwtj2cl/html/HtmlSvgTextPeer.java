@@ -32,7 +32,7 @@ public final class HtmlSvgTextPeer
         implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow {
 
     private final Element svgElement = SvgUtil.createSvgElement("svg");
-    private SvgTextPeer svgTextPeer = new SvgTextPeer();
+    private final SvgTextPeer svgTextPeer = new SvgTextPeer();
 
     public HtmlSvgTextPeer() {
         this((NB) new TextPeerBase(), HtmlUtil.createElement("div"));
@@ -113,7 +113,7 @@ public final class HtmlSvgTextPeer
     }
 
     @Override
-    public double measure(HTMLElement e, boolean measureWidth) {
+    public double measureElement(HTMLElement e, boolean measureWidth) {
         return measureWidth ? getBBox().width : getBBox().height;
     }
 
@@ -187,5 +187,9 @@ public final class HtmlSvgTextPeer
     public void updateFont(Font font) {
         svgTextPeer.updateFont(font);
         updateViewBox();
+    }
+
+    @Override
+    public void updateLineClamp(int lineClamp) {
     }
 }

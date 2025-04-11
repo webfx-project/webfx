@@ -93,4 +93,8 @@ public final class SvgTextPeer
         setFontAttributes(font);
         updateY();
     }
+
+    @Override
+    public void updateLineClamp(int lineClamp) {
+    }
 }

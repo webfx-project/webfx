@@ -1,7 +1,8 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.base;
 
-import javafx.beans.value.ObservableValue;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasLineClampProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.text.Text;
 
 /**
@@ -25,6 +26,8 @@ public class TextPeerBase
             , t.textAlignmentProperty()
             , t.fontProperty()
             , t.textProperty()
+            // WebFX specific line clamp property (used as part of the ellipsis management for the text inside a label)
+            , t instanceof HasLineClampProperty ? ((HasLineClampProperty) t).lineClampProperty() : null
         );
     }
 
@@ -41,6 +44,8 @@ public class TextPeerBase
                || updateProperty(ts.textAlignmentProperty(), changedProperty, mixin::updateTextAlignment)
                || updateProperty(ts.textOriginProperty(), changedProperty, mixin::updateTextOrigin)
                || updateProperty(ts.fontProperty(), changedProperty, mixin::updateFont)
+               // WebFX specific line clamp property (used as part of the ellipsis management for the text inside a label)
+               || ts instanceof HasLineClampProperty && updateProperty(((HasLineClampProperty) ts).lineClampProperty(), changedProperty, p -> mixin.updateLineClamp(p.intValue()))
             ;
     }
 }

@@ -92,7 +92,7 @@ public final class Platform {
 
     public static void exit() {
         //PlatformImpl.exit();
-        Shutdown.softwareShutdown(true, 0);
+        Shutdown.exit();
     }
 
     /**
