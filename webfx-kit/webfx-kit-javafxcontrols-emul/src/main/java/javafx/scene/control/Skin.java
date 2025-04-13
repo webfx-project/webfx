@@ -36,6 +36,25 @@ public interface Skin<C extends Skinnable> {
     Node getNode();
 
     /**
+     * Called once when {@code Skin} is set. This method is called after the previous skin,
+     * if any, has been uninstalled via its {@link #dispose()} method.
+     * The skin can now safely make changes to its associated control, like registering listeners,
+     * adding child nodes, and modifying properties and event handlers.
+     * <p>
+     * Application code must not call this method.
+     * <p>
+     * The default implementation of this method does nothing.
+     *
+     * @implNote
+     * Skins only need to implement {@code install} if they need to make direct changes to the control
+     * like overwriting properties or event handlers. Such skins should ensure these changes are undone in
+     * their {@link #dispose()} method.
+     *
+     * @since 20
+     */
+    default /*public*/ void install() { }
+
+    /**
      * Called by a Skinnable when the Skin is replaced on the Skinnable. This method
      * allows a Skin to implement any logic necessary to clean up itself after
      * the Skin is no longer needed. It may be used to release native resources.

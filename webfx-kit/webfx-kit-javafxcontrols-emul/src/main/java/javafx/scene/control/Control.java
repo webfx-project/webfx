@@ -237,6 +237,11 @@ public abstract class Control extends Region implements Skinnable {
                         }
                     }
 
+                    // let the new skin modify this control
+                    if (skin != null) {
+                        skin.install();
+                    }
+
                     // clear out the styleable properties so that the list is rebuilt
                     // next time they are requested.
                     //styleableProperties = null;
