@@ -83,8 +83,8 @@ public final class ObservableLists {
         };
     }
 
-    public static <T> void runOnListChange(Runnable listener, ObservableList<T> list) {
-        runOnListChange(change -> listener.run(), list);
+    public static <T> Unregisterable runOnListChange(Runnable listener, ObservableList<T> list) {
+        return runOnListChange(change -> listener.run(), list);
     }
 
     public static <T> Unregisterable runNowAndOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
