@@ -38,6 +38,7 @@ import javafx.collections.ObservableList;
 import javafx.util.StringConverter;
 
 import java.lang.ref.WeakReference;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 
 /**
@@ -549,6 +550,138 @@ public final class Bindings {
      */
     public static BooleanBinding isNotEmpty(final ObservableStringValue op) {
         return createBooleanBinding(() -> Strings.isNotEmpty(op.get()), op);
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the values of two instances of
+     * {@link javafx.beans.value.ObservableObjectValue} are equal.
+     *
+     * @param op1
+     *            the first operand
+     * @param op2
+     *            the second operand
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if one of the operands is {@code null}
+     */
+    public static BooleanBinding equal(final ObservableObjectValue<?> op1, final ObservableObjectValue<?> op2) {
+        return createBooleanBinding(() -> Objects.equals(op1.get(), op2.get()), op1, op2);
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * equal to a constant value.
+     *
+     * @param op1
+     *            the {@code ObservableObjectValue}
+     * @param op2
+     *            the constant value
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableObjectValue} is {@code null}
+     */
+    public static BooleanBinding equal(final ObservableObjectValue<?> op1, Object op2) {
+        return createBooleanBinding(() -> Objects.equals(op1.get(), op2), op1);
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * equal to a constant value.
+     *
+     * @param op1
+     *            the constant value
+     * @param op2
+     *            the {@code ObservableObjectValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableObjectValue} is {@code null}
+     */
+    public static BooleanBinding equal(Object op1, final ObservableObjectValue<?> op2) {
+        return createBooleanBinding(() -> Objects.equals(op1, op2.get()), op2);
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the values of two instances of
+     * {@link javafx.beans.value.ObservableObjectValue} are not equal.
+     *
+     * @param op1
+     *            the first operand
+     * @param op2
+     *            the second operand
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if one of the operands is {@code null}
+     */
+    public static BooleanBinding notEqual(final ObservableObjectValue<?> op1, final ObservableObjectValue<?> op2) {
+        return equal(op1, op2).not();
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * not equal to a constant value.
+     *
+     * @param op1
+     *            the {@code ObservableObjectValue}
+     * @param op2
+     *            the constant value
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableObjectValue} is {@code null}
+     */
+    public static BooleanBinding notEqual(final ObservableObjectValue<?> op1, Object op2) {
+        return equal(op1, op2).not();
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * not equal to a constant value.
+     *
+     * @param op1
+     *            the constant value
+     * @param op2
+     *            the {@code ObservableObjectValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableObjectValue} is {@code null}
+     */
+    public static BooleanBinding notEqual(Object op1, final ObservableObjectValue<?> op2) {
+        return equal(op1, op2).not();
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * {@code null}.
+     *
+     * @param op
+     *            the {@code ObservableObjectValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableObjectValue} is {@code null}
+     */
+    public static BooleanBinding isNull(final ObservableObjectValue<?> op) {
+        return createBooleanBinding(() -> op.get() == null, op);
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * not {@code null}.
+     *
+     * @param op
+     *            the {@code ObservableObjectValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableObjectValue} is {@code null}
+     */
+    public static BooleanBinding isNotNull(final ObservableObjectValue<?> op) {
+        return isNull(op).not();
     }
 
 }
