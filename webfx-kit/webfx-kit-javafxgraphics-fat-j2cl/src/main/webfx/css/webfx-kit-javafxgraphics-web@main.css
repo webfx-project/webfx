@@ -44,3 +44,10 @@ fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the str
     --fx-svg-path-fill: transparent; /* then the fill is transparent */
     fill: var(--fx-svg-path-fill);
 }
+
+/* The default JavaFX behaviour for Text wrapping is equivalent to HTML "break-word", which is not the default in HTML
+   (the default in HTML being "normal"). So we apply "break-word". */
+fx-text {
+    word-break: break-word;
+    overflow-wrap: break-word; /* fallback for better browser support */
+}
