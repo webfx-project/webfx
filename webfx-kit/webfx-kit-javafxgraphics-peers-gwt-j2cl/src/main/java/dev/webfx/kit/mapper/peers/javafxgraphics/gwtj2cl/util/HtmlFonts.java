@@ -25,18 +25,22 @@ public final class HtmlFonts {
 
     public static String getHtmlFontFamily(Font font) {
         return font.getFamily();
-
     }
 
     public static String getHtmlFontStyle(Font font) {
-        return font.getPosture() == FontPosture.ITALIC ? "italic" : "normal";
+        FontPosture posture = font.getPosture();
+        return posture == null ? null : // ignoring posture if not set
+            posture == FontPosture.ITALIC ? "italic" : "normal";
     }
 
-    public static double getHtmlFontWeight(Font font) {
-        return font.getWeight() == null ? 0d : font.getWeight().getWeight();
+    public static Integer getHtmlFontWeight(Font font) {
+        return font.getWeight() == null ? null : // Ignoring weight if not set
+            font.getWeight().getWeight();
     }
 
     public static String getHtmlFontSize(Font font) {
-        return HtmlNodePeer.toPx(font.getSize());
+        double size = font.getSize();
+        return size < 0 ? null : // ignoring size if not set (i.e., negative - typically -1)
+            HtmlNodePeer.toPx(size);
     }
 }
