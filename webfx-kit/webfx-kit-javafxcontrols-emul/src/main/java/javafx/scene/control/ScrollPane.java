@@ -112,7 +112,10 @@ public class ScrollPane extends Control {
 
     public final void setContent(Node value) {
         contentProperty().set(value);
-        getChildren().setAll(value);
+        if (value != null)
+            getChildren().setAll(value);
+        else
+            getChildren().clear();
     }
 
     public final Node getContent() {
