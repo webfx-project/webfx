@@ -712,29 +712,43 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
     }
 
     private double measureText(Font font, String text, double wrappingWidth, boolean width) { // WebFX code
-        Text textToMesure;
+        Text textToMeasure;
         // Using noWrappingText (and not this.text) in case of computation with no wrappingWidth (which happens each
-        // time JavaFX computes the label min and pref widths), because if we were using this.text, this constant
+        // time JavaFX computes the label min and pref widths). Because if we were using this.text, this constant
         // changing of wrappingWidth (between 0 and the actual value set by the application) would create an infinite
         // loop in the layout pass (not blocking loop but very time-consuming on each animation frame)
+        double oldWrappingWidth = -1;
         if (wrappingWidth <= 0) {
-            textToMesure = noWrappingText;
-            textToMesure.setFont(font);
-            //textToMesure.setTextAlignment(getSkinnable().getTextAlignment());
-            // Reusing also noWrappingText if the passed wrapping width is greater (=> for sure text will stay on 1 line) and text & font identical
+            textToMeasure = noWrappingText;
+            textToMeasure.setFont(font);
+            //textToMeasure.setTextAlignment(getSkinnable().getTextAlignment());
+            // Reusing also noWrappingText if the passed wrapping width is greater (=> for sure the text will stay on 1 line), and text & font identical
         } else if (noWrappingTextWidth > 0 && wrappingWidth >= noWrappingTextWidth && Objects.equals(noWrappingText.getText(), text) && Objects.equals(noWrappingText.getFont(), font)) {
-            textToMesure = noWrappingText;
-        } else { // Otherwise using this.text to measure and apply wrapping width & text to it (should be final values to apply for html mapping)
-            textToMesure = this.text;
-            //textToMesure.setFont(font); // already bound in LabeledText
-            //textToMesure.setLineSpacing(lineSpacing) // already bound in LabeledText
-            textToMesure.setWrappingWidth(wrappingWidth);
+            textToMeasure = noWrappingText;
+        } else { // Otherwise using this.text to measure and apply wrapping width and text to it (should be final values to apply for HTML mapping)
+            textToMeasure = this.text;
+            //textToMeasure.setFont(font); // already bound in LabeledText
+            //textToMeasure.setLineSpacing(lineSpacing) // already bound in LabeledText
+            // We change the wrapping width for measure purpose only, and we will restore its original value after
+            oldWrappingWidth = textToMeasure.getWrappingWidth();
+            // It's also important to position the property webfx-measure-only to true, which will be recognized by
+            // HtmlTextPeer as a request to skip the notification of the text size change. Such notification is indeed
+            // unnecessary because we will restore the original wrapping width after measurement. Moreover, such
+            // notification may cause a layout request on the scene branch, causing the parent to measure the text again
+            // in the next layout pass, causing an infinite layout loop.
+            textToMeasure.getProperties().put("webfx-measure-only", true);
+            // Now we can safely change the wrapping width, just for the time of the measurement.
+            textToMeasure.setWrappingWidth(wrappingWidth);
         }
-        FXProperties.setIfNotEquals(textToMesure.textProperty(), text);
-        // Measuring the text width or height. Note: prefHeight(-1) alone may cause wrong value at initialization (use Podcasts page to test)
-        double measure = width ? textToMesure.prefWidth(-1) : textToMesure.prefHeight(wrappingWidth > 0 ? wrappingWidth : -1);
+        FXProperties.setIfNotEquals(textToMeasure.textProperty(), text);
+        // Measuring the text width or height. Note: prefHeight(-1) alone may cause a wrong value at initialization (use Podcasts page to test)
+        double measure = width ? textToMeasure.prefWidth(-1) : textToMeasure.prefHeight(wrappingWidth > 0 ? wrappingWidth : -1);
         if (width && wrappingWidth == 0) // Memorizing the width for the noWrappingText when it was measured
             noWrappingTextWidth = measure;
+        if (oldWrappingWidth >= 0) { // Restoring the wrapping width after measurement if necessary
+            textToMeasure.setWrappingWidth(oldWrappingWidth);
+            textToMeasure.getProperties().remove("webfx-measure-only");
+        }
         return measure;
     }
 
