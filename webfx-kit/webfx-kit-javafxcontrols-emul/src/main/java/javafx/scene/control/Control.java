@@ -256,7 +256,7 @@ public abstract class Control extends Region implements Skinnable {
                     // WebFX addition to fix the following problem: SplitPaneSkin.layoutChildren() was not called
                     // when initializing the scene with a SplitPane as root node (ex: in responsive design demo)
                     // so the window just looked empty (but resizing it made the nodes appear).
-                    layoutChildren();
+                    //layoutChildren(); Finally commented as VisualGridVerticalSkin appears in wrong position (0,0) TODO: see possible side effects: no => remove / yes => move this to SplitPaneSkin.install()
 
                     // DEBUG: Log that we've changed the skin
 /*
