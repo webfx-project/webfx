@@ -28,6 +28,7 @@ package javafx.beans.binding;
 import com.sun.javafx.binding.BidirectionalBinding;
 import com.sun.javafx.binding.IntegerConstant;
 import com.sun.javafx.collections.ImmutableObservableList;
+import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -122,7 +123,106 @@ public final class Bindings {
                         FXCollections.emptyObservableList()
                         : (dependencies.length == 1)?
                         FXCollections.singletonObservableList(dependencies[0])
-                        : new ImmutableObservableList<Observable>(dependencies);
+                        : new ImmutableObservableList<>(dependencies);
+            }
+        };
+    }
+
+    public static IntegerBinding createIntegerBinding(final Callable<Integer> func, final Observable... dependencies) {
+        return new IntegerBinding() {
+            {
+                bind(dependencies);
+            }
+
+            @Override
+            protected int computeValue() {
+                try {
+                    return func.call();
+                } catch (Exception e) {
+                    //Logging.getLogger().warning("Exception while evaluating binding", e);
+                    return -1;
+                }
+            }
+
+            @Override
+            public void dispose() {
+                super.unbind(dependencies);
+            }
+
+            @Override
+            //@ReturnsUnmodifiableCollection
+            public ObservableList<?> getDependencies() {
+                return  ((dependencies == null) || (dependencies.length == 0))?
+                    FXCollections.emptyObservableList()
+                    : (dependencies.length == 1)?
+                    FXCollections.singletonObservableList(dependencies[0])
+                    : new ImmutableObservableList<>(dependencies);
+            }
+        };
+    }
+
+    public static LongBinding createLongBinding(final Callable<Long> func, final Observable... dependencies) {
+        return new LongBinding() {
+            {
+                bind(dependencies);
+            }
+
+            @Override
+            protected long computeValue() {
+                try {
+                    return func.call();
+                } catch (Exception e) {
+                    //Logging.getLogger().warning("Exception while evaluating binding", e);
+                    return -1;
+                }
+            }
+
+            @Override
+            public void dispose() {
+                super.unbind(dependencies);
+            }
+
+            @Override
+            //@ReturnsUnmodifiableCollection
+            public ObservableList<?> getDependencies() {
+                return  ((dependencies == null) || (dependencies.length == 0))?
+                    FXCollections.emptyObservableList()
+                    : (dependencies.length == 1)?
+                    FXCollections.singletonObservableList(dependencies[0])
+                    : new ImmutableObservableList<>(dependencies);
+            }
+        };
+    }
+
+    public static DoubleBinding createDoubleBinding(final Callable<Double> func, final Observable... dependencies) {
+        return new DoubleBinding() {
+            {
+                bind(dependencies);
+            }
+
+            @Override
+            protected double computeValue() {
+                try {
+                    return func.call();
+                } catch (Exception e) {
+                    //Logging.getLogger().warning("Exception while evaluating binding", e);
+                    return -1;
+                }
+            }
+
+            @Override
+            public void dispose() {
+                super.unbind(dependencies);
+            }
+
+            @Override
+            //@ReturnsUnmodifiableCollection
+            public ObservableList<?> getDependencies() {
+                return  ((dependencies == null) || (dependencies.length == 0))?
+                    FXCollections.emptyObservableList()
+                    : (dependencies.length == 1)?
+                    FXCollections.singletonObservableList(dependencies[0])
+                    : new ImmutableObservableList<>(dependencies);
             }
         };
     }
@@ -389,28 +489,7 @@ public final class Bindings {
         assert (dependencies != null) && (dependencies.length > 0);
 
         if ((op1 instanceof ObservableDoubleValue) || (op2 instanceof ObservableDoubleValue)) {
-            return new DoubleBinding() {
-                {
-                    super.bind(dependencies);
-                }
-
-                @Override
-                public void dispose() {
-                    super.unbind(dependencies);
-                }
-
-                @Override
-                protected double computeValue() {
-                    return op1.doubleValue() / op2.doubleValue();
-                }
-
-                @Override
-                public ObservableList<?> getDependencies() {
-                    return (dependencies.length == 1)?
-                            FXCollections.singletonObservableList(dependencies[0])
-                            : new ImmutableObservableList<Observable>(dependencies);
-                }
-            };
+            return createDoubleBinding(() -> op1.doubleValue() / op2.doubleValue(), dependencies);
         } /*else if ((op1 instanceof ObservableFloatValue) || (op2 instanceof ObservableFloatValue)) {
             return new FloatBinding() {
                 {
@@ -435,51 +514,9 @@ public final class Bindings {
                 }
             };
         }*/ else if ((op1 instanceof ObservableLongValue) || (op2 instanceof ObservableLongValue)) {
-            return new LongBinding() {
-                {
-                    super.bind(dependencies);
-                }
-
-                @Override
-                public void dispose() {
-                    super.unbind(dependencies);
-                }
-
-                @Override
-                protected long computeValue() {
-                    return op1.longValue() / op2.longValue();
-                }
-
-                @Override
-                public ObservableList<?> getDependencies() {
-                    return (dependencies.length == 1)?
-                            FXCollections.singletonObservableList(dependencies[0])
-                            : new ImmutableObservableList<Observable>(dependencies);
-                }
-            };
+            return createLongBinding(() ->  op1.longValue() / op2.longValue(), dependencies);
         } else {
-            return new IntegerBinding() {
-                {
-                    super.bind(dependencies);
-                }
-
-                @Override
-                public void dispose() {
-                    super.unbind(dependencies);
-                }
-
-                @Override
-                protected int computeValue() {
-                    return op1.intValue() / op2.intValue();
-                }
-
-                @Override
-                public ObservableList<?> getDependencies() {
-                    return (dependencies.length == 1)?
-                            FXCollections.singletonObservableList(dependencies[0])
-                            : new ImmutableObservableList<Observable>(dependencies);
-                }
-            };
+            return createIntegerBinding(() -> op1.intValue() / op2.intValue(), dependencies);
         }
     }
     /**
@@ -514,6 +551,22 @@ public final class Bindings {
      */
     public static <E> BooleanBinding isEmpty(final ObservableList<E> op) {
         return createBooleanBinding(op::isEmpty, op);
+    }
+
+    /**
+     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the size
+     * of an {@link javafx.collections.ObservableList}.
+     *
+     * @param op
+     *            the {@code ObservableList}
+     * @param <E> type of the {@code List} elements
+     * @return the new {@code IntegerBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableList} is {@code null}
+     * @since JavaFX 2.1
+     */
+    public static <E> IntegerBinding size(final ObservableList<E> op) {
+        return createIntegerBinding(op::size, op);
     }
 
     /**
@@ -682,6 +735,54 @@ public final class Bindings {
      */
     public static BooleanBinding isNotNull(final ObservableObjectValue<?> op) {
         return isNull(op).not();
+    }
+
+    public static BooleanBinding greaterThan(final ObservableNumberValue op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.greaterThan(op1.getValue(), op2.getValue()), op1, op2);
+    }
+
+    public static BooleanBinding greaterThan(final ObservableNumberValue op1, final Number op2) {
+        return createBooleanBinding(() -> Numbers.greaterThan(op1.getValue(), op2), op1);
+    }
+
+    public static BooleanBinding greaterThan(final Number op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.greaterThan(op1, op2.getValue()), op2);
+    }
+
+    public static BooleanBinding lessThan(final ObservableNumberValue op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.lessThan(op1.getValue(), op2.getValue()), op1, op2);
+    }
+
+    public static BooleanBinding lessThan(final ObservableNumberValue op1, final Number op2) {
+        return createBooleanBinding(() -> Numbers.lessThan(op1.getValue(), op2), op1);
+    }
+
+    public static BooleanBinding lessThan(final Number op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.lessThan(op1, op2.getValue()), op2);
+    }
+
+    public static BooleanBinding greaterThanOrEqualTo(final ObservableNumberValue op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.greaterThanOrEqualTo(op1.getValue(), op2.getValue()), op1, op2);
+    }
+
+    public static BooleanBinding greaterThanOrEqualTo(final ObservableNumberValue op1, final Number op2) {
+        return createBooleanBinding(() -> Numbers.greaterThanOrEqualTo(op1.getValue(), op2), op1);
+    }
+
+    public static BooleanBinding greaterThanOrEqualTo(final Number op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.greaterThanOrEqualTo(op1, op2.getValue()), op2);
+    }
+
+    public static BooleanBinding lessThanOrEqualTo(final ObservableNumberValue op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.lessThanOrEqualTo(op1.getValue(), op2.getValue()), op1, op2);
+    }
+
+    public static BooleanBinding lessThanOrEqualTo(final ObservableNumberValue op1, final Number op2) {
+        return createBooleanBinding(() -> Numbers.lessThanOrEqualTo(op1.getValue(), op2), op1);
+    }
+
+    public static BooleanBinding lessThanOrEqualTo(final Number op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.lessThanOrEqualTo(op1, op2.getValue()), op2);
     }
 
 }
