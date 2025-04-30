@@ -1,6 +1,7 @@
 package javafx.scene.control;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -14,6 +15,46 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
  * @author Bruno Salmon
  */
 public abstract class Control extends Region implements Skinnable {
+
+    // --- tooltip
+    /**
+     * The ToolTip for this control.
+     * @return the tool tip for this control
+     */
+    public final ObjectProperty<Tooltip> tooltipProperty() {
+        if (tooltip == null) {
+            tooltip = new ObjectPropertyBase<>() {
+                /*private Tooltip old = null;
+                @Override protected void invalidated() {
+                    Tooltip t = get();
+                    // install / uninstall
+                    if (t != old) {
+                        if (old != null) {
+                            Tooltip.uninstall(Control.this, old);
+                        }
+                        if (t != null) {
+                            Tooltip.install(Control.this, t);
+                        }
+                        old = t;
+                    }
+                }*/
+
+                @Override
+                public Object getBean() {
+                    return Control.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "tooltip";
+                }
+            };
+        }
+        return tooltip;
+    }
+    private ObjectProperty<Tooltip> tooltip;
+    public final void setTooltip(Tooltip value) { tooltipProperty().setValue(value); }
+    public final Tooltip getTooltip() { return tooltip == null ? null : tooltip.getValue(); }
 
     // --- context menu
     /**

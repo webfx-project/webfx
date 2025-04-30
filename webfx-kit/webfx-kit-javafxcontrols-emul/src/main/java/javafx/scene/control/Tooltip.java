@@ -9,7 +9,7 @@ import javafx.beans.property.StringProperty;
  *
  * @author Bruno Salmon
  */
-public class Tooltip extends Control {
+public class Tooltip extends PopupControl {
 
     public Tooltip() {
         this(null);
