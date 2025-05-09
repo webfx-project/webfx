@@ -19,6 +19,7 @@ import elemental2.dom.*;
 import elemental2.svg.SVGSVGElement;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -49,7 +50,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         super(scene);
         // TODO: see how to replace this with immediate CSS
         HtmlUtil.setStyleAttribute(container, "width", "100%");
-        HtmlUtil.setStyleAttribute(container, "height", "100dvh"); // dvh is better than vh on mobiles (keeps working when navigation bar hides or reappears)
+        HtmlUtil.setStyleAttribute(container, "height", "100dvh"); // dvh is better than vh on mobiles (keeps working when the navigation bar hides or reappears)
         FXProperties.runNowAndOnPropertyChange(this::updateContainerFill, scene.fillProperty());
         installPointerListeners();
         HtmlSvgNodePeer.installTouchListeners(container, scene);
@@ -78,31 +79,35 @@ public final class HtmlScenePeer extends ScenePeerBase {
         registerPointerListener("pointerenter");
         registerPointerListener("pointerleave");
         registerPointerListener("pointermove");
-        // Note: not necessary to register "clicked", as the JavaFX Scene has its own way to generate mouse clicked
-        // events based on the pressed and released events.
+        // Note: not necessary to register "clicked", as the JavaFX Scene has its own way to generate mouse click events
+        // (based on the pressed and released events).
         container.oncontextmenu = e -> {
-            //e.stopPropagation();
-            e.preventDefault(); // To prevent the browser default context menu
-            if (e instanceof MouseEvent // For now, we manage only context menu from the mouse
+            if (e instanceof MouseEvent // For now, we manage only the context menu from the mouse
                 // Also checking that we received the mouse up event on that scene before. This is to prevent the
                 // following case: when a context menu is already displayed (=> in another popup window/scene) and
-                // the user right-click on a menu item, the menu action will be triggered on the mouseup within the
+                // the user right-clicks on a menu item, the menu action will be triggered on the mouseup within the
                 // popup window/scene (so far, so good) but then oncontextmenu is called on this scene by the browser
                 // whereas the intention of the user was just to trigger the menu action (which also closes the
                 // context menu) but not to display the context menu again. So we prevent this by checking the last
-                // mouse event was a mouse up on that scene which is the correct sequence (in the above case, the
+                // mouse event was a mouse up on that scene, which is the correct sequence (in the above case, the
                 // last mouse event will be the oncontextmenu event).
                 /*&& lastMouseEvent != null && "mouseup".equals(lastMouseEvent.type)*/) {
                 MouseEvent me = (MouseEvent) e;
-                // Finally we generate the menu event for JavaFX
+                // Finally, we generate the menu event for JavaFX
                 listener.menuEvent(me.x, me.y, me.screenX, me.screenY, false);
+                // We show the default browser context menu, unless the app code has set a setOnContextMenuRequested()
+                // handler in which the event is consumed (which is the way for the app to indicate that the default
+                // browser context menu needs to be hidden).
+                if (Event.lastFinalFiredEvent == null) { // A null value actually indicates that the app has consumed the event
+                    e.preventDefault(); // This will prevent the browser default context menu
+                }
             }
             return null;
         };
-        // Disabling default browser drag & drop as JavaFX has its own. Without doing this, the setOnMouseDragged()
+        // Disabling the default browser drag and drop as JavaFX has its own. Without doing this, the setOnMouseDragged()
         // handler would be called only once (when the drag starts) and not continuously during the drag operation.
-        // Also without doing this, the browser would display a ghost image of the dragged element (which is not the
-        // case with JavaFX). Ex of use case: Modality user profile picture drag (in ChangePictureUI).
+        // Also, without doing this, the browser would display a ghost image of the dragged element (which is not the
+        // case with JavaFX). Ex of a use case: Modality user profile picture drag (in ChangePictureUI).
         container.setAttribute("ondragstart", "return false;");
         container.setAttribute("ondrop", "return false;"); // TODO check if this is necessary
     }
