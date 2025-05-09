@@ -153,16 +153,28 @@ public final class FXProperties {
     }
 
     public static <T> void onPropertySet(ObservableValue<T> property, Consumer<T> valueConsumer, boolean callIfNullProperty) {
+        onPropertyChecks(property, Objects::nonNull, valueConsumer, callIfNullProperty);
+    }
+
+    public static <T> void onPropertyEquals(ObservableValue<T> property, T value, Consumer<T> valueConsumer) {
+        onPropertyChecks(property, v -> Objects.equals(v, value), valueConsumer, false);
+    }
+
+    public static <T> void onPropertyChecks(ObservableValue<T> property, Predicate<T> predicate, Consumer<T> valueConsumer) {
+        onPropertyChecks(property, predicate, valueConsumer, false);
+    }
+
+    public static <T> void onPropertyChecks(ObservableValue<T> property, Predicate<T> predicate, Consumer<T> valueConsumer, boolean callIfNullProperty) {
         if (property == null) {
             if (callIfNullProperty)
                 valueConsumer.accept(null);
         } else {
             T value = property.getValue();
-            if (value != null)
+            if (predicate.test(value))
                 valueConsumer.accept(value);
             else
                 runOrUnregisterOnPropertyChange((thisListener, oldValue, newValue) -> {
-                    if (newValue != null) {
+                    if (predicate.test(newValue)) {
                         thisListener.unregister();
                         valueConsumer.accept(newValue);
                     }
