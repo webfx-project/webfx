@@ -1994,6 +1994,11 @@ public abstract class Node implements INode, EventTarget, Styleable {
             pt.x = p.x;
             pt.y = p.y;
         }
+        // Additional WebFX code to manage the shift introduced by the viewport when this node is the content of a ScrollPane
+        Parent parent = getParent();
+        if (parent instanceof IScrollPane) {
+            ((IScrollPane) parent).localContentToParentViewport(pt);
+        }
     }
 
     public Point2D localToParent(Point2D pt) {
@@ -2028,6 +2033,11 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
     void parentToLocal(com.sun.javafx.geom.Point2D pt) {
+        // Additional WebFX code to manage the shift introduced by the viewport when this node is the content of a ScrollPane
+        Parent parent = getParent();
+        if (parent instanceof IScrollPane) {
+            ((IScrollPane) parent).parentViewportToLocalContent(pt);
+        }
 //        List<Transform> transforms = localToParentTransforms();
         for (Transform transform : getAllNodeTransforms()) {
 //        for (int i = transforms.size() - 1; i >= 0; i--) { Transform transform = transforms.get(i);

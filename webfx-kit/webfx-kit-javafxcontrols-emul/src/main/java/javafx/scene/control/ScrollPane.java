@@ -1,25 +1,27 @@
 package javafx.scene.control;
 
+import com.sun.javafx.geom.Point2D;
 import com.sun.javafx.scene.control.behavior.ScrollPaneBehavior;
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import javafx.beans.property.*;
 import javafx.geometry.*;
+import javafx.scene.IScrollPane;
 import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon
  */
-public class ScrollPane extends Control {
+public class ScrollPane extends Control implements IScrollPane {
 
     private Runnable onChildrenLayout;
 
     public ScrollPane() {
-        // WebFX doesn't use the default JavaFX ScrollPaneSkin, but delegates this to the peer (HtmlScrollPanePeer). The
+        // WebFX doesn't use the default JavaFX ScrollPaneSkin but delegates this to the peer (HtmlScrollPanePeer). The
         // peer will indeed map the ScrollPane either to a pure HTML/CSS element or to a JS library (PerfectScrollbar).
-        // In both cases, the look of the ScrollPane (including the scrollbars) is managed by the peer. So we don't
-        // have to instantiate ScrollPaneSkin. However, we instantiate a fake basic skin (that doesn't have any visual
-        // effect) with a ScrollPaneBehavior, which implements the basic JavaFX feature (focus captured on mouse click).
+        // In both cases, the peer manages the look of the ScrollPane (including the scrollbars). So we don't have to
+        // instantiate ScrollPaneSkin. However, we instantiate a fake basic skin (that doesn't have any visual effect)
+        // with a ScrollPaneBehavior, which implements the basic JavaFX feature (focus captured on mouse click).
         new BehaviorSkinBase<>(this, new ScrollPaneBehavior(this)) {
             // We also call consumeMouseEvents(false) like ScrollPaneSkin does, so the mouse events are handled in the
             // same way as in OpenJFX (ex: if an ancestor of ScrollPane sets a mouse handler, it will be called)
@@ -63,19 +65,21 @@ public class ScrollPane extends Control {
     }
 
     @Override
-    protected void sceneToLocal(com.sun.javafx.geom.Point2D pt) {
-        super.sceneToLocal(pt);
+    public void localContentToParentViewport(Point2D pt) {
+        // The peer positioned the viewport bounds minX and minY to scrollLeft and scrollTop (see HtmlScrollPanePeer)
         Bounds viewportBounds = getViewportBounds();
-        pt.x += (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/float) viewportBounds.getMinX();
-        pt.y += (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/float) viewportBounds.getMinY();
+        /* Casting to float to fix CodeQL implicit-cast-in-compound-assignment security issue */
+        pt.x -= (float) viewportBounds.getMinX();
+        pt.y -= (float) viewportBounds.getMinY();
     }
 
     @Override
-    protected void localToScene(com.sun.javafx.geom.Point2D pt) {
+    public void parentViewportToLocalContent(Point2D pt) {
+        // The peer positioned the viewport bounds minX and minY to scrollLeft and scrollTop (see HtmlScrollPanePeer)
         Bounds viewportBounds = getViewportBounds();
-        pt.x -= (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/float) viewportBounds.getMinX();
-        pt.y -= (/*cast to fix CodeQL implicit-cast-in-compound-assignment security issue*/float) viewportBounds.getMinY();
-        super.localToScene(pt);
+        /* Casting to float to fix CodeQL implicit-cast-in-compound-assignment security issue */
+        pt.x += (float) viewportBounds.getMinX();
+        pt.y += (float) viewportBounds.getMinY();
     }
 
     private final Property<ScrollBarPolicy> hbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
