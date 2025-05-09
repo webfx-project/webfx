@@ -9,18 +9,20 @@
     --fx-border-width: 1px;
     --fx-border-color-focus: #0096D6;
     --fx-svg-path-fill: black;
+    --body-user-select: none;
+    --text-user-select: text;
 }
 
 /* Mocking some basic JavaFX behaviours */
 body {
     overflow: hidden; /* Disabling browser horizontal and vertical scroll bars */
     margin: 0; /* Removing the default margin around the body */
-    /* Disabling user selection by default */
+    /* Disabling user selection by default (like in JavaFX) but enabling selection on text (as opposed to JavaFX - see fx-text CSS rule)  */
+    -webkit-user-select: var(--body-user-select);
+    -moz-user-select: var(--body-user-select);
+    -ms-user-select: var(--body-user-select);
+    user-select: var(--body-user-select);
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 /* Making disabled nodes semi-transparent */
@@ -50,4 +52,9 @@ fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the str
 fx-text {
     word-break: break-word;
     overflow-wrap: break-word; /* fallback for better browser support */
+/* Also enabling selection on text (as opposed to JavaFX, but it's expected by most web users) */
+    -webkit-user-select: var(--text-user-select);
+    -moz-user-select: var(--text-user-select);
+    -ms-user-select: var(--text-user-select);
+    user-select: var(--text-user-select);
 }
