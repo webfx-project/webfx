@@ -3,7 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurableNoHGrow;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlMeasurableNoHGrow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRoot;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRootBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg.SvgTextPeer;
@@ -29,7 +29,7 @@ import java.util.List;
 public final class HtmlSvgTextPeer
         <N extends Text, NB extends TextPeerBase<N, NB, NM>, NM extends TextPeerMixin<N, NB, NM>>
         extends HtmlShapePeer<N, NB, NM>
-        implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow {
+        implements TextPeerMixin<N, NB, NM>, HtmlMeasurableNoHGrow {
 
     private final Element svgElement = SvgUtil.createSvgElement("svg");
     private final SvgTextPeer svgTextPeer = new SvgTextPeer();

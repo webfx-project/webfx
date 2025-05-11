@@ -5,7 +5,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlNodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLMediaElement;
@@ -19,7 +19,7 @@ import javafx.scene.media.MediaView;
 public class GwtJ2clMediaViewPeer
         <N extends MediaView, NB extends NodePeerBase<N, NB, NM>, NM extends NodePeerMixin<N, NB, NM>>
         extends HtmlNodePeer<N, NB, NM>
-        implements HtmlLayoutMeasurable, HasSizeChangedCallback {
+        implements HtmlMeasurable, HasSizeChangedCallback {
 
     private final HTMLVideoElement videoElement;
     private boolean loaded;

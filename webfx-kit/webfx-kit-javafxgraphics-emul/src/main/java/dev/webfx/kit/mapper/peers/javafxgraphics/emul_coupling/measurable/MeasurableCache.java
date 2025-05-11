@@ -1,11 +1,11 @@
-package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable;
+package dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable;
 
 import javafx.geometry.Bounds;
 
 /**
  * @author Bruno Salmon
  */
-public final class HtmlLayoutCache {
+public final class MeasurableCache {
 
     private Bounds cachedLayoutBounds;
 
@@ -25,7 +25,7 @@ public final class HtmlLayoutCache {
         this.cachedLayoutBounds = cachedLayoutBounds;
     }
 
-    double getCachedSize(double value, boolean width) {
+    public double getCachedSize(double value, boolean width) {
         if (width) {
             if (value < 0)
                 return negWidthSize;
@@ -40,7 +40,7 @@ public final class HtmlLayoutCache {
         return -1;
     }
 
-    void setCachedSize(double value, boolean width, double size) {
+    public void setCachedSize(double value, boolean width, double size) {
         if (width) {
             if (value < 0)
                 negWidthSize = size;
@@ -58,7 +58,7 @@ public final class HtmlLayoutCache {
         }
     }
 
-    void clearCache() {
+    public void clearCache() {
         negWidthSize = posWidthSize = negHeightSize = posHeightSize = -1;
         cachedLayoutBounds = null;
     }

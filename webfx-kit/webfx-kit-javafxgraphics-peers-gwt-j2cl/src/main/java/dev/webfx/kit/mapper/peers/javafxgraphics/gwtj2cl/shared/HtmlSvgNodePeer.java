@@ -10,7 +10,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerImpl;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.Measurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg.SvgNodePeer;
@@ -739,8 +739,8 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void clearLayoutCache() {
-        if (this instanceof LayoutMeasurable)
-            ((LayoutMeasurable) this).clearCache();
+        if (this instanceof Measurable)
+            ((Measurable) this).clearCache();
     }
 
     /* String attributes */

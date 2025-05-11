@@ -3,7 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.SliderPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.SliderPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlRegionPeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
@@ -19,7 +19,7 @@ public final class HtmlSliderPeer
         <N extends Slider, NB extends SliderPeerBase<N, NB, NM>, NM extends SliderPeerMixin<N, NB, NM>>
 
         extends HtmlRegionPeer<N, NB, NM>
-        implements SliderPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements SliderPeerMixin<N, NB, NM>, HtmlMeasurable {
 
     public HtmlSliderPeer() {
         this((NB) new SliderPeerBase(), HtmlUtil.createInputElement("range"));

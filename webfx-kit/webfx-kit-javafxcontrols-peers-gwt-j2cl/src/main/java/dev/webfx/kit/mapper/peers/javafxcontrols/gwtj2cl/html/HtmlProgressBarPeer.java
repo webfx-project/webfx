@@ -3,7 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ProgressBarPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ProgressBarPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlRegionPeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLProgressElement;
@@ -16,7 +16,7 @@ public final class HtmlProgressBarPeer
         <N extends ProgressBar, NB extends ProgressBarPeerBase<N, NB, NM>, NM extends ProgressBarPeerMixin<N, NB, NM>>
 
         extends HtmlRegionPeer<N, NB, NM>
-        implements ProgressBarPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements ProgressBarPeerMixin<N, NB, NM>, HtmlMeasurable {
 
     public HtmlProgressBarPeer() {
         this((NB) new ProgressBarPeerBase(), HtmlUtil.createElement("progress"));

@@ -3,8 +3,8 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.TextPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutCache;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurableNoHGrow;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.MeasurableCache;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlMeasurableNoHGrow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.platform.uischeduler.UiScheduler;
@@ -29,7 +29,7 @@ import javafx.scene.text.TextAlignment;
 public final class HtmlTextPeer
         <N extends Text, NB extends TextPeerBase<N, NB, NM>, NM extends TextPeerMixin<N, NB, NM>>
         extends HtmlShapePeer<N, NB, NM>
-        implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow, HasSizeChangedCallback {
+        implements TextPeerMixin<N, NB, NM>, HtmlMeasurableNoHGrow, HasSizeChangedCallback {
 
     private static final String FX_KIT_LINE_HEIGHT = "--fx-kit-line-height";
 
@@ -247,14 +247,14 @@ public final class HtmlTextPeer
     @Override
     public double prepareAndMeasureElement(HTMLElement e, boolean measureWidth, double otherSizeValue) {
         removeLineClamp(e.style);
-        double measure = HtmlLayoutMeasurableNoHGrow.super.prepareAndMeasureElement(e, measureWidth, otherSizeValue);
+        double measure = HtmlMeasurableNoHGrow.super.prepareAndMeasureElement(e, measureWidth, otherSizeValue);
         applyLineClamp(e.style);
         return measure;
     }
 
-    private final HtmlLayoutCache cache = new HtmlLayoutCache();
+    private final MeasurableCache cache = new MeasurableCache();
     @Override
-    public HtmlLayoutCache getCache() {
+    public MeasurableCache getCache() {
         return cache;
     }
 

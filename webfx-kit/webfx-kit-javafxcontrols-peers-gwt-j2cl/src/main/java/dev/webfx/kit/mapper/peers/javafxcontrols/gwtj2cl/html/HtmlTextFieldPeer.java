@@ -3,7 +3,8 @@ package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 import dev.webfx.kit.util.aria.AriaRole;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import elemental2.dom.Element;
@@ -27,7 +28,7 @@ public class HtmlTextFieldPeer
         <N extends TextField, NB extends TextFieldPeerBase<N, NB, NM>, NM extends TextFieldPeerMixin<N, NB, NM>>
 
         extends HtmlTextInputControlPeer<N, NB, NM>
-        implements TextFieldPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements TextFieldPeerMixin<N, NB, NM>, HtmlMeasurable {
 
     public HtmlTextFieldPeer() {
         this("fx-textfield");

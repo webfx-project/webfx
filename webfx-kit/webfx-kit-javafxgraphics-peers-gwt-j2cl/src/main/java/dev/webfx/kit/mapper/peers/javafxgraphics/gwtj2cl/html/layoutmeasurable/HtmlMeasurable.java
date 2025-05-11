@@ -1,6 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable;
 
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.Measurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.MeasurableCache;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlNodePeer;
 import dev.webfx.platform.console.Console;
 import elemental2.dom.CSSProperties;
@@ -13,7 +14,7 @@ import javafx.geometry.Bounds;
 /**
  * @author Bruno Salmon
  */
-public interface HtmlLayoutMeasurable extends LayoutMeasurable {
+public interface HtmlMeasurable extends Measurable {
 
     // TODO: reset all caches when fonts are loaded from CSS
     boolean ENABLE_CACHE = true;
@@ -23,8 +24,8 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
 
     default Bounds getLayoutBounds() {
         Bounds layoutBounds;
-        // Looking the value in the cache (if the peer has one)
-        HtmlLayoutCache cache = ENABLE_CACHE ? getCache() : null;
+        // Looking for the value in the cache (if the peer has one)
+        MeasurableCache cache = ENABLE_CACHE ? getCache() : null;
         if (cache != null) {
             layoutBounds = cache.getCachedLayoutBounds();
             if (layoutBounds != null)
@@ -32,7 +33,7 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
         }
         // Not in the cache, so we ask the browser to measure the layout bounds
         layoutBounds = measureLayoutBounds();
-        // Memorising the value (if cache present), unless the element is not connected (i.e. not in the DOM)
+        // Memorizing the value (if the cache is present), unless the element is not connected (i.e., not in the DOM)
         // as the value is probably not relevant for future cases (ex: CSS not applied)
         if (cache != null && getElement().isConnected)
             cache.setCachedLayoutBounds(layoutBounds);
@@ -77,7 +78,7 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
     }
 
     default double getCacheOrMeasureElement(HTMLElement e, boolean measureWidth, double otherSizeValue) {
-        HtmlLayoutCache cache = ENABLE_CACHE ? getCache() : null;
+        MeasurableCache cache = ENABLE_CACHE ? getCache() : null;
         double cachedSize = cache == null ? -1 : cache.getCachedSize(otherSizeValue, measureWidth);
         if (!DETECT_WRONG_CACHE && cachedSize >= 0)
             return cachedSize;
@@ -131,13 +132,13 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
         // return width ? p2.x - p1.x : p2.y - p1.y;
     }
 
-    default HtmlLayoutCache getCache() {
+    default MeasurableCache getCache() {
         return null;
     }
 
     @Override
     default void clearCache() {
-        HtmlLayoutCache cache = getCache();
+        MeasurableCache cache = getCache();
         if (cache != null)
             cache.clearCache();
     }

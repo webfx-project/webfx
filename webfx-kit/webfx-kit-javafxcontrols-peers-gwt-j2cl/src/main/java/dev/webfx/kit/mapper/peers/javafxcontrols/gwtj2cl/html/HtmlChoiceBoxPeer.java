@@ -6,7 +6,7 @@ import javafx.collections.ListChangeListener;
 import javafx.scene.control.ChoiceBox;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ChoiceBoxPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ChoiceBoxPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurableNoGrow;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlMeasurableNoGrow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 
@@ -20,7 +20,7 @@ public final class HtmlChoiceBoxPeer
         <T, N extends ChoiceBox<T>, NB extends ChoiceBoxPeerBase<T, N, NB, NM>, NM extends ChoiceBoxPeerMixin<T, N, NB, NM>>
 
         extends HtmlControlPeer<N, NB, NM>
-        implements ChoiceBoxPeerMixin<T, N, NB, NM>, HtmlLayoutMeasurableNoGrow {
+        implements ChoiceBoxPeerMixin<T, N, NB, NM>, HtmlMeasurableNoGrow {
 
     private final HTMLSelectElement select;
 

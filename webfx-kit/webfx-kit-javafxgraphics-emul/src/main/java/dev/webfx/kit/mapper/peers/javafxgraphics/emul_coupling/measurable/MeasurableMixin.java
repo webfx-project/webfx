@@ -1,13 +1,13 @@
-package dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling;
+package dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable;
 
 import javafx.geometry.Bounds;
 
 /**
  * @author Bruno Salmon
  */
-public interface LayoutMeasurableMixin extends LayoutMeasurable {
+public interface MeasurableMixin extends Measurable {
 
-    LayoutMeasurable getLayoutMeasurable();
+    Measurable getLayoutMeasurable();
 
     default Bounds getLayoutBounds() {
         return getLayoutMeasurable().getLayoutBounds();

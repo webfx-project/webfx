@@ -2,8 +2,8 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.SVGPathPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.SVGPathPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutCache;
-import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurableNoGrow;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.MeasurableCache;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlMeasurableNoGrow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg.SvgPathPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import elemental2.dom.HTMLElement;
@@ -20,7 +20,7 @@ public final class HtmlSVGPathPeer
         <N extends SVGPath, NB extends SVGPathPeerBase<N, NB, NM>, NM extends SVGPathPeerMixin<N, NB, NM>>
 
         extends HtmlSVGShapePeer<N, NB, NM>
-        implements SVGPathPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoGrow {
+        implements SVGPathPeerMixin<N, NB, NM>, HtmlMeasurableNoGrow {
 
     private final SvgPathPeer svgPathPeer = new SvgPathPeer();
 
@@ -55,9 +55,9 @@ public final class HtmlSVGPathPeer
         //cache.setCachedLayoutBounds(bBoxToBound(bBox));
     }
 
-    private final HtmlLayoutCache cache = new HtmlLayoutCache();
+    private final MeasurableCache cache = new MeasurableCache();
     @Override
-    public HtmlLayoutCache getCache() {
+    public MeasurableCache getCache() {
         return cache;
     }
 

@@ -7,7 +7,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.transform.Transform;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurableMixin;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.MeasurableMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public interface INode extends
-        LayoutMeasurableMixin,
+    MeasurableMixin,
         HasParentProperty,
         HasManagedProperty,
         HasMouseTransparentProperty,

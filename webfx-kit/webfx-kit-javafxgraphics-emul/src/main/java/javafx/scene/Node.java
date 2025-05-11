@@ -13,7 +13,7 @@ import com.sun.javafx.util.TempState;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.HasSizeChangedCallback;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.Measurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import javafx.beans.property.*;
@@ -1373,17 +1373,17 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
 
-    private LayoutMeasurable layoutMeasurable;
+    private Measurable measurable;
 
-    public LayoutMeasurable getLayoutMeasurable() {
-        if (layoutMeasurable == null) { // Happens when the node peer is not yet created
+    public Measurable getLayoutMeasurable() {
+        if (measurable == null) { // Happens when the node peer is not yet created
             Scene scene = getScene();
             if (scene != null && scene.getRoot() != this) // Not doing it on root because this cause an infinite recursion
                 scene.createAndBindNodePeerAndChildren(this);
-            if (layoutMeasurable == null)
+            if (measurable == null)
                 createLayoutMeasurable(null); // Temporary using the implementation based on the model
         }
-        return layoutMeasurable;
+        return measurable;
     }
 
     protected boolean shouldUseLayoutMeasurable() {
@@ -1403,8 +1403,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
     protected void createLayoutMeasurable(NodePeer nodePeer) {
         // Always creating a new LayoutMeasurable (even when nodePeer is valid) so that min/pref/max
         // width/height user values are returned in priority whenever they have been set.
-        layoutMeasurable = new LayoutMeasurable() {
-            private final LayoutMeasurable acceptedLayoutMeasurable = nodePeer instanceof LayoutMeasurable && shouldUseLayoutMeasurable() ? (LayoutMeasurable) nodePeer : null;
+        measurable = new Measurable() {
+            private final Measurable acceptedMeasurable = nodePeer instanceof Measurable && shouldUseLayoutMeasurable() ? (Measurable) nodePeer : null;
             {
                 if (nodePeer instanceof HasSizeChangedCallback)
                     UiScheduler.scheduleDeferred(() ->
@@ -1412,8 +1412,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     );
             }
 
-            public Bounds getLayoutBounds() { return acceptedLayoutMeasurable != null ?
-                    acceptedLayoutMeasurable.getLayoutBounds()
+            public Bounds getLayoutBounds() { return acceptedMeasurable != null ?
+                    acceptedMeasurable.getLayoutBounds()
                     : impl_getLayoutBounds(); }
 
             public double minWidth(double height) {
@@ -1424,8 +1424,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (minWidth != USE_COMPUTED_SIZE)
                         return minWidth;
                 }
-                return acceptedLayoutMeasurable != null ?
-                        acceptedLayoutMeasurable.minWidth(height)
+                return acceptedMeasurable != null ?
+                        acceptedMeasurable.minWidth(height)
                         : impl_minWidth(height);
             }
 
@@ -1437,8 +1437,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (maxWidth != USE_COMPUTED_SIZE)
                         return maxWidth;
                 }
-                return acceptedLayoutMeasurable != null ?
-                        acceptedLayoutMeasurable.maxWidth(height)
+                return acceptedMeasurable != null ?
+                        acceptedMeasurable.maxWidth(height)
                         : impl_maxWidth(height);
             }
 
@@ -1450,8 +1450,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (minHeight != USE_COMPUTED_SIZE)
                         return minHeight;
                 }
-                return acceptedLayoutMeasurable != null ?
-                        acceptedLayoutMeasurable.minHeight(width)
+                return acceptedMeasurable != null ?
+                        acceptedMeasurable.minHeight(width)
                         : impl_minHeight(width);
             }
 
@@ -1463,8 +1463,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (maxHeight != USE_COMPUTED_SIZE)
                         return maxHeight;
                 }
-                return acceptedLayoutMeasurable != null ?
-                        acceptedLayoutMeasurable.maxHeight(width) :
+                return acceptedMeasurable != null ?
+                        acceptedMeasurable.maxHeight(width) :
                         impl_maxHeight(width);
             }
 
@@ -1474,8 +1474,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (prefWidth != USE_COMPUTED_SIZE)
                         return prefWidth;
                 }
-                return acceptedLayoutMeasurable != null ?
-                        acceptedLayoutMeasurable.prefWidth(height)
+                return acceptedMeasurable != null ?
+                        acceptedMeasurable.prefWidth(height)
                         : impl_prefWidth(height);
             }
 
@@ -1485,15 +1485,15 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (prefHeight != USE_COMPUTED_SIZE)
                         return prefHeight;
                 }
-                return acceptedLayoutMeasurable != null ?
-                        acceptedLayoutMeasurable.prefHeight(width)
+                return acceptedMeasurable != null ?
+                        acceptedMeasurable.prefHeight(width)
                         : impl_prefHeight(width);
             }
 
             @Override
             public void clearCache() {
-                if (acceptedLayoutMeasurable != null)
-                    acceptedLayoutMeasurable.clearCache();
+                if (acceptedMeasurable != null)
+                    acceptedMeasurable.clearCache();
             }
         };
     }

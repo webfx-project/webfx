@@ -35,7 +35,7 @@ import javafx.beans.property.StringPropertyBase;
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Paint;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.Measurable;
 import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
 import dev.webfx.platform.console.Console;
 
@@ -182,8 +182,8 @@ public class SVGPath extends Shape {
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         NodePeer nodePeer = getOrCreateAndBindNodePeer();
-        if (nodePeer instanceof LayoutMeasurable) {
-            Bounds layoutBounds = ((LayoutMeasurable) nodePeer).getLayoutBounds();
+        if (nodePeer instanceof Measurable) {
+            Bounds layoutBounds = ((Measurable) nodePeer).getLayoutBounds();
             return new BoxBounds((float) layoutBounds.getMinX(), (float) layoutBounds.getMinY(), 0, (float) layoutBounds.getMaxX(), (float) layoutBounds.getMaxY(), 0);
         }
         if (!warned) {

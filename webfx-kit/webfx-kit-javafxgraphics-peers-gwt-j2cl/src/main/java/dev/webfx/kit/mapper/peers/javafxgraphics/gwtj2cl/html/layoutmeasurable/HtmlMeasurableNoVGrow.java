@@ -3,7 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable;
 /**
  * @author Bruno Salmon
  */
-public interface HtmlLayoutMeasurableNoVGrow extends HtmlLayoutMeasurable {
+public interface HtmlMeasurableNoVGrow extends HtmlMeasurable {
 
     @Override
     default double minHeight(double width) {
