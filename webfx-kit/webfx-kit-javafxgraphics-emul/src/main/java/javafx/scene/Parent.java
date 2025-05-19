@@ -4,8 +4,10 @@ import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.RectBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasManagedProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextProperty;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.kit.util.properties.ObservableLists;
+import dev.webfx.platform.console.Console;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
@@ -13,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.LayoutFlags;
+import javafx.scene.layout.Region;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,9 @@ import java.util.stream.Collectors;
  * @author Bruno Salmon
  */
 public class Parent extends Node {
+
+    private static final boolean LOG_LAYOUT_TIMINGS = false;
+    private static final long LOG_LAYOUT_TIMINGS_THRESHOLD = 0;
 
     private final ObservableList<Node> children = FXCollections.observableArrayList();
     {
@@ -179,7 +185,7 @@ public class Parent extends Node {
      * It is used by the Node to decide whether to perform CSS updates
      * synchronously or asynchronously.
      */
-    boolean performingLayout = false;
+    protected boolean performingLayout = false;
 
     private boolean sizeCacheClear = true;
     private double prefWidthCache = -1;
@@ -395,6 +401,12 @@ public class Parent extends Node {
      * Calling this method while the Parent is doing layout is a no-op.
      */
     public /*final*/ void layout() {
+        layout(0);
+    }
+
+    private void layout(int graphLevel) {
+        long t0 = System.currentTimeMillis();
+        long t1 = t0;
         switch(layoutFlag) {
             case CLEAN:
                 break;
@@ -412,11 +424,12 @@ public class Parent extends Node {
                 }
                 performingLayout = true;
                 layoutChildren();
+                t1 = System.currentTimeMillis();
                 // Intended fall-through
             case DIRTY_BRANCH:
                 for (Node child : new ArrayList<>(children)) {
                     if (child instanceof Parent) {
-                        ((Parent) child).layout();
+                        ((Parent) child).layout(graphLevel + 1);
 /*
                     } else if (child instanceof SubScene) {
                         ((SubScene)child).layoutPass();
@@ -427,6 +440,37 @@ public class Parent extends Node {
                 performingLayout = false;
                 break;
         }
+        if (LOG_LAYOUT_TIMINGS) {
+            long t2 = System.currentTimeMillis();
+            if (t2 - t0 >= LOG_LAYOUT_TIMINGS_THRESHOLD) {
+                Console.log(levelString(graphLevel) + " layout: " + (t2 - t0) + " ms (" + (t1 - t0) + " + " + (t2 - t1) + ") for " + this + sizeString(this) + textContent(this));
+            }
+        }
+    }
+
+    private static final String[] GRAPH_LEVEL_SYMBOLS = { "️1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "0️⃣"};
+
+    private String levelString(int graphLevel) {
+        if (graphLevel == 0)
+            return "⚛️";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < graphLevel; i++)
+            sb.append(GRAPH_LEVEL_SYMBOLS[i % GRAPH_LEVEL_SYMBOLS.length]);
+        return sb.toString();
+    }
+
+    private String sizeString(Parent parent) {
+        if (parent instanceof Region region) {
+            return " - size = " + region.getWidth() + " x " + region.getHeight();
+        }
+        return "";
+    }
+
+    private String textContent(Parent parent) {
+        if (parent instanceof HasTextProperty hasTextProperty) {
+            return " - text = " + hasTextProperty.getText();
+        }
+        return "";
     }
 
     /**
@@ -434,7 +478,7 @@ public class Parent extends Node {
      * {@code Parent}. By default it will only set the size of managed,
      * resizable content to their preferred sizes and does not do any node
      * positioning.
-     * <p>
+     *
      * Subclasses should override this function to layout content as needed.
      */
     protected void layoutChildren() {
