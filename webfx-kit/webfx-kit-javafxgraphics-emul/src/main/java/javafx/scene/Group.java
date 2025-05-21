@@ -96,7 +96,7 @@ public class Group extends Parent implements
     }
 
     @Override
-    public void layout() { // Non standard JavaFX optimization : layout is disabled on groups with autoSizeChildren = false
+    public void layout() { // Non-standard JavaFX optimization: layout is disabled on groups with autoSizeChildren = false
         if (isAutoSizeChildren())
             super.layout();
         else
