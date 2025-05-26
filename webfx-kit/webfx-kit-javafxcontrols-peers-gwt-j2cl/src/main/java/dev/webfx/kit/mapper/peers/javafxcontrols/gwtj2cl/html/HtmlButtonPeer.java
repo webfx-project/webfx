@@ -1,13 +1,13 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
-import elemental2.dom.HTMLElement;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ButtonPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ButtonPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.NoWrapWhiteSpacePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
+import elemental2.dom.HTMLElement;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 
 /**
  * @author Bruno Salmon
@@ -24,6 +24,9 @@ public final class HtmlButtonPeer
 
     public HtmlButtonPeer(NB base, HTMLElement element) {
         super(base, element);
+        // Attributes for accessibility
+        setElementAttribute("role", "button");
+        setElementAttribute("tabindex", "0");
     }
 
     @Override
