@@ -22,6 +22,9 @@ public final class HtmlHyperlinkPeer
 
     public HtmlHyperlinkPeer(NB base, HTMLElement element) {
         super(base, element);
+        // Attributes for accessibility
+        setElementAttribute("role", "link");
+        setElementAttribute("tabindex", "0");
     }
 
 }
