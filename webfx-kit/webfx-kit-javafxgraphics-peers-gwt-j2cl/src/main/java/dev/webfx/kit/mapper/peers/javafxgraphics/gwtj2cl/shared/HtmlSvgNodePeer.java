@@ -23,7 +23,9 @@ import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.MouseEvent;
 import elemental2.dom.TouchEvent;
 import elemental2.dom.*;
+import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Cursor;
@@ -134,6 +136,16 @@ public abstract class HtmlSvgNodePeer
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         installFocusListeners();
+        ObservableMap<Object, Object> nodeProperties = getNodeProperties();
+        onNodePropertiesChanged(nodeProperties);
+        nodeProperties.addListener((InvalidationListener) observable -> onNodePropertiesChanged(nodeProperties));
+    }
+
+    protected ObservableMap<Object, Object> getNodeProperties() {
+        return getNode().getProperties();
+    }
+
+    protected void onNodePropertiesChanged(ObservableMap<Object, Object> nodeProperties) {
     }
 
     protected ScenePeer getScenePeer() {
@@ -573,7 +585,7 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void updateDisabled(Boolean disabled) {
-        // Here we just tag/untag the element with "disabled" css class, so the disabled appearance can be managed by CSS.
+        // Here we just tag/untag the element with the "disabled" CSS class, so CSS can manage the disabled appearance.
         DOMTokenList classList = getElement().classList;
         boolean disabledCssClassPresent = classList.contains(DISABLED_CSS_CLASS);
         if (Booleans.isTrue(disabled)) {
