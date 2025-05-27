@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
+import dev.webfx.kit.launcher.aria.AriaRole;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ButtonPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ButtonPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.NoWrapWhiteSpacePeer;
@@ -24,9 +25,11 @@ public final class HtmlButtonPeer
 
     public HtmlButtonPeer(NB base, HTMLElement element) {
         super(base, element);
-        // Attributes for accessibility
-        setElementAttribute("role", "button");
-        setElementAttribute("tabindex", "0");
+    }
+
+    @Override
+    protected AriaRole getAriaRoleDefault() {
+        return AriaRole.BUTTON;
     }
 
     @Override

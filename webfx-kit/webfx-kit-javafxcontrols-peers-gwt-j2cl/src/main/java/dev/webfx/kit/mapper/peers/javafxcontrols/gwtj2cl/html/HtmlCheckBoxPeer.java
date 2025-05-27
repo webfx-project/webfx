@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
+import dev.webfx.kit.launcher.aria.AriaRole;
 import elemental2.dom.HTMLElement;
 import javafx.scene.control.CheckBox;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.CheckBoxPeerBase;
@@ -24,7 +25,18 @@ public final class HtmlCheckBoxPeer
     }
 
     @Override
+    protected AriaRole getAriaRoleDefault() {
+        return AriaRole.CHECKBOX;
+    }
+
+    @Override
+    protected Boolean isAriaSelectedDefault() {
+        return getNode().isSelected();
+    }
+
+    @Override
     public void updateSelected(Boolean selected) {
-        // Nothing to do as everything is managed by the skin
+        // Nothing to do graphically as the skin manages this, but we update the arial state
+        updateAriaSelectedAndTabindex(getNodeProperties());
     }
 }

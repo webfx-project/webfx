@@ -1,8 +1,8 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
+import dev.webfx.kit.launcher.aria.AriaRole;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
@@ -10,6 +10,7 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
@@ -49,19 +50,33 @@ public class HtmlTextFieldPeer
     }
 
     @Override
-    public void bind(N node, SceneRequester sceneRequester) {
-        super.bind(node, sceneRequester);
-        Node n = node;
+    protected ObservableMap<Object, Object> getNodeProperties() {
+        return getEmbeddingNode().getProperties();
+    }
+
+    private Node getEmbeddingNode() {
+        Node n = getNode();
         if (n instanceof ToolkitTextBox)
             n = ((ToolkitTextBox) n).getEmbeddingTextField();
-        Object type = n.getProperties().get("webfx-html-input-type");
-        if (type == null && n instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
+        return n;
+    }
+
+    @Override
+    protected void onNodePropertiesChanged(ObservableMap<Object, Object> nodeProperties) {
+        super.onNodePropertiesChanged(nodeProperties);
+        Object type = nodeProperties.get("webfx-html-input-type");
+        if (type == null && getEmbeddingNode() instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
             type =  "password";
         if (type != null)
             HtmlUtil.setAttribute(getElement(), "type", type.toString());
-        Object autocomplete = n.getProperties().get("webfx-html-input-autocomplete");
+        Object autocomplete = nodeProperties.get("webfx-html-input-autocomplete");
         if (autocomplete != null)
             HtmlUtil.setAttribute(getElement(), "autocomplete", autocomplete.toString());
+    }
+
+    @Override
+    protected AriaRole getAriaRoleDefault() {
+        return AriaRole.TEXTBOX;
     }
 
     @Override

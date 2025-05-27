@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
+import dev.webfx.kit.launcher.aria.AriaRole;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
@@ -39,13 +40,25 @@ public final class HtmlRadioButtonPeer
     }
 
     @Override
+    protected AriaRole getAriaRoleDefault() {
+        return AriaRole.RADIO;
+    }
+
+    @Override
+    protected Boolean isAriaSelectedDefault() {
+        return getNode().isSelected();
+    }
+
+    @Override
     public void updateSelected(Boolean selected) {
         radioButtonElement.checked = selected;
+        updateAriaSelectedAndTabindex(getNodeProperties());
     }
 
     @Override
     public void updateDisabled(Boolean disabled) {
         setElementAttribute(radioButtonElement, "disabled", Booleans.isTrue(disabled) ? "disabled" : null);
+        super.updateDisabled(disabled);
     }
 
     @Override
