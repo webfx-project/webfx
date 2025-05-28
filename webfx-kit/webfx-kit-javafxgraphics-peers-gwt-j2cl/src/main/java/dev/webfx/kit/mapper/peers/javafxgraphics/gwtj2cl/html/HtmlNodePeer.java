@@ -1,7 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 
-import dev.webfx.kit.launcher.aria.AriaRole;
-import dev.webfx.kit.launcher.aria.AriaSelectedAttribute;
+import dev.webfx.kit.util.aria.AriaRole;
+import dev.webfx.kit.util.aria.AriaSelectedAttribute;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
@@ -99,7 +99,7 @@ public abstract class HtmlNodePeer
         if (ariaRole != null && ariaRole.isFocusable()) {
             // If the node is not selectable (i.e., if ariaSelected == null), or if it is selectable but not selected,
             // we set tabIndex to -1, otherwise we set tabIndex to 0.
-            setElementAttribute("tabindex", Booleans.isFalse(ariaSelected) ? "-1" : "0");
+            setElementAttribute("tabindex", Booleans.isNotTrue(ariaSelected) ? "-1" : "0");
         }
     }
 

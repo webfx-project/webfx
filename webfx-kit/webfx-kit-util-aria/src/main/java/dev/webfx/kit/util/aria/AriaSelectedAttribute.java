@@ -1,4 +1,4 @@
-package dev.webfx.kit.launcher.aria;
+package dev.webfx.kit.util.aria;
 
 /**
  * @author Bruno Salmon

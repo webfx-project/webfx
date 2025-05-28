@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
-import dev.webfx.kit.launcher.aria.AriaRole;
+import dev.webfx.kit.util.aria.AriaRole;
 import elemental2.dom.HTMLElement;
 import javafx.scene.control.CheckBox;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.CheckBoxPeerBase;

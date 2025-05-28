@@ -1,4 +1,4 @@
-package dev.webfx.kit.launcher.aria;
+package dev.webfx.kit.util.aria;
 
 /**
  * Enum representing ARIA (Accessible Rich Internet Applications) roles as defined by W3C.
