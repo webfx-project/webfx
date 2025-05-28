@@ -2,12 +2,18 @@
 :root {
     --fx-border-color-focus: #0096D6;
     --fx-textfield-background: white;
+    --fx-button-text-color: inherited;
     --fx-button-background: linear-gradient(180deg, white, #e0e0e0);
-    --fx-togglebutton-selected-background: linear-gradient(180deg, #f0f0f0, #d0d0d0);
+    --fx-button-background-selected: linear-gradient(180deg, #f0f0f0, #d0d0d0);
 }
 
 ::placeholder {
     color: #888;
+}
+
+fx-button, fx-togglebutton {
+    color: var(--fx-button-text-color);
+    --fx-svg-path-fill: var(--fx-button-text-color);
 }
 
 fx-button > fx-background, fx-togglebutton > fx-background {
@@ -16,7 +22,7 @@ fx-button > fx-background, fx-togglebutton > fx-background {
 }
 
 fx-togglebutton.selected > fx-background {
-    background: var(--fx-togglebutton-selected-background);
+    background: var(--fx-button-background-selected);
 }
 
 fx-button > fx-border, fx-togglebutton > fx-border, fx-textfield > fx-border, textarea {
