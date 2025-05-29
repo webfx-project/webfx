@@ -100,6 +100,10 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         // Labeled which apply to it.
         text = new LabeledText(labeled);
 
+        // WebFX addition to tell HtmlTextPeer that those text are within label and should have 130% line-height
+        text.getProperties().put("webfx-labeled-text", true);
+        noWrappingText.getProperties().put("webfx-labeled-text", true);
+
         updateChildren();
 
         // Labels do not block the mouse by default, unlike most other UI Controls.

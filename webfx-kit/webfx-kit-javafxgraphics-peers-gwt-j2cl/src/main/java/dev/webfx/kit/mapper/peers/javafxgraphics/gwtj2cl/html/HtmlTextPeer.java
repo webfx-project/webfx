@@ -13,6 +13,7 @@ import dev.webfx.platform.util.Numbers;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
+import javafx.collections.ObservableMap;
 import javafx.geometry.VPos;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
@@ -142,12 +143,15 @@ public final class HtmlTextPeer
 
     private void updateWrappingWithAndLineSpacing(double wrappingWidth, double lineSpacing) {
         boolean isWrapping = wrappingWidth != 0;
+        ObservableMap<Object, Object> nodeProperties = getNodeProperties();
+        boolean isMeasureOnly = Booleans.isTrue(nodeProperties.get("webfx-measure-only"));
+        boolean isWithinLabel = nodeProperties.containsKey("webfx-labeled-text"); // set by
         HTMLElement element = getElement();
         CSSStyleDeclaration style = element.style;
         // First, we set the HTML line height with no extra spacing between lines (lineSpacing = 0).
         // Note: it looks like JavaFX doesn't apply the same line height for single-line and multi-lines texts.
         // For single-line, it looks like HTML "normal", and for multi-line it looks like 130% (empiric value).
-        style.lineHeight = CSSProperties.LineHeightUnionType.of("130%");
+        style.lineHeight = CSSProperties.LineHeightUnionType.of(isWrapping || isWithinLabel ? "130%" : "100%");
         // We correct the line height if additional line spacing is requested
         if (isWrapping && lineSpacing != 0) { // Not necessary if not wrapping (i.e., single line text)
             // There is no HTML equivalent of the JavaFX lineSpacing that specifies only the extra space (expressed in
@@ -171,7 +175,7 @@ public final class HtmlTextPeer
         // Clearing the measurement cache because HTML attributes have changed
         clearCache();
         // An update of Y may be necessary (to consider textOrigin)
-        if (Booleans.isNotTrue(getNode().getProperties().get("webfx-measure-only")))
+        if (!isMeasureOnly)
             updateYInAnimationFrame(true);
     }
 
