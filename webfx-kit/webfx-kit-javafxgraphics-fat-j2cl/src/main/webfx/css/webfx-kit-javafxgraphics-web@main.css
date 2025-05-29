@@ -3,14 +3,14 @@
     --safe-area-inset-right:  env(safe-area-inset-right);
     --safe-area-inset-bottom: env(safe-area-inset-bottom);
     --safe-area-inset-left:   env(safe-area-inset-left);
-    --fx-border-color: #c0c0c0;
-    --fx-border-radius: 5px;
-    --fx-border-style: solid;
-    --fx-border-width: 1px;
-    --fx-border-color-focus: #0096D6;
-    --fx-svg-path-fill: black;
     --body-user-select: none;
     --text-user-select: text;
+    --fx-border: none;
+    --fx-border-radius: 5px;
+    --fx-border-color-focus: #0096D6;
+    --fx-background: none;
+    --fx-text-fill: black;
+    --fx-svg-path-fill: var(--fx-text-fill);
 }
 
 /* Mocking some basic JavaFX behaviours */
@@ -30,14 +30,22 @@ body {
     opacity: 50%;
 }
 
-.fx-border > fx-border {
-    border-color: var(--fx-border-color);
-    border-style: var(--fx-border-style);
-    border-width: var(--fx-border-width);
+fx-background {
+    background: var(--fx-background);
     border-radius: var(--fx-border-radius);
 }
 
-/* Applying the default JavaFX behaviour for SVGPath */
+fx-border {
+    border: var(--fx-border);
+    border-radius: var(--fx-border-radius);
+}
+
+fx-children { /* Stopping propagation of background and border CSS variables to children */
+    --fx-background: none;
+    --fx-border: none;
+}
+
+/* Applying the default JavaFX behaviour for SVGPath - Note that CSS fill is prioritized over SVG fill! */
 fx-svgpath svg path:not([fill]):not([stroke]) { /* if the application code didn't set neither fill nor stroke */
     fill: var(--fx-svg-path-fill);  /* then the fill is black */
 }
@@ -50,6 +58,7 @@ fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the str
 /* The default JavaFX behaviour for Text wrapping is equivalent to HTML "break-word", which is not the default in HTML
    (the default in HTML being "normal"). So we apply "break-word". */
 fx-text {
+    color: var(--fx-text-fill);
     word-break: break-word;
     overflow-wrap: break-word; /* fallback for better browser support */
 /* Also enabling selection on text (as opposed to JavaFX, but it's expected by most web users) */
