@@ -3,14 +3,21 @@
     --safe-area-inset-right:  env(safe-area-inset-right);
     --safe-area-inset-bottom: env(safe-area-inset-bottom);
     --safe-area-inset-left:   env(safe-area-inset-left);
-    --fx-border-color: #c0c0c0;
-    --fx-border-radius: 5px;
-    --fx-border-style: solid;
-    --fx-border-width: 1px;
-    --fx-border-color-focus: #0096D6;
-    --fx-svg-path-fill: black;
     --body-user-select: none;
     --text-user-select: text;
+    --fx-border-style: none;
+    --fx-border-color: transparent;
+    --fx-border-radius: 0;
+    --fx-border-width: 0;
+    --fx-border-color-focus: #0096D6;
+    --fx-background-color: transparent;
+    --fx-background-radius: var(--fx-border-radius);
+    --fx-background-image: none;
+    --fx-background-position: none;
+    --fx-background-repeat: none;
+    --fx-background-size: none;
+    --fx-text-fill: black;
+    --fx-svg-path-fill: var(--fx-text-fill);
 }
 
 /* Mocking some basic JavaFX behaviours */
@@ -30,14 +37,36 @@ body {
     opacity: 50%;
 }
 
-.fx-border > fx-border {
-    border-color: var(--fx-border-color);
+fx-background {
+    background-color: var(--fx-background-color);
+    border-radius: var(--fx-background-radius);
+    background-image: var(--fx-background-image);
+    background-position: var(--fx-background-position);
+    background-repeat: var(--fx-background-repeat);
+    background-size: var(--fx-background-size);
+}
+
+fx-border {
     border-style: var(--fx-border-style);
+    border-color: var(--fx-border-color);
     border-width: var(--fx-border-width);
     border-radius: var(--fx-border-radius);
 }
 
-/* Applying the default JavaFX behaviour for SVGPath */
+fx-children { /* Stopping propagation of background and border CSS variables to children */
+    --fx-background-color: transparent;
+    --fx-background-radius: var(--fx-border-radius);
+    --fx-background-image: none;
+    --fx-background-position: none;
+    --fx-background-repeat: none;
+    --fx-background-size: none;
+    --fx-border-style: none;
+    --fx-border-color: none;
+    --fx-border-radius: 0;
+    --fx-border-width: 0;
+}
+
+/* Applying the default JavaFX behaviour for SVGPath - Note that CSS fill is prioritized over SVG fill! */
 fx-svgpath svg path:not([fill]):not([stroke]) { /* if the application code didn't set neither fill nor stroke */
     fill: var(--fx-svg-path-fill);  /* then the fill is black */
 }
@@ -50,6 +79,7 @@ fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the str
 /* The default JavaFX behaviour for Text wrapping is equivalent to HTML "break-word", which is not the default in HTML
    (the default in HTML being "normal"). So we apply "break-word". */
 fx-text {
+    color: var(--fx-text-fill);
     word-break: break-word;
     overflow-wrap: break-word; /* fallback for better browser support */
 /* Also enabling selection on text (as opposed to JavaFX, but it's expected by most web users) */
