@@ -187,7 +187,7 @@ public class ToggleButton extends ButtonBase
         }
     }
 
-    // Webfx default hardcoded Style to match JavaFX default theme
+    // WebFX default hardcoded Style to match JavaFX default theme
 
     @Override
     protected Skin<?> createDefaultSkin() {
