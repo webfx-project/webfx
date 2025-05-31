@@ -312,11 +312,11 @@ public abstract class Node implements INode, EventTarget, Styleable {
 
     private BooleanProperty disabledPropertyImpl() {
         if (disabled == null) {
-            disabled = new SimpleBooleanProperty(false)/* {
+            disabled = new SimpleBooleanProperty(false) {
 
                 @Override
                 protected void invalidated() {
-                    pseudoClassStateChanged(DISABLED_PSEUDOCLASS_STATE, get());
+                    //pseudoClassStateChanged(DISABLED_PSEUDOCLASS_STATE, get());
                     updateCanReceiveFocus();
                     focusSetDirty(getScene());
                 }
@@ -330,7 +330,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                 public String getName() {
                     return "disabled";
                 }
-            }*/;
+            };
         }
         return disabled;
     }
@@ -804,6 +804,23 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
     /**
+     * Called when something has changed on this node that *may* have made the
+     * scene's focus dirty. This covers the cases where this node is the focus
+     * owner and it may have lost eligibility, or it's traversable and it may
+     * have gained eligibility. Note that we do not want to use disabled
+     * or treeVisible here, as this function is called from their
+     * "on invalidate" triggers, and using them will cause them to be
+     * revalidated. The pulse will revalidate everything and make the final
+     * determination.
+     */
+    private void focusSetDirty(Scene s) {
+        if (s != null &&
+            (this == s.getFocusOwner() || isFocusTraversable())) {
+            s.setFocusDirty(true);
+        }
+    }
+
+    /**
      * Requests that this {@code Node} get the input focus, and that this
      * {@code Node}'s top-level ancestor become the focused window. To be
      * eligible to receive the focus, the node must be part of a scene, it and
@@ -879,7 +896,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
 
     public final BooleanProperty focusTraversableProperty() {
         if (focusTraversable == null) {
-            focusTraversable = new SimpleBooleanProperty(false)/* {
+            focusTraversable = new SimpleBooleanProperty(false) {
 
                 @Override
                 public void invalidated() {
@@ -892,7 +909,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     }
                 }
 
-                @Override
+                /*@Override
                 public CssMetaData getCssMetaData() {
                     return StyleableProperties.FOCUS_TRAVERSABLE;
                 }
@@ -900,13 +917,13 @@ public abstract class Node implements INode, EventTarget, Styleable {
                 @Override
                 public Object getBean() {
                     return Node.this;
-                }
+                }*/
 
                 @Override
                 public String getName() {
                     return "focusTraversable";
                 }
-            }*/;
+            };
         }
         return focusTraversable;
     }
