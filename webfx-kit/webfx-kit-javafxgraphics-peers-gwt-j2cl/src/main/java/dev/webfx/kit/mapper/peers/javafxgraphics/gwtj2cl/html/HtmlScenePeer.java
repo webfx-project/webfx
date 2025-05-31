@@ -127,7 +127,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
             boolean isMouseReleased = fxType == javafx.scene.input.MouseEvent.MOUSE_RELEASED;
             UserInteraction.setUserInteracting(isMousePressed || isMouseReleased);
             // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFX stack
-            Scene scene = getScene();
             // Also fixing a problem: mouse released and mouse pressed are sent very closely on mobiles and might be
             // treated in the same animation frame, which prevents the button `pressed` state (ex: a background bound to
             // the button pressedProperty) to appear before the action (which might be time-consuming) is fired, so the
@@ -250,7 +249,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installIconsListener() {
-        FXProperties.onPropertySet(getScene().windowProperty(), window -> {
+        FXProperties.onPropertySet(scene.windowProperty(), window -> {
             if (window instanceof Stage) {
                 mapObservableList(((Stage) window).getIcons(), icons -> addIcons(icons), icons -> removeIcons(icons));
             }
@@ -300,7 +299,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     private void installCursorListener() {
         FXProperties.runNowAndOnPropertyChange(cursor ->
-            HtmlUtil.setStyleAttribute(getSceneNode(), "cursor", HtmlSvgNodePeer.toCssCursor(cursor)), getScene().cursorProperty()
+            HtmlUtil.setStyleAttribute(getSceneDomNode(), "cursor", HtmlSvgNodePeer.toCssCursor(cursor)), scene.cursorProperty()
         );
     }
 
@@ -309,7 +308,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         container.style.background = HtmlPaints.toHtmlCssPaint(scene.getFill());
     }
 
-    public elemental2.dom.Node getSceneNode() {
+    public elemental2.dom.Node getSceneDomNode() {
         return container;
     }
 
@@ -320,7 +319,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         // Checking that we pick it from the right scene (in case there are several windows/scenes within the DOM)
         if (peer != null) {
             Node node = peer.getNode();
-            if (node == null || node.getScene() != getScene())
+            if (node == null || node.getScene() != scene)
                 peer = null;
         }
         return peer;
@@ -429,7 +428,6 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 if (e.target instanceof Element target) {
                     NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(target, false);
                     if (peer instanceof HtmlSvgNodePeer<?, ?, ?, ?> htmlSvgNodePeer) {
-                        Scene scene = getScene();
                         if (scene.getFocusOwner() == peer.getNode()) {
                             scene.focusOwnerProperty().setValue(null);
                         }
