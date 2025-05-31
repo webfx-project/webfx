@@ -81,7 +81,7 @@ public abstract class HtmlSvgNodePeer
     public void makeContainerInvisible() {
         // Applying display = "contents" on the container to make sure it has no visible impact (ex: no extra space
         // around the box) inherited from the user agent box style model
-        if (container instanceof HTMLElement && !container.tagName.startsWith("fx-")) // No need for fx- custom elements as they don't inherit any box style
+        if (container instanceof HTMLElement && !container.tagName.startsWith("fx-")) // No need for fx-xxx custom elements as they don't inherit any box style
             ((HTMLElement) container).style.display = "contents";
         containerInvisible = true;
     }
@@ -94,13 +94,13 @@ public abstract class HtmlSvgNodePeer
         return element == null ? null : (NodePeer) HtmlUtil.getJsJavaObjectAttribute(element, "nodePeer");
     }
 
-    public static NodePeer getPeerFromElementOrParents(Element element) {
+    public static NodePeer getPeerFromElementOrParents(Element element, boolean checkParentsIfRemovedFromScene) {
         NodePeer nodePeer = null;
         // Retrieving the node peer from the element (if not found, we search in parents)
         for (elemental2.dom.Node n = element; nodePeer == null && n != null; n = n.parentNode)
             nodePeer = getPeerFromElement(n);
         // If we found it, we need to check that it's still an active peer bound to the scene graph.
-        if (nodePeer != null) {
+        if (checkParentsIfRemovedFromScene && nodePeer != null) {
             Node node = nodePeer.getNode();
             Scene scene = node.getScene();
             // If the node has been removed from the scene graph, we try to search again from its highest possible element
@@ -108,7 +108,7 @@ public abstract class HtmlSvgNodePeer
                 while (true) {
                     Parent parent = node.getParent();
                     if (parent == null)
-                        return getPeerFromElementOrParents((Element) ((HtmlSvgNodePeer) node.getNodePeer()).container.parentNode);
+                        return getPeerFromElementOrParents((Element) ((HtmlSvgNodePeer) node.getNodePeer()).container.parentNode, true);
                     node = parent;
                 }
             }
@@ -135,7 +135,6 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
-        installFocusListeners();
         ObservableMap<Object, Object> nodeProperties = getNodeProperties();
         onNodePropertiesChanged(nodeProperties);
         nodeProperties.addListener((InvalidationListener) observable -> onNodePropertiesChanged(nodeProperties));
@@ -166,7 +165,7 @@ public abstract class HtmlSvgNodePeer
             eventHandler.handle(fxMouseEvent);
             if (fxMouseEvent.isConsumed())
                 evt.stopPropagation();
-            // If no drag done handler has been registered, registering a dummy one in order to detect when drag ends
+            // If no drag done handler has been registered, registering a fake one to detect when the drag ends
             if (dragEndListener == null)
                 updateOnDragDone(e -> {}); // This is to ensure that clearDndGesture() will be called in callFxDragEventHandler()
         });
@@ -194,7 +193,7 @@ public abstract class HtmlSvgNodePeer
         dropListener = updateHtmlEventListener(dropListener, "drop", eventHandler, evt -> {
             evt.preventDefault();
             callFxDragEventHandler(evt, DragEvent.DRAG_DROPPED, eventHandler);
-            // Also simulating JavaFX behavior which calls drag exit after drop
+            // Also simulating JavaFX behavior which calls drag exit after dropped
             if (dragLeaveListener != null)
                 dragLeaveListener.handleEvent(evt);
         });
@@ -226,8 +225,8 @@ public abstract class HtmlSvgNodePeer
 
     private void callFxDragEventHandler(Event evt, EventType<DragEvent> dragEventType, EventHandler<? super DragEvent> eventHandler) {
         MouseEvent me = (MouseEvent) evt;
-        // HTML also triggers dragenter and dragleave events on children as opposed to JavaFX so we just ignore them
-        if (!element.contains((elemental2.dom.Node) me.relatedTarget)) { // thanks to this condition
+        // HTML also triggers dragenter and dragleave events on children as opposed to JavaFX, so we just ignore them
+        if (!element.contains((elemental2.dom.Node) me.relatedTarget)) { // thanks to this condition,
             // Otherwise we call the JavaFX handler
             DragboardDataTransferHolder.setDragboardDataTransfer(me.dataTransfer);
             DragEvent dragEvent = FxEvents.toDragEvent(me, dragEventType, getNode());
@@ -250,7 +249,7 @@ public abstract class HtmlSvgNodePeer
         // The value returned by this method indicates if we should stop the propagation of the event, or not (if not,
         // it will be passed to the default browser event handling). By default, we stop the propagation of any event
         // consumed by JavaFX. However, in some cases (see Event comments), a control can ask to bypass this default
-        // behaviour and to not stop the propagation of an event that it consumed, but pass it back to the browser and
+        // behavior and to not stop the propagation of an event that it consumed; but pass it back to the browser and
         // therefore eventually to the peer.
         if (javafx.event.Event.getPropagateToPeerEvent() != null)
             stopPropagation = false;
@@ -266,16 +265,16 @@ public abstract class HtmlSvgNodePeer
     /************************************************* Focus mapping **************************************************/
 
     @Override
-    public void requestFocus() { // Called when the JavaFX application code requests the node to have the focus
+    public void requestFocus() { // Called when the JavaFX application code requests the node to have the focus.
         // We transmit that request in HTML.
         boolean focusAccepted = requestHtmlFocus();
         // We check if that request has been accepted.
         if (!focusAccepted) { // Sometimes, it can be refused!
             // One of the possible reasons is that the DOM element is not visible. JavaFX accepts focus requests on
             // invisible nodes, but not HTML (use case: the Email TextField in Modality login window while flipping
-            // back from SSO login). In order to fix this difference between JavaFX and HTML focus states, we retry
-            // periodically until either the JavaFX focus changes (=> initial request becomes not relevant anymore),
-            // or the HTML request is finally accepted (ex: when the Email/Password flipping side becomes visible).
+            // back from SSO login). To fix this difference between JavaFX and HTML focus states, we retry periodically
+            // until either the JavaFX focus changes (=> initial request becomes not relevant anymore), or the HTML
+            // request is finally accepted (ex: when the Email/Password flipping side becomes visible).
             UiScheduler.schedulePeriodic(250, scheduled -> {
                 if (!isJavaFxFocusOwner() || requestHtmlFocus()) {
                     scheduled.cancel();
@@ -288,7 +287,7 @@ public abstract class HtmlSvgNodePeer
         // We call focus() on the focus element associated with this node
         Element focusableElement = getHtmlFocusableElement();
         focusableElement.focus();
-        // We test if that element has now the focus, and return the test result.
+        // We check if that element now has the focus and return the test result.
         return focusableElement.ownerDocument.activeElement == focusableElement;
     }
 
@@ -297,7 +296,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected Node getJavaFxFocusableNode() {
-        // The node we return as focusable is the first one that is focus traversable from this node or its parents.
+        // The node we return as focusable is the first one that is focus-traversable from this node or its parents.
         for (Node node = getNode(); node != null; node = node.getParent()) {
             if (node.isFocusTraversable()) { // indicates that this node accepts focus
                 return node;
@@ -306,38 +305,13 @@ public abstract class HtmlSvgNodePeer
         return null;
     }
 
-    private void installFocusListeners() {
-        // The purpose here is to map any HTML focus change back to JavaFX.
-        Element focusableElement = getHtmlFocusableElement();
-        if (focusableElement != null) {
-            // So when the HTML element gains focus, we set its associated JavaFX node as the focus owner of the scene.
-            focusableElement.onfocus = e -> {
-                setJavaFxFocusOwner(); // Transmitting the focus from HTML to JavaFX
-                return null;
-            };
-            // When it loses focus, it's often because another HTML element gained focus (so onfocus will be called on
-            // that new element and this will update the focus owner in JavaFX). However, if this doesn't happen for any
-            // reason, it's better to keep the JavaFX focus state synced with HTML by setting it to null.
-            focusableElement.onblur = e -> {
-                // We defer the code to ensure the focus change will be processed (most probably case).
-                UiScheduler.scheduleDeferred(() -> {
-                    // But if that focus change didn't happen (this node is still the focus owner for JavaFX), then we
-                    // reset the JavaFX focus state.
-                    if (isJavaFxFocusOwner())
-                        setJavaFxFocusOwner(null);
-                });
-                return null;
-            };
-        }
-    }
-
     protected boolean isJavaFxFocusOwner() {
         Node focusableNode = getJavaFxFocusableNode();
         Scene scene = focusableNode == null ? null : focusableNode.getScene();
         return scene != null && scene.getFocusOwner() == focusableNode;
     }
 
-    protected void setJavaFxFocusOwner() {
+    public void setJavaFxFocusOwner() {
         Node focusableNode = getJavaFxFocusableNode();
         if (focusableNode != null)
             setJavaFxFocusOwner(focusableNode);
@@ -416,7 +390,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static void registerTouchListener(EventTarget htmlTarget, String type, javafx.event.EventTarget fxTarget) {
-        // We don't enable the browsers built-in touch scrolling features, because this is not a standard behaviour in
+        // We don't enable the browsers' built-in touch scrolling features because this is not a standard behavior in
         // JavaFX, and this can interfere with the user experience, especially with games.
         // Note that this will cause a downgrade in Lighthouse.
         boolean passive = false; // May be set to true in some cases to improve Lighthouse score
@@ -636,7 +610,7 @@ public abstract class HtmlSvgNodePeer
         return clip;
     }
 
-    protected final void applyClipClipNodes() { // Should be called when this node is a clip and that its properties has changed
+    protected final void applyClipClipNodes() { // Should be called when this node is a clip and that its properties have changed
         clipPath = null; // To force computation
         N thisClip = getNode();
         for (Iterator<Node> it = clipNodes.iterator(); it.hasNext(); ) {
@@ -785,7 +759,7 @@ public abstract class HtmlSvgNodePeer
     protected void setElementAttribute(String name, Number value) {
         Element topVisibleElement = getVisibleContainer();
         String styleAttribute = getStyleAttribute(name);
-        if (styleAttribute != null) // Note: previous code was excluding this case when topVisibleElement == element (can't remember the reason) but this was preventing opacity working on buttons (which are embed in a <span> container)
+        if (styleAttribute != null) // Note: previous code was excluding this case when topVisibleElement == element (can't remember the reason), but this was preventing opacity working on buttons (which are embed in a <span> container)
             HtmlUtil.setStyleAttribute(topVisibleElement, name, value);
         else
             setElementAttribute(topVisibleElement, name, value);
@@ -808,7 +782,7 @@ public abstract class HtmlSvgNodePeer
 
     private static String toSvgBlendMode(BlendMode blendMode) {
         // JavaFX use the same names as SVG for ADD, MULTIPLY, SCREEN, OVERLAY, DARKEN, COLOR_DODGE, COLOR_BURN, HARD_LIGHT, SOFT_LIGHT, DIFFERENCE, EXCLUSION
-        // SVG doesn't support (so far): SRC_OVER, SRC_ATOP, RED, GREEN, BLUE but we return them as is just in case it is supported in the future
+        // SVG doesn't support (so far): SRC_OVER, SRC_ATOP, RED, GREEN, BLUE, but we return them as is just in case it is supported in the future
         return blendMode == null ? null : enumNameToCss(blendMode.name());
     }
 
