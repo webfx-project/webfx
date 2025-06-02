@@ -1,3 +1,28 @@
+/*
+ * Copyright (c) 2010, 2022, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+
 package com.sun.javafx.event;
 
 import dev.webfx.platform.util.tuples.Pair;
@@ -17,12 +42,13 @@ import java.util.Map;
  */
 public class EventHandlerManager extends BasicEventDispatcher {
     private final Map<EventType<? extends Event>,
-            CompositeEventHandler<? extends Event>> eventHandlerMap;
+        CompositeEventHandler<? extends Event>> eventHandlerMap;
 
     private final Object eventSource;
 
     public EventHandlerManager(final Object eventSource) {
         this.eventSource = eventSource;
+
         eventHandlerMap = new HashMap<>();
     }
 
@@ -34,11 +60,15 @@ public class EventHandlerManager extends BasicEventDispatcher {
      * @param eventHandler the handler to register
      * @throws NullPointerException if the event type or handler is null
      */
-    public final <T extends Event> void addEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
+    public final <T extends Event> void addEventHandler(
+        final EventType<T> eventType,
+        final EventHandler<? super T> eventHandler) {
         validateEventType(eventType);
         validateEventHandler(eventHandler);
 
-        CompositeEventHandler<T> compositeEventHandler = createGetCompositeEventHandler(eventType);
+        final CompositeEventHandler<T> compositeEventHandler =
+            createGetCompositeEventHandler(eventType);
+
         compositeEventHandler.addEventHandler(eventHandler);
 
         notifyEventSourcesListener(eventType, eventSource); // WebFX addition
@@ -52,13 +82,18 @@ public class EventHandlerManager extends BasicEventDispatcher {
      * @param eventHandler the handler to unregister
      * @throws NullPointerException if the event type or handler is null
      */
-    public final <T extends Event> void removeEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
+    public final <T extends Event> void removeEventHandler(
+        final EventType<T> eventType,
+        final EventHandler<? super T> eventHandler) {
         validateEventType(eventType);
         validateEventHandler(eventHandler);
 
-        CompositeEventHandler<T> compositeEventHandler = (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
-        if (compositeEventHandler != null)
+        final CompositeEventHandler<T> compositeEventHandler =
+            (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
+
+        if (compositeEventHandler != null) {
             compositeEventHandler.removeEventHandler(eventHandler);
+        }
     }
 
     /**
@@ -69,11 +104,15 @@ public class EventHandlerManager extends BasicEventDispatcher {
      * @param eventFilter the filter to register
      * @throws NullPointerException if the event type or filter is null
      */
-    public final <T extends Event> void addEventFilter(EventType<T> eventType, EventHandler<? super T> eventFilter) {
+    public final <T extends Event> void addEventFilter(
+        final EventType<T> eventType,
+        final EventHandler<? super T> eventFilter) {
         validateEventType(eventType);
         validateEventFilter(eventFilter);
 
-        CompositeEventHandler<T> compositeEventHandler = createGetCompositeEventHandler(eventType);
+        final CompositeEventHandler<T> compositeEventHandler =
+            createGetCompositeEventHandler(eventType);
+
         compositeEventHandler.addEventFilter(eventFilter);
 
         notifyEventSourcesListener(eventType, eventSource); // WebFX addition
@@ -87,13 +126,18 @@ public class EventHandlerManager extends BasicEventDispatcher {
      * @param eventFilter the filter to unregister
      * @throws NullPointerException if the event type or filter is null
      */
-    public final <T extends Event> void removeEventFilter(EventType<T> eventType, EventHandler<? super T> eventFilter) {
+    public final <T extends Event> void removeEventFilter(
+        final EventType<T> eventType,
+        final EventHandler<? super T> eventFilter) {
         validateEventType(eventType);
         validateEventFilter(eventFilter);
 
-        CompositeEventHandler<T> compositeEventHandler = (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
-        if (compositeEventHandler != null)
+        final CompositeEventHandler<T> compositeEventHandler =
+            (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
+
+        if (compositeEventHandler != null) {
             compositeEventHandler.removeEventFilter(eventFilter);
+        }
     }
 
     /**
@@ -105,15 +149,19 @@ public class EventHandlerManager extends BasicEventDispatcher {
      * @param eventHandler the handler to register, or null to unregister
      * @throws NullPointerException if the event type is null
      */
-    public final <T extends Event> void setEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
+    public final <T extends Event> void setEventHandler(
+        final EventType<T> eventType,
+        final EventHandler<? super T> eventHandler) {
         validateEventType(eventType);
 
-        CompositeEventHandler<T> compositeEventHandler = (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
+        CompositeEventHandler<T> compositeEventHandler =
+            (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
 
         if (compositeEventHandler == null) {
-            if (eventHandler == null)
+            if (eventHandler == null) {
                 return;
-            compositeEventHandler = new CompositeEventHandler<T>();
+            }
+            compositeEventHandler = new CompositeEventHandler<>();
             eventHandlerMap.put(eventType, compositeEventHandler);
         }
 
@@ -122,12 +170,14 @@ public class EventHandlerManager extends BasicEventDispatcher {
         notifyEventSourcesListener(eventType, eventSource); // WebFX addition
     }
 
-    public final <T extends Event> EventHandler<? super T> getEventHandler(EventType<T> eventType) {
-        CompositeEventHandler<T> compositeEventHandler = (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
+    public final <T extends Event> EventHandler<? super T> getEventHandler(
+        final EventType<T> eventType) {
+        final CompositeEventHandler<T> compositeEventHandler =
+            (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
 
         return (compositeEventHandler != null)
-                ? compositeEventHandler.getEventHandler()
-                : null;
+            ? compositeEventHandler.getEventHandler()
+            : null;
     }
 
     @Override
@@ -155,9 +205,9 @@ public class EventHandlerManager extends BasicEventDispatcher {
     private <T extends Event> CompositeEventHandler<T>
     createGetCompositeEventHandler(final EventType<T> eventType) {
         CompositeEventHandler<T> compositeEventHandler =
-                (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
+            (CompositeEventHandler<T>) eventHandlerMap.get(eventType);
         if (compositeEventHandler == null) {
-            compositeEventHandler = new CompositeEventHandler<T>();
+            compositeEventHandler = new CompositeEventHandler<>();
             eventHandlerMap.put(eventType, compositeEventHandler);
         }
 
@@ -169,13 +219,11 @@ public class EventHandlerManager extends BasicEventDispatcher {
     }
 
     private Event dispatchCapturingEvent(
-            final EventType<? extends Event> handlerType, Event event) {
+        final EventType<? extends Event> handlerType, Event event) {
         final CompositeEventHandler<? extends Event> compositeEventHandler =
-                eventHandlerMap.get(handlerType);
+            eventHandlerMap.get(handlerType);
 
-        if (compositeEventHandler != null) {
-            // TODO: skip when no filters are registered in the
-            //       CompositeEventHandler (RT-23952)
+        if (compositeEventHandler != null && compositeEventHandler.hasFilter()) {
             event = fixEventSource(event, eventSource);
             compositeEventHandler.dispatchCapturingEvent(event);
         }
@@ -184,13 +232,11 @@ public class EventHandlerManager extends BasicEventDispatcher {
     }
 
     private Event dispatchBubblingEvent(
-            final EventType<? extends Event> handlerType, Event event) {
+        final EventType<? extends Event> handlerType, Event event) {
         final CompositeEventHandler<? extends Event> compositeEventHandler =
-                eventHandlerMap.get(handlerType);
+            eventHandlerMap.get(handlerType);
 
-        if (compositeEventHandler != null) {
-            // TODO: skip when no handlers are registered in the
-            //       CompositeEventHandler (RT-23952)
+        if (compositeEventHandler != null && compositeEventHandler.hasHandler()) {
             event = fixEventSource(event, eventSource);
             compositeEventHandler.dispatchBubblingEvent(event);
         }
@@ -201,8 +247,8 @@ public class EventHandlerManager extends BasicEventDispatcher {
     private static Event fixEventSource(final Event event,
                                         final Object eventSource) {
         return (event.getSource() != eventSource)
-                ? event.copyFor(eventSource, event.getTarget())
-                : event;
+            ? event.copyFor(eventSource, event.getTarget())
+            : event;
     }
 
     private static void validateEventType(final EventType<?> eventType) {
@@ -212,14 +258,14 @@ public class EventHandlerManager extends BasicEventDispatcher {
     }
 
     private static void validateEventHandler(
-            final EventHandler<?> eventHandler) {
+        final EventHandler<?> eventHandler) {
         if (eventHandler == null) {
             throw new NullPointerException("Event handler must not be null");
         }
     }
 
     private static void validateEventFilter(
-            final EventHandler<?> eventFilter) {
+        final EventHandler<?> eventFilter) {
         if (eventFilter == null) {
             throw new NullPointerException("Event filter must not be null");
         }
