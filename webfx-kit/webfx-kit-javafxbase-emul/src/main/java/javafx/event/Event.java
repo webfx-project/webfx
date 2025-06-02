@@ -188,7 +188,7 @@ public class Event extends EventObject implements Cloneable {
 
     // WebFX addition:
 
-    // Sometimes, events are managed by the Node peer on its own, but should also be consumed by JavaFX. This is this
+    // Sometimes, events are managed by the Node peer on its own but should also be consumed by JavaFX. This is this
     // special case that we are handling here.
 
     // For example, a TextInputControl can be mapped to a <input> HTML element. This element can consume and handle
@@ -201,8 +201,8 @@ public class Event extends EventObject implements Cloneable {
     // TabPane won't be passed to the peer (so the user won't be able to navigate using the arrow keys in the <input>
     // element). To fix this issue, the TextInputControl actually must consume the key events (like it would do in
     // OpenJFX) to stop their propagation to the TabPane. This is actually done in TextInputControlBehavior, but then
-    // we have the issue that the default WebFX behaviour is to not pass the key events back to the browser (and
-    // therefore to the peer). So we need to bypass that default behaviour in that case and ask WebFX to pass the event
+    // we have the issue that the default WebFX behavior is to not pass the key events back to the browser (and
+    // therefore to the peer). So we need to bypass that default behavior in that case and ask WebFX to pass the event
     // back to the browser even if it has been consumed by JavaFX. This is the purpose of the propagateToPeerEvent field.
     private static Event propagateToPeerEvent;
 
