@@ -68,7 +68,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return canvas;
     }
 
-    // Temporary workaround to fix a mysterious behavior : textAlign can be wiped out
+    // Temporary workaround to fix a mysterious behavior: textAlign can be wiped out
     private String textAlignToSave; // So we keep the value here again and apply it when saving the context
 
     @Override
@@ -214,7 +214,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private CanvasPattern toCanvasPattern(ImagePattern imagePattern) {
-        CanvasPattern peerPattern = (CanvasPattern) imagePattern.getPeerPattern(); // Getting cache version if available
+        CanvasPattern peerPattern = (CanvasPattern) imagePattern.getPeerPattern(); // Getting the cache version if available
         if (peerPattern == null) {
             Image img = imagePattern.getImage();
             if (img != null) {
@@ -229,10 +229,10 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private static boolean isImageLoadedWithoutError(HTMLImageElement imageElement) {
-        return imageElement.complete // indicates that the image loading has finished (but not if it was successful or not)
+        return imageElement.complete // Indicates that the image loading has finished (but not if it was successful or not).
                // There is no specific HTML attribute to report if there was an error (such as HTTP 404 image not found),
                // there is only an onerror handler, but it's too late to use here. So we use naturalWidth for the test,
-               // because when the image is successfully loaded the browser sets the naturalWidth value (assuming the
+               // because when the image is successfully loaded, the browser sets the naturalWidth value (assuming the
                // image is not zero-sized), while the browser leaves that value to 0 on error.
                && imageElement.naturalWidth != 0;
     }
@@ -331,7 +331,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return textAlign;
     }
 
-    private VPos textBaseline;
+    private VPos textBaseline = VPos.BASELINE; // Default value in JavaFX
     @Override
     public void setTextBaseline(VPos baseline) {
         textBaseline = baseline;
@@ -347,7 +347,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                 case BOTTOM: return "bottom";
             }
         }
-        return null;
+        return null; // Shouldn't be used for HTML canvas text baseline as this causes a warning in the browser console
     }
 
     @Override
@@ -628,7 +628,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                 ctx.save();
                 ctx.translate(x, y); // Moving to pivot before flipping
                 ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1); // flipping the canvas
-                ctx.translate(-x, -y); // Moving back to original position after flipping
+                ctx.translate(-x, -y); // Moving back to the original position after flipping
                 w = Math.abs(w);
                 h = Math.abs(h);
             }
@@ -666,7 +666,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                 ctx.save();
                 ctx.translate(dx, dy); // Moving to pivot before flipping
                 ctx.scale(flipX ? -1 : 1, flipY ? -1 : 1); // flipping the canvas
-                ctx.translate(-dx, -dy); // Moving back to original position after flipping
+                ctx.translate(-dx, -dy); // Moving back to the original position after flipping
                 sw = Math.abs(sw);
                 sh = Math.abs(sh);
                 dw = Math.abs(dw);
@@ -686,7 +686,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                     HTMLImageElement imageElement = getHTMLImageElement(img);
                     if (isImageLoadedWithoutError(imageElement)) { // Prevents uncaught exception with unloaded images or with error
                         // This scaleX/Y computation was necessary to make SpaceFX work
-                        // (perhaps it's because this method behaves differently between html and JavaFX?)
+                        // (perhaps it's because this method behaves differently between HTML and JavaFX?)
                         double scaleX = imageElement.width / img.getWidth();
                         double scaleY = imageElement.height / img.getHeight();
                         ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
