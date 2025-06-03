@@ -1,14 +1,16 @@
 package javafx.scene.control;
 
+import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.WritableValue;
 import javafx.collections.ObservableList;
+import javafx.css.StyleableProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.Region;
-import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.LayoutMeasurable;
 
 /**
  * @author Bruno Salmon
@@ -64,11 +66,8 @@ public abstract class Control extends Region implements Skinnable {
         // override. Initializing focusTraversable by calling applyStyle
         // with null for StyleOrigin ensures that css will be able to override
         // the value.
-/*
         final StyleableProperty<Boolean> prop = (StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty();
         prop.applyStyle(null, Boolean.TRUE);
-*/
-        setFocusTraversable(this instanceof TextInputControl || this instanceof ButtonBase);
 
         // we add a listener for menu request events to show the context menu
         // that may be set on the Control
@@ -500,4 +499,18 @@ public abstract class Control extends Region implements Skinnable {
         // Simulating skin mechanism (normally done during css pass - not yet implemented)
         // Scheduler.scheduleDelay(5000, () -> setSkin(createDefaultSkin()));
     }
+
+    /**
+     * Returns the initial focus traversable state of this control, for use
+     * by the JavaFX CSS engine to correctly set its initial value. By default all
+     * UI controls are focus traversable, so this method is overridden in Control
+     * to set the initial traversable state to true.
+     *
+     * @return the initial focus traversable state of this control
+     * @since 9
+     */
+    @Override protected Boolean getInitialFocusTraversable() {
+        return Boolean.TRUE;
+    }
+
 }

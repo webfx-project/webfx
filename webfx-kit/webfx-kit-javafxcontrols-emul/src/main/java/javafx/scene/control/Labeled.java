@@ -422,4 +422,10 @@ public abstract class Labeled extends Control implements
         FXProperties.runOnPropertiesChange(this::requestParentLayout,
             textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " id = " + getId() + " - text = " + getText();
+    }
+
 }

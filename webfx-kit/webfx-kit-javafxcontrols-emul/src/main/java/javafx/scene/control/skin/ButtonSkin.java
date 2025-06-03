@@ -1,77 +1,142 @@
-package javafx.scene.control.skin;
-
-/**
- * @author Bruno Salmon
+/*
+ * Copyright (c) 2010, 2021, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
  */
 
+package javafx.scene.control.skin;
+
+import com.sun.javafx.scene.NodeHelper;
+import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.behavior.ButtonBehavior;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.WeakChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Control;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.text.Font;
 
 /**
- * A Skin for command Buttons.
+ * Default skin implementation for the {@link Button} control.
+ *
+ * @see Button
+ * @since 9
  */
-public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> {
+public class ButtonSkin extends LabeledSkinBase<Button> {
 
-    public ButtonSkin(Button button) {
-        super(button, new ButtonBehavior<Button>(button));
+    /* *************************************************************************
+     *                                                                         *
+     * Private fields                                                          *
+     *                                                                         *
+     **************************************************************************/
+
+    private KeyCodeCombination defaultAcceleratorKeyCodeCombination;
+    private KeyCodeCombination cancelAcceleratorKeyCodeCombination;
+    private final BehaviorBase<Button> behavior;
+
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Listeners                                                               *
+     *                                                                         *
+     **************************************************************************/
+
+    Runnable defaultButtonRunnable = () -> {
+        if (getSkinnable().getScene() != null
+            && NodeHelper.isTreeVisible(getSkinnable())
+            && !getSkinnable().isDisabled()) {
+            getSkinnable().fire();
+        }
+    };
+
+    Runnable cancelButtonRunnable = () -> {
+        if (getSkinnable().getScene() != null
+            && NodeHelper.isTreeVisible(getSkinnable())
+            && !getSkinnable().isDisabled()) {
+            getSkinnable().fire();
+        }
+    };
+
+    ChangeListener<Scene> sceneChangeListener = (ov, oldScene, newScene) -> {
+        if (oldScene != null) {
+            if (getSkinnable().isDefaultButton()) {
+                setDefaultButton(oldScene, false);
+            }
+            if (getSkinnable().isCancelButton()) {
+                setCancelButton(oldScene, false);
+            }
+        }
+        if (newScene != null) {
+            if (getSkinnable().isDefaultButton()) {
+                setDefaultButton(newScene, true);
+            }
+            if (getSkinnable().isCancelButton()) {
+                setCancelButton(newScene, true);
+            }
+        }
+    };
+    WeakChangeListener<Scene> weakSceneChangeListener = new WeakChangeListener<>(sceneChangeListener);
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Creates a new ButtonSkin instance, installing the necessary child
+     * nodes into the Control {@link Control#getChildren() children} list, as
+     * well as the necessary input mappings for handling key, mouse, etc events.
+     *
+     * @param control The control that this skin should be installed onto.
+     */
+    public ButtonSkin(Button control) {
+        super(control);
+
+        // install default input map for the Button control
+        behavior = new ButtonBehavior<>(control);
+//        control.setInputMap(behavior.getInputMap());
 
         // Register listeners
-        registerChangeListener(button.defaultButtonProperty(), "DEFAULT_BUTTON");
-        registerChangeListener(button.cancelButtonProperty(), "CANCEL_BUTTON");
-        registerChangeListener(button.focusedProperty(), "FOCUSED");
-
-        if (getSkinnable().isDefaultButton()) {
-            /*
-            ** were we already the defaultButton, before the listener was added?
-            ** don't laugh, it can happen....
-            */
-            setDefaultButton(true);
-        }
-
-        if (getSkinnable().isCancelButton()) {
-            /*
-            ** were we already the defaultButton, before the listener was added?
-            ** don't laugh, it can happen....
-            */
-            setCancelButton(true);
-        }
-
-        // Extra WebFX code to simulate caspian css button padding (-fx-padding: 0.3333em, 0.6666em, 0.3333em, 0.66666em)
-        paddingExplicitlySetByUser = button.getPadding() != Button.PADDING;
-        if (!paddingExplicitlySetByUser) {
-            updatePaddingOnFontChange(); // Now
-            // And in the future
-            registerChangeListener(button.fontProperty(), "FONT");
-            registerChangeListener(button.paddingProperty(), "PADDING");
-        }
-    }
-
-    private boolean paddingExplicitlySetByUser;
-    private boolean updatingPadding;
-
-    @Override protected void handleControlPropertyChanged(String p) {
-        super.handleControlPropertyChanged(p);
-        if ("DEFAULT_BUTTON".equals(p)) {
-            setDefaultButton(getSkinnable().isDefaultButton());
-        }
-        else if ("CANCEL_BUTTON".equals(p)) {
-            setCancelButton(getSkinnable().isCancelButton());
-        /* } else if ("FOCUSED".equals(p)) {
+        registerChangeListener(control.defaultButtonProperty(), o -> setDefaultButton(getSkinnable().isDefaultButton()));
+        registerChangeListener(control.cancelButtonProperty(), o -> setCancelButton(getSkinnable().isCancelButton()));
+        registerChangeListener(control.focusedProperty(), o -> {
             if (!getSkinnable().isFocused()) {
                 ContextMenu cm = getSkinnable().getContextMenu();
                 if (cm != null) {
                     if (cm.isShowing()) {
                         cm.hide();
-                        Utils.removeMnemonics(cm, getSkinnable().getScene());
+                        //Utils.removeMnemonics(cm, getSkinnable().getScene());
                     }
                 }
-            }*/
-        } else if ("PARENT".equals(p)) {
+            }
+        });
+        registerChangeListener(control.parentProperty(), o -> {
             if (getSkinnable().getParent() == null && getSkinnable().getScene() != null) {
                 if (getSkinnable().isDefaultButton()) {
                     getSkinnable().getScene().getAccelerators().remove(defaultAcceleratorKeyCodeCombination);
@@ -80,16 +145,39 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
                     getSkinnable().getScene().getAccelerators().remove(cancelAcceleratorKeyCodeCombination);
                 }
             }
+        });
+        control.sceneProperty().addListener(weakSceneChangeListener);
+
+        // set visuals
+        if (getSkinnable().isDefaultButton()) {
+            /*
+             ** were we already the defaultButton, before the listener was added?
+             ** don't laugh, it can happen....
+             */
+            setDefaultButton(true);
         }
+
+        if (getSkinnable().isCancelButton()) {
+            /*
+             ** were we already the defaultButton, before the listener was added?
+             ** don't laugh, it can happen....
+             */
+            setCancelButton(true);
+        }
+
         // WebFX code
-        else if ("FONT".equals(p)) {
+        registerChangeListener(control.fontProperty(), e -> {
             if (!paddingExplicitlySetByUser)
                 updatePaddingOnFontChange();
-        } else if ("PADDING".equals(p)) {
+        });
+        registerChangeListener(control.paddingProperty(), e -> {
             if (!updatingPadding)
                 paddingExplicitlySetByUser = true;
-        }
+        });
     }
+
+    private boolean paddingExplicitlySetByUser;
+    private boolean updatingPadding;
 
     private void updatePaddingOnFontChange() { // WebFX
         Font font = getSkinnable().getFont();
@@ -103,37 +191,55 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
         }
     }
 
-    Runnable defaultButtonRunnable = () -> {
-        if (getSkinnable().getScene() != null && getSkinnable().impl_isTreeVisible() && !getSkinnable().isDisabled()) {
-            getSkinnable().fire();
+    /* *************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    /** {@inheritDoc} */
+    @Override public void dispose() {
+        if (getSkinnable() == null) return;
+        if (getSkinnable().isDefaultButton()) {
+            setDefaultButton(false);
         }
-    };
-
-    Runnable cancelButtonRunnable = () -> {
-        if (getSkinnable().getScene() != null && getSkinnable().impl_isTreeVisible() && !getSkinnable().isDisabled()) {
-            getSkinnable().fire();
+        if (getSkinnable().isCancelButton()) {
+            setCancelButton(false);
         }
-    };
+        getSkinnable().sceneProperty().removeListener(weakSceneChangeListener);
+        super.dispose();
 
-    private KeyCodeCombination defaultAcceleratorKeyCodeCombination;
+        if (behavior != null) {
+            behavior.dispose();
+        }
+    }
 
-    private void setDefaultButton(boolean value) {
-        Scene scene = getSkinnable().getScene();
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Private implementation                                                  *
+     *                                                                         *
+     **************************************************************************/
+
+    private void setDefaultButton(boolean isDefault) {
+        setDefaultButton(getSkinnable().getScene(), isDefault);
+    }
+
+    private void setDefaultButton(Scene scene, boolean isDefault) {
         if (scene != null) {
             KeyCode acceleratorCode = KeyCode.ENTER;
             defaultAcceleratorKeyCodeCombination = new KeyCodeCombination(acceleratorCode);
 
             Runnable oldDefault = scene.getAccelerators().get(defaultAcceleratorKeyCodeCombination);
-            if (!value) {
+            if (!isDefault) {
                 /**
                  * first check of there's a default button already
                  */
-
                 if (defaultButtonRunnable.equals(oldDefault)) {
                     /**
                      * is it us?
-                    */
-
+                     */
                     scene.getAccelerators().remove(defaultAcceleratorKeyCodeCombination);
                 }
             }
@@ -146,25 +252,24 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
         }
     }
 
-    private KeyCodeCombination cancelAcceleratorKeyCodeCombination;
+    private void setCancelButton(boolean isCancel) {
+        setCancelButton(getSkinnable().getScene(), isCancel);
+    }
 
-    private void setCancelButton(boolean value) {
-        Scene scene = getSkinnable().getScene();
+    private void setCancelButton(Scene scene, boolean isCancel) {
         if (scene != null) {
             KeyCode acceleratorCode = KeyCode.ESCAPE;
             cancelAcceleratorKeyCodeCombination = new KeyCodeCombination(acceleratorCode);
 
             Runnable oldCancel = scene.getAccelerators().get(cancelAcceleratorKeyCodeCombination);
-            if (!value) {
+            if (!isCancel) {
                 /**
                  * first check of there's a cancel button already
                  */
-
                 if (cancelButtonRunnable.equals(oldCancel)) {
                     /**
                      * is it us?
                      */
-
                     scene.getAccelerators().remove(cancelAcceleratorKeyCodeCombination);
                 }
             }
@@ -175,6 +280,5 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
                 }
             }
         }
-
     }
 }

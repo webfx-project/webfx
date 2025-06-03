@@ -1,29 +1,31 @@
 /*
- * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * Copyright (c) 2010, 2021, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
  *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
  *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
  */
 
 package javafx.scene.control.skin;
+
+//import com.sun.javafx.PlatformUtil;
 
 import com.sun.javafx.scene.control.behavior.TitledPaneBehavior;
 import com.sun.javafx.scene.control.skin.Utils;
@@ -32,6 +34,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.HPos;
@@ -40,23 +43,45 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavior>  {
 
-    public static final Duration TRANSITION_DURATION = new Duration(350.0);
+/**
+ * Default skin implementation for the {@link TitledPane} control.
+ *
+ * @see TitledPane
+ * @since 9
+ */
+public class TitledPaneSkin extends LabeledSkinBase<TitledPane>  {
+
+    /* *************************************************************************
+     *                                                                         *
+     * Static fields                                                           *
+     *                                                                         *
+     **************************************************************************/
+
+    private static final Duration TRANSITION_DURATION = new Duration(350.0);
 
     // caching results in poorer looking text (it is blurry), so we don't do it
     // unless on a low powered device (admittedly the test below isn't a great
     // indicator of power, but it'll do for now).
     private static final boolean CACHE_ANIMATION = false; //PlatformUtil.isEmbedded();
+
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Private fields                                                          *
+     *                                                                         *
+     **************************************************************************/
+
+    private final TitledPaneBehavior behavior;
 
     private final TitleRegion titleRegion;
     private final StackPane contentContainer;
@@ -68,8 +93,27 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
     private HPos hpos;
     private VPos vpos;
 
-    public TitledPaneSkin(final TitledPane titledPane) {
-        super(titledPane, new TitledPaneBehavior(titledPane));
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Creates a new TitledPaneSkin instance, installing the necessary child
+     * nodes into the Control {@link Control#getChildren() children} list, as
+     * well as the necessary input mappings for handling key, mouse, etc events.
+     *
+     * @param control The control that this skin should be installed onto.
+     */
+    public TitledPaneSkin(final TitledPane control) {
+        super(control);
+
+        // install default input map for the TitledPane control
+        this.behavior = new TitledPaneBehavior(control);
+//        control.setInputMap(behavior.getInputMap());
 
         clipRect = new Rectangle();
 
@@ -87,10 +131,11 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             }
         };
         contentContainer.setClip(clipRect);
+        updateClip();
 
-        if (titledPane.isExpanded()) {
+        if (control.isExpanded()) {
             setTransition(1.0f);
-            setExpanded(titledPane.isExpanded());
+            setExpanded(control.isExpanded());
         } else {
             setTransition(0.0f);
             if (content != null) {
@@ -100,61 +145,155 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
 
         getChildren().setAll(contentContainer, titleRegion);
 
-        registerChangeListener(titledPane.contentProperty(), "CONTENT");
-        registerChangeListener(titledPane.expandedProperty(), "EXPANDED");
-        registerChangeListener(titledPane.collapsibleProperty(), "COLLAPSIBLE");
-        registerChangeListener(titledPane.alignmentProperty(), "ALIGNMENT");
-        registerChangeListener(titledPane.widthProperty(), "WIDTH");
-        registerChangeListener(titledPane.heightProperty(), "HEIGHT");
-        registerChangeListener(titleRegion.alignmentProperty(), "TITLE_REGION_ALIGNMENT");
-
-        pos = titledPane.getAlignment();
-        hpos = pos == null ? HPos.LEFT   : pos.getHpos();
-        vpos = pos == null ? VPos.CENTER : pos.getVpos();
-    }
-
-    public StackPane getContentContainer() {
-        return contentContainer;
-    }
-
-    @Override
-    protected void handleControlPropertyChanged(String property) {
-        super.handleControlPropertyChanged(property);
-        if ("CONTENT".equals(property)) {
+        registerChangeListener(control.contentProperty(), e -> {
             content = getSkinnable().getContent();
             if (content == null) {
                 contentContainer.getChildren().clear();
             } else {
                 contentContainer.getChildren().setAll(content);
             }
-        } else if ("EXPANDED".equals(property)) {
-            setExpanded(getSkinnable().isExpanded());
-        } else if ("COLLAPSIBLE".equals(property)) {
-            titleRegion.update();
-        } else if ("ALIGNMENT".equals(property)) {
+        });
+        registerChangeListener(control.expandedProperty(), e -> setExpanded(getSkinnable().isExpanded()));
+        registerChangeListener(control.collapsibleProperty(), e -> titleRegion.update());
+        registerChangeListener(control.alignmentProperty(), e -> {
             pos = getSkinnable().getAlignment();
             hpos = pos.getHpos();
             vpos = pos.getVpos();
-        } else if ("TITLE_REGION_ALIGNMENT".equals(property)) {
+        });
+        registerChangeListener(control.widthProperty(), e -> updateClip());
+        registerChangeListener(control.heightProperty(), e -> updateClip());
+        registerChangeListener(titleRegion.alignmentProperty(), e -> {
             pos = titleRegion.getAlignment();
             hpos = pos.getHpos();
             vpos = pos.getVpos();
-        } else if ("WIDTH".equals(property)) {
-            clipRect.setWidth(getSkinnable().getWidth());
-        } else if ("HEIGHT".equals(property)) {
-            clipRect.setHeight(contentContainer.getHeight());
-        } else if ("GRAPHIC_TEXT_GAP".equals(property)) {
-            titleRegion.requestLayout();
+        });
+
+        pos = control.getAlignment();
+        hpos = pos == null ? HPos.LEFT   : pos.getHpos();
+        vpos = pos == null ? VPos.CENTER : pos.getVpos();
+    }
+
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Properties                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    private DoubleProperty transition;
+    private final void setTransition(double value) { transitionProperty().set(value); }
+    private final double getTransition() { return transition == null ? 0.0 : transition.get(); }
+    private final DoubleProperty transitionProperty() {
+        if (transition == null) {
+            transition = new SimpleDoubleProperty(this, "transition", 0.0) {
+                @Override protected void invalidated() {
+                    contentContainer.requestLayout();
+                }
+            };
+        }
+        return transition;
+    }
+
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    /** {@inheritDoc} */
+    @Override public void dispose() {
+        super.dispose();
+
+        if (behavior != null) {
+            behavior.dispose();
         }
     }
 
     // Override LabeledSkinBase updateChildren because
     // it removes all the children.  The update() in TitleRegion
     // will replace this method.
+    /** {@inheritDoc} */
     @Override protected void updateChildren() {
         if (titleRegion != null) {
             titleRegion.update();
         }
+    }
+
+    /** {@inheritDoc} */
+    @Override protected void layoutChildren(final double x, double y,
+                                            final double w, final double h) {
+
+        // header
+        double headerHeight = snapSizeY(titleRegion.prefHeight(-1));
+
+        titleRegion.resize(w, headerHeight);
+        positionInArea(titleRegion, x, y,
+            w, headerHeight, 0, HPos.LEFT, VPos.CENTER);
+        titleRegion.requestLayout();
+
+        // content
+        double contentHeight = (h - headerHeight) * getTransition();
+        if (isInsideAccordion()) {
+            if (prefHeightFromAccordion != 0) {
+                contentHeight = (prefHeightFromAccordion - headerHeight) * getTransition();
+            }
+        }
+        contentHeight = snapSizeY(contentHeight);
+
+        y += headerHeight;
+        contentContainer.resize(w, contentHeight);
+        clipRect.setHeight(contentHeight);
+        positionInArea(contentContainer, x, y,
+            w, contentHeight, /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);
+    }
+
+    /** {@inheritDoc} */
+    @Override protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        double titleWidth = snapSizeX(titleRegion.prefWidth(height));
+        double contentWidth = snapSizeX(contentContainer.minWidth(height));
+        return Math.max(titleWidth, contentWidth) + leftInset + rightInset;
+    }
+
+    /** {@inheritDoc} */
+    @Override protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        double headerHeight = snapSizeY(titleRegion.prefHeight(width));
+        double contentHeight = contentContainer.minHeight(width) * getTransition();
+        return headerHeight + snapSizeY(contentHeight) + topInset + bottomInset;
+    }
+
+    /** {@inheritDoc} */
+    @Override protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        double titleWidth = snapSizeX(titleRegion.prefWidth(height));
+        double contentWidth = snapSizeX(contentContainer.prefWidth(height));
+        return Math.max(titleWidth, contentWidth) + leftInset + rightInset;
+    }
+
+    /** {@inheritDoc} */
+    @Override protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        double headerHeight = snapSizeY(titleRegion.prefHeight(width));
+        double contentHeight = contentContainer.prefHeight(width) * getTransition();
+        return headerHeight + snapSizeY(contentHeight) + topInset + bottomInset;
+    }
+
+    /** {@inheritDoc} */
+    @Override protected double computeMaxWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return Double.MAX_VALUE;
+    }
+
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Private implementation                                                  *
+     *                                                                         *
+     **************************************************************************/
+
+    private void updateClip() {
+        clipRect.setWidth(getSkinnable().getWidth());
+        clipRect.setHeight(contentContainer.getHeight());
     }
 
     private void setExpanded(boolean expanded) {
@@ -180,80 +319,12 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
         }
     }
 
-    private DoubleProperty transition;
-    private void setTransition(double value) { transitionProperty().set(value); }
-    private double getTransition() { return transition == null ? 0.0 : transition.get(); }
-    private DoubleProperty transitionProperty() {
-        if (transition == null) {
-            transition = new SimpleDoubleProperty(this, "transition", 0.0) {
-                @Override protected void invalidated() {
-                    contentContainer.requestLayout();
-                }
-            };
-        }
-        return transition;
-    }
-
     private boolean isInsideAccordion() {
         return false; //getSkinnable().getParent() != null && getSkinnable().getParent() instanceof Accordion;
     }
 
-    @Override protected void layoutChildren(final double x, double y,
-                                            final double w, final double h) {
-
-        // header
-        double headerHeight = snapSize(titleRegion.prefHeight(-1));
-
-        titleRegion.resize(w, headerHeight);
-        positionInArea(titleRegion, x, y,
-                w, headerHeight, 0, HPos.LEFT, VPos.CENTER);
-
-        // content
-        double contentHeight = (h - headerHeight) * getTransition();
-        if (isInsideAccordion()) {
-            if (prefHeightFromAccordion != 0) {
-                contentHeight = (prefHeightFromAccordion - headerHeight) * getTransition();
-            }
-        }
-        contentHeight = snapSize(contentHeight);
-
-        y += snapSize(headerHeight);
-        contentContainer.resize(w, contentHeight);
-        clipRect.setHeight(contentHeight);
-        positionInArea(contentContainer, x, y,
-                w, contentHeight, /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);
-    }
-
-    @Override protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        double titleWidth = snapSize(titleRegion.prefWidth(height));
-        double contentWidth = snapSize(contentContainer.minWidth(height));
-        return Math.max(titleWidth, contentWidth) + leftInset + rightInset;
-    }
-
-    @Override protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        double headerHeight = snapSize(titleRegion.prefHeight(width));
-        double contentHeight = contentContainer.minHeight(width) * getTransition();
-        return headerHeight + snapSize(contentHeight) + topInset + bottomInset;
-    }
-
-    @Override protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        double titleWidth = snapSize(titleRegion.prefWidth(height));
-        double contentWidth = snapSize(contentContainer.prefWidth(height));
-        return Math.max(titleWidth, contentWidth) + leftInset + rightInset;
-    }
-
-    @Override protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        double headerHeight = snapSize(titleRegion.prefHeight(width));
-        double contentHeight = contentContainer.prefHeight(width) * getTransition();
-        return headerHeight + snapSize(contentHeight) + topInset + bottomInset;
-    }
-
-    @Override protected double computeMaxWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return Double.MAX_VALUE;
-    }
-
     double getTitleRegionSize(double width) {
-        return snapSize(titleRegion.prefHeight(width)) + snappedTopInset() + snappedBottomInset();
+        return snapSizeY(titleRegion.prefHeight(width)) + snappedTopInset() + snappedBottomInset();
     }
 
     private double prefHeightFromAccordion = 0;
@@ -262,9 +333,9 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
     }
 
     double getTitledPaneHeightForAccordion() {
-        double headerHeight = snapSize(titleRegion.prefHeight(-1));
+        double headerHeight = snapSizeY(titleRegion.prefHeight(-1));
         double contentHeight = (prefHeightFromAccordion - headerHeight) * getTransition();
-        return headerHeight + snapSize(contentHeight) + snappedTopInset() + snappedBottomInset();
+        return headerHeight + snapSizeY(contentHeight) + snappedTopInset() + snappedBottomInset();
     }
 
     private void doAnimationTransition() {
@@ -287,42 +358,42 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
 
         if (getSkinnable().isExpanded()) {
             k1 = new KeyFrame(
-                    Duration.ZERO,
-                    event -> {
-                        // start expand
-                        if (CACHE_ANIMATION) content.setCache(true);
-                        content.setVisible(true);
-                    },
-                    new KeyValue(transitionProperty(), transitionStartValue)
+                Duration.ZERO,
+                event -> {
+                    // start expand
+                    if (CACHE_ANIMATION) content.setCache(true);
+                    content.setVisible(true);
+                },
+                new KeyValue(transitionProperty(), transitionStartValue)
             );
 
             k2 = new KeyFrame(
-                    duration,
-                    event -> {
-                        // end expand
-                        if (CACHE_ANIMATION) content.setCache(false);
-                    },
-                    new KeyValue(transitionProperty(), 1, Interpolator.LINEAR)
+                duration,
+                event -> {
+                    // end expand
+                    if (CACHE_ANIMATION) content.setCache(false);
+                },
+                new KeyValue(transitionProperty(), 1, Interpolator.LINEAR)
 
             );
         } else {
             k1 = new KeyFrame(
-                    Duration.ZERO,
-                    event -> {
-                        // Start collapse
-                        if (CACHE_ANIMATION) content.setCache(true);
-                    },
-                    new KeyValue(transitionProperty(), transitionStartValue)
+                Duration.ZERO,
+                event -> {
+                    // Start collapse
+                    if (CACHE_ANIMATION) content.setCache(true);
+                },
+                new KeyValue(transitionProperty(), transitionStartValue)
             );
 
             k2 = new KeyFrame(
-                    duration,
-                    event -> {
-                        // end collapse
-                        content.setVisible(false);
-                        if (CACHE_ANIMATION) content.setCache(false);
-                    },
-                    new KeyValue(transitionProperty(), 0, Interpolator.LINEAR)
+                duration,
+                event -> {
+                    // end collapse
+                    content.setVisible(false);
+                    if (CACHE_ANIMATION) content.setCache(false);
+                },
+                new KeyValue(transitionProperty(), 0, Interpolator.LINEAR)
             );
         }
 
@@ -330,12 +401,20 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
         timeline.play();
     }
 
+
+
+    /* *************************************************************************
+     *                                                                         *
+     * Support classes                                                         *
+     *                                                                         *
+     **************************************************************************/
+
     class TitleRegion extends StackPane {
-        //private final StackPane arrowRegion;
+        private final StackPane arrowRegion;
 
         public TitleRegion() {
             getStyleClass().setAll("title");
-            /*arrowRegion = new StackPane();
+            arrowRegion = new StackPane();
             arrowRegion.setId("arrowRegion");
             arrowRegion.getStyleClass().setAll("arrow-button");
 
@@ -362,9 +441,9 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
                     contextMenu.hide() ;
                 }
                 if (getSkinnable().isCollapsible() && getSkinnable().isFocused()) {
-                    getBehavior().toggle();
+                    behavior.toggle();
                 }
-            });*/
+            });
 
             // title region consists of the title and the arrow regions
             update();
@@ -378,23 +457,23 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             getChildren().clear();
             final TitledPane titledPane = getSkinnable();
 
-            /*if (titledPane.isCollapsible()) {
+            if (titledPane.isCollapsible()) {
                 getChildren().add(arrowRegion);
-            }*/
+            }
 
             // Only in some situations do we want to have the graphicPropertyChangedListener
             // installed. Since updateChildren() is not called much, we'll just remove it always
             // and reinstall it later if it is necessary to do so.
-            /*if (graphic != null) {
-                graphic.layoutBoundsProperty().removeListener(graphicPropertyChangedListener);
-            }*/
+            if (graphic != null) {
+                //graphic.layoutBoundsProperty().removeListener(graphicPropertyChangedListener);
+            }
             // Now update the graphic (since it may have changed)
             graphic = titledPane.getGraphic();
             // Now update the children (and add the graphicPropertyChangedListener as necessary)
             if (isIgnoreGraphic()) {
                 if (titledPane.getContentDisplay() == ContentDisplay.GRAPHIC_ONLY) {
                     getChildren().clear();
-                    //getChildren().add(arrowRegion);
+                    getChildren().add(arrowRegion);
                 } else {
                     getChildren().add(text);
                 }
@@ -415,9 +494,9 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             double arrowWidth = 0;
             double labelPrefWidth = labelPrefWidth(height);
 
-            /*if (arrowRegion != null) {
-                arrowWidth = snapSize(arrowRegion.prefWidth(height));
-            }*/
+            if (arrowRegion != null) {
+                arrowWidth = snapSizeX(arrowRegion.prefWidth(height));
+            }
 
             return left + arrowWidth + labelPrefWidth + right;
         }
@@ -428,9 +507,9 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             double arrowHeight = 0;
             double labelPrefHeight = labelPrefHeight(width);
 
-            /*if (arrowRegion != null) {
-                arrowHeight = snapSize(arrowRegion.prefHeight(width));
-            }*/
+            if (arrowRegion != null) {
+                arrowHeight = snapSizeY(arrowRegion.prefHeight(width));
+            }
 
             return top + Math.max(arrowHeight, labelPrefHeight) + bottom;
         }
@@ -442,10 +521,10 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             final double right = snappedRightInset();
             double width = getWidth() - (left + right);
             double height = getHeight() - (top + bottom);
-            double arrowWidth = 0; //snapSize(arrowRegion.prefWidth(-1));
-            double arrowHeight = 0; //snapSize(arrowRegion.prefHeight(-1));
-            double labelWidth = snapSize(Math.min(width - arrowWidth / 2.0, labelPrefWidth(-1)));
-            double labelHeight = snapSize(labelPrefHeight(-1));
+            double arrowWidth = snapSizeX(arrowRegion.prefWidth(-1));
+            double arrowHeight = snapSizeY(arrowRegion.prefHeight(-1));
+            double labelWidth = snapSizeX(Math.min(width - arrowWidth / 2.0, labelPrefWidth(-1)));
+            double labelHeight = snapSizeY(labelPrefHeight(-1));
 
             double x = left + arrowWidth + Utils.computeXOffset(width - arrowWidth, labelWidth, hpos);
             if (HPos.CENTER == hpos) {
@@ -454,9 +533,9 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             }
             double y = top + Utils.computeYOffset(height, Math.max(arrowHeight, labelHeight), vpos);
 
-            /*arrowRegion.resize(arrowWidth, arrowHeight);
+            arrowRegion.resize(arrowWidth, arrowHeight);
             positionInArea(arrowRegion, left, top, arrowWidth, height,
-                    *//*baseline ignored*//*0, HPos.CENTER, VPos.CENTER);*/
+                /*baseline ignored*/0, HPos.CENTER, VPos.CENTER);
 
             layoutLabelInArea(x, y, labelWidth, height, pos);
         }
@@ -480,7 +559,7 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             } else if (isIgnoreText()) {
                 return graphic.prefWidth(-1) + widthPadding;
             } else if (labeled.getContentDisplay() == ContentDisplay.LEFT
-                    || labeled.getContentDisplay() == ContentDisplay.RIGHT) {
+                       || labeled.getContentDisplay() == ContentDisplay.RIGHT) {
                 return textWidth + labeled.getGraphicTextGap() + graphic.prefWidth(-1) + widthPadding;
             } else {
                 return Math.max(textWidth, graphic.prefWidth(-1)) + widthPadding;
@@ -504,7 +583,7 @@ public class TitledPaneSkin extends LabeledSkinBase<TitledPane, TitledPaneBehavi
             }*/
 
             if (!isIgnoreGraphic() &&
-                    (contentDisplay == ContentDisplay.LEFT || contentDisplay == ContentDisplay.RIGHT)) {
+                (contentDisplay == ContentDisplay.LEFT || contentDisplay == ContentDisplay.RIGHT)) {
                 width -= (graphic.prefWidth(-1) + gap);
             }
 

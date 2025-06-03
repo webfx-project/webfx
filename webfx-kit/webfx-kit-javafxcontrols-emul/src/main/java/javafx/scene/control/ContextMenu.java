@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2022, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -55,8 +55,8 @@ import javafx.stage.Window;
  * A common use case for this class is creating and showing context menus to
  * users. To create a context menu using ContextMenu you can do the
  * following:
- <pre><code>
- final ContextMenu contextMenu = new ContextMenu();
+ *
+ <pre><code>final ContextMenu contextMenu = new ContextMenu();
  contextMenu.setOnShowing(new EventHandler&lt;WindowEvent&gt;() {
  public void handle(WindowEvent e) {
  System.out.println("showing");
@@ -83,16 +83,17 @@ import javafx.stage.Window;
  contextMenu.getItems().addAll(item1, item2);
 
  final TextField textField = new TextField("Type Something");
- textField.setContextMenu(contextMenu);
- </code></pre>
+ textField.setContextMenu(contextMenu);</code></pre>
+ *
+ * <img src="doc-files/ContextMenu.png" alt="Image of the ContextMenu control">
  *
  * <p>{@link Control#setContextMenu(javafx.scene.control.ContextMenu) } convenience
  * method can be used to set a context menu on on any control. The example above results in the
  * context menu being displayed on the right {@link javafx.geometry.Side Side}
  * of the TextField. Alternatively, an event handler can also be set on the control
  * to invoke the context menu as shown below.
- * <pre><code>
- textField.setOnAction(new EventHandler&lt;ActionEvent&gt;() {
+ *
+ <pre><code>textField.setOnAction(new EventHandler&lt;ActionEvent&gt;() {
  public void handle(ActionEvent e) {
  contextMenu.show(textField, Side.BOTTOM, 0, 0);
  }
@@ -117,7 +118,7 @@ import javafx.stage.Window;
 //@IDProperty("id")
 public class ContextMenu extends PopupControl {
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Fields                                                                  *
      *                                                                         *
@@ -127,7 +128,7 @@ public class ContextMenu extends PopupControl {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Constructors                                                            *
      *                                                                         *
@@ -153,7 +154,7 @@ public class ContextMenu extends PopupControl {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Properties                                                              *
      *                                                                         *
@@ -165,7 +166,7 @@ public class ContextMenu extends PopupControl {
      * all parent menus as well, so that it is not necessary to listen to all
      * sub menus for events.
      */
-    private ObjectProperty<EventHandler<ActionEvent>> onAction = new ObjectPropertyBase<EventHandler<ActionEvent>>() {
+    private ObjectProperty<EventHandler<ActionEvent>> onAction = new ObjectPropertyBase<>() {
         @Override protected void invalidated() {
             setEventHandler(ActionEvent.ACTION, get());
         }
@@ -184,7 +185,7 @@ public class ContextMenu extends PopupControl {
     public final EventHandler<ActionEvent> getOnAction() { return onActionProperty().get(); }
     public final ObjectProperty<EventHandler<ActionEvent>> onActionProperty() { return onAction; }
 
-    private final ObservableList<MenuItem> items = new TrackableObservableList<MenuItem>() {
+    private final ObservableList<MenuItem> items = new TrackableObservableList<>() {
         @Override protected void onChanged(Change<MenuItem> c) {
             while (c.next()) {
                 for (MenuItem item : c.getRemoved()) {
@@ -205,7 +206,7 @@ public class ContextMenu extends PopupControl {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Public API                                                              *
      *                                                                         *
@@ -221,18 +222,15 @@ public class ContextMenu extends PopupControl {
 
     /**
      * Shows the {@code ContextMenu} relative to the given anchor node, on the side
-     * specified by the {@code hpos} and {@code vpos} parameters, and offset
+     * specified by the {@code side} parameter, and offset
      * by the given {@code dx} and {@code dy} values for the x-axis and y-axis, respectively.
      * If there is not enough room, the menu is moved to the opposite side and
      * the offset is not applied.
      * <p>
-     * To clarify the purpose of the {@code hpos} and {@code vpos} parameters,
-     * consider that they are relative to the anchor node. As such, a {@code hpos}
-     * and {@code vpos} of {@code CENTER} would mean that the ContextMenu appears
-     * on top of the anchor, with the (0,0) position of the {@code ContextMenu}
-     * positioned at (0,0) of the anchor. A {@code hpos} of right would then shift
-     * the {@code ContextMenu} such that its top-left (0,0) position would be attached
-     * to the top-right position of the anchor.
+     * To clarify the purpose of the {@code side} parameter,
+     * consider that it is relative to the anchor node.
+     * As such, a {@code side} of {@code TOP} would mean that the ContextMenu's bottom left corner
+     * is set to the top left corner of the anchor.
      * <p>
      * This function is useful for finely tuning the position of a menu,
      * relative to the parent node to ensure close alignment.
@@ -241,22 +239,22 @@ public class ContextMenu extends PopupControl {
      * @param dx the dx value for the x-axis
      * @param dy the dy value for the y-axis
      */
-    // TODO provide more detail
     public void show(Node anchor, Side side, double dx, double dy) {
         if (anchor == null) return;
         if (getItems().size() == 0) return;
 
-        //getScene().setNodeOrientation(anchor.getEffectiveNodeOrientation());
-        // FIXME because Side is not yet in javafx.geometry, we have to convert
-        // to the old HPos/VPos API here, as Utils can not refer to Side in the
-        // charting API.
+        /*getScene().setNodeOrientation(anchor.getEffectiveNodeOrientation());
+        if (getScene().getStylesheets().isEmpty()) {
+            getScene().getStylesheets().setAll(anchor.getScene().getStylesheets());
+        }*/
+
         HPos hpos = side == Side.LEFT ? HPos.LEFT : side == Side.RIGHT ? HPos.RIGHT : HPos.CENTER;
         VPos vpos = side == Side.TOP ? VPos.TOP : side == Side.BOTTOM ? VPos.BOTTOM : VPos.CENTER;
 
         // translate from anchor/hpos/vpos/dx/dy into screenX/screenY
         Point2D point = Utils.pointRelativeTo(anchor,
-                prefWidth(-1), prefHeight(-1),
-                hpos, vpos, dx, dy, true);
+            prefWidth(-1), prefHeight(-1),
+            hpos, vpos, dx, dy, true);
         doShow(anchor, point.getX(), point.getY());
     }
 
@@ -264,7 +262,7 @@ public class ContextMenu extends PopupControl {
      * Shows the {@code ContextMenu} at the specified screen coordinates. If there
      * is not enough room at the specified location to show the {@code ContextMenu}
      * given its size requirements, the necessary adjustments are made to bring
-     * the {@code ContextMenu} back back on screen. This also means that the
+     * the {@code ContextMenu} back on screen. This also means that the
      * {@code ContextMenu} will not span multiple monitors.
      * @param anchor the anchor node
      * @param screenX the x position of the anchor in screen coordinates
@@ -298,7 +296,7 @@ public class ContextMenu extends PopupControl {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Private Implementation                                                  *
      *                                                                         *
@@ -322,7 +320,7 @@ public class ContextMenu extends PopupControl {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      *                         Stylesheet Handling                             *
      *                                                                         *

@@ -1,8 +1,8 @@
 package javafx.scene.control;
 
-import javafx.scene.control.skin.RadioButtonSkin;
-import javafx.scene.Node;
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.scene.Node;
+import javafx.scene.control.skin.RadioButtonSkin;
 
 /**
  * @author Bruno Salmon

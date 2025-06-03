@@ -1,6 +1,5 @@
 package javafx.scene.control.skin;
 
-import com.sun.javafx.scene.control.behavior.TextFieldBehavior;
 import javafx.scene.control.TextField;
 
 /**
@@ -8,7 +7,7 @@ import javafx.scene.control.TextField;
  *
  * (empty as we rely on the target toolkit for now)
  */
-public class TextFieldSkin extends TextInputControlSkin<TextField, TextFieldBehavior> {
+public class TextFieldSkin extends TextInputControlSkin<TextField> {
 
     /**
      * This group contains the text, caret, and selection rectangle.
@@ -23,13 +22,7 @@ public class TextFieldSkin extends TextInputControlSkin<TextField, TextFieldBeha
      * @param textField not null
      */
     public TextFieldSkin(final TextField textField) {
-        this(textField, /*(textField instanceof PasswordField)
-                                     ? new PasswordFieldBehavior((PasswordField)textField)
-                                     :*/ new TextFieldBehavior(textField));
-    }
-
-    public TextFieldSkin(final TextField textField, final TextFieldBehavior behavior) {
-        super(textField, behavior);
+        super(textField);
         textGroup = new ToolkitTextBox(textField);
         getChildren().add(textGroup);
     }
