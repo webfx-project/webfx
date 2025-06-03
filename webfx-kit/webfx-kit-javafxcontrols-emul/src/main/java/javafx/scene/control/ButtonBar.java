@@ -1,11 +1,44 @@
+/*
+ * Copyright (c) 2014, 2022, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
 package javafx.scene.control;
 
-import javafx.beans.property.*;
+import com.sun.javafx.scene.control.Properties;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.skin.ButtonBarSkin;
 import javafx.scene.layout.HBox;
+
+import com.sun.javafx.util.Utils;
+import javafx.scene.control.skin.ButtonBarSkin;
+import javafx.css.StyleableProperty;
 
 import java.util.Map;
 
@@ -18,7 +51,7 @@ import java.util.Map;
  * annotations, as well as the overarching
  * {@link #buttonOrderProperty() button order} specified for the ButtonBar.
  *
- * <strong>Uniform button sizing</strong>
+ * <h2>Uniform button sizing</h2>
  * <p>By default all buttons are uniformly sized in a ButtonBar, meaning that all
  * buttons take the width of the widest button. It is possible to opt-out of this
  * on a per-button basis, but calling the {@link #setButtonUniformSize(Node, boolean)} method with
@@ -29,17 +62,17 @@ import java.util.Map;
  * measuring process, so its size will not influence the maximum size calculated
  * for all buttons in the ButtonBar.
  *
- * <h3>Screenshots</h3>
+ * <h2>Screenshots</h2>
  * <p>Because a ButtonBar comes with built-in support for Windows, Mac OS
  * and Linux, there are three screenshots shown below, with the same buttons
  * laid out on each of the three operating systems.
  *
  * <p>
- * <strong>Windows:</strong><br/><img src="doc-files/buttonBar-windows.png" /><br>
- * <strong>Mac OS:</strong><br/><img src="doc-files/buttonBar-mac.png" /><br>
- * <strong>Linux:</strong><br/><img src="doc-files/buttonBar-linux.png" /><br>
+ * <strong>Windows:</strong><p><img src="doc-files/buttonBar-windows.png" alt=""></p>
+ * <strong>Mac OS:</strong><p><img src="doc-files/buttonBar-mac.png" alt=""></p>
+ * <strong>Linux:</strong><p><img src="doc-files/buttonBar-linux.png" alt=""></p>
  *
- * <h3>Code Samples</h3>
+ * <h2>Code Samples</h2>
  * <p>Instantiating and using the ButtonBar is simple, simply do the following:
  *
  * <pre>
@@ -68,17 +101,22 @@ import java.util.Map;
  * strings that are shorthand representations for the button order. The built-in
  * orders for Windows, Mac OS and Linux are:
  *
- * <table border="0">
+ * <table>
+ * <caption>ButtonBar Layout Table</caption>
  *   <tr>
- *     <td width="75"><strong>Windows:</strong></td>
+ *     <th scope="col">Operating System</th>
+ *     <th scope="col">Button Order</th>
+ *   </tr>
+ *   <tr>
+ *     <th scope="row">Windows</th>
  *     <td>L_E+U+FBXI_YNOCAH_R</td>
  *   </tr>
  *   <tr>
- *     <td><strong>Mac OS:</strong></td>
+ *     <th scope="row">Mac OS</th>
  *     <td>L_HE+U+FBIX_NCYOA_R</td>
  *   </tr>
  *   <tr>
- *     <td><strong>Linux:</strong></td>
+ *     <th scope="row">Linux</th>
  *     <td>L_HE+UNYACBXIO_R</td>
  *   </tr>
  * </table>
@@ -106,7 +144,7 @@ public class ButtonBar extends Control {
     // TODO add support for BUTTON_ORDER_NONE
     // TODO test and document what happens with unexpected button order strings
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Static fields
      *
@@ -137,7 +175,7 @@ public class ButtonBar extends Control {
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Static enumerations
      *
@@ -154,7 +192,7 @@ public class ButtonBar extends Control {
      *
      * @since JavaFX 8u40
      */
-    public enum ButtonData {
+    public static enum ButtonData {
         /**
          * Buttons with this style tag will statically end up on the left end of the bar.
          *
@@ -273,7 +311,7 @@ public class ButtonBar extends Control {
         private final boolean cancelButton;
         private final boolean defaultButton;
 
-        ButtonData(String type, boolean cancelButton, boolean defaultButton) {
+        private ButtonData(String type, boolean cancelButton, boolean defaultButton) {
             this.typeCode = type;
             this.cancelButton = cancelButton;
             this.defaultButton = defaultButton;
@@ -283,6 +321,8 @@ public class ButtonBar extends Control {
          * Returns the single character code used to represent the ButtonData
          * annotation in the {@link ButtonBar#buttonOrderProperty() button order}
          * string.
+         * @return the single character code used to represent the ButtonData
+         * annotation
          */
         public String getTypeCode() {
             return typeCode;
@@ -296,6 +336,7 @@ public class ButtonBar extends Control {
          *
          * <p>ButtonData enumeration values that can be the cancel button have a
          * comment stating this in their javadoc.
+         * @return true if this is a 'cancel' button
          */
         public final boolean isCancelButton() {
             return cancelButton;
@@ -309,6 +350,7 @@ public class ButtonBar extends Control {
          *
          * <p>ButtonData enumeration values that can be the default button have
          * a comment stating this in their javadoc.
+         * @return true if this is a 'default' button
          */
         public final boolean isDefaultButton() {
             return defaultButton;
@@ -327,12 +369,12 @@ public class ButtonBar extends Control {
     public static void setButtonData(Node button, ButtonData buttonData) {
         final Map<Object,Object> properties = button.getProperties();
         final ObjectProperty<ButtonData> property =
-                (ObjectProperty<ButtonData>) properties.getOrDefault(
-                        ButtonBarSkin.BUTTON_DATA_PROPERTY,
-                        new SimpleObjectProperty<>(button, "buttonData", buttonData));
+            (ObjectProperty<ButtonData>) properties.getOrDefault(
+                Properties.BUTTON_DATA_PROPERTY,
+                new SimpleObjectProperty<>(button, "buttonData", buttonData));
 
         property.set(buttonData);
-        properties.putIfAbsent(ButtonBarSkin.BUTTON_DATA_PROPERTY, property);
+        properties.putIfAbsent(Properties.BUTTON_DATA_PROPERTY, property);
     }
 
     /**
@@ -340,11 +382,12 @@ public class ButtonBar extends Control {
      * was never set, this method will return null.
      *
      * @param button The button to return the previously set ButtonData for.
+     * @return the previously set ButtonData property on the given button
      */
     public static ButtonData getButtonData(Node button) {
         final Map<Object,Object> properties = button.getProperties();
-        if (properties.containsKey(ButtonBarSkin.BUTTON_DATA_PROPERTY)) {
-            ObjectProperty<ButtonData> property = (ObjectProperty<ButtonData>) properties.get(ButtonBarSkin.BUTTON_DATA_PROPERTY);
+        if (properties.containsKey(Properties.BUTTON_DATA_PROPERTY)) {
+            ObjectProperty<ButtonData> property = (ObjectProperty<ButtonData>) properties.get(Properties.BUTTON_DATA_PROPERTY);
             return property == null ? null : property.get();
         }
         return null;
@@ -369,9 +412,9 @@ public class ButtonBar extends Control {
         // we store the false, but remove the true (as the isButtonUniformSize
         // method returns true by default)
         if (uniformSize) {
-            button.getProperties().remove(ButtonBarSkin.BUTTON_SIZE_INDEPENDENCE);
+            button.getProperties().remove(Properties.BUTTON_SIZE_INDEPENDENCE);
         } else {
-            button.getProperties().put(ButtonBarSkin.BUTTON_SIZE_INDEPENDENCE, uniformSize);
+            button.getProperties().put(Properties.BUTTON_SIZE_INDEPENDENCE, uniformSize);
         }
     }
 
@@ -379,14 +422,16 @@ public class ButtonBar extends Control {
      * Returns whether the given node is part of the uniform sizing calculations
      * or not. By default all nodes that have not opted out (via
      * {@link #setButtonUniformSize(Node, boolean)}) will return true here.
+     * @param button the button
+     * @return true if button is part of the uniform sizing calculations
      */
     public static boolean isButtonUniformSize(Node button) {
-        return (boolean) button.getProperties().getOrDefault(ButtonBarSkin.BUTTON_SIZE_INDEPENDENCE, true);
+        return (boolean) button.getProperties().getOrDefault(Properties.BUTTON_SIZE_INDEPENDENCE, true);
     }
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Private fields
      *
@@ -396,7 +441,7 @@ public class ButtonBar extends Control {
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Constructors
      *
@@ -425,9 +470,7 @@ public class ButtonBar extends Control {
         // makes it look to css like the user set the value and css will not
         // override. Initializing focusTraversable by calling set on the
         // CssMetaData ensures that css will be able to override the value.
-/*
-        ((StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty()).applyStyle(null, Boolean.FALSE);
-*/
+        ((StyleableProperty<Boolean>)focusTraversableProperty()).applyStyle(null, Boolean.FALSE);
 
         final boolean buttonOrderEmpty = buttonOrder == null || buttonOrder.isEmpty();
 
@@ -446,7 +489,7 @@ public class ButtonBar extends Control {
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Public API
      *
@@ -475,7 +518,7 @@ public class ButtonBar extends Control {
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Properties
      *
@@ -487,12 +530,13 @@ public class ButtonBar extends Control {
      * one letter per {@link ButtonData} enumeration value. Default button orders
      * for operating systems are also available: {@link #BUTTON_ORDER_WINDOWS},
      * {@link #BUTTON_ORDER_MAC_OS}, and {@link #BUTTON_ORDER_LINUX}.
+     * @return the button order property
      */
     public final StringProperty buttonOrderProperty() {
         return buttonOrderProperty;
     }
     private final StringProperty buttonOrderProperty =
-            new SimpleStringProperty(this, "buttonOrder"); //$NON-NLS-1$
+        new SimpleStringProperty(this, "buttonOrder"); //$NON-NLS-1$
 
     /**
      * Sets the {@link #buttonOrderProperty() button order}
@@ -515,48 +559,56 @@ public class ButtonBar extends Control {
     // --- button min width
     /**
      * Specifies the minimum width of all buttons placed in this button bar.
+     * @return the minimum width property
      */
     public final DoubleProperty buttonMinWidthProperty() {
         return buttonMinWidthProperty;
     }
     private final DoubleProperty buttonMinWidthProperty =
-            new SimpleDoubleProperty(this, "buttonMinWidthProperty", 0d); //$NON-NLS-1$
+        new SimpleDoubleProperty(this, "buttonMinWidthProperty"); //$NON-NLS-1$
 
     /**
      * Sets the minimum width of all buttons placed in this button bar.
+     * @param value the minimum width value
      */
     public final void setButtonMinWidth(double value) {
-        buttonMinWidthProperty.setValue(value);
+        buttonMinWidthProperty.set(value);
     }
 
     /**
      * Returns the minimum width of all buttons placed in this button bar.
+     * @return the minimum width value
      */
     public final double getButtonMinWidth() {
-        return buttonMinWidthProperty.getValue();
+        return buttonMinWidthProperty.get();
     }
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Implementation
      *
      **************************************************************************/
 
     /**
-     * Most Controls return true for focusTraversable, so Control overrides
-     * this method to return true, but ButtonBar returns false for
-     * focusTraversable's initial value; hence the override of the override.
-     * This method is called from CSS code to get the correct initial value.
-     * @treatAsPrivate implementation detail
+     * Returns the initial focus traversable state of this control, for use
+     * by the JavaFX CSS engine to correctly set its initial value. This method
+     * is overridden as by default UI controls have focus traversable set to true,
+     * but that is not appropriate for this control.
+     *
+     * @since 9
      */
-/*
-    @Deprecated @Override
-    protected */
-/*do not make final*//*
- Boolean impl_cssGetFocusTraversableInitialValue() {
+    @Override protected Boolean getInitialFocusTraversable() {
         return Boolean.FALSE;
     }
-*/
+
+
+
+    /* ************************************************************************
+     *
+     * Support classes / enums
+     *
+     **************************************************************************/
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -52,18 +52,17 @@ import javafx.scene.Node;
  * {@link ContextMenu} should be used in this circumstance.
  * <p>
  * Creating a Menu and inserting it into a MenuBar is easy, as shown below:
- * <pre><code>
- * final Menu menu1 = new Menu("File");
- * MenuBar menuBar = new MenuBar();
- * menuBar.getMenus().add(menu1);
- * </code></pre>
+ * <pre><code> Menu menu1 = new Menu("File");
+ * MenuBar menuBar = new MenuBar(menu1);</code></pre>
+ *
  * <p>
  * A Menu is a subclass of {@link MenuItem} which means that it can be inserted
  * into a Menu's {@link #getItems() items} ObservableList, resulting in a submenu being created:
- * <pre><code>
- * MenuItem menu12 = new MenuItem("Open");
- * menu1.getItems().add(menu12);
- * </code></pre>
+ * <pre><code> MenuItem menu12 = new MenuItem("Open");
+ * menu1.getItems().add(menu12);</code></pre>
+ *
+ * <img src="doc-files/Menu.png" alt="Image of the Menu control">
+ *
  * <p>
  * The items ObservableList allows for any {@link MenuItem} type to be inserted,
  * including its subclasses {@link Menu}, {@link MenuItem}, {@link RadioMenuItem}, {@link CheckMenuItem},
@@ -84,7 +83,7 @@ public class Menu extends MenuItem {
      * </p>
      */
     public static final EventType<Event> ON_SHOWING =
-            new EventType<Event>(Event.ANY, "MENU_ON_SHOWING");
+        new EventType<>(Event.ANY, "MENU_ON_SHOWING");
 
     /**
      * <p>Called when the contextMenu for this menu shows. However if the
@@ -92,7 +91,7 @@ public class Menu extends MenuItem {
      * </p>
      */
     public static final EventType<Event> ON_SHOWN =
-            new EventType<Event>(Event.ANY, "MENU_ON_SHOWN");
+        new EventType<>(Event.ANY, "MENU_ON_SHOWN");
 
     /**
      * <p>Called when the contextMenu for this menu <b>will</b> be hidden. However if the
@@ -100,7 +99,7 @@ public class Menu extends MenuItem {
      * </p>
      */
     public static final EventType<Event> ON_HIDING =
-            new EventType<Event>(Event.ANY, "MENU_ON_HIDING");
+        new EventType<>(Event.ANY, "MENU_ON_HIDING");
 
     /**
      * <p>Called when the contextMenu for this menu is hidden. However if the
@@ -108,9 +107,9 @@ public class Menu extends MenuItem {
      * </p>
      */
     public static final EventType<Event> ON_HIDDEN =
-            new EventType<Event>(Event.ANY, "MENU_ON_HIDDEN");
+        new EventType<>(Event.ANY, "MENU_ON_HIDDEN");
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Constructors                                                            *
      *                                                                         *
@@ -172,7 +171,7 @@ public class Menu extends MenuItem {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Properties                                                              *
      *                                                                         *
@@ -183,7 +182,7 @@ public class Menu extends MenuItem {
      *
      * @defaultValue false
      */
-    private /*ReadOnlyBooleanWrapper*/BooleanProperty showing;
+    private /*ReadOnlyBooleanWrapper*/ BooleanProperty showing;
 
     private void setShowing(boolean value) {
         if (getItems().size() == 0 || (value && isShowing())) return;
@@ -204,7 +203,7 @@ public class Menu extends MenuItem {
         }
         showingPropertyImpl().set(value);
         Event.fireEvent(this, (value) ? new Event(Menu.ON_SHOWN) :
-                new Event(Menu.ON_HIDDEN));
+            new Event(Menu.ON_HIDDEN));
     }
 
     public final boolean isShowing() {
@@ -255,7 +254,7 @@ public class Menu extends MenuItem {
     public final ObjectProperty<EventHandler<Event>> onShowingProperty() { return onShowing; }
     public final void setOnShowing(EventHandler<Event> value) { onShowingProperty().set(value); }
     public final EventHandler<Event> getOnShowing() { return onShowingProperty().get(); }
-    private ObjectProperty<EventHandler<Event>> onShowing = new ObjectPropertyBase<EventHandler<Event>>() {
+    private ObjectProperty<EventHandler<Event>> onShowing = new ObjectPropertyBase<>() {
         @Override protected void invalidated() {
             eventHandlerManager.setEventHandler(ON_SHOWING, get());
         }
@@ -280,7 +279,7 @@ public class Menu extends MenuItem {
     public final ObjectProperty<EventHandler<Event>> onShownProperty() { return onShown; }
     public final void setOnShown(EventHandler<Event> value) { onShownProperty().set(value); }
     public final EventHandler<Event> getOnShown() { return onShownProperty().get(); }
-    private ObjectProperty<EventHandler<Event>> onShown = new ObjectPropertyBase<EventHandler<Event>>() {
+    private ObjectProperty<EventHandler<Event>> onShown = new ObjectPropertyBase<>() {
         @Override protected void invalidated() {
             eventHandlerManager.setEventHandler(ON_SHOWN, get());
         }
@@ -305,7 +304,7 @@ public class Menu extends MenuItem {
     public final ObjectProperty<EventHandler<Event>> onHidingProperty() { return onHiding; }
     public final void setOnHiding(EventHandler<Event> value) { onHidingProperty().set(value); }
     public final EventHandler<Event> getOnHiding() { return onHidingProperty().get(); }
-    private ObjectProperty<EventHandler<Event>> onHiding = new ObjectPropertyBase<EventHandler<Event>>() {
+    private ObjectProperty<EventHandler<Event>> onHiding = new ObjectPropertyBase<>() {
         @Override protected void invalidated() {
             eventHandlerManager.setEventHandler(ON_HIDING, get());
         }
@@ -330,7 +329,7 @@ public class Menu extends MenuItem {
     public final ObjectProperty<EventHandler<Event>> onHiddenProperty() { return onHidden; }
     public final void setOnHidden(EventHandler<Event> value) { onHiddenProperty().set(value); }
     public final EventHandler<Event> getOnHidden() { return onHiddenProperty().get(); }
-    private ObjectProperty<EventHandler<Event>> onHidden = new ObjectPropertyBase<EventHandler<Event>>() {
+    private ObjectProperty<EventHandler<Event>> onHidden = new ObjectPropertyBase<>() {
         @Override protected void invalidated() {
             eventHandlerManager.setEventHandler(ON_HIDDEN, get());
         }
@@ -348,13 +347,13 @@ public class Menu extends MenuItem {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Instance variables                                                      *
      *                                                                         *
      **************************************************************************/
 
-    private final ObservableList<MenuItem> items = new TrackableObservableList<MenuItem>() {
+    private final ObservableList<MenuItem> items = new TrackableObservableList<>() {
         @Override protected void onChanged(Change<MenuItem> c) {
             while (c.next()) {
                 // remove the parent menu from all menu items that have been removed
@@ -384,7 +383,7 @@ public class Menu extends MenuItem {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Public API                                                              *
      *                                                                         *
@@ -425,22 +424,12 @@ public class Menu extends MenuItem {
         setShowing(false);
     }
 
-    /** {@inheritDoc} */
-    @Override public <E extends Event> void addEventHandler(EventType<E> eventType, EventHandler<E> eventHandler) {
-        eventHandlerManager.addEventHandler(eventType, eventHandler);
-    }
-
-    /** {@inheritDoc} */
-    @Override public <E extends Event> void removeEventHandler(EventType<E> eventType, EventHandler<E> eventHandler) {
-        eventHandlerManager.removeEventHandler(eventType, eventHandler);
-    }
-
-    /** {@inheritDoc} */
-    @Override public EventDispatchChain buildEventDispatchChain(EventDispatchChain tail) {
+    @Override
+    public EventDispatchChain buildEventDispatchChain(EventDispatchChain tail) {
         return tail.prepend(eventHandlerManager);
     }
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Stylesheet Handling                                                     *
      *                                                                         *

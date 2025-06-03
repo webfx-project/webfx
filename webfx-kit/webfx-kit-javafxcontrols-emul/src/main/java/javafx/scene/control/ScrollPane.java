@@ -1,10 +1,10 @@
 package javafx.scene.control;
 
 import com.sun.javafx.geom.Point2D;
-import com.sun.javafx.scene.control.behavior.ScrollPaneBehavior;
-import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import javafx.beans.property.*;
+import javafx.beans.value.WritableValue;
+import javafx.css.StyleableProperty;
 import javafx.geometry.*;
 import javafx.scene.IScrollPane;
 import javafx.scene.Node;
@@ -22,11 +22,15 @@ public class ScrollPane extends Control implements IScrollPane {
         // In both cases, the peer manages the look of the ScrollPane (including the scrollbars). So we don't have to
         // instantiate ScrollPaneSkin. However, we instantiate a fake basic skin (that doesn't have any visual effect)
         // with a ScrollPaneBehavior, which implements the basic JavaFX feature (focus captured on mouse click).
-        new BehaviorSkinBase<>(this, new ScrollPaneBehavior(this)) {
+
+        // Commented code below after moving to JavaFX 21 where skin and behavior are separated.
+        // TODO: completely remove the code after checking the call to consumeMouseEvents(false) is not needed anymore.
+        /* New BehaviorSkinBase<>(this, new ScrollPaneBehavior(this)) {
             // We also call consumeMouseEvents(false) like ScrollPaneSkin does, so the mouse events are handled in the
             // same way as in OpenJFX (ex: if an ancestor of ScrollPane sets a mouse handler, it will be called)
             { consumeMouseEvents(false); }
-        };
+        };*/
+        ((StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty()).applyStyle(null, Boolean.FALSE);
     }
 
     public ScrollPane(Node content) {

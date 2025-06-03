@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -55,23 +55,17 @@ import java.util.HashMap;
  * JavaFX.
  * <p>
  * To create a MenuItem is simple:
- <pre><code>
- MenuItem menuItem = new MenuItem("Open");
- menuItem.setOnAction(new EventHandler&lt;ActionEvent&gt;() {
- &#064;Override public void handle(ActionEvent e) {
- System.out.println("Opening Database Connection...");
- }
- });
- menuItem.setGraphic(new ImageView(new Image("flower.png")));
- </code></pre>
- * <p>
- * Refer to the {@link Menu} page to learn how to insert MenuItem into a menu
- * instance. Briefly however, you can insert the MenuItem from the previous
- * example into a Menu as such:
- <pre><code>
- final Menu menu = new Menu("File");
+ <pre><code>MenuItem menuItem = new MenuItem("Open");
+ menuItem.setOnAction(e {@literal ->} System.out.println("Opening Database Connection..."));
+ Circle graphic = new Circle(8);
+ graphic.setFill(Color.GREEN);
+ menuItem.setGraphic(graphic);
+
+ Menu menu = new Menu("File");
  menu.getItems().add(menuItem);
- </code></pre>
+ MenuBar menuBar = new MenuBar(menu);</code></pre>
+ *
+ * <img src="doc-files/MenuItem.png" alt="Image of the MenuItem control">
  *
  * @see Menu
  * @since JavaFX 2.0
@@ -79,7 +73,7 @@ import java.util.HashMap;
 //@IDProperty("id")
 public class MenuItem implements EventTarget, Styleable {
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Constructors                                                            *
      *                                                                         *
@@ -117,7 +111,7 @@ public class MenuItem implements EventTarget, Styleable {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Instance Variables                                                      *
      *                                                                         *
@@ -126,12 +120,12 @@ public class MenuItem implements EventTarget, Styleable {
     private final ObservableList<String> styleClass = FXCollections.observableArrayList();
 
     final EventHandlerManager eventHandlerManager =
-            new EventHandlerManager(this);
+        new EventHandlerManager(this);
 
     private Object userData;
     private ObservableMap<Object, Object> properties;
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Properties                                                              *
      *                                                                         *
@@ -195,7 +189,7 @@ public class MenuItem implements EventTarget, Styleable {
 
     private ReadOnlyObjectWrapper<Menu> parentMenuPropertyImpl() {
         if (parentMenu == null) {
-            parentMenu = new ReadOnlyObjectWrapper<Menu>(this, "parentMenu");
+            parentMenu = new ReadOnlyObjectWrapper<>(this, "parentMenu");
         }
         return parentMenu;
     }
@@ -221,7 +215,7 @@ public class MenuItem implements EventTarget, Styleable {
 
     private ReadOnlyObjectWrapper<ContextMenu> parentPopupPropertyImpl() {
         if (parentPopup == null) {
-            parentPopup = new ReadOnlyObjectWrapper<ContextMenu>(this, "parentPopup");
+            parentPopup = new ReadOnlyObjectWrapper<>(this, "parentPopup");
         }
         return parentPopup;
     }
@@ -267,7 +261,7 @@ public class MenuItem implements EventTarget, Styleable {
 
     public final ObjectProperty<Node> graphicProperty() {
         if (graphic == null) {
-            graphic = new SimpleObjectProperty<Node>(this, "graphic");
+            graphic = new SimpleObjectProperty<>(this, "graphic");
         }
         return graphic;
     }
@@ -292,7 +286,7 @@ public class MenuItem implements EventTarget, Styleable {
 
     public final ObjectProperty<EventHandler<ActionEvent>> onActionProperty() {
         if (onAction == null) {
-            onAction = new ObjectPropertyBase<EventHandler<ActionEvent>>() {
+            onAction = new ObjectPropertyBase<>() {
                 @Override protected void invalidated() {
                     eventHandlerManager.setEventHandler(ActionEvent.ACTION, get());
                 }
@@ -315,8 +309,8 @@ public class MenuItem implements EventTarget, Styleable {
      * <p>Called when a accelerator for the Menuitem is invoked</p>
      * @since JavaFX 2.2
      */
-    public static final EventType<Event> MENU_VALIDATION_EVENT = new EventType<Event>
-            (Event.ANY, "MENU_VALIDATION_EVENT");
+    public static final EventType<Event> MENU_VALIDATION_EVENT = new EventType<>
+        (Event.ANY, "MENU_VALIDATION_EVENT");
 
     /**
      * The event handler that is associated with invocation of an accelerator for a MenuItem. This
@@ -336,7 +330,7 @@ public class MenuItem implements EventTarget, Styleable {
 
     public final ObjectProperty<EventHandler<Event>> onMenuValidationProperty() {
         if (onMenuValidation == null) {
-            onMenuValidation = new ObjectPropertyBase<EventHandler<Event>>() {
+            onMenuValidation = new ObjectPropertyBase<>() {
                 @Override protected void invalidated() {
                     eventHandlerManager.setEventHandler(MENU_VALIDATION_EVENT, get());
                 }
@@ -394,7 +388,7 @@ public class MenuItem implements EventTarget, Styleable {
     }
     public final ObjectProperty<KeyCombination> acceleratorProperty() {
         if (accelerator == null) {
-            accelerator = new SimpleObjectProperty<KeyCombination>(this, "accelerator");
+            accelerator = new SimpleObjectProperty<>(this, "accelerator");
         }
         return accelerator;
     }
@@ -425,7 +419,7 @@ public class MenuItem implements EventTarget, Styleable {
         return mnemonicParsing;
     }
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Public API                                                              *
      *                                                                         *
@@ -442,37 +436,8 @@ public class MenuItem implements EventTarget, Styleable {
         Event.fireEvent(this, new ActionEvent(this, this));
     }
 
-    /**
-     * Registers an event handler to this MenuItem. The handler is called when the
-     * menu item receives an {@code Event} of the specified type during the bubbling
-     * phase of event delivery.
-     *
-     * @param <E> the specific event class of the handler
-     * @param eventType the type of the events to receive by the handler
-     * @param eventHandler the handler to register
-     * @throws NullPointerException if the event type or handler is null
-     */
-    public <E extends Event> void addEventHandler(EventType<E> eventType, EventHandler<E> eventHandler) {
-        eventHandlerManager.addEventHandler(eventType, eventHandler);
-    }
-
-    /**
-     * Unregisters a previously registered event handler from this MenuItem. One
-     * handler might have been registered for different event types, so the
-     * caller needs to specify the particular event type from which to
-     * unregister the handler.
-     *
-     * @param <E> the specific event class of the handler
-     * @param eventType the event type from which to unregister
-     * @param eventHandler the handler to unregister
-     * @throws NullPointerException if the event type or handler is null
-     */
-    public <E extends Event> void removeEventHandler(EventType<E> eventType, EventHandler<E> eventHandler) {
-        eventHandlerManager.removeEventHandler(eventType, eventHandler);
-    }
-
-    /** {@inheritDoc} */
-    @Override public EventDispatchChain buildEventDispatchChain(EventDispatchChain tail) {
+    @Override
+    public EventDispatchChain buildEventDispatchChain(EventDispatchChain tail) {
         // FIXME review that these are configure properly
         if (getParentPopup() != null) {
             getParentPopup().buildEventDispatchChain(tail);
@@ -485,25 +450,41 @@ public class MenuItem implements EventTarget, Styleable {
         return tail.prepend(eventHandlerManager);
     }
 
+    @Override
+    public <E extends Event> void addEventHandler(EventType<E> eventType, EventHandler<? super E> eventHandler) {
+        eventHandlerManager.addEventHandler(eventType, eventHandler);
+    }
+
+    @Override
+    public <E extends Event> void removeEventHandler(EventType<E> eventType, EventHandler<? super E> eventHandler) {
+        eventHandlerManager.removeEventHandler(eventType, eventHandler);
+    }
+
+    @Override
+    public <E extends Event> void addEventFilter(EventType<E> eventType, EventHandler<? super E> eventFilter) {
+        eventHandlerManager.addEventFilter(eventType, eventFilter);
+    }
+
+    @Override
+    public <E extends Event> void removeEventFilter(EventType<E> eventType, EventHandler<? super E> eventFilter) {
+        eventHandlerManager.removeEventFilter(eventType, eventFilter);
+    }
+
     /**
-     * Returns a previously set Object property, or null if no such property
-     * has been set using the {@link MenuItem#setUserData(java.lang.Object)} method.
+     * Returns the {@code Object} that was set by {@link #setUserData(Object)}, or {@code null} if no object has been
+     * set.
      *
-     * @return The Object that was previously set, or null if no property
-     *          has been set or if null was set.
+     * @return the user object that was stored (including {@code null}), or {@code null} if no object has been set
      */
     public Object getUserData() {
         return userData;
     }
 
     /**
-     * Convenience method for setting a single Object property that can be
-     * retrieved at a later date. This is functionally equivalent to calling
-     * the getProperties().put(Object key, Object value) method. This can later
-     * be retrieved by calling {@link Node#getUserData()}.
+     * Stores a user object that contains data at their discretion. It can later be retrieved by calling
+     * {@link #getUserData()}.
      *
-     * @param value The value to be stored - this can later be retrieved by calling
-     *          {@link Node#getUserData()}.
+     * @param value the user object to be stored
      */
     public void setUserData(Object value) {
         this.userData = value;
@@ -518,12 +499,12 @@ public class MenuItem implements EventTarget, Styleable {
      */
     public ObservableMap<Object, Object> getProperties() {
         if (properties == null) {
-            properties = FXCollections.observableMap(new HashMap<Object, Object>());
+            properties = FXCollections.observableMap(new HashMap<>());
         }
         return properties;
     }
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Stylesheet Handling                                                     *
      *                                                                         *
@@ -539,7 +520,7 @@ public class MenuItem implements EventTarget, Styleable {
     /*@Override
     public String getTypeSelector() {
         return "MenuItem";
-    }*/
+    }
 
     /**
      * {@inheritDoc}
@@ -564,12 +545,12 @@ public class MenuItem implements EventTarget, Styleable {
     /*@Override
     public final ObservableSet<PseudoClass> getPseudoClassStates() {
         return FXCollections.emptyObservableSet();
-    }*/
+    }
 
-    /*@Override
+    @Override
     public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
         return Collections.emptyList();
-    }*/
+    }
 
     /** {@inheritDoc} */
     /*@Override public Node getStyleableNode() {
@@ -590,7 +571,7 @@ public class MenuItem implements EventTarget, Styleable {
             if (! (childrenNodes.get(i) instanceof ContextMenuContent.MenuItemContainer)) continue;
 
             ContextMenuContent.MenuItemContainer MenuRow =
-                    (ContextMenuContent.MenuItemContainer) childrenNodes.get(i);
+                (ContextMenuContent.MenuItemContainer) childrenNodes.get(i);
 
             if (desiredMenuItem.equals(MenuRow.getItem())) {
                 return MenuRow;

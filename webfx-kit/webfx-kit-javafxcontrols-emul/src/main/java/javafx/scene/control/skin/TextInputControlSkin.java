@@ -1,7 +1,6 @@
 package javafx.scene.control.skin;
 
-import com.sun.javafx.scene.control.behavior.TextInputControlBehavior;
-import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
+import javafx.scene.control.SkinBase;
 import javafx.scene.control.TextInputControl;
 
 /**
@@ -9,11 +8,10 @@ import javafx.scene.control.TextInputControl;
  *
  * (empty as we rely on the target toolkit for now)
  */
-public abstract class TextInputControlSkin<T extends TextInputControl, B extends TextInputControlBehavior<T>> extends BehaviorSkinBase<T, B> {
+public abstract class TextInputControlSkin<T extends TextInputControl> extends SkinBase<T> {
 
-
-    public TextInputControlSkin(final T textInput, final B behavior) {
-        super(textInput, behavior);
+    public TextInputControlSkin(final T textInput) {
+        super(textInput);
     }
 
 }

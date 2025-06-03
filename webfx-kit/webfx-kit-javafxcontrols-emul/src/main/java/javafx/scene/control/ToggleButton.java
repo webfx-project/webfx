@@ -1,11 +1,17 @@
 package javafx.scene.control;
 
-import javafx.scene.control.skin.ToggleButtonSkin;
-import javafx.beans.property.*;
+import com.sun.javafx.scene.ParentHelper;
+import com.sun.javafx.scene.traversal.ParentTraversalEngine;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ObjectPropertyBase;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.scene.control.skin.ToggleButtonSkin;
 
 /**
  * @author Bruno Salmon
@@ -130,13 +136,11 @@ public class ToggleButton extends ButtonBase
 
     public final ObjectProperty<ToggleGroup> toggleGroupProperty() {
         if (toggleGroup == null) {
-            toggleGroup = new SimpleObjectProperty<ToggleGroup>() {
+            toggleGroup = new ObjectPropertyBase<>() {
                 private ToggleGroup old;
-                /*
-                            toggleGroup = new ObjectPropertyBase<ToggleGroup>() {
-                                private ChangeListener<Toggle> listener = (o, oV, nV) ->
-                                        getImpl_traversalEngine().setOverriddenFocusTraversability(nV != null ? isSelected() : null);
-                */
+                private ChangeListener<Toggle> listener = (o, oV, nV) ->
+                    ParentHelper.getTraversalEngine(ToggleButton.this).setOverriddenFocusTraversability(nV != null ? isSelected() : null);
+
                 @Override protected void invalidated() {
                     final ToggleGroup tg = get();
                     if (tg != null && !tg.getToggles().contains(ToggleButton.this)) {
@@ -144,15 +148,15 @@ public class ToggleButton extends ButtonBase
                             old.getToggles().remove(ToggleButton.this);
                         }
                         tg.getToggles().add(ToggleButton.this);
-                        /*final ParentTraversalEngine parentTraversalEngine = new ParentTraversalEngine(ToggleButton.this);
-                        setImpl_traversalEngine(parentTraversalEngine);
+                        final ParentTraversalEngine parentTraversalEngine = new ParentTraversalEngine(ToggleButton.this);
+                        ParentHelper.setTraversalEngine(ToggleButton.this, parentTraversalEngine);
                         // If there's no toggle selected, do not override
                         parentTraversalEngine.setOverriddenFocusTraversability(tg.getSelectedToggle() != null ? isSelected() : null);
-                        tg.selectedToggleProperty().addListener(listener);*/
+                        tg.selectedToggleProperty().addListener(listener);
                     } else if (tg == null) {
-                        //old.selectedToggleProperty().removeListener(listener);
+                        old.selectedToggleProperty().removeListener(listener);
                         old.getToggles().remove(ToggleButton.this);
-                        //setImpl_traversalEngine(null);
+                        ParentHelper.setTraversalEngine(ToggleButton.this, null);
                     }
 
                     old = tg;
