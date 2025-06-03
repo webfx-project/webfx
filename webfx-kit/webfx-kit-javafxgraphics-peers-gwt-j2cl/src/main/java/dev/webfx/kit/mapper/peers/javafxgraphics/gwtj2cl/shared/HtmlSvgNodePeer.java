@@ -16,13 +16,12 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg.SvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.*;
 import dev.webfx.platform.console.Console;
-import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Booleans;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
+import elemental2.dom.*;
 import elemental2.dom.MouseEvent;
 import elemental2.dom.TouchEvent;
-import elemental2.dom.*;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableMap;
@@ -34,8 +33,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.*;
+import javafx.scene.input.DragEvent;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Transform;
 
@@ -269,6 +268,8 @@ public abstract class HtmlSvgNodePeer
         // We transmit that request in HTML.
         boolean focusAccepted = requestHtmlFocus();
         // We check if that request has been accepted.
+        /* Commented code as it doesn't seem necessary anymore since the JavaFX focus management has been integrated
+        TODO: remove this code is no side effect
         if (!focusAccepted) { // Sometimes, it can be refused!
             // One of the possible reasons is that the DOM element is not visible. JavaFX accepts focus requests on
             // invisible nodes, but not HTML (use case: the Email TextField in Modality login window while flipping
@@ -280,7 +281,7 @@ public abstract class HtmlSvgNodePeer
                     scheduled.cancel();
                 }
             });
-        }
+        }*/
     }
 
     private boolean requestHtmlFocus() {
@@ -288,14 +289,24 @@ public abstract class HtmlSvgNodePeer
         Element focusableElement = getHtmlFocusableElement();
         focusableElement.focus();
         // We check if that element now has the focus and return the test result.
-        return focusableElement.ownerDocument.activeElement == focusableElement;
+        boolean success = focusableElement.ownerDocument.activeElement == focusableElement;
+        if (!success && !focusableElement.hasAttribute("tabindex")) {
+            focusableElement.setAttribute("tabindex", "0");
+            focusableElement.focus();
+            if (focusableElement.ownerDocument.activeElement == focusableElement) {
+                Console.log("⚠️ tabindex='0' has automatically been added to fulfill requestHtmlFocus() on node = " + getNode());
+                return true;
+            }
+        }
+        //Console.log((success ? "❤️❤️❤️❤️❤️" : "😱😱😱😱😱") + " requestHtmlFocus(), node = " + getNode());
+        return success;
     }
 
     protected Element getHtmlFocusableElement() {
         return getElement();
     }
 
-    protected Node getJavaFxFocusableNode() {
+    public Node getJavaFxFocusableNode() {
         // The node we return as focusable is the first one that is focus-traversable from this node or its parents.
         for (Node node = getNode(); node != null; node = node.getParent()) {
             if (node.isFocusTraversable()) { // indicates that this node accepts focus
@@ -305,7 +316,7 @@ public abstract class HtmlSvgNodePeer
         return null;
     }
 
-    protected boolean isJavaFxFocusOwner() {
+    public boolean isJavaFxFocusOwner() {
         Node focusableNode = getJavaFxFocusableNode();
         Scene scene = focusableNode == null ? null : focusableNode.getScene();
         return scene != null && scene.getFocusOwner() == focusableNode;

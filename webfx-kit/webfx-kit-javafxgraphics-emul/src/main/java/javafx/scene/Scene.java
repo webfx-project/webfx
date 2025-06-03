@@ -4,6 +4,10 @@ import com.sun.javafx.collections.SourceAdapterChange;
 import com.sun.javafx.event.EventQueue;
 import com.sun.javafx.scene.SceneEventDispatcher;
 import com.sun.javafx.scene.input.InputEventUtils;
+import com.sun.javafx.scene.traversal.Direction;
+import com.sun.javafx.scene.traversal.SceneTraversalEngine;
+import com.sun.javafx.scene.traversal.TopMostTraversalEngine;
+import com.sun.javafx.scene.traversal.TraversalMethod;
 import com.sun.javafx.tk.TKPulseListener;
 import com.sun.javafx.tk.TKSceneListener;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
@@ -773,8 +777,9 @@ public class Scene implements EventTarget,
     }
 
     public void startPulse() {
-        if (pulseScheduled == null)
+        if (pulseScheduled == null) {
             pulseScheduled = UiScheduler.schedulePeriodicInAnimationFrame(scenePulseListener::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+        }
     }
 
     public void stopPulse() {
@@ -3045,32 +3050,25 @@ public class Scene implements EventTarget,
                 .setEventHandler(eventType, eventHandler);
     }
 
+    private TopMostTraversalEngine traversalEngine = new SceneTraversalEngine(this);
+
+    /**
+     * Traverses focus from the given node in the given direction.
+     */
+    boolean traverse(Node node, Direction dir, TraversalMethod method) {
+        /*if (node.getSubScene() != null) {
+            return node.getSubScene().traverse(node, dir, method);
+        }*/
+        return traversalEngine.trav(node, dir, method) != null;
+    }
+
     /**
      * Moves the focus to a reasonable initial location. Called when a scene's
      * focus is dirty and there's no current owner, or if the owner has been
      * removed from the scene.
      */
     public void focusInitial() {
-        Node firstFocusTraversable = getFirstFocusTraversable(getRoot());
-        if (firstFocusTraversable != null)
-            firstFocusTraversable.requestFocus();
-    }
-
-    private Node getFirstFocusTraversable(Parent parent) {
-        if (parent != null) {
-            List<Node> parentsNodes = parent.getChildrenUnmodifiable();
-            for (Node n : parentsNodes) {
-                if (!n.isVisible()) continue;
-                if (n.isFocusTraversable()) {
-                    return n;
-                }
-                if (n instanceof Parent) {
-                    Node result = getFirstFocusTraversable((Parent) n);
-                    if (result != null) return result;
-                }
-            }
-        }
-        return null;
+        traversalEngine.traverseToFirst();
     }
 
 }

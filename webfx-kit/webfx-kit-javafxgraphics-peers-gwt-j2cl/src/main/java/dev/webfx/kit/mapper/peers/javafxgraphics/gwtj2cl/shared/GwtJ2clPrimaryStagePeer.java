@@ -122,7 +122,7 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
 
     @Override
     public void onSceneRootChanged() {
-        setWindowContent(((HtmlScenePeer) getWindow().getScene().impl_getPeer()).getSceneDomNode());
+        setWindowContent(((HtmlScenePeer) getWindow().getScene().impl_getPeer()).getSceneHtmlElement());
     }
 
     private void setWindowContent(elemental2.dom.Node content) {

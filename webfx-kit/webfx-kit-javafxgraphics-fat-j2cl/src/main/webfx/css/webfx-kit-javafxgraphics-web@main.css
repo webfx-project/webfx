@@ -32,6 +32,16 @@ body {
     -webkit-touch-callout: none;
 }
 
+fx-scene { /* main stage scene or popup scenes */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+body > fx-scene { /* main stage scene only */
+    height: 100dvh;
+}
+
 /* Making disabled nodes semi-transparent */
 .disabled {
     opacity: 50%;

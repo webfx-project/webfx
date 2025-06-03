@@ -3,6 +3,7 @@ package javafx.scene;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.RectBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
+import com.sun.javafx.scene.traversal.ParentTraversalEngine;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasManagedProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextProperty;
 import dev.webfx.kit.util.properties.FXProperties;
@@ -136,6 +137,16 @@ public class Parent extends Node {
     final void managedChildChanged() {
         requestLayout();
         unmodifiableManagedChildren = null;
+    }
+
+    private ParentTraversalEngine traversalEngine;
+
+    public final void setTraversalEngine(ParentTraversalEngine value) {
+        this.traversalEngine = value;
+    }
+
+    public final ParentTraversalEngine getTraversalEngine() {
+        return traversalEngine;
     }
 
     /***********************************************************************

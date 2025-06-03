@@ -8,6 +8,7 @@ import com.sun.javafx.geometry.BoundsUtils;
 import com.sun.javafx.scene.EventHandlerProperties;
 import com.sun.javafx.scene.NodeEventDispatcher;
 import com.sun.javafx.scene.traversal.Direction;
+import com.sun.javafx.scene.traversal.TraversalMethod;
 import com.sun.javafx.util.TempState;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
@@ -20,12 +21,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.css.CssMetaData;
 import javafx.css.Styleable;
+import javafx.css.StyleableBooleanProperty;
 import javafx.event.*;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import javafx.geometry.Orientation;
-import javafx.geometry.Point2D;
+import javafx.geometry.*;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.WritableImage;
@@ -50,8 +50,8 @@ import static javafx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
 public abstract class Node implements INode, EventTarget, Styleable {
 
 
-    // This method is called when the node peer has been created, inserted to the DOM, and bound to this node (i.e.
-    // reacting to the properties changes to update the HTML mapping). The node may need to do something at this point.
+    // This method is called when the node peer has been created, inserted to the DOM, and bound to this node (i.e.,
+    // reacting to the property changes to update the HTML mapping). The node may need to do something at this point.
     void onNodePeerBound() { }
 
     private final Property<Parent> parentProperty = new SimpleObjectProperty<>(); {
@@ -896,7 +896,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
 
     public final BooleanProperty focusTraversableProperty() {
         if (focusTraversable == null) {
-            focusTraversable = new SimpleBooleanProperty(false) {
+            focusTraversable = new StyleableBooleanProperty(false) {
 
                 @Override
                 public void invalidated() {
@@ -909,15 +909,14 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     }
                 }
 
-                /*@Override
                 public CssMetaData getCssMetaData() {
-                    return StyleableProperties.FOCUS_TRAVERSABLE;
+                    return null; //StyleableProperties.FOCUS_TRAVERSABLE;
                 }
 
                 @Override
                 public Object getBean() {
                     return Node.this;
-                }*/
+                }
 
                 @Override
                 public String getName() {
@@ -1282,6 +1281,25 @@ public abstract class Node implements INode, EventTarget, Styleable {
         Event.fireEvent(this, event);
     }
 
+    /**
+     * Returns the initial focus traversable state of this node, for use
+     * by the JavaFX CSS engine to correctly set its initial value. This method
+     * can be overridden by subclasses in instances where focus traversable should
+     * initially be true (as the default implementation of this method is to return
+     * false).
+     *
+     * @return the initial focus traversable state for this {@code Node}.
+     * @since 9
+     */
+    protected Boolean getInitialFocusTraversable() {
+        return Boolean.FALSE;
+    }
+
+    public final NodeOrientation getEffectiveNodeOrientation() {
+        return NodeOrientation.LEFT_TO_RIGHT; // Simplified version for WebFX
+    }
+
+
     private NodePeer nodePeer;
     private boolean peerFocusRequested;
 
@@ -1340,6 +1358,20 @@ public abstract class Node implements INode, EventTarget, Styleable {
         else
             peerFocusRequested = true;
     }
+
+    /**
+     * Traverses from this node in the direction indicated. Note that this
+     * node need not actually have the focus, nor need it be focusTraversable.
+     * However, the node must be part of a scene, otherwise this request
+     * is ignored.
+     */
+    public final boolean traverse(Direction dir, TraversalMethod method) {
+        if (getScene() == null) {
+            return false;
+        }
+        return getScene().traverse(this, dir, method);
+    }
+
 
     private LayoutMeasurable layoutMeasurable;
 
