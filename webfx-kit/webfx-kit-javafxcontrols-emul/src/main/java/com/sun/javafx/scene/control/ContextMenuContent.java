@@ -43,11 +43,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.Window;
 import javafx.util.Duration;
@@ -1209,15 +1207,7 @@ public class ContextMenuContent extends Region {
             };
             addEventHandler(ActionEvent.ACTION, actionEventHandler);
 
-            // WebFX hardcoded style
-            setOnMouseEntered(e -> {
-                setBackground(Background.fill(Color.web("#0096c9")));
-                getLabel().setTextFill(Color.WHITE);
-            });
-            setOnMouseExited(e -> {
-                setBackground(null);
-                getLabel().setTextFill(Color.BLACK);
-            });
+            // WebFX hardcoded padding
             setPadding(new Insets(7, 14, 7, 6));
         }
 
