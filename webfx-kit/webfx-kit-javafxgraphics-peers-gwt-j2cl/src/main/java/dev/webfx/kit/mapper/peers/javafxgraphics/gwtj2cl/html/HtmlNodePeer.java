@@ -95,8 +95,8 @@ public abstract class HtmlNodePeer
             ariaSelectedAttribute = getAriaSelectedAttributeDefault(nodeProperties);
         if (ariaSelectedAttribute != null)
             setElementAttribute(ariaSelectedAttribute.getAttributeName(), Strings.toString(ariaSelected));
-        // The tabIndex is necessary only for focusable roles
-        if (ariaRole != null && ariaRole.isFocusable()) {
+        // The tabIndex is necessary only for focusable nodes
+        if (getNode().isFocusTraversable()) {
             // If the node is not selectable (i.e., if ariaSelected == null), or if it is selectable but not selected,
             // we set tabIndex to -1, otherwise we set tabIndex to 0.
             setElementAttribute("tabindex", Booleans.isNotTrue(ariaSelected) ? "-1" : "0");
