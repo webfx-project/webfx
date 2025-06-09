@@ -16,6 +16,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.UserInteraction;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.svg.SvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.*;
 import dev.webfx.platform.console.Console;
+import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Booleans;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
@@ -268,20 +269,26 @@ public abstract class HtmlSvgNodePeer
         // We transmit that request in HTML.
         boolean focusAccepted = requestHtmlFocus();
         // We check if that request has been accepted.
-        /* Commented code as it doesn't seem necessary anymore since the JavaFX focus management has been integrated
-        TODO: remove this code is no side effect
         if (!focusAccepted) { // Sometimes, it can be refused!
-            // One of the possible reasons is that the DOM element is not visible. JavaFX accepts focus requests on
-            // invisible nodes, but not HTML (use case: the Email TextField in Modality login window while flipping
-            // back from SSO login). To fix this difference between JavaFX and HTML focus states, we retry periodically
-            // until either the JavaFX focus changes (=> initial request becomes not relevant anymore), or the HTML
-            // request is finally accepted (ex: when the Email/Password flipping side becomes visible).
+            // One of the possible reasons is that the DOM element is not visible, which can happen because JavaFX
+            // accepts focus requests on invisible nodes, but not HTML. 2 issues were observed, for example, on the
+            // Modality login window: 1) the password field was not getting the focus after entering the email and
+            // pressing the button or Enter because initially hidden 2) the email field was not getting back the focus
+            // after flipping back from SSO login
+
+            // Ex: the email TextField in Modality login window
+            // while flipping back from SSO login, or even the password field which appears under the Email field quickly after
+            // entering the email but the first focus request fails in the browser).
+            // ).
+            // To fix this difference between JavaFX and HTML focus states, we retry periodically
+            // until either the JavaFX focus changes (=> initial request is not relevant anymore), or the HTML request
+            // is finally accepted (ex: when the Email/Password flipping side becomes visible).
             UiScheduler.schedulePeriodic(250, scheduled -> {
                 if (!isJavaFxFocusOwner() || requestHtmlFocus()) {
                     scheduled.cancel();
                 }
             });
-        }*/
+        }
     }
 
     private boolean requestHtmlFocus() {
