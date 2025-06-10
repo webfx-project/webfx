@@ -335,7 +335,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return textAlign;
     }
 
-    private VPos textBaseline;
+    private VPos textBaseline = VPos.BASELINE; // Default value in JavaFX
     @Override
     public void setTextBaseline(VPos baseline) {
         textBaseline = baseline;
@@ -354,7 +354,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
                 case BOTTOM: return "bottom";
             }
         }
-        return null;
+        return null; // Shouldn't be used for HTML canvas text baseline as this causes a warning in the browser console
     }
 
     @Override
