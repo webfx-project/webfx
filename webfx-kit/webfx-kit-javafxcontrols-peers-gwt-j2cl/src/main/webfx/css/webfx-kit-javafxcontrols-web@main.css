@@ -72,8 +72,12 @@ fx-togglebutton.pseudo-selected {
     --fx-button-border-color: var(--fx-togglebutton-border-color-selected);
 }
 
-fx-hyperlink fx-text:hover {
+
+fx-hyperlink {
     --fx-text-fill: #0096c9ff;
+}
+
+fx-hyperlink fx-text:hover {
     text-decoration: underline;
 }
 
