@@ -417,7 +417,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
                     NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(target, false);
                     if (peer instanceof HtmlSvgNodePeer<?,?,?,?> htmlSvgNodePeer) {
                         NodePeer<?> focusedNodePeer = HtmlSvgNodePeer.getPeerFromElementOrParents(document.activeElement, false);
-                        if (focusedNodePeer != null && focusedNodePeer.getNode().getScene() != scene) {
+                        if (focusedNodePeer == null) {
+                            if (ENABLE_DEBUG_FOCUS_LOGS)
+                                Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to a non-webfx node (maybe in an iFrame), node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());
+                        } else if (focusedNodePeer.getNode().getScene() != scene) {
                             if (ENABLE_DEBUG_FOCUS_LOGS)
                                 Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to another scene, node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());
                         } else {
