@@ -44,7 +44,7 @@ import static elemental2.dom.DomGlobal.document;
  */
 public final class HtmlScenePeer extends ScenePeerBase {
 
-    private static final boolean ENABLE_DEBUG_FOCUS_LOGS = true;
+    private static final boolean ENABLE_DEBUG_FOCUS_LOGS = false;
     private static int SCENE_SEQ = 0;
 
     private final int sceneNumber = SCENE_SEQ++;
