@@ -399,7 +399,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(target, true);
                 if (peer instanceof HtmlSvgNodePeer<?,?,?,?> htmlSvgNodePeer) {
                     if (ENABLE_DEBUG_FOCUS_LOGS)
-                        Console.log("[Scene-" + sceneNumber + "] " + (htmlSvgNodePeer.isJavaFxFocusOwner() ? "🟢🟢🟢🟢🟢" : "🟠🟠🟠🟠🟠") + " focusin, node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());
+                        Console.log("[Scene-" + sceneNumber + "] " + (htmlSvgNodePeer.isJavaFxFocusOwner() ? "🟢🟢🟢🟢🟢" : "🟠🟠🟠🟠🟠") + " focusin node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
                     htmlSvgNodePeer.setJavaFxFocusOwner();
                 }
             }
@@ -424,11 +424,19 @@ public final class HtmlScenePeer extends ScenePeerBase {
                             if (ENABLE_DEBUG_FOCUS_LOGS)
                                 Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to another scene, focusin node = " + focusinNodePeer.getNode() + ", focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
                         } else {
-                            boolean javaFxFocusOwner = htmlSvgNodePeer.isJavaFxFocusOwner();
-                            if (ENABLE_DEBUG_FOCUS_LOGS)
-                                Console.log("[Scene-" + sceneNumber + "] " + (javaFxFocusOwner ? "🔴🔴🔴🔴🔴" : "🔵🔵🔵🔵🔵") + " focusin node = " + focusinNodePeer.getNode() + ", focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
-                            if (javaFxFocusOwner)
-                                htmlSvgNodePeer.requestFocus();
+                            // If the focus is gained inside a seamless div (which may contain a payment gateway asking
+                            // for CC details, for example), we don't try to reestablish the JavaFX focus node.
+                            boolean seamlessDiv = focusinNodePeer.getNode().getProperties().containsKey("webfx-htmlTag");
+                            if (seamlessDiv) {
+                                if (ENABLE_DEBUG_FOCUS_LOGS)
+                                    Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to a seamless node, focusin node = " + focusinNodePeer.getNode() + ", focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
+                            } else {
+                                boolean javaFxFocusOwner = htmlSvgNodePeer.isJavaFxFocusOwner();
+                                if (ENABLE_DEBUG_FOCUS_LOGS)
+                                    Console.log("[Scene-" + sceneNumber + "] " + (javaFxFocusOwner ? "🔴🔴🔴🔴🔴" : "🔵🔵🔵🔵🔵") + " focusin node = " + focusinNodePeer.getNode() + ", focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
+                                if (javaFxFocusOwner)
+                                    htmlSvgNodePeer.requestFocus();
+                            }
                         }
                     }
                 }
