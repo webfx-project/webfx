@@ -44,7 +44,9 @@ import static elemental2.dom.DomGlobal.document;
  */
 public final class HtmlScenePeer extends ScenePeerBase {
 
+    private static final boolean ENABLE_DEBUG_FOCUS_LOGS = true;
     private static int SCENE_SEQ = 0;
+
     private final int sceneNumber = SCENE_SEQ++;
     private final HTMLElement sceneHtmlElement = HtmlUtil.createElement("fx-scene");
 
@@ -396,8 +398,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
             if (e.target instanceof Element target) {
                 NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(target, true);
                 if (peer instanceof HtmlSvgNodePeer<?,?,?,?> htmlSvgNodePeer) {
-                    /*boolean javaFxFocusOwner = htmlSvgNodePeer.isJavaFxFocusOwner();
-                    Console.log("[Scene-" + sceneNumber + "] " + (javaFxFocusOwner ? "🟢🟢🟢🟢🟢" : "🟠🟠🟠🟠🟠") + " focusin, node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());*/
+                    if (ENABLE_DEBUG_FOCUS_LOGS)
+                        Console.log("[Scene-" + sceneNumber + "] " + (htmlSvgNodePeer.isJavaFxFocusOwner() ? "🟢🟢🟢🟢🟢" : "🟠🟠🟠🟠🟠") + " focusin, node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());
                     htmlSvgNodePeer.setJavaFxFocusOwner();
                 }
             }
@@ -416,10 +418,12 @@ public final class HtmlScenePeer extends ScenePeerBase {
                     if (peer instanceof HtmlSvgNodePeer<?,?,?,?> htmlSvgNodePeer) {
                         NodePeer<?> focusedNodePeer = HtmlSvgNodePeer.getPeerFromElementOrParents(document.activeElement, false);
                         if (focusedNodePeer != null && focusedNodePeer.getNode().getScene() != scene) {
-                            //Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to another scene, node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());
+                            if (ENABLE_DEBUG_FOCUS_LOGS)
+                                Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to another scene, node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());
                         } else {
                             boolean javaFxFocusOwner = htmlSvgNodePeer.isJavaFxFocusOwner();
-                            //Console.log("[Scene-" + sceneNumber + "] " + (javaFxFocusOwner ? "🔴🔴🔴🔴🔴" : "🔵🔵🔵🔵🔵") + " focusout, node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());
+                            if (ENABLE_DEBUG_FOCUS_LOGS)
+                                Console.log("[Scene-" + sceneNumber + "] " + (javaFxFocusOwner ? "🔴🔴🔴🔴🔴" : "🔵🔵🔵🔵🔵") + " focusout, node = " + peer.getNode() + ", focusableNode = " + htmlSvgNodePeer.getJavaFxFocusableNode());
                             if (javaFxFocusOwner)
                                 htmlSvgNodePeer.requestFocus();
                         }
