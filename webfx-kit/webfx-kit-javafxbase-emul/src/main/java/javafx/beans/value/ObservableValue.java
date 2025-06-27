@@ -25,8 +25,11 @@
 
 package javafx.beans.value;
 
+import com.sun.javafx.binding.MappedBinding;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+
+import java.util.function.Function;
 
 /**
  * An {@code ObservableValue} is an entity that wraps a value and allows to
@@ -131,4 +134,34 @@ public interface ObservableValue<T> extends Observable {
      * @return The current value
      */
     T getValue();
+
+    /**
+     * Returns an {@code ObservableValue} that holds the result of applying the
+     * given mapping function on this value. The result is updated when this
+     * {@code ObservableValue} changes. If this value is {@code null}, no
+     * mapping is applied and the resulting value is also {@code null}.
+     * <p>
+     * For example, mapping a string to an upper case string:
+     * <pre>{@code
+     * var text = new SimpleStringProperty("abcd");
+     * ObservableValue<String> upperCase = text.map(String::toUpperCase);
+     *
+     * upperCase.getValue();  // Returns "ABCD"
+     * text.set("xyz");
+     * upperCase.getValue();  // Returns "XYZ"
+     * text.set(null);
+     * upperCase.getValue();  // Returns null
+     * }</pre>
+     *
+     * @param <U> the type of values held by the resulting {@code ObservableValue}
+     * @param mapper the mapping function to apply to a value, cannot be {@code null}
+     * @return an {@code ObservableValue} that holds the result of applying the given
+     *     mapping function on this value, or {@code null} when it
+     *     is {@code null}; never returns {@code null}
+     * @throws NullPointerException if the mapping function is {@code null}
+     * @since 19
+     */
+    default <U> ObservableValue<U> map(Function<? super T, ? extends U> mapper) {
+        return new MappedBinding<>(this, mapper);
+    }
 }
