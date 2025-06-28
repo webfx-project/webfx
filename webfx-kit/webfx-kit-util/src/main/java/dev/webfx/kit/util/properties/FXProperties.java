@@ -106,6 +106,12 @@ public final class FXProperties {
         return dp;
     }
 
+    public static <T, R> ObservableValue<R> compute(ObservableValue<? extends T> p, Function<? super T, ? extends R> function) {
+        Property<R> combinedProperty = new SimpleObjectProperty<>();
+        runNowAndOnPropertiesChange(o -> combinedProperty.setValue(function.apply(p.getValue())), p);
+        return combinedProperty;
+    }
+
     public static <T1, T2, R> ObservableValue<R> combine(ObservableValue<? extends T1> p1, ObservableValue<? extends T2> p2, BiFunction<? super T1, ? super T2, ? extends R> combineFunction) {
         Property<R> combinedProperty = new SimpleObjectProperty<>();
         runNowAndOnPropertiesChange(arg -> combinedProperty.setValue(combineFunction.apply(p1.getValue(), p2.getValue())), p1, p2);
