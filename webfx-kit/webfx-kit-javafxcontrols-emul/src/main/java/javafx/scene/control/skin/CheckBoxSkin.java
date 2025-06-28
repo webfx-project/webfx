@@ -28,7 +28,6 @@ package javafx.scene.control.skin;
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.behavior.ButtonBehavior;
 import com.sun.javafx.scene.control.skin.Utils;
-import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.resource.Resource;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
@@ -84,7 +83,7 @@ public class CheckBoxSkin extends LabeledSkinBase<CheckBox> {
 
         // Temporary resource-image-based checkbox instead for WebFX
         ImageView innerbox = new ImageView();
-        innerbox.imageUrlProperty().bind(FXProperties.compute(control.selectedProperty(), selected -> Resource.toUrl(selected ? "checkbox/checked.png" : "checkbox/unchecked.png", getClass())));
+        innerbox.imageUrlProperty().bind(control.selectedProperty().map(selected -> Resource.toUrl(selected ? "checkbox/checked.png" : "checkbox/unchecked.png", getClass())));
         innerbox.setFitWidth(18d);
         innerbox.setFitHeight(18d);
         StackPane.setMargin(innerbox, new Insets(5));
