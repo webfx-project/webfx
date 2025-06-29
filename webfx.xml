@@ -16,7 +16,7 @@
     </required-libraries>
 
     <maven-repositories>
-        <snapshot-repository id="webfx-snapshots">https://oss.sonatype.org/content/repositories/snapshots/</snapshot-repository>
+        <snapshot-repository id="webfx-snapshots">https://central.sonatype.com/repository/maven-snapshots/</snapshot-repository>
     </maven-repositories>
 
     <maven-pom-manual>

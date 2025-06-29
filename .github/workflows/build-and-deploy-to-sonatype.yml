@@ -1,4 +1,4 @@
-name: Sonatype
+name: Build and deploy to Sonatype
 
 on:
   push:
@@ -20,9 +20,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: ${{ env.jdk-version }}
-          server-id: webfx-sonatype-deploy
-          server-username: SONATYPE_USERNAME
-          server-password: SONATYPE_PASSWORD
+          server-id: webfx-sonatype-central-deploy
+          server-username: SONATYPE_CENTRAL_USERNAME
+          server-password: SONATYPE_CENTRAL_PASSWORD
 
       # Checkout this repository
       - name: Checkout this repository
@@ -32,5 +32,5 @@ jobs:
       - name: Deploy this repository
         run: mvn -B -P '!gwt-compile,!javafx-fatjar,!javapackager' deploy
         env:
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_CENTRAL_USERNAME: ${{ secrets.SONATYPE_CENTRAL_USERNAME }}
+          SONATYPE_CENTRAL_PASSWORD: ${{ secrets.SONATYPE_CENTRAL_PASSWORD }}
