@@ -1,12 +1,41 @@
+/*
+ * Copyright (c) 2012, 2022, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+
 package javafx.scene.control;
 
 import com.sun.javafx.scene.control.LambdaMultiplePropertyChangeListenerHandler;
+//import com.sun.javafx.scene.control.ListenerHelper;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+//import javafx.scene.AccessibleAction;
+import javafx.scene.AccessibleAttribute;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
@@ -23,7 +52,12 @@ import java.util.function.Consumer;
  */
 public abstract class SkinBase<C extends Control> implements Skin<C> {
 
-    /***************************************************************************
+    /*static {
+        // must be the first code to execute
+        ListenerHelper.setAccessor((skin) -> skin.listenerHelper());
+    }*/
+
+    /* *************************************************************************
      *                                                                         *
      * Private fields                                                          *
      *                                                                         *
@@ -46,10 +80,14 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
      * This is part of the workaround introduced during delomboking. We probably will
      * want to adjust the way listeners are added rather than continuing to use this
      * map (although it doesn't really do much harm).
+     *
+     * TODO remove after migration to ListenerHelper
      */
     private LambdaMultiplePropertyChangeListenerHandler lambdaChangeListenerHandler;
 
-    /***************************************************************************
+    //private ListenerHelper listenerHelper;
+
+    /* *************************************************************************
      *                                                                         *
      * Event Handlers / Listeners                                              *
      *                                                                         *
@@ -61,16 +99,16 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
      */
     private static final EventHandler<MouseEvent> mouseEventConsumer = event -> {
         /*
-        ** we used to consume mouse wheel rotations here,
-        ** be we've switched to ScrollEvents, and only consume those which we use.
-        ** See RT-13995 & RT-14480
-        */
+         ** we used to consume mouse wheel rotations here,
+         ** be we've switched to ScrollEvents, and only consume those which we use.
+         ** See RT-13995 & RT-14480
+         */
         event.consume();
     };
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Constructor                                                             *
      *                                                                         *
@@ -96,7 +134,7 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Public API (from Skin)                                                  *
      *                                                                         *
@@ -116,12 +154,21 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
     @Override public void dispose() {
 //        control.removeEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, contextMenuHandler);
 
+        // unhook listeners
+        if (lambdaChangeListenerHandler != null) {
+            lambdaChangeListenerHandler.dispose();
+        }
+
+        /*if (listenerHelper != null) {
+            listenerHelper.disconnect();
+        }*/
+
         this.control = null;
     }
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Public API                                                              *
      *                                                                         *
@@ -129,6 +176,7 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
 
     /**
      * Returns the children of the skin.
+     * @return the children of the skin
      */
     public final ObservableList<Node> getChildren() {
         return children;
@@ -136,6 +184,10 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
 
     /**
      * Called during the layout pass of the scenegraph.
+     * @param contentX the x position
+     * @param contentY the y position
+     * @param contentWidth the width
+     * @param contentHeight the height
      */
     protected void layoutChildren(final double contentX, final double contentY,
                                   final double contentWidth, final double contentHeight) {
@@ -150,6 +202,7 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
 
     /**
      * Determines whether all mouse events should be automatically consumed.
+     * @param value the consume mouse events flag
      */
     protected final void consumeMouseEvents(boolean value) {
         if (value) {
@@ -159,41 +212,127 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
         }
     }
 
+    /**
+     * Returns the skin's instance of {@link ListenerHelper}, creating it if necessary.
+     */
+    /*ListenerHelper listenerHelper() {
+        if (listenerHelper == null) {
+            listenerHelper = new ListenerHelper();
+        }
+        return listenerHelper;
+    }*/
 
     /**
-     * Subclasses can invoke this method to register that they want to listen to
-     * property change events for the given property. Registered {@link Consumer} instances
-     * will be executed in the order in which they are registered.
-     * @param property the property
-     * @param consumer the consumer
+     * Registers an operation to perform when the given {@code observable} sends a change event.
+     * Does nothing if either {@code observable} or {@code operation} are {@code null}.
+     * If multiple operations are registered on the same observable, they will be performed in the
+     * order in which they were registered.
+     *
+     * @param observable the observable to observe for change events, may be {@code null}
+     * @param operation the operation to perform when the observable sends a change event,
+     *  may be {@code null}
+     * @since 9
      */
-    protected final void registerChangeListener(ObservableValue<?> property, Consumer<ObservableValue<?>> consumer) {
+    protected final void registerChangeListener(ObservableValue<?> observable, Consumer<ObservableValue<?>> operation) {
         if (lambdaChangeListenerHandler == null) {
             lambdaChangeListenerHandler = new LambdaMultiplePropertyChangeListenerHandler();
         }
-        lambdaChangeListenerHandler.registerChangeListener(property, consumer);
+        lambdaChangeListenerHandler.registerChangeListener(observable, operation);
     }
 
     /**
-     * Unregisters all change listeners that have been registered using {@link #registerChangeListener(ObservableValue, Consumer)}
-     * for the given property. The end result is that the given property is no longer observed by any of the change
-     * listeners, but it may still have additional listeners registered on it through means outside of
-     * {@link #registerChangeListener(ObservableValue, Consumer)}.
+     * Unregisters all operations that have been registered using
+     * {@link #registerChangeListener(ObservableValue, Consumer)}
+     * for the given {@code observable}. Does nothing if {@code observable} is {@code null}.
      *
-     * @param property The property for which all listeners should be removed.
-     * @return A single chained {@link Consumer} consisting of all {@link Consumer consumers} registered through
-     *      {@link #registerChangeListener(ObservableValue, Consumer)}. If no consumers have been registered on this
-     *      property, null will be returned.
+     * @param observable the observable for which the registered operations should be removed,
+     *  may be {@code null}
+     * @return a composed consumer representing all previously registered operations, or
+     *  {@code null} if none have been registered or the observable is {@code null}
      * @since 9
      */
-    protected final Consumer<ObservableValue<?>> unregisterChangeListeners(ObservableValue<?> property) {
+    protected final Consumer<ObservableValue<?>> unregisterChangeListeners(ObservableValue<?> observable) {
         if (lambdaChangeListenerHandler == null) {
             return null;
         }
-        return lambdaChangeListenerHandler.unregisterChangeListeners(property);
+        return lambdaChangeListenerHandler.unregisterChangeListeners(observable);
     }
 
-    /***************************************************************************
+    /**
+     * Registers an operation to perform when the given {@code observable} sends an invalidation event.
+     * Does nothing if either {@code observable} or {@code operation} are {@code null}.
+     * If multiple operations are registered on the same observable, they will be performed in the
+     * order in which they were registered.
+     *
+     * @param observable the observable to observe for invalidation events, may be {@code null}
+     * @param operation the operation to perform when the observable sends an invalidation event,
+     *  may be {@code null}
+     * @since 17
+     */
+    /*protected final void registerInvalidationListener(Observable observable, Consumer<Observable> operation) {
+        if (lambdaChangeListenerHandler == null) {
+            lambdaChangeListenerHandler = new LambdaMultiplePropertyChangeListenerHandler();
+        }
+        lambdaChangeListenerHandler.registerInvalidationListener(observable, operation);
+    }*/
+
+    /**
+     * Unregisters all operations that have been registered using
+     * {@link #registerInvalidationListener(Observable, Consumer)}
+     * for the given {@code observable}. Does nothing if {@code observable} is {@code null}.
+     *
+     * @param observable the observable for which the registered operations should be removed,
+     *  may be {@code null}
+     * @return a composed consumer representing all previously registered operations, or
+     *  {@code null} if none have been registered or the observable is {@code null}
+     * @since 17
+     */
+    /*protected final Consumer<Observable> unregisterInvalidationListeners(Observable observable) {
+        if (lambdaChangeListenerHandler == null) {
+            return null;
+        }
+        return lambdaChangeListenerHandler.unregisterInvalidationListeners(observable);
+    }*/
+
+
+    /**
+     * Registers an operation to perform when the given {@code observableList} sends a list change event.
+     * Does nothing if either {@code observableList} or {@code operation} are {@code null}.
+     * If multiple operations are registered on the same observable list, they will be performed in the
+     * order in which they were registered.
+     *
+     * @param observableList the observableList to observe for list change events, may be {@code null}
+     * @param operation the operation to perform when the observableList sends a list change event,
+     *  may be {@code null}
+     * @since 17
+     */
+    /*protected final void registerListChangeListener(ObservableList<?> observableList, Consumer<Change<?>> operation) {
+        if (lambdaChangeListenerHandler == null) {
+            lambdaChangeListenerHandler = new LambdaMultiplePropertyChangeListenerHandler();
+        }
+        lambdaChangeListenerHandler.registerListChangeListener(observableList, operation);
+    }*/
+
+    /**
+     * Unregisters all operations that have been registered using
+     * {@link #registerListChangeListener(ObservableList, Consumer)}
+     * for the given {@code observableList}. Does nothing if {@code observableList} is {@code null}.
+     *
+     * @param observableList the observableList for which the registered operations should be removed,
+     *  may be {@code null}
+     * @return a composed consumer representing all previously registered operations, or
+     *  {@code null} if none have been registered or the observableList is {@code null}
+     * @since 17
+     */
+    /*protected final Consumer<Change<?>> unregisterListChangeListeners(ObservableList<?> observableList) {
+        if (lambdaChangeListenerHandler == null) {
+            return null;
+        }
+        return lambdaChangeListenerHandler.unregisterListChangeListeners(observableList);
+    }*/
+
+
+    /* *************************************************************************
      *                                                                         *
      * Public Layout-related API                                               *
      *                                                                         *
@@ -399,7 +538,7 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
     }
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * (Mostly ugly) Skin -> Control forwarding API                            *
      *                                                                         *
@@ -446,13 +585,19 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
     }
 
     /**
-     * If this region's snapToPixel property is true, returns a value rounded
-     * to the nearest pixel, else returns the same value.
+     * If {@code getSkinnable().isSnapToPixel()} is false, this method
+     * returns the same value, else it tries to return a value rounded to
+     * the nearest pixel, but since there is no indication if the value is
+     * a vertical or horizontal measurement then it may be snapped to the
+     * wrong pixel size metric on screens with different horizontal and
+     * vertical scales.
      * @param value the space value to be snapped
      * @return value rounded to nearest pixel
+     * @deprecated replaced by {@code snapSpaceX()} and {@code snapSpaceY()}
      */
+    @Deprecated(/*since="9"*/)
     protected double snapSpace(double value) {
-        return control.isSnapToPixel() ? Math.round(value) : value;
+        return control.snapSpaceX(value);
     }
 
     /**
@@ -486,13 +631,19 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
     }
 
     /**
-     * If this region's snapToPixel property is true, returns a value ceiled
-     * to the nearest pixel, else returns the same value.
+     * If {@code getSkinnable().isSnapToPixel()} is false, this method
+     * returns the same value, else it tries to return a value ceiled to
+     * the nearest pixel, but since there is no indication if the value is
+     * a vertical or horizontal measurement then it may be snapped to the
+     * wrong pixel size metric on screens with different horizontal and
+     * vertical scales.
      * @param value the size value to be snapped
      * @return value ceiled to nearest pixel
+     * @deprecated replaced by {@code snapSizeX()} and {@code snapSizeY()}
      */
+    @Deprecated(/*since="9"*/)
     protected double snapSize(double value) {
-        return control.isSnapToPixel() ? Math.ceil(value) : value;
+        return control.snapSizeX(value);
     }
 
     /**
@@ -526,13 +677,49 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
     }
 
     /**
-     * If this region's snapToPixel property is true, returns a value rounded
-     * to the nearest pixel, else returns the same value.
+     * If {@code getSkinnable().isSnapToPixel()} is false, this method
+     * returns the same value, else it tries to return a value rounded to
+     * the nearest pixel, but since there is no indication if the value is
+     * a vertical or horizontal measurement then it may be snapped to the
+     * wrong pixel size metric on screens with different horizontal and
+     * vertical scales.
      * @param value the position value to be snapped
      * @return value rounded to nearest pixel
+     * @deprecated replaced by {@code snapPositionX()} and {@code snapPositionY()}
      */
+    @Deprecated(/*since="9"*/)
     protected double snapPosition(double value) {
-        return control.isSnapToPixel() ? Math.round(value) : value;
+        return control.snapPositionX(value);
+    }
+
+    /**
+     * Convenience method for accessing the
+     * {@link Region#snapPositionX(double) snapPositionX()}
+     * method on the skinnable.
+     * It is equivalent to calling
+     * {@code getSkinnable().snapPositionX(value)}.
+     * @param value the position value to be snapped
+     * @return value rounded to nearest pixel
+     * @see Region#snapPositionX(double)
+     * @since 9
+     */
+    protected double snapPositionX(double value) {
+        return control.snapPositionX(value);
+    }
+
+    /**
+     * Convenience method for accessing the
+     * {@link Region#snapPositionY(double) snapPositionY()}
+     * method on the skinnable.
+     * It is equivalent to calling
+     * {@code getSkinnable().snapPositionY(value)}.
+     * @param value the position value to be snapped
+     * @return value rounded to nearest pixel
+     * @see Region#snapPositionY(double)
+     * @since 9
+     */
+    protected double snapPositionY(double value) {
+        return control.snapPositionY(value);
     }
 
     /**
@@ -564,7 +751,7 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
                                   double areaWidth, double areaHeight, double areaBaselineOffset,
                                   HPos halignment, VPos valignment) {
         positionInArea(child, areaX, areaY, areaWidth, areaHeight,
-                areaBaselineOffset, Insets.EMPTY, halignment, valignment);
+            areaBaselineOffset, Insets.EMPTY, halignment, valignment);
     }
 
     /**
@@ -601,8 +788,8 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
                                   double areaWidth, double areaHeight, double areaBaselineOffset,
                                   Insets margin, HPos halignment, VPos valignment) {
         Region.positionInArea(child, areaX, areaY, areaWidth, areaHeight,
-                areaBaselineOffset, margin, halignment, valignment,
-                control.isSnapToPixel());
+            areaBaselineOffset, margin, halignment, valignment,
+            control.isSnapToPixel());
     }
 
     /**
@@ -654,7 +841,7 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
                                 double areaBaselineOffset,
                                 HPos halignment, VPos valignment) {
         layoutInArea(child, areaX, areaY, areaWidth, areaHeight, areaBaselineOffset,
-                Insets.EMPTY, true, true, halignment, valignment);
+            Insets.EMPTY, true, true, halignment, valignment);
     }
 
     /**
@@ -710,7 +897,7 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
                                 Insets margin,
                                 HPos halignment, VPos valignment) {
         layoutInArea(child, areaX, areaY, areaWidth, areaHeight, areaBaselineOffset,
-                margin, true, true, halignment, valignment);
+            margin, true, true, halignment, valignment);
     }
 
     /**
@@ -769,13 +956,13 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
                                 Insets margin, boolean fillWidth, boolean fillHeight,
                                 HPos halignment, VPos valignment) {
         Region.layoutInArea(child, areaX, areaY, areaWidth, areaHeight,
-                areaBaselineOffset, margin, fillWidth, fillHeight, halignment,
-                valignment, control.isSnapToPixel());
+            areaBaselineOffset, margin, fillWidth, fillHeight, halignment,
+            valignment, control.isSnapToPixel());
     }
 
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Private Implementation                                                  *
      *                                                                         *
@@ -783,76 +970,129 @@ public abstract class SkinBase<C extends Control> implements Skin<C> {
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *                                                                        *
      * Specialization of CSS handling code                                    *
      *                                                                        *
      **************************************************************************/
 
-/*
-    private static class StyleableProperties {
-
+    /*private static class StyleableProperties {
         private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
 
         static {
             STYLEABLES = Collections.unmodifiableList(Control.getClassCssMetaData());
         }
-    }
-*/
+    }*/
 
     /**
-     * @return The CssMetaData associated with this class, which may include the
-     * CssMetaData of its super classes.
+     * Returns the CssMetaData associated with this class, which may include the
+     * CssMetaData of its superclasses.
+     * @return the CssMetaData associated with this class, which may include the
+     * CssMetaData of its superclasses
      */
-/*
-    public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
+    /*public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
         return SkinBase.StyleableProperties.STYLEABLES;
-    }
-*/
+    }*/
 
     /**
      * This method should delegate to {@link Node#getClassCssMetaData()} so that
      * a Node's CssMetaData can be accessed without the need for reflection.
      * @return The CssMetaData associated with this node, which may include the
-     * CssMetaData of its super classes.
+     * CssMetaData of its superclasses.
      */
-/*
-    public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
+    /*public List<CssMetaData<? extends Styleable, ?>> getCssMetaData() {
         return getClassCssMetaData();
-    }
-*/
+    }*/
 
-    /** @see Node#pseudoClassStateChanged */
-/*
-    public final void pseudoClassStateChanged(PseudoClass pseudoClass, boolean active) {
+    /**
+     * Used to specify that a pseudo-class of this Node has changed. If the
+     * pseudo-class is used in a CSS selector that matches this Node, CSS will
+     * be reapplied. Typically, this method is called from the {@code invalidated}
+     * method of a property that is used as a pseudo-class. For example:
+     * <pre><code>
+     *
+     *     private static final PseudoClass MY_PSEUDO_CLASS_STATE = PseudoClass.getPseudoClass("my-state");
+     *
+     *     BooleanProperty myPseudoClassState = new BooleanPropertyBase(false) {
+     *
+     *           {@literal @}Override public void invalidated() {
+     *                pseudoClassStateChanged(MY_PSEUDO_CLASS_STATE, get());
+     *           }
+     *
+     *           {@literal @}Override public Object getBean() {
+     *               return MyControl.this;
+     *           }
+     *
+     *           {@literal @}Override public String getName() {
+     *               return "myPseudoClassState";
+     *           }
+     *       };
+     * </code></pre>
+     *
+     * @see Node#pseudoClassStateChanged
+     * @param pseudoClass the pseudo-class that has changed state
+     * @param active whether or not the state is active
+     * @since JavaFX 8.0
+     */
+    /*public final void pseudoClassStateChanged(PseudoClass pseudoClass, boolean active) {
         Control ctl = getSkinnable();
         if (ctl != null) {
             ctl.pseudoClassStateChanged(pseudoClass, active);
         }
-    }
-*/
+    }*/
 
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Accessibility handling                                                  *
      *                                                                         *
      **************************************************************************/
 
-    /** @see Node#queryAccessibleAttribute */
-/*
+    /**
+     * This method is called by the assistive technology to request
+     * the value for an attribute.
+     * <p>
+     * This method is commonly overridden by subclasses to implement
+     * attributes that are required for a specific role.<br>
+     * If a particular attribute is not handled, the superclass implementation
+     * must be called.
+     * </p>
+     *
+     * @param attribute the requested attribute
+     * @param parameters optional list of parameters
+     * @return the value for the requested attribute
+     *
+     * @see AccessibleAttribute
+     * @see Node#queryAccessibleAttribute
+     *
+     * @since JavaFX 8u40
+     */
     protected Object queryAccessibleAttribute(AccessibleAttribute attribute, Object... parameters) {
         return null;
     }
-*/
 
-    /** @see Node#executeAccessibleAction */
-/*
-    protected void executeAccessibleAction(AccessibleAction action, Object... parameters) {
-    }
-*/
+    /**
+     * This method is called by the assistive technology to request the action
+     * indicated by the argument should be executed.
+     * <p>
+     * This method is commonly overridden by subclasses to implement
+     * action that are required for a specific role.<br>
+     * If a particular action is not handled, the superclass implementation
+     * must be called.
+     * </p>
+     *
+     * @param action the action to execute
+     * @param parameters optional list of parameters
+     *
+     * @see AccessibleAction
+     * @see Node#executeAccessibleAction
+     *
+     * @since JavaFX 8u40
+     */
+    /*protected void executeAccessibleAction(AccessibleAction action, Object... parameters) {
+    }*/
 
-    /***************************************************************************
+    /* *************************************************************************
      *                                                                         *
      * Testing-only API                                                        *
      *                                                                         *

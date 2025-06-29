@@ -100,6 +100,12 @@ public final class HtmlScrollPanePeer
         N scrollPane = getNode();
         double viewportWidth = scrollPane.getWidth();
         double viewportHeight = scrollPane.getHeight();
+        // We set the viewport bounds as follows: the width and height are exactly the same as the scroll pane because
+        // the bars of PerfectScrollbar.js are an overlay on top of the content - which is nicer than the OpenJFX
+        // ScrollPane by the way. For minX and minY, JavaFX doesn't specify the meaning of these values; they depend on
+        // the skin implementation, so here we set them to scrollLeft and ScrollTop. ScrollPane will use these values
+        // in its implementation of the IScrollPane WebFX interface used by Node for the localToParent() and
+        // parentToLocal() coordinates conversion.
         Bounds viewportBounds = new BoundingBox(scrollLeft, scrollTop, viewportWidth, viewportHeight);
         scrollPane.setViewportBounds(viewportBounds);
         Node content = scrollPane.getContent();

@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 
+import com.sun.javafx.scene.NodeHelper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBase;
@@ -19,6 +20,7 @@ import elemental2.dom.*;
 import elemental2.svg.SVGSVGElement;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,7 +28,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.LayoutFlags;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -43,17 +44,21 @@ import static elemental2.dom.DomGlobal.document;
  */
 public final class HtmlScenePeer extends ScenePeerBase {
 
-    private final HTMLElement container = HtmlUtil.absolutePosition(HtmlUtil.createElement("fx-scene"));
+    private static final boolean ENABLE_DEBUG_FOCUS_LOGS = false;
+    private static int SCENE_SEQ = 0;
+
+    private final int sceneNumber = SCENE_SEQ++;
+    private final HTMLElement sceneHtmlElement = HtmlUtil.createElement("fx-scene");
 
     public HtmlScenePeer(Scene scene) {
         super(scene);
-        // TODO: see how to replace this with immediate CSS
-        HtmlUtil.setStyleAttribute(container, "width", "100%");
-        HtmlUtil.setStyleAttribute(container, "height", "100dvh"); // dvh is better than vh on mobiles (keeps working when navigation bar hides or reappears)
+        // CSS rules: width: 100%; height:100% for popup scenes and 100dvh for the main stage scene (dvh is better than
+        // vh on mobiles because it keeps working when the navigation bar hides or reappears).
         FXProperties.runNowAndOnPropertyChange(this::updateContainerFill, scene.fillProperty());
         installPointerListeners();
-        HtmlSvgNodePeer.installTouchListeners(container, scene);
-        installKeyboardListeners(scene);
+        HtmlSvgNodePeer.installTouchListeners(sceneHtmlElement, scene);
+        installFocusListeners();
+        installKeyboardListeners();
         installStylesheetsListener(scene);
         installFontsListener();
         installIconsListener();
@@ -68,7 +73,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void installPointerListeners() {
-        // Important to use pointer events (not just mouse events) in order to support touch screens. This is how JavaFX
+        // Important to use pointer events (not just mouse events) to support touch screens. This is how JavaFX
         // setOnMouseXXX() handlers - including setOnMouseDragged() - will also work with touch events (like in JavaFX).
         // Note that setOnTouchXXX() handlers will also be mapped to touch listeners on DOM nodes (via HtmlSvgNodePeer),
         // and such listeners will actually be prioritized, but if they don't consume the event, it will finally be
@@ -78,37 +83,53 @@ public final class HtmlScenePeer extends ScenePeerBase {
         registerPointerListener("pointerenter");
         registerPointerListener("pointerleave");
         registerPointerListener("pointermove");
-        // Note: not necessary to register "clicked", as the JavaFX Scene has its own way to generate mouse clicked
-        // events based on the pressed and released events.
-        container.oncontextmenu = e -> {
-            //e.stopPropagation();
-            e.preventDefault(); // To prevent the browser default context menu
-            if (e instanceof MouseEvent // For now, we manage only context menu from the mouse
+        // Note: not necessary to register "clicked", as the JavaFX Scene has its own way to generate mouse click events
+        // (based on the pressed and released events).
+        sceneHtmlElement.oncontextmenu = e -> {
+            if (e instanceof MouseEvent // For now, we manage only the context menu from the mouse
                 // Also checking that we received the mouse up event on that scene before. This is to prevent the
                 // following case: when a context menu is already displayed (=> in another popup window/scene) and
-                // the user right-click on a menu item, the menu action will be triggered on the mouseup within the
+                // the user right-clicks on a menu item, the menu action will be triggered on the mouseup within the
                 // popup window/scene (so far, so good) but then oncontextmenu is called on this scene by the browser
                 // whereas the intention of the user was just to trigger the menu action (which also closes the
                 // context menu) but not to display the context menu again. So we prevent this by checking the last
-                // mouse event was a mouse up on that scene which is the correct sequence (in the above case, the
+                // mouse event was a mouse up on that scene, which is the correct sequence (in the above case, the
                 // last mouse event will be the oncontextmenu event).
                 /*&& lastMouseEvent != null && "mouseup".equals(lastMouseEvent.type)*/) {
+                int lastSceneSEQ = SCENE_SEQ;
                 MouseEvent me = (MouseEvent) e;
-                // Finally we generate the menu event for JavaFX
+                // Finally, we generate the menu event for JavaFX
                 listener.menuEvent(me.x, me.y, me.screenX, me.screenY, false);
+                // If the application doesn't show any JavaFX context menu, we display the browser context menu (nothing
+                // to do in that case as this is the default browser behavior). But if the application shows a context
+                // menu, we prevent the browser context menu from appearing, because not only the user doesn't want it,
+                // but in addition, it hides the JavaFX context menu! Detecting the JavaFX context menu is a bit tricky.
+                // There are 2 cases:
+                // 1) The context menu is shown for the first time, and this involves the creation of a new popup window
+                // with a new scene inside, something we can easily detect.
+                // 2) The context menu is shown again (no scene is created), but the application code consumed the event
+                // after displaying the context menu (a WebFX requirement to make this work). Detecting this is a bit
+                // tricky as the call to menuEvent() doesn't return the final event. So we use the specific WebFX field
+                // Event.lastFinalFiredEvent for this. A null value indicates that the app consumed the event.
+                // Note: for some reason Event.lastFinalFiredEvent is not null the first time the context menu is shown,
+                // which is why we need to detect case 1) as well.
+                if (SCENE_SEQ > lastSceneSEQ // case 1)
+                    || Event.lastFinalFiredEvent == null) { // Case 2)
+                    e.preventDefault(); // This will prevent the browser default context menu
+                }
             }
             return null;
         };
-        // Disabling default browser drag & drop as JavaFX has its own. Without doing this, the setOnMouseDragged()
+        // Disabling the default browser drag and drop as JavaFX has its own. Without doing this, the setOnMouseDragged()
         // handler would be called only once (when the drag starts) and not continuously during the drag operation.
-        // Also without doing this, the browser would display a ghost image of the dragged element (which is not the
-        // case with JavaFX). Ex of use case: Modality user profile picture drag (in ChangePictureUI).
-        container.setAttribute("ondragstart", "return false;");
-        container.setAttribute("ondrop", "return false;"); // TODO check if this is necessary
+        // Also, without doing this, the browser would display a ghost image of the dragged element (which is not the
+        // case with JavaFX). Ex of a use case: Modality user profile picture drag (in ChangePictureUI).
+        sceneHtmlElement.setAttribute("ondragstart", "return false;");
+        sceneHtmlElement.setAttribute("ondrop", "return false;"); // TODO check if this is necessary
     }
 
     private void registerPointerListener(String type) {
-        container.addEventListener(type, e -> passHtmlPointerEventOnToFx((MouseEvent) e, type));
+        sceneHtmlElement.addEventListener(type, e -> passHtmlPointerEventOnToFx((MouseEvent) e, type));
     }
 
     private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
@@ -121,9 +142,8 @@ public final class HtmlScenePeer extends ScenePeerBase {
             boolean isMouseReleased = fxType == javafx.scene.input.MouseEvent.MOUSE_RELEASED;
             UserInteraction.setUserInteracting(isMousePressed || isMouseReleased);
             // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFX stack
-            Scene scene = getScene();
             // Also fixing a problem: mouse released and mouse pressed are sent very closely on mobiles and might be
-            // treated in the same animation frame, which prevents the button pressed state (ex: a background bound to
+            // treated in the same animation frame, which prevents the button `pressed` state (ex: a background bound to
             // the button pressedProperty) to appear before the action (which might be time-consuming) is fired, so the
             // user doesn't know if the button has been successfully pressed or not during the action execution.
             if (isMouseReleased && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
@@ -133,23 +153,13 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 if (isMousePressed) {
                     atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
                     UiScheduler.scheduleInAnimationFrame(() -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, 1);
-                    /* Try to uncomment this code if the focus hasn't been updated after clicking on a Node (not necessary so far)
-                    if (scene.mouseHandler.lastEvent != null) {
-                        PickResult pickResult = scene.mouseHandler.lastEvent.getPickResult();
-                        if (pickResult != null) {
-                            Node node = pickResult.getIntersectedNode();
-                            if (node != null && node.isFocusTraversable()) {
-                                node.requestFocus();
-                            }
-                        }
-                    }*/
                 }
             }
             UserInteraction.setUserInteracting(false);
-            // Stopping propagation if the event has been consumed by JavaFX
+            // Stopping propagation if JavaFX has consumed the event
+            // Note: important to not stop propagation for third-party js components (ex: perfect-scrollbar)
             if (fxMouseEvent.isConsumed())
                 e.stopPropagation();
-            // Note: important to not stop propagation for third-party js components (ex: perfect-scrollbar)
         }
     }
 
@@ -179,7 +189,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         });
     }
 
-    private static boolean BROWSER_SUPPORTS_FONTS_LOADING_NOTIFICATION;
+    private static boolean BROWSER_SUPPORTS_FONT_LOADING_NOTIFICATION;
 
     private void installFontsListener() {
         // Transferring the fonts programmatically requested by the application code to the browser
@@ -195,17 +205,17 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
         // Best way to detect when a font is loaded = via document.fonts.onloadingdone but not all browsers support it
         document.fonts.setOnloadingdone(e -> { // called back by Chrome & FF, but not Safari
-            onCssOrFontLoaded(); // forces whole scene graph layout to correct wrong text positions
-            BROWSER_SUPPORTS_FONTS_LOADING_NOTIFICATION = true;
+            onCssOrFontLoaded(); // forces the whole scene graph layout to correct wrong text positions
+            BROWSER_SUPPORTS_FONT_LOADING_NOTIFICATION = true;
             return null;
         });
         // Fallback for browsers not supporting fonts loading notification: calling onCssOrFontLoaded() every second for
-        // 10s, starting when fonts are ready
+        // 10 sec, starting when fonts are ready
         document.fonts.getReady().then(fontFaceSet -> {
             int fontsLoadingDoneFallbackCount[] = { 0 };
             UiScheduler.scheduleNowAndPeriodic(1000, scheduled -> {
-                // Stopping this timer after 10s (assuming it's enough to load all fonts), or if the browser supports fonts loading notification
-                if (++fontsLoadingDoneFallbackCount[0] > 10 || BROWSER_SUPPORTS_FONTS_LOADING_NOTIFICATION)
+                // Stopping this timer after 10 sec (assuming it's enough to load all fonts), or if the browser supports font loading notification
+                if (++fontsLoadingDoneFallbackCount[0] > 10 || BROWSER_SUPPORTS_FONT_LOADING_NOTIFICATION)
                     scheduled.cancel();
                 else {
                     onCssOrFontLoaded();
@@ -240,11 +250,11 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     private void onCssOrFontLoaded() {
         // TODO: reset all caches in HtmlLayoutMeasurable
-        forceWholeSceneGraphLayout(scene);
+        NodeHelper.webfx_forceLayoutOnThisNodeAndChildren(scene.getRoot());
     }
 
     private void installIconsListener() {
-        FXProperties.onPropertySet(getScene().windowProperty(), window -> {
+        FXProperties.onPropertySet(scene.windowProperty(), window -> {
             if (window instanceof Stage) {
                 mapObservableList(((Stage) window).getIcons(), icons -> addIcons(icons), icons -> removeIcons(icons));
             }
@@ -273,48 +283,29 @@ public final class HtmlScenePeer extends ScenePeerBase {
         });
     }
 
-    private static void forceWholeSceneGraphLayout(Scene scene) {
-        forceLayoutOnThisNodeAndChildren(scene.getRoot());
-    }
-
-    private static void forceLayoutOnThisNodeAndChildren(Node node) {
-        if (node != null) {
-            node.clearCache();
-            if (node instanceof Parent) {
-                Parent parent = (Parent) node;
-                parent.setLayoutFlag(LayoutFlags.NEEDS_LAYOUT);
-                parent.getChildren().forEach(HtmlScenePeer::forceLayoutOnThisNodeAndChildren);
-            }
-            node.onPeerSizeChanged();
-            Object runnable = node.getProperties().get("webfx-onCssOrFontLoadedRunnable");
-            if (runnable instanceof Runnable)
-                ((Runnable) runnable).run();
-        }
-    }
-
     private void installCursorListener() {
         FXProperties.runNowAndOnPropertyChange(cursor ->
-            HtmlUtil.setStyleAttribute(getSceneNode(), "cursor", HtmlSvgNodePeer.toCssCursor(cursor)), getScene().cursorProperty()
+            HtmlUtil.setStyleAttribute(getSceneHtmlElement(), "cursor", HtmlSvgNodePeer.toCssCursor(cursor)), scene.cursorProperty()
         );
     }
 
 
     private void updateContainerFill() {
-        container.style.background = HtmlPaints.toHtmlCssPaint(scene.getFill());
+        sceneHtmlElement.style.background = HtmlPaints.toHtmlCssPaint(scene.getFill());
     }
 
-    public elemental2.dom.Node getSceneNode() {
-        return container;
+    public elemental2.dom.Node getSceneHtmlElement() {
+        return sceneHtmlElement;
     }
 
     @Override
     public NodePeer pickPeer(double sceneX, double sceneY) {
         Element element = document.elementFromPoint(sceneX, sceneY);
-        NodePeer peer = HtmlSvgNodePeer.getPeerFromElementOrParents(element);
+        NodePeer peer = HtmlSvgNodePeer.getPeerFromElementOrParents(element, true);
         // Checking that we pick it from the right scene (in case there are several windows/scenes within the DOM)
         if (peer != null) {
             Node node = peer.getNode();
-            if (node == null || node.getScene() != getScene())
+            if (node == null || node.getScene() != scene)
                 peer = null;
         }
         return peer;
@@ -322,13 +313,13 @@ public final class HtmlScenePeer extends ScenePeerBase {
 
     @Override
     public void onRootBound() {
-        HtmlUtil.setChildren(container, HtmlSvgNodePeer.toContainerElement(scene.getRoot()));
+        HtmlUtil.setChildren(sceneHtmlElement, HtmlSvgNodePeer.toContainerElement(scene.getRoot()));
     }
 
     @Override
     public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<? extends Node> childrenChange) {
         HtmlSvgNodePeer parentPeer = HtmlSvgNodePeer.toNodePeer(parent);
-        // HasNoChildrenPeers have no JavaFX fxChildren (mapped to HTML) but they do have HTML fxChildren (generated by the peer)
+        // HasNoChildrenPeers have no JavaFX fxChildren (mapped to HTML), but they do have HTML fxChildren (generated by the peer)
         if (parentPeer instanceof HasNoChildrenPeers) // Ex: HtmlHtmlTextPeer, HtmlHtmlTextEditorPeer, HtmlVisualGridPeer
             return; // => we don't want to clear the HTML fxChildren generated by the peer
         Element childrenContainer = parentPeer.getChildrenContainer();
@@ -336,7 +327,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         if (childrenChange == null) { // Indicates we need to map children (not just a partial change)
             List<Element> childElements = toChildElements(fxChildren, null);
             HtmlUtil.setChildren(childrenContainer, childElements);
-        } else { // partial change of children. The above code (remap all children) would also work, but the code below
+        } else { // Partial change of children. The above code (remap all children) would also work, but the code below
             // is more optimized because it applies only the partial changes to the DOM.
             while (childrenChange.next()) {
                 List<? extends Node> removed = childrenChange.getRemoved();
@@ -347,9 +338,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 }
                 // When children have been added to the scene graph, we add their associated elements to the DOM
                 if (!addedSubList.isEmpty()) {
-                    // Getting the associated elements we will need to add into the DOM
+                    // Getting the associated elements that we will need to add into the DOM
                     List<Element> childElementsToAdd = toChildElements(addedSubList, null);
-                    // Getting the index of the node this is now just after these added nodes (changes have already being applied in fxChildren)
+                    // Getting the index of the node which is now just after these added nodes (changes have already been applied in fxChildren)
                     int fxNodeAfterAddedIndex = childrenChange.getTo();
                     // Case when the nodes have been appended at the end => we need to append the elements to the DOM too
                     if (fxNodeAfterAddedIndex >= fxChildren.size()) {
@@ -376,7 +367,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         // TextFlow special case
         if (node.getParent() instanceof TextFlow && element instanceof HTMLElement) {
             HTMLElement htmlElement = (HTMLElement) element;
-            htmlElement.style.whiteSpace = "normal"; // white space are allowed
+            htmlElement.style.whiteSpace = "normal"; // white spaces are allowed
             htmlElement.style.lineHeight = null; // and line height is default (not 100%)
         }
         return element;
@@ -389,7 +380,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
             HTMLElement htmlElement = (HTMLElement) htmlNodePeer.getVisibleContainer();
             HtmlUtil.absolutePosition(htmlElement);
             CSSStyleDeclaration style = htmlElement.style;
-            // Positioned to left top corner by default
+            // Positioned to the left-top corner by default
             style.left = "0px";
             style.top = "0px";
             if (htmlNodePeer instanceof NormalWhiteSpacePeer)
@@ -399,21 +390,75 @@ public final class HtmlScenePeer extends ScenePeerBase {
         }
     }
 
-    public static void installKeyboardListeners(Scene scene) {
-        registerKeyboardListener("keydown", scene);
-        registerKeyboardListener("keyup", scene);
+
+    private void installFocusListeners() {
+        // The purpose here is to map any HTML focus change back to JavaFX.
+        // So when the HTML element gains focus, we set its associated JavaFX node as the focus owner of the scene.
+        sceneHtmlElement.addEventListener("focusin", e -> {
+            if (e.target instanceof Element target) {
+                NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(target, true);
+                if (peer instanceof HtmlSvgNodePeer<?,?,?,?> htmlSvgNodePeer) {
+                    if (ENABLE_DEBUG_FOCUS_LOGS)
+                        Console.log("[Scene-" + sceneNumber + "] " + (htmlSvgNodePeer.isJavaFxFocusOwner() ? "🟢🟢🟢🟢🟢" : "🟠🟠🟠🟠🟠") + " focusin node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
+                    htmlSvgNodePeer.setJavaFxFocusOwner();
+                }
+            }
+        }, true);
+
+        // When it loses focus, it's often because another HTML element gained focus (so onfocus will be called on
+        // that new element and this will update the focus owner in JavaFX). However, if this doesn't happen for any
+        // reason, it's better to keep the JavaFX focus state synced with HTML by setting it to null.
+        sceneHtmlElement.addEventListener("focusout", e -> {
+            // We defer the code to check if the focus was moved to another target (most probably case).
+            UiScheduler.scheduleDeferred(() -> {
+                // But if that focus change didn't happen (this node is still the focus owner for JavaFX), then we
+                // reset the JavaFX focus state.
+                if (e.target instanceof Element target) {
+                    NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(target, false);
+                    if (peer instanceof HtmlSvgNodePeer<?,?,?,?> htmlSvgNodePeer) {
+                        NodePeer<?> focusinNodePeer = HtmlSvgNodePeer.getPeerFromElementOrParents(document.activeElement, false);
+                        if (focusinNodePeer == null) {
+                            if (ENABLE_DEBUG_FOCUS_LOGS)
+                                Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to a non-webfx node (maybe in an iFrame), focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
+                        } else if (focusinNodePeer.getNode().getScene() != scene) {
+                            if (ENABLE_DEBUG_FOCUS_LOGS)
+                                Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to another scene, focusin node = " + focusinNodePeer.getNode() + ", focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
+                        } else {
+                            // If the focus is gained inside a seamless div (which may contain a payment gateway asking
+                            // for CC details, for example), we don't try to reestablish the JavaFX focus node.
+                            boolean seamlessDiv = focusinNodePeer.getNode().getProperties().containsKey("webfx-htmlTag");
+                            if (seamlessDiv) {
+                                if (ENABLE_DEBUG_FOCUS_LOGS)
+                                    Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to a seamless node, focusin node = " + focusinNodePeer.getNode() + ", focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
+                            } else {
+                                boolean javaFxFocusOwner = htmlSvgNodePeer.isJavaFxFocusOwner();
+                                if (ENABLE_DEBUG_FOCUS_LOGS)
+                                    Console.log("[Scene-" + sceneNumber + "] " + (javaFxFocusOwner ? "🔴🔴🔴🔴🔴" : "🔵🔵🔵🔵🔵") + " focusin node = " + focusinNodePeer.getNode() + ", focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
+                                if (javaFxFocusOwner)
+                                    htmlSvgNodePeer.requestFocus();
+                            }
+                        }
+                    }
+                }
+            });
+        }, true);
     }
 
-    private static void registerKeyboardListener(String type, Scene scene) {
-        document.addEventListener(type, e -> {
+    private void installKeyboardListeners() {
+        registerKeyboardListener("keydown");
+        registerKeyboardListener("keyup");
+    }
+
+    private void registerKeyboardListener(String type) {
+        sceneHtmlElement.addEventListener(type, e -> {
             Node focusOwner = scene.getFocusOwner();
             // Resetting the focus owner to scene initial when it's not valid, so in the following cases:
-            if (focusOwner == null // 1) No focus set yet
+            /*if (focusOwner == null // 1) No focus set yet
                 || focusOwner.getScene() != scene // 2) focus doesn't match the scene (probably removed from the scene)
-                || !focusOwner.impl_isTreeVisible()) { // 3) the focus is not visible in the scene graph (works also as a workaround when scene is not reset to null by WebFX)
+                || !focusOwner.impl_isTreeVisible()) { // 3) the focus is not visible in the scene graph (works also as a workaround when the scene is not reset to null by WebFX)
                 scene.focusInitial();
                 focusOwner = scene.getFocusOwner();
-            }
+            }*/
             javafx.event.EventTarget fxTarget = focusOwner != null ? focusOwner : scene;
             UserInteraction.setUserInteracting(true);
             boolean fxConsumed = passHtmlKeyEventOnToFx((KeyboardEvent) e, type, fxTarget);
@@ -564,7 +609,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
         return svgRoot;
     }
 
-    // Utility method to help mapping observable lists
+    // Utility method to help map observable lists
 
     private static <T> void mapObservableList(ObservableList<T> ol, Consumer<List<? extends T>> adder, Consumer<List<? extends T>> remover) {
         adder.accept(ol);

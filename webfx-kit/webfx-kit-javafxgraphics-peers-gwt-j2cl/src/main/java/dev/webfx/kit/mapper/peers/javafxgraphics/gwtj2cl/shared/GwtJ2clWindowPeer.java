@@ -80,7 +80,7 @@ public class GwtJ2clWindowPeer extends WindowPeerBase {
 
     @Override
     public void onSceneRootChanged() {
-        setWindowContent(((HtmlScenePeer) getWindow().getScene().impl_getPeer()).getSceneNode());
+        setWindowContent(((HtmlScenePeer) getWindow().getScene().impl_getPeer()).getSceneHtmlElement());
     }
 
     private void setWindowContent(elemental2.dom.Node content) {

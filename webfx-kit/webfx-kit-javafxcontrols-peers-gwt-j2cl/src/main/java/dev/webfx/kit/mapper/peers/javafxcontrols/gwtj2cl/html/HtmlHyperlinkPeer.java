@@ -1,5 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
+import dev.webfx.kit.util.aria.AriaRole;
 import elemental2.dom.HTMLElement;
 import javafx.scene.control.Hyperlink;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ButtonBasePeerBase;
@@ -24,4 +25,8 @@ public final class HtmlHyperlinkPeer
         super(base, element);
     }
 
+    @Override
+    protected AriaRole getAriaRoleDefault() {
+        return AriaRole.LINK;
+    }
 }

@@ -112,10 +112,6 @@ public final class FXProperties {
         return combinedProperty;
     }
 
-    public static <T, R> ObservableValue<R> computeDeferred(ObservableValue<? extends T> p, Function<? super T, ? extends R> function) {
-        return compute(deferredProperty(p), function);
-    }
-
     public static <T1, T2, R> ObservableValue<R> combine(ObservableValue<? extends T1> p1, ObservableValue<? extends T2> p2, BiFunction<? super T1, ? super T2, ? extends R> combineFunction) {
         Property<R> combinedProperty = new SimpleObjectProperty<>();
         runNowAndOnPropertiesChange(arg -> combinedProperty.setValue(combineFunction.apply(p1.getValue(), p2.getValue())), p1, p2);
@@ -153,16 +149,28 @@ public final class FXProperties {
     }
 
     public static <T> void onPropertySet(ObservableValue<T> property, Consumer<T> valueConsumer, boolean callIfNullProperty) {
+        onPropertyChecks(property, Objects::nonNull, valueConsumer, callIfNullProperty);
+    }
+
+    public static <T> void onPropertyEquals(ObservableValue<T> property, T value, Consumer<T> valueConsumer) {
+        onPropertyChecks(property, v -> Objects.equals(v, value), valueConsumer, false);
+    }
+
+    public static <T> void onPropertyChecks(ObservableValue<T> property, Predicate<T> predicate, Consumer<T> valueConsumer) {
+        onPropertyChecks(property, predicate, valueConsumer, false);
+    }
+
+    public static <T> void onPropertyChecks(ObservableValue<T> property, Predicate<T> predicate, Consumer<T> valueConsumer, boolean callIfNullProperty) {
         if (property == null) {
             if (callIfNullProperty)
                 valueConsumer.accept(null);
         } else {
             T value = property.getValue();
-            if (value != null)
+            if (predicate.test(value))
                 valueConsumer.accept(value);
             else
                 runOrUnregisterOnPropertyChange((thisListener, oldValue, newValue) -> {
-                    if (newValue != null) {
+                    if (predicate.test(newValue)) {
                         thisListener.unregister();
                         valueConsumer.accept(newValue);
                     }
@@ -171,7 +179,7 @@ public final class FXProperties {
     }
 
     public static <A, B> void bindConverted(Property<A> pA, ObservableValue<B> pB, Function<B, A> baConverter) {
-        pA.bind(compute(pB, baConverter));
+        pA.bind(pB.map(baConverter));
     }
 
     public static <A, B> void bindConvertedBidirectional(Property<A> pA, Property<B> pB, Function<B, A> baConverter, Function<A, B> abConverter) {

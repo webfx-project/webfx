@@ -102,7 +102,7 @@ public abstract class TextInputControl extends Control implements
     }
 
     {
-        // Although the key events are entirely managed by the html peer, we consume them in JavaFX to not propagate
+        // Although the HTML peer entirely manages the key events, we consume them in JavaFX to not propagate
         // these events to further JavaFX controls.
         addEventHandler(KeyEvent.ANY, e -> {
             if (isFocused()) {

@@ -1,26 +1,61 @@
 :root {
+    /* Capturing safe area in CSS variables so they can be accessed by WebFX kit */
     --safe-area-inset-top:    env(safe-area-inset-top);
     --safe-area-inset-right:  env(safe-area-inset-right);
     --safe-area-inset-bottom: env(safe-area-inset-bottom);
     --safe-area-inset-left:   env(safe-area-inset-left);
-    --fx-border-color: #c0c0c0;
-    --fx-border-radius: 5px;
-    --fx-border-style: solid;
-    --fx-border-width: 1px;
-    --fx-border-color-focus: #0096D6;
-    --fx-svg-path-fill: black;
+
+    /* Text selection mode */
+    --text-user-select: text; /* for texts */
+    --body-user-select: none; /* for everything else */
+
+    /* CSS variables for backgrounds (in JavaFX Region) */
+    --fx-background-color: transparent;
+    --fx-background-image: none;
+    --fx-background-position: none;
+    --fx-background-repeat: none;
+    --fx-background-size: none;
+    --fx-background-radius: var(--fx-border-radius);
+
+    /* CSS variables for borders (in JavaFX Region) */
+    --fx-border-style: none;
+    --fx-border-color: transparent;
+    --fx-border-width: 0;
+    --fx-border-radius: 0;
+
+    /* CSS variables for text fill and svg path fill */
+    --fx-text-fill: black;
+    --fx-svg-path-fill: var(--fx-text-fill);
+
+    /* CSS variable for focus appearance */
+    --fx-focus-color: #0096D6;
+    --fx-background-color-focus: unset;
+    --fx-border-style-focus: dashed;
+    --fx-border-color-focus: var(--fx-focus-color);
+    --fx-border-width-focus: 1px;
+    --fx-text-fill-focus: unset;
 }
 
 /* Mocking some basic JavaFX behaviours */
 body {
     overflow: hidden; /* Disabling browser horizontal and vertical scroll bars */
     margin: 0; /* Removing the default margin around the body */
-    /* Disabling user selection by default */
+    /* Disabling user selection by default (like in JavaFX) but enabling selection on text (as opposed to JavaFX - see fx-text CSS rule)  */
+    -webkit-user-select: var(--body-user-select);
+    -moz-user-select: var(--body-user-select);
+    -ms-user-select: var(--body-user-select);
+    user-select: var(--body-user-select);
     -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+}
+
+fx-scene { /* main stage scene or popup scenes */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+body > fx-scene { /* main stage scene only */
+    height: 100dvh;
 }
 
 /* Making disabled nodes semi-transparent */
@@ -28,14 +63,69 @@ body {
     opacity: 50%;
 }
 
-.fx-border > fx-border {
-    border-color: var(--fx-border-color);
+/* Disabling default focus outline (focus appearance will be set by other rules in this CSS or javafx-controls CSS) */
+:focus,
+:focus-visible {
+    outline: none;
+}
+
+fx-background {
+    background-color: var(--fx-background-color);
+    border-radius: var(--fx-background-radius);
+    background-image: var(--fx-background-image);
+    background-position: var(--fx-background-position);
+    background-repeat: var(--fx-background-repeat);
+    background-size: var(--fx-background-size);
+}
+
+:focus > fx-background, :focus-visible > fx-background {
+    background-color: var(--fx-background-color-focus, var(--fx-background-color));
+}
+
+fx-border {
     border-style: var(--fx-border-style);
+    border-color: var(--fx-border-color);
     border-width: var(--fx-border-width);
     border-radius: var(--fx-border-radius);
 }
 
-/* Applying the default JavaFX behaviour for SVGPath */
+:focus > fx-border, :focus-visible > fx-border {
+    --fx-border-style: var(--fx-border-style-focus);
+    --fx-border-color: var(--fx-border-color-focus);
+    --fx-border-width: var(--fx-border-width-focus);
+}
+
+fx-children { /* Stopping propagation of background and border CSS variables to children */
+    --fx-background-color: transparent;
+    --fx-background-radius: var(--fx-border-radius);
+    --fx-background-image: none;
+    --fx-background-position: none;
+    --fx-background-repeat: none;
+    --fx-background-size: none;
+    --fx-border-style: none;
+    --fx-border-color: none;
+    --fx-border-radius: 0;
+    --fx-border-width: 0;
+}
+
+/* The default JavaFX behaviour for Text wrapping is equivalent to HTML "break-word", which is not the default in HTML
+   (the default in HTML being "normal"). So we apply "break-word". */
+fx-text {
+    color: var(--fx-text-fill);
+    word-break: break-word;
+    overflow-wrap: break-word; /* fallback for better browser support */
+    /* Also enabling selection on text (as opposed to JavaFX, but it's expected by most web users) */
+    -webkit-user-select: var(--text-user-select);
+    -moz-user-select: var(--text-user-select);
+    -ms-user-select: var(--text-user-select);
+    user-select: var(--text-user-select);
+}
+
+:focus fx-text, :focus-visible fx-text {
+    color: var(--fx-text-fill-focus, var(--fx-text-fill));
+}
+
+/* Applying the default JavaFX behaviour for SVGPath - Note that CSS fill is prioritized over SVG fill! */
 fx-svgpath svg path:not([fill]):not([stroke]) { /* if the application code didn't set neither fill nor stroke */
     fill: var(--fx-svg-path-fill);  /* then the fill is black */
 }

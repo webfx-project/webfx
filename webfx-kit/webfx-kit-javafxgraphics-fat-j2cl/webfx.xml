@@ -111,6 +111,11 @@
                                         <artifactId>webfx-kit-util</artifactId>
                                         <version>${webfx.version}</version>
                                     </artifactItem>
+                                    <artifactItem>
+                                        <groupId>dev.webfx</groupId>
+                                        <artifactId>webfx-kit-util-aria</artifactId>
+                                        <version>${webfx.version}</version>
+                                    </artifactItem>
                                 </artifactItems>
                                 <includes>**/*.java</includes>
                                 <excludes>**/module-info.java</excludes>

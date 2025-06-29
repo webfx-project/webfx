@@ -17,7 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
-import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -108,8 +107,8 @@ public abstract class PopupWindow extends Window {
         //scene.setFill(null);
         super.setScene(scene);
 
-/*
         popupRoot.layoutBoundsProperty().addListener(popupWindowUpdater);
+/*
         popupRoot.boundsInLocalProperty().addListener(popupWindowUpdater);
         scene.rootProperty().addListener(
                 new InvalidationListener() {
@@ -407,7 +406,7 @@ public abstract class PopupWindow extends Window {
             owner.showingProperty().addListener(weakOwnerNodeListener);
         }
 
-        final Scene sceneValue = getScene();
+        //final Scene sceneValue = getScene();
         //SceneHelper.parentEffectiveOrientationInvalidated(sceneValue);
 
         // RT-28447
@@ -462,7 +461,7 @@ public abstract class PopupWindow extends Window {
         //Toolkit toolkit = Toolkit.getToolkit();
         if (visible && (impl_peer == null)) {
             // Setup the peer
-            StageStyle popupStyle = StageStyle.TRANSPARENT;
+            //StageStyle popupStyle = StageStyle.TRANSPARENT;
 /*
             try {
                 final SecurityManager securityManager =
@@ -480,7 +479,7 @@ public abstract class PopupWindow extends Window {
         }
     }
 
-    private Window rootWindow;
+    //private Window rootWindow;
 
     /**
      * @treatAsPrivate implementation detail
@@ -492,7 +491,7 @@ public abstract class PopupWindow extends Window {
 
         final Window ownerWindowValue = getOwnerWindow();
         if (visible) {
-            rootWindow = getRootWindow(ownerWindowValue);
+            //rootWindow = getRootWindow(ownerWindowValue);
 
             startMonitorOwnerEvents(ownerWindowValue);
             // currently we consider popup window to be focused when it is
@@ -510,7 +509,7 @@ public abstract class PopupWindow extends Window {
             setFocused(false);
             //handleAutofixActivation(false, isAutoFix());
             handleAutohideActivation(false, isAutoHide());
-            rootWindow = null;
+            //rootWindow = null;
         }
 
         //PerformanceTracker.logEvent("PopupWindow.storeVisible for [PopupWindow] finished");
@@ -694,7 +693,7 @@ public abstract class PopupWindow extends Window {
     private void updateWindow(final double newAnchorX,
                               final double newAnchorY) {
         final AnchorLocation anchorLocationValue = getAnchorLocation();
-        final Parent rootNode = getScene().getRoot();
+        //final Parent rootNode = getScene().getRoot();
         final Bounds extendedBounds = getExtendedBounds();
         final Bounds anchorBounds = getAnchorBounds();
 
@@ -776,14 +775,14 @@ public abstract class PopupWindow extends Window {
         anchorY.setValue(anchorScrMinY + anchorDeltaY);
     }
 
-    private Bounds union(final Bounds bounds1, final Bounds bounds2) {
+    /*private Bounds union(final Bounds bounds1, final Bounds bounds2) {
         final double minX = Math.min(bounds1.getMinX(), bounds2.getMinX());
         final double minY = Math.min(bounds1.getMinY(), bounds2.getMinY());
         final double maxX = Math.max(bounds1.getMaxX(), bounds2.getMaxX());
         final double maxY = Math.max(bounds1.getMaxY(), bounds2.getMaxY());
 
         return new BoundingBox(minX, minY, maxX - minX, maxY - minY);
-    }
+    }*/
 
     private double windowToAnchorX(final double windowX) {
         final Bounds anchorBounds = getAnchorBounds();

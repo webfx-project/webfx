@@ -1,25 +1,58 @@
+/*
+ * Copyright (c) 2014, 2022, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
 package javafx.scene.control.skin;
 
+import com.sun.javafx.scene.control.Properties;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.ObjectProperty;
-import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonBar.ButtonData;
-import com.sun.javafx.scene.control.behavior.BehaviorBase;
-import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
+import javafx.scene.control.Control;
+import javafx.scene.control.SkinBase;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<ButtonBar>> {
+/**
+ * Default skin implementation for the {@link ButtonBar} control.
+ *
+ * @see ButtonBar
+ * @since 9
+ */
+public class ButtonBarSkin extends SkinBase<ButtonBar> {
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Static fields
      *
@@ -29,40 +62,38 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
 
     private static final String CATEGORIZED_TYPES = "LRHEYNXBIACO"; //$NON-NLS-1$
 
-    // represented as a ButtonData
-    public static final String BUTTON_DATA_PROPERTY  = "javafx.scene.control.ButtonBar.ButtonData"; //$NON-NLS-1$
-
-    // allows to exclude button from uniform resizing
-    public static final String BUTTON_SIZE_INDEPENDENCE = "javafx.scene.control.ButtonBar.independentSize"; //$NON-NLS-1$
-
     // pick an arbitrary number
     private static final double DO_NOT_CHANGE_SIZE = Double.MAX_VALUE - 100;
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * fields
      *
      **************************************************************************/
 
     private HBox layout;
-
     private InvalidationListener buttonDataListener = o -> layoutButtons();
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Constructors
      *
      **************************************************************************/
 
+    /**
+     * Creates a new ButtonBarSkin instance, installing the necessary child
+     * nodes into the Control {@link Control#getChildren() children} list.
+     *
+     * @param control The control that this skin should be installed onto.
+     */
     public ButtonBarSkin(final ButtonBar control) {
-        super(control, new BehaviorBase<>(control, Collections.emptyList()));
+        super(control);
 
         this.layout = new HBox(GAP_SIZE) {
-            @Override
-            protected void layoutChildren() {
+            @Override protected void layoutChildren() {
                 // has to be called first or layout is not correct sometimes
                 resizeButtons();
                 super.layoutChildren();
@@ -74,8 +105,10 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
 
         layoutButtons();
 
+        //ListenerHelper lh = ListenerHelper.get(this);
+
         updateButtonListeners(control.getButtons(), true);
-        control.getButtons().addListener((ListChangeListener<Node>) c -> {
+        /*lh.addListChangeListener(control.getButtons(), (c) -> {
             while (c.next()) {
                 updateButtonListeners(c.getRemoved(), false);
                 updateButtonListeners(c.getAddedSubList(), true);
@@ -83,16 +116,36 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             layoutButtons();
         });
 
-        registerChangeListener(control.buttonOrderProperty(), "BUTTON_ORDER"); //$NON-NLS-1$
-        registerChangeListener(control.buttonMinWidthProperty(), "BUTTON_MIN_WIDTH"); //$NON-NLS-1$
+        lh.addChangeListener(control.buttonOrderProperty(), (ev) -> layoutButtons());
+        lh.addChangeListener(control.buttonMinWidthProperty(), (ev) -> resizeButtons());*/
+    }
+
+
+
+    /* ************************************************************************
+     *
+     * Implementation
+     *
+     **************************************************************************/
+
+    @Override
+    public void dispose() {
+        if (getSkinnable() == null) {
+            return;
+        }
+
+        updateButtonListeners(getSkinnable().getButtons(), false);
+        getChildren().remove(layout);
+
+        super.dispose();
     }
 
     private void updateButtonListeners(List<? extends Node> list, boolean buttonsAdded) {
         if (list != null) {
             for (Node n : list) {
                 final Map<Object, Object> properties = n.getProperties();
-                if (properties.containsKey(ButtonBarSkin.BUTTON_DATA_PROPERTY)) {
-                    ObjectProperty<ButtonData> property = (ObjectProperty<ButtonData>) properties.get(ButtonBarSkin.BUTTON_DATA_PROPERTY);
+                if (properties.containsKey(Properties.BUTTON_DATA_PROPERTY)) {
+                    ObjectProperty<ButtonData> property = (ObjectProperty<ButtonData>) properties.get(Properties.BUTTON_DATA_PROPERTY);
                     if (property != null) {
                         if (buttonsAdded) {
                             property.addListener(buttonDataListener);
@@ -104,32 +157,6 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             }
         }
     }
-
-
-    /**************************************************************************
-     *
-     * Overriding public API
-     *
-     **************************************************************************/
-
-    @Override protected void handleControlPropertyChanged(String p) {
-        super.handleControlPropertyChanged(p);
-
-        if ("BUTTON_ORDER".equals(p)) { //$NON-NLS-1$
-            layoutButtons();
-        } else if ("BUTTON_MIN_WIDTH".equals(p)) { //$NON-NLS-1$
-//            layoutButtons();
-            resizeButtons();
-        }
-    }
-
-
-
-    /**************************************************************************
-     *
-     * Implementation
-     *
-     **************************************************************************/
 
     private void layoutButtons() {
         final ButtonBar buttonBar = getSkinnable();
@@ -145,7 +172,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             throw new IllegalStateException("ButtonBar buttonOrder string can not be null"); //$NON-NLS-1$
         }
 
-        if (buttonOrder == ButtonBar.BUTTON_ORDER_NONE) {
+        if (buttonOrder.equals(ButtonBar.BUTTON_ORDER_NONE)) {
             // when using BUTTON_ORDER_NONE, we just lay out the buttons in the
             // order they are specified, but we do right-align the buttons by
             // inserting a dynamic spacer.
@@ -210,7 +237,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             Node btn = buttons.get(i);
 
             if (btn instanceof Button && ((Button) btn).isDefaultButton()) {
-                //btn.requestFocus();
+                btn.requestFocus();
                 isDefaultSet = true;
                 break;
             }
@@ -221,7 +248,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
                 ButtonData btnData = ButtonBar.getButtonData(btn);
 
                 if (btnData != null && btnData.isDefaultButton()) {
-                    //btn.requestFocus();
+                    btn.requestFocus();
                     isDefaultSet = true;
                     break;
                 }
@@ -286,7 +313,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             String type =  getButtonType(btn);
             List<Node> typedButtons = buttonMap.get(type);
             if ( typedButtons == null ) {
-                typedButtons = new ArrayList<Node>();
+                typedButtons = new ArrayList<>();
                 buttonMap.put(type, typedButtons);
             }
             typedButtons.add( btn );
@@ -296,7 +323,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
 
 
 
-    /**************************************************************************
+    /* ************************************************************************
      *
      * Support classes / enums
      *

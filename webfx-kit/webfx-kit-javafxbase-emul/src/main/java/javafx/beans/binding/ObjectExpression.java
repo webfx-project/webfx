@@ -1,36 +1,34 @@
 /*
- * Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * Copyright (c) 2010, 2022, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
  *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
  *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
  */
 
 package javafx.beans.binding;
 
-
 import javafx.beans.value.ObservableObjectValue;
 
-
 /**
- * A {@code ObjectExpression} is a
+ * {@code ObjectExpression} is an
  * {@link javafx.beans.value.ObservableObjectValue} plus additional convenience
  * methods to generate bindings in a fluent style.
  * <p>
@@ -44,6 +42,12 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
     @Override
     public T getValue() {
         return get();
+    }
+
+    /**
+     * Creates a default {@code ObjectExpression}.
+     */
+    public ObjectExpression() {
     }
 
     /**
@@ -62,7 +66,33 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      * @throws NullPointerException
      *             if {@code value} is {@code null}
      */
-    // removed
+    /*public static <T> ObjectExpression<T> objectExpression(
+            final ObservableObjectValue<T> value) {
+        if (value == null) {
+            throw new NullPointerException("Value must be specified.");
+        }
+        return value instanceof ObjectExpression ? (ObjectExpression<T>) value
+                : new ObjectBinding<>() {
+            {
+                super.bind(value);
+            }
+
+            @Override
+            public void dispose() {
+                super.unbind(value);
+            }
+
+            @Override
+            protected T computeValue() {
+                return value.get();
+            }
+
+            @Override
+            public ObservableList<ObservableObjectValue<T>> getDependencies() {
+                return FXCollections.singletonObservableList(value);
+            }
+        };
+    }*/
 
     /**
      * Creates a new {@code BooleanExpression} that holds {@code true} if this and
@@ -74,7 +104,9 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      * @throws NullPointerException
      *             if {@code other} is {@code null}
      */
-    // removed
+    public BooleanBinding isEqualTo(final ObservableObjectValue<?> other) {
+        return Bindings.equal(this, other);
+    }
 
     /**
      * Creates a new {@code BooleanExpression} that holds {@code true} if this
@@ -84,7 +116,9 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      *            the constant value
      * @return the new {@code BooleanExpression}
      */
-    // removed
+    public BooleanBinding isEqualTo(final Object other) {
+        return Bindings.equal(this, other);
+    }
 
     /**
      * Creates a new {@code BooleanExpression} that holds {@code true} if this and
@@ -96,7 +130,9 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      * @throws NullPointerException
      *             if {@code other} is {@code null}
      */
-    // removed
+    public BooleanBinding isNotEqualTo(final ObservableObjectValue<?> other) {
+        return Bindings.notEqual(this, other);
+    }
 
     /**
      * Creates a new {@code BooleanExpression} that holds {@code true} if this
@@ -106,7 +142,9 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      *            the constant value
      * @return the new {@code BooleanExpression}
      */
-    // removed
+    public BooleanBinding isNotEqualTo(final Object other) {
+        return Bindings.notEqual(this, other);
+    }
 
     /**
      * Creates a new {@link BooleanBinding} that holds {@code true} if this
@@ -114,7 +152,9 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      *
      * @return the new {@code BooleanBinding}
      */
-    // removed
+    public BooleanBinding isNull() {
+        return Bindings.isNull(this);
+    }
 
     /**
      * Creates a new {@link BooleanBinding} that holds {@code true} if this
@@ -122,7 +162,9 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      *
      * @return the new {@code BooleanBinding}
      */
-    // removed
+    public BooleanBinding isNotNull() {
+        return Bindings.isNotNull(this);
+    }
 
     /**
      * Creates a {@link javafx.beans.binding.StringBinding} that holds the value
@@ -133,7 +175,9 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      * @return the new {@code StringBinding}
      * @since JavaFX 8.0
      */
-    // removed
+    /*public StringBinding asString() {
+        return (StringBinding) StringFormatter.convert(this);
+    }*/
 
     /**
      * Creates a {@link javafx.beans.binding.StringBinding} that holds the value
@@ -149,7 +193,9 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      * @return the new {@code StringBinding}
      * @since JavaFX 8.0
      */
-    // removed
+    /*public StringBinding asString(String format) {
+        return (StringBinding) Bindings.format(format, this);
+    }*/
 
     /**
      * Creates a {@link javafx.beans.binding.StringBinding} that holds the value
@@ -168,5 +214,7 @@ public abstract class ObjectExpression<T> implements ObservableObjectValue<T> {
      * @return the new {@code StringBinding}
      * @since JavaFX 8.0
      */
-    // removed
+    /*public StringBinding asString(Locale locale, String format) {
+        return (StringBinding) Bindings.format(locale, format, this);
+    }*/
 }

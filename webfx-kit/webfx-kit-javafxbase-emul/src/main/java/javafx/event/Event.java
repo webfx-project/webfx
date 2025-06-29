@@ -182,26 +182,27 @@ public class Event extends EventObject implements Cloneable {
             throw new NullPointerException("Event must not be null!");
         }
 
+        lastFinalFiredEvent = // WebFX addition: we memorize the last final fired event (reason explained below)
         EventUtil.fireEvent(eventTarget, event);
     }
 
     // WebFX addition:
 
-    // Sometimes, events are managed by the Node peer on its own, but should also be consumed by JavaFX. This is this
+    // Sometimes, events are managed by the Node peer on its own but should also be consumed by JavaFX. This is this
     // special case that we are handling here.
 
-    // For example, a TextInputControl can be mapped to a <input> HTML element, and this element can consume and handle
+    // For example, a TextInputControl can be mapped to a <input> HTML element. This element can consume and handle
     // the key events on its own (text typing, arrow navigation, etc...), but in general in WebFX, all events are first
     // passed to JavaFX, and it's only if no JavaFX handler consumed the event, that they are passed back to the browser
     // event handling (and eventually in this way to the peer). So we could think that the solution to guarantee the
     // event propagation to the peer would be to just not consume the key events in TextInputControl. However, this may
-    // not always work, because if the TextInputControl is inside a TabPane for example, then the TabPane will consume
-    // some key events like the arrow keys to handle the keyboard tabs navigation, and therefore these key events
-    // consumed by TabPane won't be passed to the peer (so the user won't be able to navigate using the arrow keys in
-    // the <input> element). To fix this issue, the TextInputControl actually must consume the key events (like it would
-    // do in OpenJFX), to stop their propagation to the TabPane. This is actually done in TextInputControlBehavior, but
-    // then we have the issue that the default WebFX behaviour is to not pass the key events back to the browser (and
-    // therefore to the peer). So we need to bypass that default behaviour in that case, and ask WebFX to pass the event
+    // not always work. If the TextInputControl is inside a TabPane, for example, then the TabPane will consume some
+    // key events like the arrow keys to handle the keyboard tabs navigation. Therefore, these key events consumed by
+    // TabPane won't be passed to the peer (so the user won't be able to navigate using the arrow keys in the <input>
+    // element). To fix this issue, the TextInputControl actually must consume the key events (like it would do in
+    // OpenJFX) to stop their propagation to the TabPane. This is actually done in TextInputControlBehavior, but then
+    // we have the issue that the default WebFX behavior is to not pass the key events back to the browser (and
+    // therefore to the peer). So we need to bypass that default behavior in that case and ask WebFX to pass the event
     // back to the browser even if it has been consumed by JavaFX. This is the purpose of the propagateToPeerEvent field.
     private static Event propagateToPeerEvent;
 
@@ -211,9 +212,11 @@ public class Event extends EventObject implements Cloneable {
         Event.propagateToPeerEvent = propagateToPeerEvent;
     }
 
-    // The getter will be used by WebFX to check this request.
+    // WebFX will use the getter to check this request.
     public static Event getPropagateToPeerEvent() {
         return propagateToPeerEvent;
     }
+
+    public static Event lastFinalFiredEvent;
 
 }

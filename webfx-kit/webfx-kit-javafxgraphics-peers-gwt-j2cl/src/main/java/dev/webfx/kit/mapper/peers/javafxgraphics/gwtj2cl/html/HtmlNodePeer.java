@@ -1,16 +1,20 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 
+import dev.webfx.kit.util.aria.AriaRole;
+import dev.webfx.kit.util.aria.AriaSelectedAttribute;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRoot;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlTransforms;
+import dev.webfx.platform.util.Booleans;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
+import javafx.collections.ObservableMap;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -41,6 +45,95 @@ public abstract class HtmlNodePeer
     @Override
     protected SvgRoot getSvgRoot() {
         return getScenePeer().getSvgRoot();
+    }
+
+    @Override
+    protected void onNodePropertiesChanged(ObservableMap<Object, Object> nodeProperties) {
+        updateAriaAttributes(nodeProperties);
+    }
+
+    private void updateAriaAttributes(ObservableMap<Object, Object> nodeProperties) {
+        AriaRole ariaRole = getAriaRole(nodeProperties);
+        setElementAttribute("role", Strings.toString(ariaRole));
+        setElementAttribute("aria-label", Strings.toString(nodeProperties.get("aria-label")));
+        setElementAttribute("aria-expanded", Strings.toString(nodeProperties.get("aria-expanded")));
+        setElementAttribute("aria-readonly", Strings.toString(nodeProperties.get("aria-readonly")));
+        setElementAttribute("aria-required", Strings.toString(nodeProperties.get("aria-required")));
+        setElementAttribute("aria-invalid", Strings.toString(nodeProperties.get("aria-invalid")));
+        updateAriaHidden(nodeProperties);
+        updateAriaDisabled(nodeProperties);
+        updateAriaSelectedAndTabindex(nodeProperties);
+    }
+
+    private AriaRole getAriaRole(ObservableMap<Object, Object> nodeProperties) {
+        Object ariaRole = nodeProperties.get("aria-role");
+        if (ariaRole instanceof AriaRole)
+            return (AriaRole) ariaRole;
+        return getAriaRoleDefault();
+    }
+
+    protected AriaRole getAriaRoleDefault() {
+        return null;
+    }
+
+    protected Boolean isAriaSelectedDefault() {
+        return null;
+    }
+
+    protected void updateAriaSelectedAndTabindex(ObservableMap<Object, Object> nodeProperties) {
+        updateAriaSelectedAndTabindex(nodeProperties, getAriaRole(nodeProperties));
+    }
+
+    private void updateAriaSelectedAndTabindex(ObservableMap<Object, Object> nodeProperties, AriaRole ariaRole) {
+        Object as = nodeProperties.get("aria-selected");
+        Boolean ariaSelected = as instanceof Boolean ? (Boolean) as : isAriaSelectedDefault();
+        Object asa = nodeProperties.get("aria-selected-attribute");
+        AriaSelectedAttribute ariaSelectedAttribute;
+        if (asa instanceof AriaSelectedAttribute)
+            ariaSelectedAttribute = (AriaSelectedAttribute) asa;
+        else
+            ariaSelectedAttribute = getAriaSelectedAttributeDefault(nodeProperties);
+        if (ariaSelectedAttribute != null)
+            setElementAttribute(ariaSelectedAttribute.getAttributeName(), Strings.toString(ariaSelected));
+        // The tabIndex is necessary only for focusable nodes
+        if (getNode().isFocusTraversable()) {
+            // If the node is not selectable (i.e., if ariaSelected == null), or if it is selectable but not selected,
+            // we set tabIndex to -1, otherwise we set tabIndex to 0.
+            setElementAttribute("tabindex", Booleans.isNotTrue(ariaSelected) ? "-1" : "0");
+        }
+    }
+
+    protected AriaSelectedAttribute getAriaSelectedAttributeDefault(ObservableMap<Object, Object> nodeProperties) {
+        AriaRole ariaRole = getAriaRole(nodeProperties);
+        if (ariaRole != null)
+            return ariaRole.getSelectedAttribute();
+        return null;
+    }
+
+    protected void updateAriaHidden(ObservableMap<Object, Object> nodeProperties) {
+        Object value = nodeProperties.get("aria-hidden");
+        if (value == null)
+            value = getNode().isVisible() ? null : "true";
+        setElementAttribute("aria-hidden", Strings.toString(value));
+    }
+
+    protected void updateAriaDisabled(ObservableMap<Object, Object> nodeProperties) {
+        Object value = nodeProperties.get("aria-disabled");
+        if (value == null)
+            value = getNode().isDisabled() ? "true" : null;
+        setElementAttribute("aria-disabled", Strings.toString(value));
+    }
+
+    @Override
+    public void updateVisible(Boolean visible) {
+        super.updateVisible(visible);
+        updateAriaHidden(getNodeProperties());
+    }
+
+    @Override
+    public void updateDisabled(Boolean disabled) {
+        super.updateDisabled(disabled);
+        updateAriaDisabled(getNodeProperties());
     }
 
     @Override
@@ -101,7 +194,7 @@ public abstract class HtmlNodePeer
         if (effect instanceof GaussianBlur)
             return "blur(" + ((GaussianBlur) effect).getSigma() + "px)";
         if (effect instanceof BoxBlur)
-            // Not supported by browser so doing a gaussian blur instead
+            // Not supported by browser, so doing a gaussian blur instead
             return "blur(" + GaussianBlur.getSigma(((BoxBlur) effect).getWidth()) + "px)";
         if (effect instanceof DropShadow) {
             DropShadow dropShadow = (DropShadow) effect;

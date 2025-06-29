@@ -1,13 +1,12 @@
 package javafx.scene.control;
 
-import javafx.scene.control.skin.HyperlinkSkin;
+import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.paint.Color;
-import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
+import javafx.scene.control.skin.HyperlinkSkin;
 
 /**
  * <p>An HTML like label which can be a graphic and/or text which responds to rollovers and clicks.
@@ -21,10 +20,6 @@ import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
  * @since JavaFX 2.0
  */
 public class Hyperlink extends ButtonBase {
-
-    {
-        setTextFill(Color.web("0x0096c9ff")); // Resulting color used by default in JavaFX
-    }
 
     /***************************************************************************
      *                                                                         *

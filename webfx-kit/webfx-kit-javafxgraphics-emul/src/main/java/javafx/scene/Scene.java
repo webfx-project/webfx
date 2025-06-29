@@ -4,6 +4,10 @@ import com.sun.javafx.collections.SourceAdapterChange;
 import com.sun.javafx.event.EventQueue;
 import com.sun.javafx.scene.SceneEventDispatcher;
 import com.sun.javafx.scene.input.InputEventUtils;
+import com.sun.javafx.scene.traversal.Direction;
+import com.sun.javafx.scene.traversal.SceneTraversalEngine;
+import com.sun.javafx.scene.traversal.TopMostTraversalEngine;
+import com.sun.javafx.scene.traversal.TraversalMethod;
 import com.sun.javafx.tk.TKPulseListener;
 import com.sun.javafx.tk.TKSceneListener;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
@@ -450,7 +454,7 @@ public class Scene implements EventTarget,
     void requestFocus(Node node) {
         //getKeyHandler().requestFocus(node); // No KeyHandler emulated, so was inlined below:
         if (getFocusOwner() == node || (node != null && !node.isCanReceiveFocus())) {
-            // Retrying a second time later in case the reason the focus is refused is because it is not tree visible whereas it is but the peer is not yet added to the dom
+            // Retrying a second time later in case the reason the focus is refused is that it is not tree-visible whereas it is but the peer is not yet added to the dom
             if (retryingRequestFocusNode != node) {
                 retryingRequestFocusNode = node;
                 Platform.runLater(() -> requestFocus(node));
@@ -773,8 +777,9 @@ public class Scene implements EventTarget,
     }
 
     public void startPulse() {
-        if (pulseScheduled == null)
+        if (pulseScheduled == null) {
             pulseScheduled = UiScheduler.schedulePeriodicInAnimationFrame(scenePulseListener::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+        }
     }
 
     public void stopPulse() {
@@ -912,6 +917,26 @@ public class Scene implements EventTarget,
 
 
     /**
+     * Set to true if something has happened to the focused node that makes
+     * it no longer eligible to have the focus.
+     *
+     */
+    private boolean focusDirty = true;
+
+    final void setFocusDirty(boolean value) {
+        if (!focusDirty) {
+            //Toolkit.getToolkit().requestNextPulse();
+            UiScheduler.requestNextScenePulse();
+        }
+        focusDirty = value;
+    }
+
+    final boolean isFocusDirty() {
+        return focusDirty;
+    }
+
+
+    /**
      * The scene pulse listener that gets called on toolkit pulses
      */
     ScenePulseListener scenePulseListener = new ScenePulseListener();
@@ -1019,7 +1044,6 @@ public class Scene implements EventTarget,
             inSynchronizer = false;
         }
 */
-
         /**
          * The focus is considered dirty if something happened to
          * the scene graph that may require the focus to be moved.
@@ -1027,7 +1051,6 @@ public class Scene implements EventTarget,
          * become ineligible to have the focus, and (b) where the focus
          * owner is null and a node may have become traversable and eligible.
          */
-/*
         private void focusCleanup() {
             if (Scene.this.isFocusDirty()) {
                 final Node oldOwner = Scene.this.getFocusOwner();
@@ -1038,12 +1061,11 @@ public class Scene implements EventTarget,
                     Scene.this.focusInitial();
                 } else if (!oldOwner.isCanReceiveFocus()) {
                     Scene.this.requestFocus(null);
-                    Scene.this.focusIneligible(oldOwner);
+                    //Scene.this.focusIneligible(oldOwner);
                 }
                 Scene.this.setFocusDirty(false);
             }
         }
-*/
 
         @Override
         public void pulse() {
@@ -1056,9 +1078,9 @@ public class Scene implements EventTarget,
             if (firstPulse) {
                 PerformanceTracker.logEvent("Scene - first repaint");
             }
-
+*/
             focusCleanup();
-
+/*
             disposeAccessibles();
 
             if (PULSE_LOGGING_ENABLED) {
@@ -3028,32 +3050,25 @@ public class Scene implements EventTarget,
                 .setEventHandler(eventType, eventHandler);
     }
 
+    private TopMostTraversalEngine traversalEngine = new SceneTraversalEngine(this);
+
+    /**
+     * Traverses focus from the given node in the given direction.
+     */
+    boolean traverse(Node node, Direction dir, TraversalMethod method) {
+        /*if (node.getSubScene() != null) {
+            return node.getSubScene().traverse(node, dir, method);
+        }*/
+        return traversalEngine.trav(node, dir, method) != null;
+    }
+
     /**
      * Moves the focus to a reasonable initial location. Called when a scene's
      * focus is dirty and there's no current owner, or if the owner has been
      * removed from the scene.
      */
     public void focusInitial() {
-        Node firstFocusTraversable = getFirstFocusTraversable(getRoot());
-        if (firstFocusTraversable != null)
-            firstFocusTraversable.requestFocus();
-    }
-
-    private Node getFirstFocusTraversable(Parent parent) {
-        if (parent != null) {
-            List<Node> parentsNodes = parent.getChildrenUnmodifiable();
-            for (Node n : parentsNodes) {
-                if (!n.isVisible()) continue;
-                if (n.isFocusTraversable()) {
-                    return n;
-                }
-                if (n instanceof Parent) {
-                    Node result = getFirstFocusTraversable((Parent) n);
-                    if (result != null) return result;
-                }
-            }
-        }
-        return null;
+        traversalEngine.traverseToFirst();
     }
 
 }
