@@ -695,7 +695,7 @@ public class Region extends Parent implements
      * @return value rounded to nearest pixel
      * @deprecated replaced by {@code snapPositionX()} and {@code snapPositionY()}
      */
-    //@Deprecated(since="9") GWT doesn't recognize since attribute
+    @Deprecated(/*since="9"*/) //GWT doesn't recognize since attribute
     protected double snapPosition(double value) {
         return snapPositionX(value, isSnapToPixel());
     }

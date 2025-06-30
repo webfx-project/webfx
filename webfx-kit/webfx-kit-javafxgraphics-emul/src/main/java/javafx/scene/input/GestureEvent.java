@@ -70,7 +70,7 @@ public class GestureEvent extends InputEvent {
      * @param eventType Type of the event
      * @deprecated Do not use this constructor. Constructs empty event.
      */
-    //@Deprecated(since="8")
+    @Deprecated(/*since="8"*/) //GWT doesn't recognize since attribute
     protected GestureEvent(Object source, EventTarget target,
                            final EventType<? extends GestureEvent> eventType) {
         super(source, target, eventType);
