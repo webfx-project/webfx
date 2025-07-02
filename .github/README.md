@@ -14,6 +14,10 @@
 [![Twitter](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=x)](https://twitter.com/WebFXProject) 
 [![Discord](https://img.shields.io/badge/join-support_chat-0f80c0?logo=discord&logoColor=white)][webfx-discord]
 
+<i>
+<strong>⚠️ Notice (July 1st, 2025):</strong> WebFX builds are currently broken due to the OSSRH sunset and a bug in the central-publishing-maven-plugin, which prevents publishing the essential webfx.xml metadata file to the new Central Portal. We have reported this issue to central-support@sonatype.com and are awaiting a response from Sonatype.
+</i>
+
 </div>
 
 # WebFX
