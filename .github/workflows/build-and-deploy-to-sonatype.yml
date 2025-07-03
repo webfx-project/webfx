@@ -1,4 +1,4 @@
-name: Build and deploy to Sonatype
+name: Sonatype
 
 on:
   push:
@@ -28,9 +28,9 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@v4
 
-      # Build all modules and deploy their SNAPSHOT artifacts to sonatype repository
+      # Build all modules and deploy their SNAPSHOT artifacts to the sonatype repository
       - name: Deploy this repository
-        run: mvn -B -P '!gwt-compile,!javafx-fatjar,!javapackager' deploy
+        run: mvn -B deploy
         env:
           SONATYPE_CENTRAL_USERNAME: ${{ secrets.SONATYPE_CENTRAL_USERNAME }}
           SONATYPE_CENTRAL_PASSWORD: ${{ secrets.SONATYPE_CENTRAL_PASSWORD }}
