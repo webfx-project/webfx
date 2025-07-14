@@ -36,25 +36,25 @@ public interface NumberBinding extends Binding<Number>, NumberExpression {
     }
 
     // ===============================================================
-    // IsGreaterThanOrEqualTo
+    // IsGreaterThanOrEqual
 
     default BooleanBinding greaterThanOrEqualTo(final ObservableNumberValue other) {
-        return Bindings.lessThan(this, other);
+        return Bindings.greaterThanOrEqual(this, other);
     }
 
     default BooleanBinding greaterThanOrEqualTo(final Number other) {
-        return Bindings.lessThan(this, other);
+        return Bindings.greaterThanOrEqual(this, other);
     }
 
     // ===============================================================
     // IsLessThanOrEqualTo
 
     default BooleanBinding lessThanOrEqualTo(final ObservableNumberValue other) {
-        return Bindings.lessThanOrEqualTo(this, other);
+        return Bindings.lessThanOrEqual(this, other);
     }
 
     default BooleanBinding lessThanOrEqualTo(final Number other) {
-        return Bindings.lessThanOrEqualTo(this, other);
+        return Bindings.lessThanOrEqual(this, other);
     }
 
 }

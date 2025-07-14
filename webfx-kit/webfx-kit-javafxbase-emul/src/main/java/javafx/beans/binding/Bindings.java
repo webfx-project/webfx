@@ -618,8 +618,8 @@ public final class Bindings {
      * @throws NullPointerException
      *             if one of the operands is {@code null}
      */
-    public static BooleanBinding equal(final ObservableObjectValue<?> op1, final ObservableObjectValue<?> op2) {
-        return createBooleanBinding(() -> Objects.equals(op1.get(), op2.get()), op1, op2);
+    public static BooleanBinding equal(final ObservableValue<?> op1, final ObservableValue<?> op2) {
+        return createBooleanBinding(() -> Objects.equals(op1.getValue(), op2.getValue()), op1, op2);
     }
 
     /**
@@ -635,8 +635,8 @@ public final class Bindings {
      * @throws NullPointerException
      *             if the {@code ObservableObjectValue} is {@code null}
      */
-    public static BooleanBinding equal(final ObservableObjectValue<?> op1, Object op2) {
-        return createBooleanBinding(() -> Objects.equals(op1.get(), op2), op1);
+    public static BooleanBinding equal(final ObservableValue<?> op1, Object op2) {
+        return createBooleanBinding(() -> Objects.equals(op1.getValue(), op2), op1);
     }
 
     /**
@@ -652,8 +652,8 @@ public final class Bindings {
      * @throws NullPointerException
      *             if the {@code ObservableObjectValue} is {@code null}
      */
-    public static BooleanBinding equal(Object op1, final ObservableObjectValue<?> op2) {
-        return createBooleanBinding(() -> Objects.equals(op1, op2.get()), op2);
+    public static BooleanBinding equal(Object op1, final ObservableValue<?> op2) {
+        return createBooleanBinding(() -> Objects.equals(op1, op2.getValue()), op2);
     }
 
     /**
@@ -669,7 +669,7 @@ public final class Bindings {
      * @throws NullPointerException
      *             if one of the operands is {@code null}
      */
-    public static BooleanBinding notEqual(final ObservableObjectValue<?> op1, final ObservableObjectValue<?> op2) {
+    public static BooleanBinding notEqual(final ObservableValue<?> op1, final ObservableValue<?> op2) {
         return equal(op1, op2).not();
     }
 
@@ -686,7 +686,7 @@ public final class Bindings {
      * @throws NullPointerException
      *             if the {@code ObservableObjectValue} is {@code null}
      */
-    public static BooleanBinding notEqual(final ObservableObjectValue<?> op1, Object op2) {
+    public static BooleanBinding notEqual(final ObservableValue<?> op1, Object op2) {
         return equal(op1, op2).not();
     }
 
@@ -703,7 +703,7 @@ public final class Bindings {
      * @throws NullPointerException
      *             if the {@code ObservableObjectValue} is {@code null}
      */
-    public static BooleanBinding notEqual(Object op1, final ObservableObjectValue<?> op2) {
+    public static BooleanBinding notEqual(Object op1, final ObservableValue<?> op2) {
         return equal(op1, op2).not();
     }
 
@@ -718,8 +718,8 @@ public final class Bindings {
      * @throws NullPointerException
      *             if the {@code ObservableObjectValue} is {@code null}
      */
-    public static BooleanBinding isNull(final ObservableObjectValue<?> op) {
-        return createBooleanBinding(() -> op.get() == null, op);
+    public static BooleanBinding isNull(final ObservableValue<?> op) {
+        return createBooleanBinding(() -> op.getValue() == null, op);
     }
 
     /**
@@ -733,7 +733,7 @@ public final class Bindings {
      * @throws NullPointerException
      *             if the {@code ObservableObjectValue} is {@code null}
      */
-    public static BooleanBinding isNotNull(final ObservableObjectValue<?> op) {
+    public static BooleanBinding isNotNull(final ObservableValue<?> op) {
         return isNull(op).not();
     }
 
@@ -761,28 +761,28 @@ public final class Bindings {
         return createBooleanBinding(() -> Numbers.lessThan(op1, op2.getValue()), op2);
     }
 
-    public static BooleanBinding greaterThanOrEqualTo(final ObservableNumberValue op1, final ObservableNumberValue op2) {
-        return createBooleanBinding(() -> Numbers.greaterThanOrEqualTo(op1.getValue(), op2.getValue()), op1, op2);
+    public static BooleanBinding greaterThanOrEqual(final ObservableNumberValue op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.greaterThanOrEqual(op1.getValue(), op2.getValue()), op1, op2);
     }
 
-    public static BooleanBinding greaterThanOrEqualTo(final ObservableNumberValue op1, final Number op2) {
-        return createBooleanBinding(() -> Numbers.greaterThanOrEqualTo(op1.getValue(), op2), op1);
+    public static BooleanBinding greaterThanOrEqual(final ObservableNumberValue op1, final Number op2) {
+        return createBooleanBinding(() -> Numbers.greaterThanOrEqual(op1.getValue(), op2), op1);
     }
 
-    public static BooleanBinding greaterThanOrEqualTo(final Number op1, final ObservableNumberValue op2) {
-        return createBooleanBinding(() -> Numbers.greaterThanOrEqualTo(op1, op2.getValue()), op2);
+    public static BooleanBinding greaterThanOrEqual(final Number op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.greaterThanOrEqual(op1, op2.getValue()), op2);
     }
 
-    public static BooleanBinding lessThanOrEqualTo(final ObservableNumberValue op1, final ObservableNumberValue op2) {
-        return createBooleanBinding(() -> Numbers.lessThanOrEqualTo(op1.getValue(), op2.getValue()), op1, op2);
+    public static BooleanBinding lessThanOrEqual(final ObservableNumberValue op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.lessThanOrEqual(op1.getValue(), op2.getValue()), op1, op2);
     }
 
-    public static BooleanBinding lessThanOrEqualTo(final ObservableNumberValue op1, final Number op2) {
-        return createBooleanBinding(() -> Numbers.lessThanOrEqualTo(op1.getValue(), op2), op1);
+    public static BooleanBinding lessThanOrEqual(final ObservableNumberValue op1, final Number op2) {
+        return createBooleanBinding(() -> Numbers.lessThanOrEqual(op1.getValue(), op2), op1);
     }
 
-    public static BooleanBinding lessThanOrEqualTo(final Number op1, final ObservableNumberValue op2) {
-        return createBooleanBinding(() -> Numbers.lessThanOrEqualTo(op1, op2.getValue()), op2);
+    public static BooleanBinding lessThanOrEqual(final Number op1, final ObservableNumberValue op2) {
+        return createBooleanBinding(() -> Numbers.lessThanOrEqual(op1, op2.getValue()), op2);
     }
 
 }

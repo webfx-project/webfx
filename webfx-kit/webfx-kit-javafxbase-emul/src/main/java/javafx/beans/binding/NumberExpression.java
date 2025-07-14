@@ -290,7 +290,7 @@ public interface NumberExpression extends ObservableNumberValue {
      * @throws NullPointerException
      *             if the other {@code ObservableNumberValue} is {@code null}
      */
-    //BooleanBinding isEqualTo(final ObservableNumberValue other);
+    BooleanBinding isEqualTo(final ObservableNumberValue other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -363,7 +363,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding isEqualTo(final long other);
+    BooleanBinding isEqualTo(final long other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -396,7 +396,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding isEqualTo(final int other);
+    BooleanBinding isEqualTo(final int other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -435,7 +435,7 @@ public interface NumberExpression extends ObservableNumberValue {
      * @throws NullPointerException
      *             if the other {@code ObservableNumberValue} is {@code null}
      */
-    //BooleanBinding isNotEqualTo(final ObservableNumberValue other);
+    BooleanBinding isNotEqualTo(final ObservableNumberValue other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -509,7 +509,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding isNotEqualTo(final long other);
+    BooleanBinding isNotEqualTo(final long other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -542,7 +542,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding isNotEqualTo(final int other);
+    BooleanBinding isNotEqualTo(final int other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -577,7 +577,7 @@ public interface NumberExpression extends ObservableNumberValue {
      * @throws NullPointerException
      *             if the other {@code ObservableNumberValue} is {@code null}
      */
-    //BooleanBinding greaterThan(final ObservableNumberValue other);
+    BooleanBinding greaterThan(final ObservableNumberValue other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -587,7 +587,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding greaterThan(final double other);
+    BooleanBinding greaterThan(final double other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -597,7 +597,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding greaterThan(final float other);
+    BooleanBinding greaterThan(final float other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -607,7 +607,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding greaterThan(final long other);
+    BooleanBinding greaterThan(final long other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -617,7 +617,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding greaterThan(final int other);
+    BooleanBinding greaterThan(final int other);
 
     // ===============================================================
     // IsLesserThan
@@ -633,7 +633,7 @@ public interface NumberExpression extends ObservableNumberValue {
      * @throws NullPointerException
      *             if the other {@code ObservableNumberValue} is {@code null}
      */
-    //BooleanBinding lessThan(final ObservableNumberValue other);
+    BooleanBinding lessThan(final ObservableNumberValue other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -643,7 +643,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding lessThan(final double other);
+    BooleanBinding lessThan(final double other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -653,7 +653,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding lessThan(final float other);
+    BooleanBinding lessThan(final float other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -663,7 +663,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding lessThan(final long other);
+    BooleanBinding lessThan(final long other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -673,7 +673,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding lessThan(final int other);
+    BooleanBinding lessThan(final int other);
 
     // ===============================================================
     // IsGreaterThanOrEqualTo
@@ -689,7 +689,7 @@ public interface NumberExpression extends ObservableNumberValue {
      * @throws NullPointerException
      *             if the other {@code ObservableNumberValue} is {@code null}
      */
-    //BooleanBinding greaterThanOrEqualTo(final ObservableNumberValue other);
+    BooleanBinding greaterThanOrEqualTo(final ObservableNumberValue other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -700,7 +700,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding greaterThanOrEqualTo(final double other);
+    BooleanBinding greaterThanOrEqualTo(final double other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -711,7 +711,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding greaterThanOrEqualTo(final float other);
+    BooleanBinding greaterThanOrEqualTo(final float other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -722,7 +722,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding greaterThanOrEqualTo(final long other);
+    BooleanBinding greaterThanOrEqualTo(final long other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -733,7 +733,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding greaterThanOrEqualTo(final int other);
+    BooleanBinding greaterThanOrEqualTo(final int other);
 
     // ===============================================================
     // IsLessThanOrEqualTo
@@ -749,7 +749,7 @@ public interface NumberExpression extends ObservableNumberValue {
      * @throws NullPointerException
      *             if the other {@code ObservableNumberValue} is {@code null}
      */
-    //BooleanBinding lessThanOrEqualTo(final ObservableNumberValue other);
+    BooleanBinding lessThanOrEqualTo(final ObservableNumberValue other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -760,7 +760,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding lessThanOrEqualTo(final double other);
+    BooleanBinding lessThanOrEqualTo(final double other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -771,7 +771,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding lessThanOrEqualTo(final float other);
+    BooleanBinding lessThanOrEqualTo(final float other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -782,7 +782,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding lessThanOrEqualTo(final long other);
+    BooleanBinding lessThanOrEqualTo(final long other);
 
     /**
      * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
@@ -793,7 +793,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code BooleanBinding}
      */
-    //BooleanBinding lessThanOrEqualTo(final int other);
+    BooleanBinding lessThanOrEqualTo(final int other);
 
     // ===============================================================
     // String conversions
