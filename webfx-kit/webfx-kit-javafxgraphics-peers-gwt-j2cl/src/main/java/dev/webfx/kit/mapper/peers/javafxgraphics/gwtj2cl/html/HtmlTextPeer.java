@@ -31,6 +31,8 @@ public final class HtmlTextPeer
         extends HtmlShapePeer<N, NB, NM>
         implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow, HasSizeChangedCallback {
 
+    private static final String FX_KIT_LINE_HEIGHT = "--fx-kit-line-height";
+
     public HtmlTextPeer() {
         this((NB) new TextPeerBase());
     }
@@ -67,7 +69,7 @@ public final class HtmlTextPeer
 
     @Override
     public void updateText(String text) {
-        setElementTextContent(text); // this clears the cache (if text is different)
+        setElementTextContent(text); // this clears the cache (if the text is different)
         updateYInAnimationFrame(true);
     }
 
@@ -149,9 +151,10 @@ public final class HtmlTextPeer
         HTMLElement element = getElement();
         CSSStyleDeclaration style = element.style;
         // First, we set the HTML line height with no extra spacing between lines (lineSpacing = 0).
-        // Note: it looks like JavaFX doesn't apply the same line height for single-line and multi-lines texts.
+        // Note: it looks like JavaFX doesn't apply the same line height for single-line and multi-line texts.
         // For single-line, it looks like HTML "normal", and for multi-line it looks like 130% (empiric value).
-        style.lineHeight = CSSProperties.LineHeightUnionType.of(isWrapping || isWithinLabel ? "130%" : "100%");
+        //style.lineHeight = CSSProperties.LineHeightUnionType.of(isWrapping || isWithinLabel ? "130%" : "100%");
+        style.setProperty(FX_KIT_LINE_HEIGHT, isWrapping || isWithinLabel ? "1.3" : "1");
         // We correct the line height if additional line spacing is requested
         if (isWrapping && lineSpacing != 0) { // Not necessary if not wrapping (i.e., single line text)
             // There is no HTML equivalent of the JavaFX lineSpacing that specifies only the extra space (expressed in
@@ -160,13 +163,14 @@ public final class HtmlTextPeer
 
             // 1) Getting the value of line height in pixels (rather than "normal" or "130%"). To do that, we measure
             // the current height of the element for a single line of text.
-            String currentText = element.textContent; // Memorising the current text (it may be a multi-line text)
+            String currentText = element.textContent; // Memorizing the current text (it may be a multi-line text)
             element.textContent = "W"; // Temporarily changing the text content to a single letter (=> ensures single-line)
             clearCache(); // Clearing the cache to ensure a fresh measurement
             double lineHeightPx = measureElement(element, false); // We measure the height = line height in pixels
             element.textContent = currentText; // Re-establishing the current text
             // 2) Correcting the line height by adding the requested line spacing
-            style.lineHeight = CSSProperties.LineHeightUnionType.of(toPx(lineHeightPx + lineSpacing));
+            //style.lineHeight = CSSProperties.LineHeightUnionType.of(toPx(lineHeightPx + lineSpacing));
+            style.setProperty(FX_KIT_LINE_HEIGHT, toPx(lineHeightPx + lineSpacing));
         }
         // Mapping the wrapping with using the HTML maxWidth style attribute
         style.maxWidth = isWrapping ? CSSProperties.MaxWidthUnionType.of(toPx(wrappingWidth)) : null;

@@ -34,6 +34,13 @@
     --fx-border-color-focus: var(--fx-focus-color);
     --fx-border-width-focus: 1px;
     --fx-text-fill-focus: unset;
+
+    --fx-kit-line-height: 1; /* Default variable for text line height managed by the webfx kit. App CSS can't override
+    it (because it's set at the text element level), but can set --fx-line-height which precedes --fx-kit-line-height */
+}
+
+.unset-variables { /* Dummy selector used just to list unset CSS variables that can be overridden by App CSS */
+    --fx-line-height: 1;
 }
 
 /* Mocking some basic JavaFX behaviours */
@@ -119,6 +126,8 @@ fx-text {
     -moz-user-select: var(--text-user-select);
     -ms-user-select: var(--text-user-select);
     user-select: var(--text-user-select);
+
+    line-height: var(--fx-line-height, var(--fx-kit-line-height));
 }
 
 :focus fx-text, :focus-visible fx-text {
