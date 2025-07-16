@@ -3,6 +3,8 @@ package javafx.scene.control;
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.Event;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author Bruno Salmon
@@ -34,6 +36,12 @@ public class TextArea extends TextInputControl {
     public final boolean isWrapText() { return wrapTextProperty.getValue(); }
     public final void setWrapText(boolean value) { wrapTextProperty.setValue(value); }
 
+
+    {
+        // In WebFX, TextArea doesn't have a skin because it is mapped directly into an HTML TextArea. But we mimic at
+        // least the standard JavaFX behavior that it consumes all mouse events.
+        addEventHandler(MouseEvent.ANY, Event::consume); // Same as SkinBase.consumeMouseEvents(true)
+    }
 
     static {
         JavaFxControlsRegistry.registerTextArea();
