@@ -11,4 +11,8 @@ public interface TextAreaPeerMixin
         extends TextInputControlPeerMixin<N, NB, NM> {
 
     void updateWrapText(boolean wrapText);
+
+    void updatePrefColumnCount(Number prefColumnCount);
+
+    void updatePrefRowCount(Number prefRowCount);
 }

@@ -25,4 +25,14 @@ public final class HtmlTextAreaPeer
     public void updateWrapText(boolean wrapText) {
         setElementStyleAttribute("word-break", wrapText ? "break-word" : "normal");
     }
+
+    @Override
+    public void updatePrefColumnCount(Number prefColumnCount) {
+        setElementAttribute("cols", prefColumnCount);
+    }
+
+    @Override
+    public void updatePrefRowCount(Number prefRowCount) {
+        setElementAttribute("rows", prefRowCount);
+    }
 }
