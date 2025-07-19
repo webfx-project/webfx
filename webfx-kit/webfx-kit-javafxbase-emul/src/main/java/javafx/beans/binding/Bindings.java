@@ -554,6 +554,22 @@ public final class Bindings {
     }
 
     /**
+     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * if a given {@link javafx.collections.ObservableList} is not empty.
+     *
+     * @param op
+     *            the {@code ObservableList}
+     * @param <E> type of the {@code List} elements
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the {@code ObservableList} is {@code null}
+     * @since JavaFX 8.0
+     */
+    public static <E> BooleanBinding isNotEmpty(final ObservableList<E> op)     {
+        return isEmpty(op).not();
+    }
+
+    /**
      * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the size
      * of an {@link javafx.collections.ObservableList}.
      *
