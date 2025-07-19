@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2021, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -388,8 +388,8 @@ public class VBox extends Pane {
     @Override protected double computeMinHeight(double width) {
         Insets insets = getInsets();
         return snapSpaceY(insets.getTop()) +
-                computeContentHeight(getManagedChildren(), width, true) +
-                snapSpaceY(insets.getBottom());
+               computeContentHeight(getManagedChildren(), width, true) +
+               snapSpaceY(insets.getBottom());
     }
 
     @Override protected double computePrefWidth(double height) {
@@ -409,8 +409,8 @@ public class VBox extends Pane {
     @Override protected double computePrefHeight(double width) {
         Insets insets = getInsets();
         double d = snapSpaceY(insets.getTop()) +
-                computeContentHeight(getManagedChildren(), width, false) +
-                snapSpaceY(insets.getBottom());
+                   computeContentHeight(getManagedChildren(), width, false) +
+                   snapSpaceY(insets.getBottom());
         return d;
     }
 
@@ -419,7 +419,7 @@ public class VBox extends Pane {
         // width could be -1
         double[][] temp = getTempArray(managed.size());
         final double insideWidth = width == -1? -1 : width -
-                snapSpaceX(getInsets().getLeft()) - snapSpaceX(getInsets().getRight());
+                                                     snapSpaceX(getInsets().getLeft()) - snapSpaceX(getInsets().getRight());
         final boolean isFillWidth = isFillWidth();
         for (int i = 0, size = managed.size(); i < size; i++) {
             Node child = managed.get(i);
@@ -448,7 +448,7 @@ public class VBox extends Pane {
 
         double contentHeight = sum(areaHeights[0], managed.size()) + (managed.size()-1)*snapSpaceY(getSpacing());
         double extraHeight = height -
-                snapSpaceY(insets.getTop()) - snapSpaceY(insets.getBottom()) - contentHeight;
+                             snapSpaceY(insets.getTop()) - snapSpaceY(insets.getBottom()) - contentHeight;
 
         if (extraHeight != 0) {
             final double refWidth = isFillWidth()&& width != -1? width - left - right : -1;
@@ -485,9 +485,19 @@ public class VBox extends Pane {
             }
         }
 
+        double pixelSize = isSnapToPixel() ? 1 / Region.getSnapScaleY(this) : 0.0;
         double available = extraHeight; // will be negative in shrinking case
-        outer: while (Math.abs(available) > 1 && adjustingNumber > 0) {
-            final double portion = snapPortionY(available / adjustingNumber); // negative in shrinking case
+        outer: while (Math.abs(available) >= pixelSize && adjustingNumber > 0) {
+            double portion = snapPortionY(available / adjustingNumber); // negative in shrinking case
+
+            if (portion == 0) {
+                if (pixelSize == 0) {
+                    break;
+                }
+
+                portion = pixelSize * Math.signum(available);
+            }
+
             for (int i = 0, size = managed.size(); i < size; i++) {
                 if (temp[i] == -1) {
                     continue;
@@ -496,7 +506,7 @@ public class VBox extends Pane {
                 final double change = Math.abs(limit) <= Math.abs(portion)? limit : portion;
                 usedHeights[i] += change;
                 available -= change;
-                if (Math.abs(available) < 1) {
+                if (Math.abs(available) < pixelSize) {
                     break outer;
                 }
                 if (Math.abs(change) < Math.abs(portion)) {
@@ -511,7 +521,7 @@ public class VBox extends Pane {
 
     private double computeContentHeight(List<Node> managedChildren, double width, boolean minimum) {
         return sum(getAreaHeights(managedChildren, width, minimum)[0], managedChildren.size())
-                + (managedChildren.size()-1)*snapSpaceY(getSpacing());
+               + (managedChildren.size()-1)*snapSpaceY(getSpacing());
     }
 
     private static double sum(double[] array, int size) {
@@ -553,9 +563,9 @@ public class VBox extends Pane {
         for (int i = 0, size = managed.size(); i < size; i++) {
             Node child = managed.get(i);
             layoutInArea(child, x, y, contentWidth, actualAreaHeights[0][i],
-                    /* baseline shouldn't matter */actualAreaHeights[0][i],
-                    getMargin(child), isFillWidth, true,
-                    hpos, vpos);
+                /* baseline shouldn't matter */actualAreaHeights[0][i],
+                getMargin(child), isFillWidth, true,
+                hpos, vpos);
             y += actualAreaHeights[0][i] + space;
         }
     }
@@ -581,54 +591,54 @@ public class VBox extends Pane {
      */
     /*private static class StyleableProperties {
         private static final CssMetaData<VBox,Pos> ALIGNMENT =
-                new CssMetaData<VBox,Pos>("-fx-alignment",
-                        new EnumConverter<Pos>(Pos.class), Pos.TOP_LEFT){
+            new CssMetaData<>("-fx-alignment",
+                new EnumConverter<>(Pos.class), Pos.TOP_LEFT){
 
-                    @Override
-                    public boolean isSettable(VBox node) {
-                        return node.alignment == null || !node.alignment.isBound();
-                    }
+                @Override
+                public boolean isSettable(VBox node) {
+                    return node.alignment == null || !node.alignment.isBound();
+                }
 
-                    @Override
-                    public StyleableProperty<Pos> getStyleableProperty(VBox node) {
-                        return (StyleableProperty<Pos>)node.alignmentProperty();
-                    }
-                };
+                @Override
+                public StyleableProperty<Pos> getStyleableProperty(VBox node) {
+                    return (StyleableProperty<Pos>)node.alignmentProperty();
+                }
+            };
 
         private static final CssMetaData<VBox,Boolean> FILL_WIDTH =
-                new CssMetaData<VBox,Boolean>("-fx-fill-width",
-                        BooleanConverter.getInstance(), Boolean.TRUE) {
+            new CssMetaData<>("-fx-fill-width",
+                BooleanConverter.getInstance(), Boolean.TRUE) {
 
-                    @Override
-                    public boolean isSettable(VBox node) {
-                        return node.fillWidth == null || !node.fillWidth.isBound();
-                    }
+                @Override
+                public boolean isSettable(VBox node) {
+                    return node.fillWidth == null || !node.fillWidth.isBound();
+                }
 
-                    @Override
-                    public StyleableProperty<Boolean> getStyleableProperty(VBox node) {
-                        return (StyleableProperty<Boolean>)node.fillWidthProperty();
-                    }
-                };
+                @Override
+                public StyleableProperty<Boolean> getStyleableProperty(VBox node) {
+                    return (StyleableProperty<Boolean>)node.fillWidthProperty();
+                }
+            };
 
         private static final CssMetaData<VBox,Number> SPACING =
-                new CssMetaData<VBox,Number>("-fx-spacing",
-                        SizeConverter.getInstance(), 0d) {
+            new CssMetaData<>("-fx-spacing",
+                SizeConverter.getInstance(), 0d) {
 
-                    @Override
-                    public boolean isSettable(VBox node) {
-                        return node.spacing == null || !node.spacing.isBound();
-                    }
+                @Override
+                public boolean isSettable(VBox node) {
+                    return node.spacing == null || !node.spacing.isBound();
+                }
 
-                    @Override
-                    public StyleableProperty<Number> getStyleableProperty(VBox node) {
-                        return (StyleableProperty<Number>)node.spacingProperty();
-                    }
-                };
+                @Override
+                public StyleableProperty<Number> getStyleableProperty(VBox node) {
+                    return (StyleableProperty<Number>)node.spacingProperty();
+                }
+            };
 
         private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
         static {
             final List<CssMetaData<? extends Styleable, ?>> styleables =
-                    new ArrayList<CssMetaData<? extends Styleable, ?>>(Region.getClassCssMetaData());
+                new ArrayList<>(Region.getClassCssMetaData());
             styleables.add(ALIGNMENT);
             styleables.add(FILL_WIDTH);
             styleables.add(SPACING);

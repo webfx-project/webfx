@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, 2021, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2011, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -390,8 +390,8 @@ public class HBox extends Pane {
     @Override protected double computeMinWidth(double height) {
         Insets insets = getInsets();
         return snapSpaceX(insets.getLeft()) +
-                computeContentWidth(getManagedChildren(), height, true) +
-                snapSpaceX(insets.getRight());
+               computeContentWidth(getManagedChildren(), height, true) +
+               snapSpaceX(insets.getRight());
     }
 
     @Override protected double computeMinHeight(double width) {
@@ -406,15 +406,15 @@ public class HBox extends Pane {
             contentHeight = computeMaxMinAreaHeight(managed, marginAccessor, getAlignmentInternal().getVpos());
         }
         return snapSpaceY(insets.getTop()) +
-                contentHeight +
-                snapSpaceY(insets.getBottom());
+               contentHeight +
+               snapSpaceY(insets.getBottom());
     }
 
     @Override protected double computePrefWidth(double height) {
         Insets insets = getInsets();
         return snapSpaceX(insets.getLeft()) +
-                computeContentWidth(getManagedChildren(), height, false) +
-                snapSpaceX(insets.getRight());
+               computeContentWidth(getManagedChildren(), height, false) +
+               snapSpaceX(insets.getRight());
     }
 
     @Override protected double computePrefHeight(double width) {
@@ -429,15 +429,15 @@ public class HBox extends Pane {
             contentHeight = computeMaxPrefAreaHeight(managed, marginAccessor, getAlignmentInternal().getVpos());
         }
         return snapSpaceY(insets.getTop()) +
-                contentHeight +
-                snapSpaceY(insets.getBottom());
+               contentHeight +
+               snapSpaceY(insets.getBottom());
     }
 
     private double[][] getAreaWidths(List<Node>managed, double height, boolean minimum) {
         // height could be -1
         double[][] temp = getTempArray(managed.size());
         final double insideHeight = height == -1? -1 : height -
-                snapSpaceY(getInsets().getTop()) - snapSpaceY(getInsets().getBottom());
+                                                       snapSpaceY(getInsets().getTop()) - snapSpaceY(getInsets().getBottom());
         final boolean shouldFillHeight = shouldFillHeight();
         for (int i = 0, size = managed.size(); i < size; i++) {
             Node child = managed.get(i);
@@ -458,7 +458,7 @@ public class HBox extends Pane {
 
         double contentWidth = sum(areaWidths[0], managed.size()) + (managed.size()-1)*snapSpaceX(getSpacing());
         double extraWidth = width -
-                snapSpaceX(insets.getLeft()) - snapSpaceX(insets.getRight()) - contentWidth;
+                            snapSpaceX(insets.getLeft()) - snapSpaceX(insets.getRight()) - contentWidth;
 
         if (extraWidth != 0) {
             final double refHeight = shouldFillHeight() && height != -1? height - top - bottom : -1;
@@ -495,9 +495,19 @@ public class HBox extends Pane {
             }
         }
 
+        double pixelSize = isSnapToPixel() ? 1 / Region.getSnapScaleX(this) : 0.0;
         double available = extraWidth; // will be negative in shrinking case
-        outer:while (Math.abs(available) > 1 && adjustingNumber > 0) {
-            final double portion = snapPortionX(available / adjustingNumber); // negative in shrinking case
+        outer:while (Math.abs(available) >= pixelSize && adjustingNumber > 0) {
+            double portion = snapPortionX(available / adjustingNumber); // negative in shrinking case
+
+            if (portion == 0) {
+                if (pixelSize == 0) {
+                    break;
+                }
+
+                portion = pixelSize * Math.signum(available);
+            }
+
             for (int i = 0, size = managed.size(); i < size; i++) {
                 if (temp[i] == -1) {
                     continue;
@@ -506,7 +516,7 @@ public class HBox extends Pane {
                 final double change = Math.abs(limit) <= Math.abs(portion)? limit : portion;
                 usedWidths[i] += change;
                 available -= change;
-                if (Math.abs(available) < 1) {
+                if (Math.abs(available) < pixelSize) {
                     break outer;
                 }
                 if (Math.abs(change) < Math.abs(portion)) {
@@ -521,7 +531,7 @@ public class HBox extends Pane {
 
     private double computeContentWidth(List<Node> managedChildren, double height, boolean minimum) {
         return sum(getAreaWidths(managedChildren, height, minimum)[0], managedChildren.size())
-                + (managedChildren.size()-1)*snapSpaceX(getSpacing());
+               + (managedChildren.size()-1)*snapSpaceX(getSpacing());
     }
 
     private static double sum(double[] array, int size) {
@@ -621,15 +631,15 @@ public class HBox extends Pane {
         if (alignVpos == VPos.BASELINE) {
             double baselineComplement = getMinBaselineComplement();
             baselineOffset = getAreaBaselineOffset(managed, marginAccessor, i -> actualAreaWidths[0][i],
-                    contentHeight, shouldFillHeight, baselineComplement);
+                contentHeight, shouldFillHeight, baselineComplement);
         }
 
         for (int i = 0, size = managed.size(); i < size; i++) {
             Node child = managed.get(i);
             Insets margin = getMargin(child);
             layoutInArea(child, x, y, actualAreaWidths[0][i], contentHeight,
-                    baselineOffset, margin, true, shouldFillHeight,
-                    alignHpos, alignVpos);
+                baselineOffset, margin, true, shouldFillHeight,
+                alignHpos, alignVpos);
             x += actualAreaWidths[0][i] + space;
         }
     }
@@ -656,59 +666,59 @@ public class HBox extends Pane {
     /*private static class StyleableProperties {
 
         private static final CssMetaData<HBox,Pos> ALIGNMENT =
-                new CssMetaData<HBox,Pos>("-fx-alignment",
-                        new EnumConverter<Pos>(Pos.class),
-                        Pos.TOP_LEFT) {
+            new CssMetaData<>("-fx-alignment",
+                new EnumConverter<>(Pos.class),
+                Pos.TOP_LEFT) {
 
-                    @Override
-                    public boolean isSettable(HBox node) {
-                        return node.alignment == null || !node.alignment.isBound();
-                    }
+                @Override
+                public boolean isSettable(HBox node) {
+                    return node.alignment == null || !node.alignment.isBound();
+                }
 
-                    @Override
-                    public StyleableProperty<Pos> getStyleableProperty(HBox node) {
-                        return (StyleableProperty<Pos>)node.alignmentProperty();
-                    }
+                @Override
+                public StyleableProperty<Pos> getStyleableProperty(HBox node) {
+                    return (StyleableProperty<Pos>)node.alignmentProperty();
+                }
 
-                };
+            };
 
         private static final CssMetaData<HBox,Boolean> FILL_HEIGHT =
-                new CssMetaData<HBox,Boolean>("-fx-fill-height",
-                        BooleanConverter.getInstance(), Boolean.TRUE) {
+            new CssMetaData<>("-fx-fill-height",
+                BooleanConverter.getInstance(), Boolean.TRUE) {
 
-                    @Override
-                    public boolean isSettable(HBox node) {
-                        return node.fillHeight == null ||
-                                !node.fillHeight.isBound();
-                    }
+                @Override
+                public boolean isSettable(HBox node) {
+                    return node.fillHeight == null ||
+                           !node.fillHeight.isBound();
+                }
 
-                    @Override
-                    public StyleableProperty<Boolean> getStyleableProperty(HBox node) {
-                        return (StyleableProperty<Boolean>)node.fillHeightProperty();
-                    }
+                @Override
+                public StyleableProperty<Boolean> getStyleableProperty(HBox node) {
+                    return (StyleableProperty<Boolean>)node.fillHeightProperty();
+                }
 
-                };
+            };
 
         private static final CssMetaData<HBox,Number> SPACING =
-                new CssMetaData<HBox,Number>("-fx-spacing",
-                        SizeConverter.getInstance(), 0.0){
+            new CssMetaData<>("-fx-spacing",
+                SizeConverter.getInstance(), 0.0){
 
-                    @Override
-                    public boolean isSettable(HBox node) {
-                        return node.spacing == null || !node.spacing.isBound();
-                    }
+                @Override
+                public boolean isSettable(HBox node) {
+                    return node.spacing == null || !node.spacing.isBound();
+                }
 
-                    @Override
-                    public StyleableProperty<Number> getStyleableProperty(HBox node) {
-                        return (StyleableProperty<Number>)node.spacingProperty();
-                    }
+                @Override
+                public StyleableProperty<Number> getStyleableProperty(HBox node) {
+                    return (StyleableProperty<Number>)node.spacingProperty();
+                }
 
-                };
+            };
 
         private static final List<CssMetaData<? extends Styleable, ?>> STYLEABLES;
         static {
             final List<CssMetaData<? extends Styleable, ?>> styleables =
-                    new ArrayList<CssMetaData<? extends Styleable, ?>>(Pane.getClassCssMetaData());
+                new ArrayList<>(Pane.getClassCssMetaData());
             styleables.add(FILL_HEIGHT);
             styleables.add(ALIGNMENT);
             styleables.add(SPACING);

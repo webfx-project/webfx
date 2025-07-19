@@ -1743,7 +1743,7 @@ public class Region extends Parent implements
         return 1.0; // _getSnapScaleXimpl(getScene());
     }
 
-    private static double getSnapScaleX(Node n) {
+    public static double getSnapScaleX(Node n) {
         return 1.0; // _getSnapScaleXimpl(n.getScene());
     }
 
@@ -1751,7 +1751,7 @@ public class Region extends Parent implements
         return 1.0; //_getSnapScaleYimpl(getScene());
     }
 
-    private static double getSnapScaleY(Node n) {
+    public static double getSnapScaleY(Node n) {
         return 1.0; // _getSnapScaleYimpl(n.getScene());
     }
 
@@ -1782,6 +1782,7 @@ public class Region extends Parent implements
     private double snapSpaceX(double value, boolean snapToPixel) {
         return snapToPixel ? scaledRound(value, getSnapScaleX()) : value;
     }
+
     private double snapSpaceY(double value, boolean snapToPixel) {
         return snapToPixel ? scaledRound(value, getSnapScaleY()) : value;
     }

@@ -1,12 +1,38 @@
+/*
+ * Copyright (c) 2010, 2023, Oracle and/or its affiliates. All rights reserved.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This code is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 2 only, as
+ * published by the Free Software Foundation.  Oracle designates this
+ * particular file as subject to the "Classpath" exception as provided
+ * by Oracle in the LICENSE file that accompanied this code.
+ *
+ * This code is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * version 2 for more details (a copy is included in the LICENSE file that
+ * accompanied this code).
+ *
+ * You should have received a copy of the GNU General Public License version
+ * 2 along with this work; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+ * or visit www.oracle.com if you need additional information or have any
+ * questions.
+ */
+
 package javafx.beans.binding;
 
-import com.sun.javafx.binding.BindingHelperObserver;
-import com.sun.javafx.binding.ExpressionHelper;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import com.sun.javafx.binding.BindingHelperObserver;
+import com.sun.javafx.binding.ExpressionHelper;
 
 /**
  * Base class that provides most of the functionality needed to implement a
@@ -31,16 +57,23 @@ import javafx.collections.ObservableList;
  * @since JavaFX 2.0
  */
 public abstract class BooleanBinding extends BooleanExpression implements
-        Binding<Boolean> {
+    Binding<Boolean> {
 
     /**
-     * Sole constructor
+     * Creates a default {@code BooleanBinding}.
      */
     public BooleanBinding() {
     }
 
     private boolean value;
     private boolean valid = false;
+
+    /**
+     * Invalidation listener used for observing dependencies.  This
+     * is never cleared once created as there is no way to determine
+     * when all dependencies that were previously bound were removed
+     * in one or more calls to {@link #unbind(Observable...)}.
+     */
     private BindingHelperObserver observer;
     private ExpressionHelper<Boolean> helper = null;
 
@@ -93,7 +126,6 @@ public abstract class BooleanBinding extends BooleanExpression implements
             for (final Observable dep : dependencies) {
                 dep.removeListener(observer);
             }
-            observer = null;
         }
     }
 
@@ -111,7 +143,6 @@ public abstract class BooleanBinding extends BooleanExpression implements
      * @return an empty {@code ObservableList}
      */
     @Override
-    //@ReturnsUnmodifiableCollection
     public ObservableList<?> getDependencies() {
         return FXCollections.emptyObservableList();
     }
@@ -172,8 +203,7 @@ public abstract class BooleanBinding extends BooleanExpression implements
     @Override
     public String toString() {
         return valid ? "BooleanBinding [value: " + get() + "]"
-                : "BooleanBinding [invalid]";
+            : "BooleanBinding [invalid]";
     }
 
 }
-
