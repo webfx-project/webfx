@@ -239,7 +239,9 @@ public class Region extends Parent implements
     // method Node.getAllNodeTransforms() that reads back the layoutX/Y values to compute an overall transform for the
     // Node that will be transmitted to the HTML mapper. This overall transform requires precise values when followed
     // by other transforms such as rotate and scale.
-    private final Property<Boolean> snapToPixelProperty = new SimpleBooleanProperty(false) {
+    // UPDATE 21/07/2025: finally set it back to true to solve some trembling vertical position issues with nodes in
+    // VBoxes during animation effects on the container height such as CollapsePane or TransitionPane with animated height
+    private final Property<Boolean> snapToPixelProperty = new SimpleBooleanProperty(true) {
         @Override
         protected void invalidated() {
             updateSnappedInsets();
