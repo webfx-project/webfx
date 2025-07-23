@@ -34,6 +34,7 @@
     --fx-togglebutton-border-color-hover: var(--fx-togglebutton-border-color-selected);
 
     --fx-placholder-color: #888;
+    --fx-progress-indicator-color: #0095cb;
 }
 
 ::placeholder {
@@ -141,6 +142,10 @@ fx-label.ellipsis fx-text {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     /* -webkit-line-clamp will be set in JS by HtmlTextPeer */
+}
+
+fx-progressindicator .spinner .segment {
+    background-color: var(--fx-progress-indicator-color);
 }
 
 /* Without this rule, the context menu is wrongly shifted up by the browser the first time it is displayed */

@@ -794,15 +794,15 @@ public class ProgressIndicatorSkin extends SkinBase<ProgressIndicator> {
                 }
 */
                 // WebFX hardcoded style & position (no CSS)
-                final double w = getWidth();
-                double dotDiameter = w / 7, dotCenterDistance = (w - dotDiameter) / 2;
-                Background background = new Background(new BackgroundFill(Color.web("#0095cb"), new CornerRadii(dotDiameter), null));
+                final double w = getWidth(), w2 = w / 2;
+                double dotDiameter = w / 7, dotRadius = dotDiameter / 2, dotCenterDistance = w2 - dotRadius;
                 ObservableList<Node> children = getChildren();
                 for (int i = 0; i < children.size(); i++) {
-                    Region region = (Region) children.get(i);
-                    region.setBackground(background);
                     double angle = - i * Math.PI * 2 / (children.size() - 1);
-                    region.resizeRelocate(w / 2 + dotCenterDistance * Math.cos(angle) - dotDiameter / 2, w / 2 + dotCenterDistance * Math.sin(angle) - dotDiameter / 2, dotDiameter, dotDiameter);
+                    Circle circle = (Circle) children.get(i);
+                    circle.setRadius(dotRadius);
+                    circle.setLayoutX(w2 + dotCenterDistance * Math.cos(angle));
+                    circle.setLayoutY(w2 + dotCenterDistance * Math.sin(angle));
                 }
             }
         }
@@ -830,17 +830,9 @@ public class ProgressIndicatorSkin extends SkinBase<ProgressIndicator> {
             pathsG.getChildren().clear();
             final double step = 0.8/(segments-1);
             for (int i = 0; i < segments; i++) {
-                Region region = new Region();
-                //region.setScaleShape(false);
-                //region.setCenterShape(false);
-                region.getStyleClass().addAll("segment", "segment" + i);
-                if (fillOverride instanceof Color) {
-                    Color c = (Color)fillOverride;
-                    region.setStyle("-fx-background-color: rgba("+((int)(255*c.getRed()))+","+((int)(255*c.getGreen()))+","+((int)(255*c.getBlue()))+","+c.getOpacity()+");");
-                } else {
-                    region.setStyle(null);
-                }
-                pathsG.getChildren().add(region);
+                Circle circle = new Circle();
+                circle.getStyleClass().addAll("segment", "segment" + i);
+                pathsG.getChildren().add(circle);
                 opacities.add(Math.max(0.1, (1.0 - (step*i))));
             }
         }
