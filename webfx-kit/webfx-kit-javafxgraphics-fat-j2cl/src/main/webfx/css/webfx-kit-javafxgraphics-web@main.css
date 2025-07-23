@@ -41,6 +41,7 @@
 
 .unset-variables { /* Dummy selector used just to list unset CSS variables that can be overridden by App CSS */
     --fx-line-height: 1;
+    --fx-svg-path-stroke: transparent;
 }
 
 /* Mocking some basic JavaFX behaviours */
@@ -134,9 +135,13 @@ fx-text {
     color: var(--fx-text-fill-focus, var(--fx-text-fill));
 }
 
+fx-svgpath svg path:not([stroke]) {
+    stroke: var(--fx-svg-path-stroke); /* unset by default */
+}
+
 /* Applying the default JavaFX behaviour for SVGPath - Note that CSS fill is prioritized over SVG fill! */
 fx-svgpath svg path:not([fill]):not([stroke]) { /* if the application code didn't set neither fill nor stroke */
-    fill: var(--fx-svg-path-fill);  /* then the fill is black */
+    fill: var(--fx-svg-path-fill);
 }
 
 fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the stroke but not the fill */
