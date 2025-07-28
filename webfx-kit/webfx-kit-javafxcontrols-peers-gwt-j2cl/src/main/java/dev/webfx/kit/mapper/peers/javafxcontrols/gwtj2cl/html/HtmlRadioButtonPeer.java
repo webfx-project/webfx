@@ -1,17 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
-import dev.webfx.kit.util.aria.AriaRole;
-import elemental2.dom.CSSProperties;
-import elemental2.dom.CSSStyleDeclaration;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLInputElement;
-import javafx.scene.control.RadioButton;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.RadioButtonPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.RadioButtonPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.NoWrapWhiteSpacePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurableNoGrow;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
+import dev.webfx.kit.util.aria.AriaRole;
 import dev.webfx.platform.util.Booleans;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
+import javafx.scene.control.RadioButton;
 
 /**
  * @author Bruno Salmon
@@ -32,11 +30,11 @@ public final class HtmlRadioButtonPeer
         super(base, element);
         prepareDomForAdditionalSkinChildren("fx-radiobutton");
         radioButtonElement = HtmlUtil.createRadioButton();
-        CSSStyleDeclaration style = element.style;
-        style.margin = CSSProperties.MarginUnionType.of("0");
-        style.padding = CSSProperties.PaddingUnionType.of("0");
-        radioButtonElement.style.verticalAlign = "middle";
-        radioButtonElement.style.margin = CSSProperties.MarginUnionType.of("0 5px 0 0");
+        //CSSStyleDeclaration style = element.style;
+        //style.margin = CSSProperties.MarginUnionType.of("0");
+        //style.padding = CSSProperties.PaddingUnionType.of("0");
+        //radioButtonElement.style.verticalAlign = "middle";
+        //radioButtonElement.style.margin = CSSProperties.MarginUnionType.of("0 5px 0 0");
     }
 
     @Override

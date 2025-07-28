@@ -148,3 +148,14 @@ fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the str
     --fx-svg-path-fill: transparent; /* then the fill is transparent */
     fill: var(--fx-svg-path-fill);
 }
+
+/* CSS rules for radio button text wrapping => to make the second line (when wrapped) start under the text and not under the radio button */
+fx-radiobutton label {
+    display: flex;
+    align-items: flex-start;
+}
+
+fx-radiobutton label input {
+    margin-top: 5px;
+    margin-right: 5px;
+}
