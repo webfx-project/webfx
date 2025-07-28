@@ -21,10 +21,10 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class HtmlRegionPeer
-        <N extends Region, NB extends RegionPeerBase<N, NB, NM>, NM extends RegionPeerMixin<N, NB, NM>>
+    <N extends Region, NB extends RegionPeerBase<N, NB, NM>, NM extends RegionPeerMixin<N, NB, NM>>
 
-        extends HtmlNodePeer<N, NB, NM>
-        implements RegionPeerMixin<N, NB, NM> {
+    extends HtmlNodePeer<N, NB, NM>
+    implements RegionPeerMixin<N, NB, NM> {
 
     private final HTMLElement fxBackground;
     private final HTMLElement fxBorder;
@@ -48,7 +48,7 @@ public abstract class HtmlRegionPeer
         HTMLElement element = HtmlUtil.createElement(tag);
         CSSStyleDeclaration style = element.style;
         style.display = "block";
-        style.width =  CSSProperties.WidthUnionType.of("100%");
+        style.width = CSSProperties.WidthUnionType.of("100%");
         style.height = CSSProperties.HeightUnionType.of("100%");
         style.position = "absolute";
         style.left = "0";
@@ -109,12 +109,19 @@ public abstract class HtmlRegionPeer
         // Note: for now, we support only one border that we take from the first border stroke
         BorderStroke firstStroke = border == null ? null : Collections.get(border.getStrokes(), 0);
         if (firstStroke == null) {
-            style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
-        } else {
+            style.border = style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
+        } else if (firstStroke.isStrokeUniform()) { // this includes gradients
             BorderWidths widths = firstStroke.getWidths();
-            style.borderLeft   = toCssBorder(firstStroke.getLeftStroke(),   firstStroke.getLeftStyle(),   widths.getLeft(),   widths.isLeftAsPercentage());
-            style.borderTop    = toCssBorder(firstStroke.getTopStroke(),    firstStroke.getTopStyle(),    widths.getTop(),    widths.isTopAsPercentage());
-            style.borderRight  = toCssBorder(firstStroke.getRightStroke(),  firstStroke.getRightStyle(),  widths.getRight(),  widths.isRightAsPercentage());
+            style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
+            // TODO: consider non-uniform border widths
+            style.border = toCssBorder(firstStroke.getLeftStroke(), firstStroke.getLeftStyle(), widths.getLeft(), widths.isLeftAsPercentage());
+            applyBorderRadii(firstStroke.getRadii(), style);
+        } else { // Should be only plain colors (CSS style.borderLeft, etc... don't work with gradients)
+            BorderWidths widths = firstStroke.getWidths();
+            style.border = null;
+            style.borderLeft = toCssBorder(firstStroke.getLeftStroke(), firstStroke.getLeftStyle(), widths.getLeft(), widths.isLeftAsPercentage());
+            style.borderTop = toCssBorder(firstStroke.getTopStroke(), firstStroke.getTopStyle(), widths.getTop(), widths.isTopAsPercentage());
+            style.borderRight = toCssBorder(firstStroke.getRightStroke(), firstStroke.getRightStyle(), widths.getRight(), widths.isRightAsPercentage());
             style.borderBottom = toCssBorder(firstStroke.getBottomStroke(), firstStroke.getBottomStyle(), widths.getBottom(), widths.isBottomAsPercentage());
             applyBorderRadii(firstStroke.getRadii(), style);
         }
@@ -140,10 +147,10 @@ public abstract class HtmlRegionPeer
         if (radii == null)
             style.borderRadius = null;
         else {
-            style.borderTopLeftRadius     = CSSProperties.BorderTopLeftRadiusUnionType.of(    toPx(Math.max(radii.getTopLeftHorizontalRadius(),     radii.getTopLeftVerticalRadius())));
-            style.borderTopRightRadius    = CSSProperties.BorderTopRightRadiusUnionType.of(   toPx(Math.max(radii.getTopRightHorizontalRadius(),    radii.getTopRightVerticalRadius())));
+            style.borderTopLeftRadius = CSSProperties.BorderTopLeftRadiusUnionType.of(toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius())));
+            style.borderTopRightRadius = CSSProperties.BorderTopRightRadiusUnionType.of(toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius())));
             style.borderBottomRightRadius = CSSProperties.BorderBottomRightRadiusUnionType.of(toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius())));
-            style.borderBottomLeftRadius  = CSSProperties.BorderBottomLeftRadiusUnionType.of( toPx(Math.max(radii.getBottomLeftHorizontalRadius(),  radii.getBottomLeftVerticalRadius())));
+            style.borderBottomLeftRadius = CSSProperties.BorderBottomLeftRadiusUnionType.of(toPx(Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius())));
         }
     }
 
@@ -194,10 +201,12 @@ public abstract class HtmlRegionPeer
     private static StringBuilder toCssBackgroundRepeat(BackgroundRepeat repeatX, BackgroundRepeat repeatY, StringBuilder sb) {
         if (repeatX == repeatY && repeatX != null) {
             switch (repeatX) {
-                case NO_REPEAT: return sb.append(" no-repeat");
+                case NO_REPEAT:
+                    return sb.append(" no-repeat");
                 case ROUND:
                 case SPACE:
-                case REPEAT: return sb.append(" repeat");
+                case REPEAT:
+                    return sb.append(" repeat");
             }
         } else if (repeatX == BackgroundRepeat.REPEAT)
             return sb.append(" repeat-x");
