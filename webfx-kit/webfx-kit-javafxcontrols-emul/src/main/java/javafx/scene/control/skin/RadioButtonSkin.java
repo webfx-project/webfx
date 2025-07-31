@@ -27,9 +27,13 @@ package javafx.scene.control.skin;
 
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.behavior.ToggleButtonBehavior;
+import com.sun.javafx.scene.control.skin.Utils;
+import dev.webfx.kit.util.properties.FXProperties;
+import javafx.geometry.Insets;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Control;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.SkinBase;
+import javafx.scene.layout.StackPane;
 
 /**
  * Default skin implementation for the {@link RadioButton} control.
@@ -37,7 +41,7 @@ import javafx.scene.control.SkinBase;
  * @see RadioButton
  * @since 9
  */
-public class RadioButtonSkin extends /*Labeled*/SkinBase<RadioButton> { // Used only for the toggle behavior (directly mapped to an HTML radio for now)
+public class RadioButtonSkin extends LabeledSkinBase<RadioButton> {
 
     /* *************************************************************************
      *                                                                         *
@@ -46,7 +50,7 @@ public class RadioButtonSkin extends /*Labeled*/SkinBase<RadioButton> { // Used 
      **************************************************************************/
 
     /** The radio contains the "dot", which is usually a circle */
-    //private StackPane radio;
+    private StackPane radio;
     private final BehaviorBase<RadioButton> behavior;
 
 
@@ -71,8 +75,8 @@ public class RadioButtonSkin extends /*Labeled*/SkinBase<RadioButton> { // Used 
         behavior = new ToggleButtonBehavior<>(control);
 //        control.setInputMap(behavior.getInputMap());
 
-        //radio = createRadio();
-        //updateChildren();
+        radio = createRadio();
+        updateChildren();
     }
 
 
@@ -93,37 +97,37 @@ public class RadioButtonSkin extends /*Labeled*/SkinBase<RadioButton> { // Used 
     }
 
     /** {@inheritDoc} */
-    /*@Override protected void updateChildren() {
+    @Override protected void updateChildren() {
         super.updateChildren();
         if (radio != null) {
             getChildren().add(radio);
         }
-    }*/
+    }
 
     /** {@inheritDoc} */
-    /*@Override protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+    @Override protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         return super.computeMinWidth(height, topInset, rightInset, bottomInset, leftInset) + snapSizeX(radio.minWidth(-1));
-    }*/
+    }
 
     /** {@inheritDoc} */
-    /*@Override protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+    @Override protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         return Math.max(snapSizeY(super.computeMinHeight(width - radio.minWidth(-1), topInset, rightInset, bottomInset, leftInset)),
             topInset + radio.minHeight(-1) + bottomInset);
-    }*/
+    }
 
     /** {@inheritDoc} */
-    /*@Override protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+    @Override protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         return super.computePrefWidth(height, topInset, rightInset, bottomInset, leftInset) + snapSizeX(radio.prefWidth(-1));
-    }*/
+    }
 
     /** {@inheritDoc} */
-    /*@Override protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+    @Override protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         return Math.max(snapSizeY(super.computePrefHeight(width - radio.prefWidth(-1), topInset, rightInset, bottomInset, leftInset)),
             topInset + radio.prefHeight(-1) + bottomInset);
-    }*/
+    }
 
     /** {@inheritDoc} */
-    /*@Override protected void layoutChildren(final double x, final double y,
+    @Override protected void layoutChildren(final double x, final double y,
                                             final double w, final double h) {
         final RadioButton radioButton = getSkinnable();
         final double radioWidth = radio.prefWidth(-1);
@@ -138,7 +142,7 @@ public class RadioButtonSkin extends /*Labeled*/SkinBase<RadioButton> { // Used 
         layoutLabelInArea(xOffset + radioWidth, yOffset, labelWidth, maxHeight,  radioButton.getAlignment());
         radio.resize(snapSizeX(radioWidth), snapSizeY(radioHeight));
         positionInArea(radio, xOffset, yOffset, radioWidth, maxHeight, 0, radioButton.getAlignment().getHpos(), radioButton.getAlignment().getVpos());
-    }*/
+    }
 
 
 
@@ -148,7 +152,7 @@ public class RadioButtonSkin extends /*Labeled*/SkinBase<RadioButton> { // Used 
      *                                                                         *
      **************************************************************************/
 
-    /*private static StackPane createRadio() {
+    private /*static*/ StackPane createRadio() {
         StackPane radio = new StackPane();
         radio.getStyleClass().setAll("radio");
         radio.setSnapToPixel(false);
@@ -156,6 +160,24 @@ public class RadioButtonSkin extends /*Labeled*/SkinBase<RadioButton> { // Used 
         region.getStyleClass().setAll("dot");
         radio.getChildren().clear();
         radio.getChildren().addAll(region);
+
+        // WebFX addition
+        FXProperties.runNowAndOnPropertyChange(contentDisplay -> { // positioning of the box relative to the text
+            double textGap = 8;
+            double top = 0, right = 0, bottom = 0, left = 0;
+            switch (contentDisplay) {
+                case LEFT: right = textGap; break;
+                case RIGHT: left = textGap; break;
+                case TOP: bottom = textGap; break;
+                case BOTTOM: top = textGap; break;
+            }
+            radio.setPadding(new Insets(top, right, bottom, left));
+            boolean textOnly = contentDisplay == ContentDisplay.TEXT_ONLY;
+            double size = textOnly ? 0 : 18;
+            region.setPrefSize(size, size); // Size of the box
+            region.setVisible(!textOnly);
+        }, getSkinnable().contentDisplayProperty());
+
         return radio;
-    }*/
+    }
 }
