@@ -28,11 +28,11 @@ package javafx.scene.control.skin;
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.behavior.ButtonBehavior;
 import com.sun.javafx.scene.control.skin.Utils;
-import dev.webfx.platform.resource.Resource;
+import dev.webfx.kit.util.properties.FXProperties;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Control;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -50,7 +50,7 @@ public class CheckBoxSkin extends LabeledSkinBase<CheckBox> {
      **************************************************************************/
 
     private final StackPane box = new StackPane();
-    //private StackPane innerbox;
+    private StackPane innerbox;
     private final BehaviorBase<CheckBox> behavior;
 
 
@@ -75,21 +75,29 @@ public class CheckBoxSkin extends LabeledSkinBase<CheckBox> {
         behavior = new ButtonBehavior<>(control);
 //        control.setInputMap(behavior.getInputMap());
 
-        /* Commented for WebFX as it relies on JavaFX CSS
         box.getStyleClass().setAll("box");
         innerbox = new StackPane();
         innerbox.getStyleClass().setAll("mark");
-        //innerbox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);*/
-
-        // Temporary resource-image-based checkbox instead for WebFX
-        ImageView innerbox = new ImageView();
-        innerbox.imageUrlProperty().bind(control.selectedProperty().map(selected -> Resource.toUrl(selected ? "checkbox/checked.png" : "checkbox/unchecked.png", getClass())));
-        innerbox.setFitWidth(18d);
-        innerbox.setFitHeight(18d);
-        StackPane.setMargin(innerbox, new Insets(5));
-
+        //innerbox.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
         box.getChildren().add(innerbox);
         updateChildren();
+
+        // WebFX addition
+        FXProperties.runNowAndOnPropertyChange(contentDisplay -> { // positioning of the box relative to the text
+            double textGap = 8;
+            double top = 0, right = 0, bottom = 0, left = 0;
+            switch (contentDisplay) {
+                case LEFT: right = textGap; break;
+                case RIGHT: left = textGap; break;
+                case TOP: bottom = textGap; break;
+                case BOTTOM: top = textGap; break;
+            }
+            box.setPadding(new Insets(top, right, bottom, left));
+            boolean textOnly = contentDisplay == ContentDisplay.TEXT_ONLY;
+            double size = textOnly ? 0 : 18;
+            innerbox.setPrefSize(size, size); // Size of the box
+            innerbox.setVisible(!textOnly);
+        }, control.contentDisplayProperty());
     }
 
 
