@@ -94,10 +94,14 @@ fx-hyperlink fx-text:hover {
 }
 
 /* Removing borders, outlines and background for input elements (to not interfere with the text field below) */
-input, input[type="text"], input[type="password"] { /* is input rule not enough? */
+input {
     border: none;
     outline: none;
     background-color: transparent;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: 0;
+    padding-block: 0;
 }
 
 /* Removing spinner buttons on number inputs. Reasons: 1) Not in JavaFX 2) Make the text field narrower which can cause
@@ -105,7 +109,6 @@ input, input[type="text"], input[type="password"] { /* is input rule not enough?
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
-    margin: 0;
 }
 /* and for FireFox: */
 input[type="number"] {
