@@ -100,8 +100,6 @@ input {
     background-color: transparent;
     margin: 0;
     padding: 0;
-    padding-inline-start: 0;
-    padding-block: 0;
 }
 
 /* Removing spinner buttons on number inputs. Reasons: 1) Not in JavaFX 2) Make the text field narrower which can cause
