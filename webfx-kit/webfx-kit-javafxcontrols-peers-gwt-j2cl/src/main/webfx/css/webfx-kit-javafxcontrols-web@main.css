@@ -100,6 +100,19 @@ input, input[type="text"], input[type="password"] { /* is input rule not enough?
     background-color: transparent;
 }
 
+/* Removing spinner buttons on number inputs. Reasons: 1) Not in JavaFX 2) Make the text field narrower which can cause
+ unwanted clip on the number, ex: on FireFox when app code call setPrefWith(80) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* and for FireFox: */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
 fx-textfield {
     --fx-border-style: var(--fx-textfield-border-style);
     --fx-border-color: var(--fx-textfield-border-color);
