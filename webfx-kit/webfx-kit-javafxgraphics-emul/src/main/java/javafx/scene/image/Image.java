@@ -2,8 +2,7 @@ package javafx.scene.image;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.*;
 
 import java.util.function.Supplier;
 
@@ -343,6 +342,60 @@ public class Image implements
             progress = new SimpleDoubleProperty(this, "progress");
         }
         return progress;
+    }
+
+    /**
+     * Indicates whether an error was detected while loading an image.
+     *
+     * @defaultValue false
+     */
+    private BooleanProperty error;
+
+
+    public void setError(boolean value) {
+        errorPropertyImpl().set(value);
+    }
+
+    public final boolean isError() {
+        return error != null && error.get();
+    }
+
+    public final BooleanProperty errorProperty() {
+        return errorPropertyImpl();
+    }
+
+    private BooleanProperty errorPropertyImpl() {
+        if (error == null) {
+            error = new SimpleBooleanProperty(this, "error");
+        }
+        return error;
+    }
+
+    /**
+     * The exception which caused image loading to fail. Contains a non-null
+     * value only if the {@code error} property is set to {@code true}.
+     *
+     * @since JavaFX 8.0
+     */
+    private ObjectProperty<Exception> exception;
+
+    public void setException(Exception value) {
+        exceptionPropertyImpl().set(value);
+    }
+
+    public final Exception getException() {
+        return exception == null ? null : exception.get();
+    }
+
+    public final ObjectProperty<Exception> exceptionProperty() {
+        return exceptionPropertyImpl();
+    }
+
+    private ObjectProperty<Exception> exceptionPropertyImpl() {
+        if (exception == null) {
+            exception = new SimpleObjectProperty<>(this, "exception");
+        }
+        return exception;
     }
 
     private Object peerImage;

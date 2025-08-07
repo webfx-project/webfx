@@ -49,6 +49,10 @@ public final class HtmlImageViewPeer
             onLoaded();
             return null;
         };
+        imageElement.onerror = evt -> {
+            onError();
+            return null;
+        };
     }
 
     private Runnable sizeChangedCallback;
@@ -64,8 +68,8 @@ public final class HtmlImageViewPeer
 
     @Override
     public void updateImage(Image image) {
-        // Trying to inline svg images when possible to allow css rules such as svg {fill: currentColor} which is useful
-        // to have the same color for the image and the text (in a button for example).
+        // Trying to inline svg images when possible to allow CSS rules such as svg {fill: currentColor} which is useful
+        // to have the same color for the image and the text (in a button, for example).
         //loadedWidth = loadedHeight = null;
         String imageUrl = image == null ? null : image.getUrl();
         if (tryInlineSvg(imageUrl))
@@ -74,8 +78,6 @@ public final class HtmlImageViewPeer
             setElementAttribute("src", imageUrl);
             // Temporary filling alt with imageUrl to avoid downgrade in Lighthouse TODO: map this to accessible text
             setElementAttribute("alt", imageUrl);
-            // But removing the alt text and hiding the image if the link is broken (to align with JavaFX behaviour which doesn't display such things)
-            setElementAttribute("onerror", "this.style.display='none'; this.alt=''");
             // Better to not display the image until it is loaded to prevent initial layout issues
             setElementStyleAttribute("display", "none");
             // Special case of a canvas image (ex: the WebFX WritableImage emulation code stored the image in a canvas)
@@ -106,6 +108,18 @@ public final class HtmlImageViewPeer
         loaded = true;
         // Now that it's loaded, we can display it
         setElementStyleAttribute("display", null);
+    }
+
+    private void onError() {
+        // We remove the alt text and hiding the image if the link is broken (to align with JavaFX behavior which doesn't display such things)
+        setElementAttribute("alt", "");
+        setElementStyleAttribute("display", "none");
+        N node = getNode();
+        Image image = node.getImage();
+        if (image != null) {
+            image.setError(true);
+            image.setException(new Exception("Image failed to load"));
+        }
     }
 
     public static void onHTMLImageLoaded(HTMLImageElement imageElement, Image image) {
