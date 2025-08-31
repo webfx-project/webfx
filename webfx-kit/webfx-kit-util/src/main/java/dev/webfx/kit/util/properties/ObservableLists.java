@@ -6,7 +6,11 @@ import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Converter;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanExpression;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.IntegerBinding;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -102,8 +106,22 @@ public final class ObservableLists {
         FXProperties.runOnPropertiesChange(() -> listener.onChanged(null), properties);
     }
 
-    public static <T> BooleanExpression isEmpty(ObservableList<T> list) {
+    public static BooleanBinding isEmpty(ObservableList<?> list) {
         return Bindings.isEmpty(list);
+    }
+
+    public static BooleanBinding isNotEmpty(ObservableList<?> list) {
+        return Bindings.isNotEmpty(list);
+    }
+
+    public static IntegerBinding size(ObservableList<?> list) {
+        return Bindings.size(list);
+    }
+
+    public static ReadOnlyIntegerProperty versionNumber(ObservableList<?> list) {
+        IntegerProperty versionNumber = new SimpleIntegerProperty();
+        runOnListChange(c -> versionNumber.set(versionNumber.get() + 1), list);
+        return versionNumber;
     }
 
     public static <T> ObservableList<T> newObservableList(Consumer<ObservableList<T>> onInvalidated) {

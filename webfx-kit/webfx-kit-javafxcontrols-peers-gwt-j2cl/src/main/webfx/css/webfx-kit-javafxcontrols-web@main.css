@@ -33,11 +33,23 @@
     --fx-togglebutton-background-color-hover: var(--fx-togglebutton-background-color-selected);
     --fx-togglebutton-border-color-hover: var(--fx-togglebutton-border-color-selected);
 
+    --fx-theme-color: #0095cb;
     --fx-placholder-color: #888;
+    --fx-progress-indicator-color: var(--fx-theme-color);
+    --fx-hyperlink-text-fill: var(--fx-theme-color);
+    --fx-checkbox-background-color: var(--fx-theme-color);
+    --fx-checkbox-border-color: var(--fx-text-fill);
+    --fx-radiobutton-background-color: var(--fx-theme-color);
+    --fx-radiobutton-border-color: var(--fx-text-fill);
 }
 
 ::placeholder {
     color: var(--fx-placholder-color);
+}
+
+/* Without this rule, the context menu is wrongly shifted up by the browser the first time it is displayed */
+fx-scene > * {
+    overflow: hidden;
 }
 
 /* Applying text color to svg path as well by default */
@@ -74,7 +86,7 @@ fx-togglebutton.pseudo-selected {
 
 
 fx-hyperlink {
-    --fx-text-fill: #0096c9ff;
+    --fx-text-fill: var(--fx-hyperlink-text-fill);
 }
 
 fx-hyperlink fx-text:hover {
@@ -82,11 +94,25 @@ fx-hyperlink fx-text:hover {
 }
 
 /* Removing borders, outlines and background for input elements (to not interfere with the text field below) */
-input, input[type="text"], input[type="password"] { /* is input rule not enough? */
+input {
     border: none;
     outline: none;
     background-color: transparent;
+    margin: 0;
+    padding: 0;
 }
+
+/* Removing spinner buttons on number inputs. Reasons: 1) Not in JavaFX 2) Make the text field narrower which can cause
+ unwanted clip on the number, ex: on FireFox when app code call setPrefWith(80) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+/* and for FireFox: */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 
 fx-textfield {
     --fx-border-style: var(--fx-textfield-border-style);
@@ -143,7 +169,30 @@ fx-label.ellipsis fx-text {
     /* -webkit-line-clamp will be set in JS by HtmlTextPeer */
 }
 
-/* Without this rule, the context menu is wrongly shifted up by the browser the first time it is displayed */
-fx-scene > * {
-    overflow: hidden;
+fx-progressindicator .spinner .segment {
+    background-color: var(--fx-progress-indicator-color);
+}
+
+fx-checkbox .box .mark {
+    --fx-border-style: solid;
+    --fx-border-color: var(--fx-checkbox-border-color);
+    --fx-border-width: 1px;
+    --fx-border-radius: 3px;
+}
+
+fx-checkbox.pseudo-selected .box .mark {
+    --fx-background-radius: 3px;
+    --fx-background-color: var(--fx-checkbox-background-color);
+}
+
+fx-radiobutton .radio .dot {
+    --fx-border-style: solid;
+    --fx-border-color: var(--fx-radiobutton-border-color);
+    --fx-border-width: 1px;
+    --fx-border-radius: 50%;
+}
+
+fx-radiobutton.pseudo-selected .radio .dot {
+    --fx-background-radius: 50%;
+    --fx-background-color: var(--fx-radiobutton-background-color);
 }

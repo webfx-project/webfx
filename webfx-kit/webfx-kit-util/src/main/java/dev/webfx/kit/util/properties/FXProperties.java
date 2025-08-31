@@ -2,6 +2,8 @@ package dev.webfx.kit.util.properties;
 
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.collection.Collections;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.binding.BooleanExpression;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -296,6 +298,14 @@ public final class FXProperties {
 
     public static void toggleProperty(WritableValue<Boolean> p) {
         p.setValue(!p.getValue());
+    }
+
+    public static BooleanExpression booleanExpression(ObservableValue<Boolean> booleanProperty) {
+        return BooleanBinding.booleanExpression(booleanProperty);
+    }
+
+    public static BooleanBinding not(ObservableValue<Boolean> booleanProperty) {
+        return booleanExpression(booleanProperty).not();
     }
 
 }

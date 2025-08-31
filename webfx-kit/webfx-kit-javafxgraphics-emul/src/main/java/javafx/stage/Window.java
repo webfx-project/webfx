@@ -489,7 +489,7 @@ public class Window implements EventTarget,
      * @treatAsPrivate
      * @deprecated
      */
-    //@Deprecated
+    @Deprecated
     public final void setFocused(boolean value) { focused.setValue(value); }
 
     /**

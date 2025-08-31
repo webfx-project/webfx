@@ -1,6 +1,7 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
 import dev.webfx.kit.util.aria.AriaRole;
+import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.HTMLElement;
 import javafx.scene.control.CheckBox;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.CheckBoxPeerBase;
@@ -36,6 +37,7 @@ public final class HtmlCheckBoxPeer
 
     @Override
     public void updateSelected(Boolean selected) {
+        Collections.addIfNotContainsOrRemove(getNode().getStyleClass(), selected, "pseudo-selected");
         // Nothing to do graphically as the skin manages this, but we update the arial state
         updateAriaSelectedAndTabindex(getNodeProperties());
     }

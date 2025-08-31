@@ -40,12 +40,6 @@ public class RadioButton extends ToggleButton {
         return new RadioButtonSkin(this);
     }
 
-    // We continue to use the target toolkit layout measurable even if there is a skin
-    @Override
-    public boolean shouldUseLayoutMeasurable() {
-        return true;
-    }
-
     static {
         JavaFxControlsRegistry.registerRadioButton();
     }

@@ -298,7 +298,10 @@ public class HtmlWebViewPeer
                 setWebEngineLoadWorkerState(Worker.State.RUNNING);
                 break;
             case COMPLETE_READY_STATE:
-                setWebEngineLoadWorkerState(Worker.State.SUCCEEDED);
+                // Note: an immediate call to the JS loaded code made at this point by the app code might fail (this
+                // has been observed with the web payment form and Authorize.net)
+                UiScheduler.scheduleDeferred(() -> // We defer the success notification to prevent this issue
+                    setWebEngineLoadWorkerState(Worker.State.SUCCEEDED));
                 break;
             default:
                 log("Unknown iFrame readyState: " + readyState);

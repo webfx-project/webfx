@@ -239,7 +239,9 @@ public class Region extends Parent implements
     // method Node.getAllNodeTransforms() that reads back the layoutX/Y values to compute an overall transform for the
     // Node that will be transmitted to the HTML mapper. This overall transform requires precise values when followed
     // by other transforms such as rotate and scale.
-    private final Property<Boolean> snapToPixelProperty = new SimpleBooleanProperty(false) {
+    // UPDATE 21/07/2025: finally set it back to true to solve some trembling vertical position issues with nodes in
+    // VBoxes during animation effects on the container height such as CollapsePane or TransitionPane with animated height
+    private final Property<Boolean> snapToPixelProperty = new SimpleBooleanProperty(true) {
         @Override
         protected void invalidated() {
             updateSnappedInsets();
@@ -695,7 +697,7 @@ public class Region extends Parent implements
      * @return value rounded to nearest pixel
      * @deprecated replaced by {@code snapPositionX()} and {@code snapPositionY()}
      */
-    //@Deprecated(since="9") GWT doesn't recognize since attribute
+    @Deprecated(/*since="9"*/) //GWT doesn't recognize since attribute
     protected double snapPosition(double value) {
         return snapPositionX(value, isSnapToPixel());
     }
@@ -1743,7 +1745,7 @@ public class Region extends Parent implements
         return 1.0; // _getSnapScaleXimpl(getScene());
     }
 
-    private static double getSnapScaleX(Node n) {
+    public static double getSnapScaleX(Node n) {
         return 1.0; // _getSnapScaleXimpl(n.getScene());
     }
 
@@ -1751,7 +1753,7 @@ public class Region extends Parent implements
         return 1.0; //_getSnapScaleYimpl(getScene());
     }
 
-    private static double getSnapScaleY(Node n) {
+    public static double getSnapScaleY(Node n) {
         return 1.0; // _getSnapScaleYimpl(n.getScene());
     }
 
@@ -1782,6 +1784,7 @@ public class Region extends Parent implements
     private double snapSpaceX(double value, boolean snapToPixel) {
         return snapToPixel ? scaledRound(value, getSnapScaleX()) : value;
     }
+
     private double snapSpaceY(double value, boolean snapToPixel) {
         return snapToPixel ? scaledRound(value, getSnapScaleY()) : value;
     }

@@ -423,6 +423,9 @@ public final class HtmlScenePeer extends ScenePeerBase {
                         } else if (focusinNodePeer.getNode().getScene() != scene) {
                             if (ENABLE_DEBUG_FOCUS_LOGS)
                                 Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 focusout to another scene, focusin node = " + focusinNodePeer.getNode() + ", focusout node = " + peer.getNode() + (peer.getNode() == htmlSvgNodePeer.getJavaFxFocusableNode() ? "" : " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]"));
+                        } else if (focusinNodePeer == peer) { // Note: this happens with the HtmlTextEditor and its peer HtmlHtmlTextEditorPeer
+                            if (ENABLE_DEBUG_FOCUS_LOGS)
+                                Console.log("[Scene-" + sceneNumber + "] " + "🤷🤷🤷🤷🤷 Same focus in and out node = " + focusinNodePeer.getNode() + " [" + htmlSvgNodePeer.getJavaFxFocusableNode() + "]");
                         } else {
                             // If the focus is gained inside a seamless div (which may contain a payment gateway asking
                             // for CC details, for example), we don't try to reestablish the JavaFX focus node.
