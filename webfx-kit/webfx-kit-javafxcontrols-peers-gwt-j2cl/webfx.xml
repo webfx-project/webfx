@@ -11,10 +11,10 @@
 
     <html if-uses-java-class="javafx.scene.control.ScrollPane">
         <head>
-            <link rel="stylesheet" type="text/css" href="dev/webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.css"/>
+            <link rel="stylesheet" type="text/css" href="./dev/webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.css"/>
         </head>
         <body>
-            <script type="text/javascript" charset="utf-8" src="dev/webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.min.js"/>
+            <script type="text/javascript" charset="utf-8" src="./dev/webfx/kit/mapper/peers/javafxcontrols/gwt/html/perfect-scrollbar.min.js"/>
         </body>
     </html>
 
