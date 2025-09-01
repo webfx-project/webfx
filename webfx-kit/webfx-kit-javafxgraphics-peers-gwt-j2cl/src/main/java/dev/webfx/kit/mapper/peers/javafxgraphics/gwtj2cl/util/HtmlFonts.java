@@ -11,7 +11,22 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlNodePeer;
 public final class HtmlFonts {
 
     public static String getHtmlFontDefinition(Font font) {
-        return font == null ? null : getHtmlFontStyle(font) + " " + getHtmlFontWeight(font) + " " + getHtmlFontSize(font) + " " + getHtmlFontFamily(font);
+        if (font == null)
+            return null;
+        String htmlFontStyle = getHtmlFontStyle(font);
+        Integer htmlFontWeight = getHtmlFontWeight(font);
+        String htmlFontSize = getHtmlFontSize(font);
+        String htmlFontFamily = getHtmlFontFamily(font);
+        StringBuilder sb = new StringBuilder();
+        if (htmlFontStyle != null)
+            sb.append(htmlFontStyle).append(" ");
+        if (htmlFontWeight != null)
+            sb.append(htmlFontWeight).append(" ");
+        if (htmlFontSize != null)
+            sb.append(htmlFontSize).append(" ");
+        if (htmlFontFamily != null)
+            sb.append(htmlFontFamily);
+        return sb.toString();
     }
 
     public static void setHtmlFontStyleAttributes(Font font, Element element) {
