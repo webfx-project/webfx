@@ -25,8 +25,8 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
     private static final boolean SKIP_TRACK_WINDOW_POSITION_DEBUG_FLAG = false; // especially in Browser dev tools)
 
     // Variable that will contain the correction to apply on HTML window.screenY, because browsers return a wrong value!
-    // What WebFX expects from window.screenY is to return the position on the screen of the top left corner of the
-    // browser PAGE (good). However, browsers (at least on macOS) return the position of the top left corner of the
+    // What WebFX expects from window.screenY is to return the position on the screen of the top-left corner of the
+    // browser PAGE (good). However, browsers (at least on macOS) return the position of the top-left corner of the
     // browser WINDOW (bad). There can be a quite big difference between the 2, due to the presence of browser tabs,
     // bookmarks bar, etc...
     static double windowScreenYCorrection;
@@ -35,11 +35,13 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
 
     public GwtJ2clPrimaryStagePeer(Stage stage) {
         super(stage);
-        // TODO: see how to replace this with immediate CSS
-        // Disabling browser horizontal and vertical scroll bars
-        HtmlUtil.setStyleAttribute(document.documentElement, "overflow", "hidden");
-        // Removing the default margin around the body, so it fills the whole browser tab
-        HtmlUtil.setStyleAttribute(document.body, "margin", "0");
+        // Workaround for iOS Safari not returning the correct initial window height in PWA with <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
+        document.body.style.set("padding-top", "env(safe-area-inset-top)");
+        document.body.style.set("padding-bottom", "env(safe-area-inset-bottom)");
+        UiScheduler.scheduleDelay(500, () -> {
+            document.body.style.set("padding-top", "0");
+            document.body.style.set("padding-bottom", "0");
+        });
 
         // Considering the current window size
         changedWindowSize();
