@@ -310,8 +310,10 @@ public class HtmlGraphicsContext implements GraphicsContext {
     private Font font;
     @Override
     public void setFont(Font f) {
-        font = f; // Memorizing the value for getFont()
-        ctx.setFont(HtmlFonts.getHtmlFontDefinition(f));
+        if (f != font) {
+            ctx.setFont(HtmlFonts.getHtmlFontDefinition(f));
+            font = f; // Memorizing the value for getFont()
+        }
     }
 
     @Override
