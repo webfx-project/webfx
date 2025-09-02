@@ -683,28 +683,77 @@ public class HtmlGraphicsContext implements GraphicsContext {
             }
             boolean loadImage = img.getUrl() != null;
             ImageData imageData = loadImage ? null : ImageDataHelper.getImageDataAssociatedWithImage(img);
+            boolean useSafariTiling = isSafari() && isLargeImageOperation(sw, sh, dw, dh);
             if (imageData != null) {
                 HTMLCanvasElement canvasElement = CanvasElementHelper.getCanvasElementReadyToRenderImage(img);
-                // Note: wrong Elemental2 signature. Correct signature = drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
-                ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
+                if (useSafariTiling)
+                    drawImageTiled(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
+                else
+                    ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
             } else {
                 HTMLCanvasElement canvasElement = loadImage ? null : CanvasElementHelper.getCanvasElementAssociatedWithImage(img);
-                if (canvasElement != null)
-                    ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
-                else {
+                if (canvasElement != null) {
+                    if (useSafariTiling)
+                        drawImageTiled(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
+                    else
+                        ctx.drawImage(canvasElement, sx, sy, sw, sh, dx, dy, dw, dh);
+                } else {
                     HTMLImageElement imageElement = getHTMLImageElement(img);
                     if (isImageLoadedWithoutError(imageElement)) { // Prevents uncaught exception with unloaded images or with error
                         // This scaleX/Y computation was necessary to make SpaceFX work
                         // (perhaps it's because this method behaves differently between HTML and JavaFX?)
                         double scaleX = imageElement.width / img.getWidth();
                         double scaleY = imageElement.height / img.getHeight();
-                        ctx.drawImage(imageElement, sx * scaleX, sy * scaleY, sw * scaleX, sh * scaleY, dx, dy, dw, dh);
+                        double ssx = sx * scaleX, ssy = sy * scaleY, ssw = sw * scaleX, ssh = sh * scaleY;
+                        if (useSafariTiling)
+                            drawImageTiled(imageElement, ssx, ssy, ssw, ssh, dx, dy, dw, dh);
+                        else
+                            ctx.drawImage(imageElement, ssx, ssy, ssw, ssh, dx, dy, dw, dh);
                     } else
                         drawUnloadedImage(dx, dy, dw, dh);
                 }
             }
             if (flip)
                 ctx.restore();
+        }
+    }
+
+    // Workaround for Safari canvas drawImage distortion with large images/rectangles
+    private static final int SAFARI_TILE_SIZE = 1024; // conservative tile size
+
+    private static boolean isSafariCached, safariChecked;
+    private static boolean isSafari() {
+        if (!safariChecked) {
+            String ua = DomGlobal.navigator.userAgent;
+            // Consider Safari when UA has Safari but not Chrome/Chromium/Edge (including iOS variants)
+            boolean safariLike = ua.contains("Safari");
+            boolean excludeChromium = ua.contains("Chrome") || ua.contains("Chromium") || ua.contains("CriOS") || ua.contains("Edg") || ua.contains("OPR") || ua.contains("FxiOS");
+            isSafariCached = safariLike && !excludeChromium;
+            safariChecked = true;
+        }
+        return isSafariCached;
+    }
+
+    private static boolean isLargeImageOperation(double sw, double sh, double dw, double dh) {
+        double asw = Math.abs(sw), ash = Math.abs(sh), adw = Math.abs(dw), adh = Math.abs(dh);
+        return asw > SAFARI_TILE_SIZE || ash > SAFARI_TILE_SIZE || adw > 2 * SAFARI_TILE_SIZE || adh > 2 * SAFARI_TILE_SIZE;
+    }
+
+    private void drawImageTiled(Object source, double sx, double sy, double sw, double sh, double dx, double dy, double dw, double dh) {
+        double scaleX = dw / sw;
+        double scaleY = dh / sh;
+        for (double ty = 0; ty < sh; ty += SAFARI_TILE_SIZE) {
+            double th = Math.min(SAFARI_TILE_SIZE, sh - ty);
+            for (double tx = 0; tx < sw; tx += SAFARI_TILE_SIZE) {
+                double tw = Math.min(SAFARI_TILE_SIZE, sw - tx);
+                double sxi = sx + tx, syi = sy + ty;
+                double dxi = dx + tx * scaleX, dyi = dy + ty * scaleY;
+                double dwi = tw * scaleX, dhi = th * scaleY;
+                if (source instanceof HTMLImageElement)
+                    ctx.drawImage((HTMLImageElement) source, sxi, syi, tw, th, dxi, dyi, dwi, dhi);
+                else
+                    ctx.drawImage((HTMLCanvasElement) source, sxi, syi, tw, th, dxi, dyi, dwi, dhi);
+            }
         }
     }
 
