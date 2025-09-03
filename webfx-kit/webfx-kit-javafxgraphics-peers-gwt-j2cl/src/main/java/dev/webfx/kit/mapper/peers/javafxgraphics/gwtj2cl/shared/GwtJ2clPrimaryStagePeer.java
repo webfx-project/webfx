@@ -4,6 +4,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.ScenePeerBas
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.StagePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
+import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.dom.Event;
@@ -35,10 +36,14 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
 
     public GwtJ2clPrimaryStagePeer(Stage stage) {
         super(stage);
-        // Workaround for iOS Safari not returning the correct initial window height in PWA with <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent'>
-        document.body.style.set("padding-top", "env(safe-area-inset-top)");
-        document.body.style.set("padding-bottom", "env(safe-area-inset-bottom)");
-        UiScheduler.scheduleDelay(500, () -> {
+        /* Note regarding iOS Safari bug: webfx-kit-javafxgraphics-web@main.css applied special padding to document.body
+           to fix the iOS Safari bug not returning the correct initial window height. This initial padding is important
+           so that apps reading back scene.getHeight() in Application.start(Stage stage) will get the correct value
+           (i.e., the page height). However, we don't want to keep that padding after the scene is added to the stage
+           because we want the scene to occupy the whole page. It will be up to the app to then decide how to consider
+           the safe-area-inset using WebFXKitLauncher.safeAreaInsetsProperty(). */
+        FXProperties.onPropertySet(stage.sceneProperty(), scene -> {
+            /* Removing the initial padding set by webfx-kit-javafxgraphics-web@main.css once the scene is added to the stage */
             document.body.style.set("padding-top", "0");
             document.body.style.set("padding-bottom", "0");
         });
