@@ -20,6 +20,7 @@ import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
 import dev.webfx.platform.util.function.Factory;
+import dev.webfx.platform.util.gwtj2cl.GwtJ2clUtil;
 import elemental2.dom.*;
 import javafx.application.Application;
 import javafx.application.HostServices;
@@ -325,5 +326,24 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         DomGlobal.document.addEventListener("fullscreenchange", e ->
             getPrimaryStage().fullScreenPropertyImpl().set(DomGlobal.document.fullscreenElement != null)
         );
+
+        // PWA callbacks
+        GwtJ2clUtil.setPromptPwaInstallReadyCallback(appInstallPromptReadyProperty::set);
+        GwtJ2clUtil.setPwaInstalledCallback(appInstalledProperty::set);
+    }
+
+    @Override
+    public boolean supportsAppInstall() {
+        return GwtJ2clUtil.supportsPwa();
+    }
+
+    @Override
+    public void promptAppInstall() {
+        GwtJ2clUtil.promptPwaInstall();
+    }
+
+    @Override
+    public boolean isRunningAsInstalledApp() {
+        return GwtJ2clUtil.isRunningAsPWA();
     }
 }
