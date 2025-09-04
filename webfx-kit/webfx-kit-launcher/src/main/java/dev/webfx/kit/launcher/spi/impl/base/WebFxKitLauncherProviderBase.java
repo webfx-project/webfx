@@ -1,5 +1,8 @@
 package dev.webfx.kit.launcher.spi.impl.base;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.stage.Stage;
 import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
 
@@ -28,4 +31,18 @@ public abstract class WebFxKitLauncherProviderBase implements WebFxKitLauncherPr
         }
         return primaryStage;
     }
+
+    protected final BooleanProperty appInstallPromptReadyProperty = new SimpleBooleanProperty();
+    protected final BooleanProperty appInstalledProperty = new SimpleBooleanProperty();
+
+    @Override
+    public ReadOnlyBooleanProperty appInstallPromptReadyProperty() {
+        return appInstallPromptReadyProperty;
+    }
+
+    @Override
+    public ReadOnlyBooleanProperty appInstalledProperty() {
+        return appInstalledProperty;
+    }
+
 }

@@ -6,6 +6,7 @@ import dev.webfx.platform.console.Console;
 import dev.webfx.platform.service.SingleServiceProvider;
 import dev.webfx.platform.util.function.Factory;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
@@ -154,6 +155,36 @@ public final class WebFxKitLauncher {
 
     public static boolean exitFullscreen() {
         return getProvider().exitFullscreen();
+    }
+
+    // PWA features
+
+    public static boolean supportsAppInstall() {
+        return getProvider().supportsAppInstall();
+    }
+
+    public static ReadOnlyBooleanProperty appInstallPromptReadyProperty() {
+        return getProvider().appInstallPromptReadyProperty();
+    }
+
+    public static boolean isAppInstallPromptReady() {
+        return appInstallPromptReadyProperty().get();
+    }
+
+    public static void promptAppInstall() {
+        getProvider().promptAppInstall();
+    }
+
+    public static ReadOnlyBooleanProperty appInstalledProperty() {
+        return getProvider().appInstalledProperty();
+    }
+
+    public static boolean isAppInstalled() {
+        return appInstalledProperty().get();
+    }
+
+    public static boolean isRunningAsInstalledApp() {
+        return getProvider().isRunningAsInstalledApp();
     }
 
 }
