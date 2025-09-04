@@ -251,6 +251,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>dev.webfx</groupId>
+            <artifactId>webfx-platform-util-gwt-j2cl</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

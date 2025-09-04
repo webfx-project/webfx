@@ -3,7 +3,9 @@ package dev.webfx.kit.launcher.spi;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
@@ -114,6 +116,25 @@ public interface WebFxKitLauncherProvider {
     }
 
     default boolean exitFullscreen() {
+        return false;
+    }
+
+    default boolean supportsAppInstall() {
+        return false;
+    }
+
+    default ReadOnlyBooleanProperty appInstallPromptReadyProperty() {
+        return new SimpleBooleanProperty();
+    }
+
+    default void promptAppInstall() {
+    }
+
+    default ReadOnlyBooleanProperty appInstalledProperty() {
+        return new SimpleBooleanProperty();
+    }
+
+    default boolean isRunningAsInstalledApp() {
         return false;
     }
 
