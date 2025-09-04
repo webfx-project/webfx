@@ -6,6 +6,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.Objects;
+import dev.webfx.platform.util.gwtj2cl.GwtJ2clUtil;
 import elemental2.core.Function;
 import elemental2.core.JsArray;
 import elemental2.dom.*;
@@ -683,7 +684,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
             }
             boolean loadImage = img.getUrl() != null;
             ImageData imageData = loadImage ? null : ImageDataHelper.getImageDataAssociatedWithImage(img);
-            boolean useSafariTiling = isSafari() && isLargeImageOperation(sw, sh, dw, dh);
+            boolean useSafariTiling = GwtJ2clUtil.isSafari() && isLargeImageOperation(sw, sh, dw, dh);
             if (imageData != null) {
                 HTMLCanvasElement canvasElement = CanvasElementHelper.getCanvasElementReadyToRenderImage(img);
                 if (useSafariTiling)
@@ -720,19 +721,6 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     // Workaround for Safari canvas drawImage distortion with large images/rectangles
     private static final int SAFARI_TILE_SIZE = 1024; // conservative tile size
-
-    private static boolean isSafariCached, safariChecked;
-    private static boolean isSafari() {
-        if (!safariChecked) {
-            String ua = DomGlobal.navigator.userAgent;
-            // Consider Safari when UA has Safari but not Chrome/Chromium/Edge (including iOS variants)
-            boolean safariLike = ua.contains("Safari");
-            boolean excludeChromium = ua.contains("Chrome") || ua.contains("Chromium") || ua.contains("CriOS") || ua.contains("Edg") || ua.contains("OPR") || ua.contains("FxiOS");
-            isSafariCached = safariLike && !excludeChromium;
-            safariChecked = true;
-        }
-        return isSafariCached;
-    }
 
     private static boolean isLargeImageOperation(double sw, double sh, double dw, double dh) {
         double asw = Math.abs(sw), ash = Math.abs(sh), adw = Math.abs(dw), adh = Math.abs(dh);
