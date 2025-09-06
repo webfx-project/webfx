@@ -102,6 +102,18 @@ public abstract class TextInputControl extends Control implements
     }
 
     /**
+     * The <code>anchor</code> of the text selection.
+     * The <code>anchor</code> and <code>caretPosition</code> make up the selection
+     * range. Selection must always be specified in terms of begin &lt;= end, but
+     * <code>anchor</code> may be less than, equal to, or greater than the
+     * <code>caretPosition</code>. Depending on how the user selects text,
+     * the anchor might represent the lower or upper bound of the selection.
+     */
+    private IntegerProperty anchor = new SimpleIntegerProperty(this, "anchor", 0);
+    public final int getAnchor() { return anchor.get(); }
+    public final ReadOnlyIntegerProperty anchorProperty() { return anchor; }
+
+    /**
      * The current position of the caret within the text.
      * The <code>anchor</code> and <code>caretPosition</code> make up the selection
      * range. Selection must always be specified in terms of begin &lt;= end, but
@@ -112,6 +124,16 @@ public abstract class TextInputControl extends Control implements
     private IntegerProperty caretPosition = new SimpleIntegerProperty(this, "caretPosition", 0);
     public final int getCaretPosition() { return caretPosition.get(); }
     public final ReadOnlyIntegerProperty caretPositionProperty() { return caretPosition; }
+
+    /**
+     * Positions the caret to the position indicated by {@code pos}. This
+     * function will also clear the selection.
+     * @param pos the position
+     */
+    public void positionCaret(int pos) {
+        final int p = pos; // Utils.clamp(0, pos, getLength());
+        selectRange(p, p);
+    }
 
     {
         // Although the HTML peer entirely manages the key events, we consume them in JavaFX to not propagate
