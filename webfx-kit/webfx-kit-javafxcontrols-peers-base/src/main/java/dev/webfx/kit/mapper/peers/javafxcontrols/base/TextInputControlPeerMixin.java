@@ -18,4 +18,8 @@ public interface TextInputControlPeerMixin
     void updatePromptText(String prompt);
 
     void updateEditable(Boolean editable);
+
+    void updateAnchorPosition(Number anchorPosition);
+
+    void updateCaretPosition(Number caretPosition);
 }

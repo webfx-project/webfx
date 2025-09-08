@@ -4,6 +4,7 @@ import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
+import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.util.Booleans;
@@ -14,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.control.skin.ToolkitTextBox;
 import javafx.scene.text.Font;
 
 import java.util.HashSet;
@@ -23,10 +25,24 @@ import java.util.Set;
  * @author Bruno Salmon
  */
 public abstract class HtmlTextInputControlPeer
-        <N extends TextInputControl, NB extends TextInputControlPeerBase<N, NB, NM>, NM extends TextInputControlPeerMixin<N, NB, NM>>
+    <N extends TextInputControl, NB extends TextInputControlPeerBase<N, NB, NM>, NM extends TextInputControlPeerMixin<N, NB, NM>>
 
-        extends HtmlControlPeer<N, NB, NM>
-        implements TextInputControlPeerMixin<N, NB, NM>, TextInputControl.SelectableTextInputControlPeer {
+    extends HtmlControlPeer<N, NB, NM>
+    implements TextInputControlPeerMixin<N, NB, NM>, TextInputControl.SelectableTextInputControlPeer {
+
+    static {
+        // We listen to the global selection changes on the document and eventually forward them to the matching peer
+        DomGlobal.document.addEventListener("selectionchange", e -> {
+            if (e.target instanceof HTMLInputElement inputElement) {
+                NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(inputElement, true);
+                if (peer instanceof HtmlTextInputControlPeer<?, ?, ?> textInputPeer) {
+                    textInputPeer.onSelectionChanged(inputElement);
+                }
+            }
+        });
+    }
+
+    private boolean scheduledReapplying;
 
     public HtmlTextInputControlPeer(NB base, HTMLElement textInputElement, String containerTag) {
         super(base, textInputElement);
@@ -46,6 +62,30 @@ public abstract class HtmlTextInputControlPeer
         };
     }
 
+    private void onSelectionChanged(HTMLInputElement inputElement) {
+        N node = getNode();
+        // Forwarding to the embedding TextField in the case of a ToolkitTextBox
+        if (node instanceof ToolkitTextBox ttb && ttb.getEmbeddingTextField().getNodePeer() instanceof HtmlTextInputControlPeer<?, ?, ?> textInputPeer) {
+            textInputPeer.onSelectionChanged(inputElement);
+            return;
+        }
+        // If we scheduled a selection reapplying, we ignore the later changes until the selection has actually been reapplied.
+        // Ex: the first time the user switches from the password field to the clear text field in WebFX Stack UILoginView,
+        // we reapply the selection of the password to the text field, but this may fail because of the focus change.
+        // This case is detected in selectRange() which schedules a selection reapplying, while the browser sets meanwhile
+        // the selection to the end of the text field. But we ignore that (not synced to JavaFX) until the original
+        // selection has actually been reapplied to the text field.
+        if (scheduledReapplying)
+            return;
+        boolean selectionBackward = "backward".equalsIgnoreCase(inputElement.selectionDirection);
+        int selectionStart = inputElement.selectionStart;
+        int selectionEnd = inputElement.selectionEnd;
+        if (!String.valueOf(selectionStart).equals("null")) {
+            node.anchorProperty().set(selectionBackward ? selectionEnd : selectionStart);
+            node.caretPositionProperty().set(selectionBackward ? selectionStart : selectionEnd);
+        }
+    }
+
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
@@ -55,9 +95,9 @@ public abstract class HtmlTextInputControlPeer
     private static final Set<Scene> FOCUS_LISTENER_SCENES = new HashSet<>();
 
     private void onSceneChanged(Scene scene) {
-        // When adding the TextInputControl to the scene graph, we ensure that there is a focus listener associated to
-        // that scene that will listen the focus changes, and call updatePromptText() when this happens. This is to
-        // reproduce the JavaFX behaviour where the prompt text is not displayed on focused nodes (as opposed to HTML).
+        // When adding the TextInputControl to the scene graph, we ensure that there is a focus listener associated with
+        // that scene that will listen to the focus changes and call updatePromptText() when this happens. This is to
+        // reproduce the JavaFX behavior where the prompt text is not displayed on focused nodes (as opposed to HTML).
         if (scene != null && !FOCUS_LISTENER_SCENES.contains(scene)) {
             FOCUS_LISTENER_SCENES.add(scene);
             scene.focusOwnerProperty().addListener((observable, oldFocusOwner, newFocusOwner) -> {
@@ -68,25 +108,44 @@ public abstract class HtmlTextInputControlPeer
     }
 
     private static void updatePromptText(Node node) {
-        if (node instanceof TextInputControl) {
-            NodePeer nodePeer = node.getNodePeer();
-            if (nodePeer instanceof HtmlTextInputControlPeer)
-                ((HtmlTextInputControlPeer<?, ?, ?>) nodePeer).updatePromptText(((TextInputControl) node).getPromptText());
+        if (node instanceof TextInputControl textInputControl && node.getNodePeer() instanceof HtmlTextInputControlPeer<?, ?, ?> htmlTextInputControlPeer) {
+            htmlTextInputControlPeer.updatePromptText((textInputControl.getPromptText()));
         }
     }
 
     @Override
     public void selectRange(int anchor, int caretPosition) {
         Element focusableElement = getHtmlFocusableElement();
-        if (focusableElement instanceof HTMLInputElement) {
-            HTMLInputElement inputElement = (HTMLInputElement) focusableElement;
-            inputElement.setSelectionRange(anchor, caretPosition);
-            // Note: There is a bug in Chrome: the previous selection request is ignored if it happens during a focus requested
-            // So let's double-check if the selection has been applied
-            if (inputElement.selectionStart != anchor || inputElement.selectionEnd != caretPosition)
-                // If not, we reapply the selection request later, after the focus request should have been completed
-                UiScheduler.scheduleInAnimationFrame(() -> inputElement.setSelectionRange(anchor, caretPosition), 1);
+        if (focusableElement instanceof HTMLInputElement inputElement) {
+            boolean selectionForward = anchor < caretPosition;
+            int selectionStart = selectionForward ? anchor : caretPosition;
+            int selectionEnd = selectionForward ? caretPosition : anchor;
+            if (selectionStart != inputElement.selectionStart || selectionEnd != inputElement.selectionEnd) {
+                inputElement.setSelectionRange(selectionStart, selectionEnd);
+                if (selectionForward && "backward".equalsIgnoreCase(inputElement.selectionDirection))
+                    inputElement.selectionDirection = "forward";
+                // Note: the previous selection request may be ignored if it happens during a focus request.
+                // So let's double-check if the selection has been applied
+                if (inputElement.selectionStart != selectionStart || inputElement.selectionEnd != selectionEnd) {
+                    scheduledReapplying = true;
+                    // If not, we reapply the selection request later, after the focus request should have been completed
+                    UiScheduler.scheduleInAnimationFrame(() -> {
+                        inputElement.setSelectionRange(selectionStart, selectionEnd);
+                        scheduledReapplying = false;
+                    }, 1);
+                }
+            }
         }
+    }
+
+    @Override
+    public void updateAnchorPosition(Number anchorPosition) {
+        selectRange(anchorPosition.intValue(), getNode().getCaretPosition());
+    }
+
+    @Override
+    public void updateCaretPosition(Number caretPosition) {
+        selectRange(getNode().getAnchor(), caretPosition.intValue());
     }
 
     @Override
@@ -100,8 +159,8 @@ public abstract class HtmlTextInputControlPeer
         if (!Objects.areEquals(getValue(), safeText)) // To avoid caret position reset
             setValue(safeText);
         // The "value" attribute (which normally refers to the initial value only of the text input) has no meaning for
-        // WebFX (there is no mapping with JavaFX) but we update it here for HTML CSS styling purpose. We set it either
-        // to "" or "not-empty". This is used for example in modality.css with input[type="password"]:not([value=""]) {
+        // WebFX (there is no mapping with JavaFX), but we update it here for HTML CSS styling purpose. We set it either
+        // to "" or "not-empty". This is used, for example, in modality.css with input[type="password"]:not([value=""]) {
         // font-size: 36px; ... } to increase the size of the dots for passwords (otherwise they are tiny), but we don't
         // want this big font size to be applied to the prompt text (i.e. html placeholder) which should be displayed in
         // the normal font size otherwise (when the password input is empty).
@@ -128,7 +187,7 @@ public abstract class HtmlTextInputControlPeer
 
     @Override
     public void updateEditable(Boolean editable) {
-        setElementAttribute(getElement(),"readonly", Booleans.isFalse(editable) ? "true" : null);
+        setElementAttribute(getElement(), "readonly", Booleans.isFalse(editable) ? "true" : null);
     }
 
     protected String getValue() {

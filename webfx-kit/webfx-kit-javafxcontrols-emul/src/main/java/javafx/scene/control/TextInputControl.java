@@ -90,9 +90,9 @@ public abstract class TextInputControl extends Control implements
      * @param caretPosition the caretPosition
      */
     public void selectRange(int anchor, int caretPosition) {
-        NodePeer peer = getOrCreateAndBindNodePeer();
-        if (peer instanceof SelectableTextInputControlPeer)
-            ((SelectableTextInputControlPeer) peer).selectRange(anchor, caretPosition);
+        NodePeer<?> peer = getOrCreateAndBindNodePeer();
+        if (peer instanceof SelectableTextInputControlPeer selectableTextInputControlPeer)
+            selectableTextInputControlPeer.selectRange(anchor, caretPosition);
     }
 
     public interface SelectableTextInputControlPeer {
@@ -111,7 +111,7 @@ public abstract class TextInputControl extends Control implements
      */
     private IntegerProperty anchor = new SimpleIntegerProperty(this, "anchor", 0);
     public final int getAnchor() { return anchor.get(); }
-    public final ReadOnlyIntegerProperty anchorProperty() { return anchor; }
+    public final IntegerProperty anchorProperty() { return anchor; }
 
     /**
      * The current position of the caret within the text.
@@ -123,7 +123,7 @@ public abstract class TextInputControl extends Control implements
      */
     private IntegerProperty caretPosition = new SimpleIntegerProperty(this, "caretPosition", 0);
     public final int getCaretPosition() { return caretPosition.get(); }
-    public final ReadOnlyIntegerProperty caretPositionProperty() { return caretPosition; }
+    public final IntegerProperty caretPositionProperty() { return caretPosition; }
 
     /**
      * Positions the caret to the position indicated by {@code pos}. This
@@ -131,7 +131,7 @@ public abstract class TextInputControl extends Control implements
      * @param pos the position
      */
     public void positionCaret(int pos) {
-        final int p = pos; // Utils.clamp(0, pos, getLength());
+        final int p = Math.max(0, Math.min(pos, getLength())); // Utils.clamp(0, pos, getLength());
         selectRange(p, p);
     }
 
