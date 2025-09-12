@@ -101,7 +101,7 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
     }
 
     private static String getClipboardContent() {
-        String[] content = { null };
+        String[] content = {null};
         Clipboard.readText().then(text -> {
             content[0] = text;
             return null;
@@ -182,8 +182,8 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
             // If we were to wait for the mapper to resize the canvas in the next animation frame, it would be too late.
             HTMLCanvasElement canvasElement = (HTMLCanvasElement) ((HtmlNodePeer) canvas.getOrCreateAndBindNodePeer()).getElement();
             FXProperties.runNowAndOnPropertiesChange(() ->
-                            CanvasElementHelper.resizeCanvasElement(canvasElement, canvas),
-                    canvas.widthProperty(), canvas.heightProperty(), canvasPixelDensityProperty);
+                    CanvasElementHelper.resizeCanvasElement(canvasElement, canvas),
+                canvas.widthProperty(), canvas.heightProperty(), canvasPixelDensityProperty);
 
         }
         return canvasPixelDensityProperty;
@@ -240,7 +240,7 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         // Use canvas hack for webkit-based browsers
         HTMLCanvasElement e = (HTMLCanvasElement) DomGlobal.document.createElement("canvas");
         return Js.asPropertyMap(e).has("toDataURL") && e.toDataURL("image/webp").startsWith("data:image/webp");
-    };
+    }
 
     @Override
     public void launchApplication(Factory<Application> applicationFactory, String... args) {
@@ -302,13 +302,17 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         return DomGlobal.document.fullscreenEnabled;
     }
 
+    private Node fullscreenNode;
+    private boolean fullscreenNodeWasManaged;
+
     @Override
     public boolean requestNodeFullscreen(Node node) {
         if (!isFullscreenEnabled())
             return false;
         NodePeer nodePeer = node == null ? null : node.getOrCreateAndBindNodePeer();
-        if (nodePeer instanceof HtmlNodePeer) {
-            ((HtmlNodePeer) node.getNodePeer()).getElement().requestFullscreen();
+        if (nodePeer instanceof HtmlNodePeer<?, ?, ?> hnp) {
+            fullscreenNode = node;
+            hnp.getElement().requestFullscreen();
             return true;
         }
         return false;
@@ -323,8 +327,36 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
     }
 
     {
-        DomGlobal.document.addEventListener("fullscreenchange", e ->
-            getPrimaryStage().fullScreenPropertyImpl().set(DomGlobal.document.fullscreenElement != null)
+        // Additional fullscreen management, as the 2 above methods are only covering programmatic calls, but the user
+        // can also exit the fullscreen by other means such as the ESC button. So we detect here all fullscreen events
+        // (entering or exiting) whatever their origin (programmatic calls or not). This is where we set the fullscreen
+        // JavaFX property and manage the behavior about the JavaFX node being fullscreen.
+        DomGlobal.document.addEventListener("fullscreenchange", e -> {
+                Element fullscreenElement = DomGlobal.document.fullscreenElement;
+                boolean fullscreen = fullscreenElement != null;
+                // Setting the fullscreen JavaFX property
+                getPrimaryStage().fullScreenPropertyImpl().set(fullscreen);
+                // Managing the fullscreen JavaFX node
+                if (fullscreenNode != null) {
+                    if (fullscreen) {
+                        // The HTML element is now fullscreen, but JavaFX is not yet aware of that, so if we don't do
+                        // anything special, it will continue resizing the node in the original scene graph on the next
+                        // layout pass. To prevent this, we force the node to be unmanaged while it is fullscreen.
+                        fullscreenNodeWasManaged = fullscreenNode.isManaged(); // to restore it when exiting fullscreen
+                        fullscreenNode.setManaged(false); // asking its parent to keep it untouched during layout
+                        // Now that it is unmanaged, we are responsible for resizing it to the fullscreen dimensions.
+                        // In theory, we could use fullscreenElement.clientWidth and clientHeight to get that dimension,
+                        // but it has been observed (on Chrome) that fullscreenElement.clientHeight is not returning the
+                        // correct value for some reason, so we use the screen bounds instead.
+                        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                        fullscreenNode.resize(screenBounds.getWidth(), screenBounds.getHeight());
+                    } else {
+                        // Re-establishing the managed state now that it "comes back" to the normal scene graph
+                        fullscreenNode.setManaged(fullscreenNodeWasManaged);
+                        fullscreenNode = null;
+                    }
+                }
+            }
         );
 
         // PWA callbacks
