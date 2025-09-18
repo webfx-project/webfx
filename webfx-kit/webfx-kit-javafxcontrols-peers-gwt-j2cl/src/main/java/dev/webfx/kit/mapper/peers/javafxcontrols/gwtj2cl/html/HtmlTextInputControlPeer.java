@@ -121,18 +121,22 @@ public abstract class HtmlTextInputControlPeer
             int selectionStart = selectionForward ? anchor : caretPosition;
             int selectionEnd = selectionForward ? caretPosition : anchor;
             if (selectionStart != inputElement.selectionStart || selectionEnd != inputElement.selectionEnd) {
-                inputElement.setSelectionRange(selectionStart, selectionEnd);
-                if (selectionForward && "backward".equalsIgnoreCase(inputElement.selectionDirection))
-                    inputElement.selectionDirection = "forward";
-                // Note: the previous selection request may be ignored if it happens during a focus request.
-                // So let's double-check if the selection has been applied
-                if (inputElement.selectionStart != selectionStart || inputElement.selectionEnd != selectionEnd) {
-                    scheduledReapplying = true;
-                    // If not, we reapply the selection request later, after the focus request should have been completed
-                    UiScheduler.scheduleInAnimationFrame(() -> {
-                        inputElement.setSelectionRange(selectionStart, selectionEnd);
-                        scheduledReapplying = false;
-                    }, 1);
+                try { // some types such as 'number' do not support selection range
+                    inputElement.setSelectionRange(selectionStart, selectionEnd); // may raise an exception if not supported
+                    if (selectionForward && "backward".equalsIgnoreCase(inputElement.selectionDirection))
+                        inputElement.selectionDirection = "forward";
+                    // Note: the previous selection request may be ignored if it happens during a focus request.
+                    // So let's double-check if the selection has been applied
+                    if (inputElement.selectionStart != selectionStart || inputElement.selectionEnd != selectionEnd) {
+                        scheduledReapplying = true;
+                        // If not, we reapply the selection request later, after the focus request should have been completed
+                        UiScheduler.scheduleInAnimationFrame(() -> {
+                            inputElement.setSelectionRange(selectionStart, selectionEnd);
+                            scheduledReapplying = false;
+                        }, 1);
+                    }
+                } catch (Exception ignored) {
+                    // happens with types not supporting selection range, there's nothing we can do about it 🤷
                 }
             }
         }
@@ -175,7 +179,8 @@ public abstract class HtmlTextInputControlPeer
     public void updatePromptText(String promptText) {
         String placeholder = Strings.toSafeString(promptText);
         // In JavaFX, the prompt text is not displayed when the text input has the focus (as opposed to HTML).
-        // So we reproduce this behaviour here, unless the application code requests not to do so (using )
+        // So we reproduce this behavior here, unless the application code requests not to do so (using
+        // webfx-keepHtmlPlaceholder property).
         if (isJavaFxFocusOwner() && Booleans.isNotTrue(getNode().getProperties().get("webfx-keepHtmlPlaceholder")))
             placeholder = ""; // Clearing the placeholder on focused nodes.
         Element focusableElement = getHtmlFocusableElement();
