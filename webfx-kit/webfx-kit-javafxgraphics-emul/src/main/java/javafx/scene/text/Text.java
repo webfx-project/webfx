@@ -46,7 +46,7 @@ public class Text extends Shape implements
         return textOriginProperty;
     }
 
-    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
+    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(/* null for web CSS instead of TextAlignment.LEFT */);
     @Override
     public Property<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
