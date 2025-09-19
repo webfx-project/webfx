@@ -1,13 +1,13 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html;
 
-import dev.webfx.kit.util.aria.AriaRole;
-import dev.webfx.kit.util.aria.AriaSelectedAttribute;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.NodePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.SvgRoot;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlTransforms;
+import dev.webfx.kit.util.aria.AriaRole;
+import dev.webfx.kit.util.aria.AriaSelectedAttribute;
 import dev.webfx.platform.util.Booleans;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.CSSProperties;
@@ -165,6 +165,20 @@ public abstract class HtmlNodePeer
         CSSStyleDeclaration style = getEffectElement().style;
         style.boxShadow = boxShadow;
         super.updateEffect(boxShadow != null ? null : effect); // other effects managed by filter function
+    }
+
+    @Override
+    public void updateStyle(String style) {
+        if (Strings.startsWith(style, "--")) {
+            int p = style.indexOf(":");
+            if (p > 0) {
+                Element container = getVisibleContainer();
+                CSSStyleDeclaration htmlStyle = ((HTMLElement) container).style;
+                String propertyName = style.substring(0, p).trim();
+                String propertyValue = Strings.removeSuffix(style.substring(p + 1).trim(), ";");
+                htmlStyle.setProperty(propertyName, propertyValue);
+            }
+        }
     }
 
     protected HTMLElement getEffectElement() {

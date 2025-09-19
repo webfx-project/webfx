@@ -144,6 +144,10 @@ public abstract class FxNodePeer
     }
 
     @Override
+    public void updateStyle(String style) {
+    }
+
+    @Override
     public void updateAllNodeTransforms(List<Transform> allNodeTransforms) {
         // never called
     }

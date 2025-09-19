@@ -24,9 +24,9 @@ import java.util.function.Consumer;
  * @author Bruno Salmon
  */
 public class NodePeerBase
-        <N extends Node, NB extends NodePeerBase<N, NB, NM>, NM extends NodePeerMixin<N, NB, NM>>
+    <N extends Node, NB extends NodePeerBase<N, NB, NM>, NM extends NodePeerMixin<N, NB, NM>>
 
-        implements NodePeer<N> {
+    implements NodePeer<N> {
 
     protected N node;
     protected NM mixin;
@@ -42,23 +42,24 @@ public class NodePeerBase
         requestUpdateList(sceneRequester, null, null);
         requestUpdateOnListsChange(sceneRequester, node.getTransforms(), node.getStyleClass());
         requestUpdateOnPropertiesChange(sceneRequester
-                , node.idProperty()
-                , node.visibleProperty()
-                , node.opacityProperty()
-                , node.disabledProperty()
-                , node.clipProperty()
-                , node.blendModeProperty()
-                , node.effectProperty()
-                , node.scaleXProperty()
-                , node.scaleYProperty()
-                , node.layoutXProperty()
-                , node.layoutYProperty()
-                , node.translateXProperty()
-                , node.translateYProperty()
-                , node.rotateProperty()
-                , node.cursorProperty()
-                , node.mouseTransparentProperty()
-                , node.onMouseDraggedProperty()
+            , node.idProperty()
+            , node.visibleProperty()
+            , node.opacityProperty()
+            , node.disabledProperty()
+            , node.clipProperty()
+            , node.blendModeProperty()
+            , node.effectProperty()
+            , node.scaleXProperty()
+            , node.scaleYProperty()
+            , node.layoutXProperty()
+            , node.layoutYProperty()
+            , node.translateXProperty()
+            , node.translateYProperty()
+            , node.rotateProperty()
+            , node.cursorProperty()
+            , node.mouseTransparentProperty()
+            , node.onMouseDraggedProperty()
+            , node.styleProperty()
         );
     }
 
@@ -105,7 +106,7 @@ public class NodePeerBase
                || updateProperty(node.idProperty(), changedProperty, mixin::updateId)
                || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
                || updateProperty(node.disabledProperty(), changedProperty, mixin::updateDisabled)
-               || updateProperty(node.opacityProperty(), changedProperty, p-> mixin.updateOpacity(p.doubleValue()))
+               || updateProperty(node.opacityProperty(), changedProperty, p -> mixin.updateOpacity(p.doubleValue()))
                || updateProperty(node.clipProperty(), changedProperty, mixin::updateClip)
                || updateProperty(node.blendModeProperty(), changedProperty, mixin::updateBlendMode)
                || updateProperty(node.effectProperty(), changedProperty, mixin::updateEffect)
@@ -123,14 +124,15 @@ public class NodePeerBase
                || updateProperty(node.onDragDroppedProperty(), changedProperty, mixin::updateOnDragDropped)
                || updateProperty(node.onDragExitedProperty(), changedProperty, mixin::updateOnDragExited)
                || updateProperty(node.onDragDoneProperty(), changedProperty, mixin::updateOnDragDone)
-                ;
+               || updateProperty(node.styleProperty(), changedProperty, mixin::updateStyle)
+            ;
     }
 
     @Override
     public boolean updateList(ObservableList list, ListChangeListener.Change change) {
         return updateList2(node.getTransforms(), list, change, this::updateTransforms)
                || updateList2(node.getStyleClass(), list, change, mixin::updateStyleClass)
-                ;
+            ;
     }
 
     private void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
