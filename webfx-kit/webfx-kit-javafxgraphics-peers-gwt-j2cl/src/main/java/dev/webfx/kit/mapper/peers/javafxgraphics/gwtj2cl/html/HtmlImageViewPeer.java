@@ -25,10 +25,10 @@ import javafx.scene.image.ImageView;
  * @author Bruno Salmon
  */
 public final class HtmlImageViewPeer
-        <N extends ImageView, NB extends ImageViewPeerBase<N, NB, NM>, NM extends ImageViewPeerMixin<N, NB, NM>>
+    <N extends ImageView, NB extends ImageViewPeerBase<N, NB, NM>, NM extends ImageViewPeerMixin<N, NB, NM>>
 
-        extends HtmlNodePeer<N, NB, NM>
-        implements ImageViewPeerMixin<N, NB, NM>, HasSizeChangedCallback {
+    extends HtmlNodePeer<N, NB, NM>
+    implements ImageViewPeerMixin<N, NB, NM>, HasSizeChangedCallback {
 
     private final static GraphicsContext BACKGROUND_LOADING_CONTEXT = new Canvas().getGraphicsContext2D();
 
@@ -70,16 +70,15 @@ public final class HtmlImageViewPeer
     public void updateImage(Image image) {
         // Trying to inline svg images when possible to allow CSS rules such as svg {fill: currentColor} which is useful
         // to have the same color for the image and the text (in a button, for example).
-        //loadedWidth = loadedHeight = null;
         String imageUrl = image == null ? null : image.getUrl();
         if (tryInlineSvg(imageUrl))
             onLoaded();
         else {
-            setElementAttribute("src", imageUrl);
-            // Temporary filling alt with imageUrl to avoid downgrade in Lighthouse TODO: map this to accessible text
-            setElementAttribute("alt", imageUrl);
-            // Better to not display the image until it is loaded to prevent initial layout issues
-            setElementStyleAttribute("display", "none");
+            if (getElement() instanceof HTMLImageElement imageElement) {
+                imageElement.src = imageUrl;
+                // Temporary filling alt with imageUrl to avoid downgrade in Lighthouse TODO: map this to accessible text
+                imageElement.alt = imageUrl;
+            }
             // Special case of a canvas image (ex: the WebFX WritableImage emulation code stored the image in a canvas)
             HTMLCanvasElement canvasElement = CanvasElementHelper.getCanvasElementAssociatedWithImage(image);
             if (canvasElement != null) {
@@ -97,16 +96,13 @@ public final class HtmlImageViewPeer
     private void onLoaded() {
         N node = getNode();
         Image image = node.getImage();
-        if (image != null) {
-            HTMLElement element = getElement();
-            if (element instanceof HTMLImageElement) {
-                onHTMLImageLoaded((HTMLImageElement) element, image);
-            }
+        if (image != null && getElement() instanceof HTMLImageElement imageElement) {
+            onHTMLImageLoaded(imageElement, image);
         }
         if (sizeChangedCallback != null)
             sizeChangedCallback.run();
         loaded = true;
-        // Now that it's loaded, we can display it
+        // Now that it's loaded, we can display it (in case it was hidden before due to a previous error)
         setElementStyleAttribute("display", null);
     }
 
