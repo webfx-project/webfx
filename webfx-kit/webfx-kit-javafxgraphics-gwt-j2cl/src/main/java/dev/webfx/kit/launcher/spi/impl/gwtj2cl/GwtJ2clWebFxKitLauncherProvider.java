@@ -14,6 +14,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
+import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.useragent.UserAgent;
 import dev.webfx.platform.util.Numbers;
@@ -37,8 +38,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
@@ -67,7 +70,7 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
                 if (UserAgent.isSafari() && !UserInteraction.isUserInteracting()) {
                     UserInteraction.runOnNextUserInteraction(() ->
                             DomGlobal.window.open(uri, "_blank")
-                            , true);
+                        , true);
                 } else {
                     // For other browsers, or with Safari but during a user interaction (ex: mouse click), it's ok to
                     // open the browser window straightaway.
@@ -202,6 +205,7 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
 
     private static final HTMLElement baselineSample = HtmlUtil.createSpanElement();
     private static final HTMLElement baselineLocator = HtmlUtil.createImageElement();
+
     static {
         baselineSample.appendChild(DomGlobal.document.createTextNode("Baseline text"));
         baselineSample.style.position = "absolute";
@@ -285,10 +289,10 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         }
          */
         CSSStyleDeclaration computedStyle = Js.<ViewCSS>uncheckedCast(DomGlobal.window).getComputedStyle(DomGlobal.document.documentElement);
-        String top    = computedStyle.getPropertyValue("--safe-area-inset-top");
-        String right  = computedStyle.getPropertyValue("--safe-area-inset-right");
+        String top = computedStyle.getPropertyValue("--safe-area-inset-top");
+        String right = computedStyle.getPropertyValue("--safe-area-inset-right");
         String bottom = computedStyle.getPropertyValue("--safe-area-inset-bottom");
-        String left   = computedStyle.getPropertyValue("--safe-area-inset-left");
+        String left = computedStyle.getPropertyValue("--safe-area-inset-left");
         safeAreaInsetsProperty.set(new Insets(
             Numbers.doubleValue(Strings.removeSuffix(top, "px")),
             Numbers.doubleValue(Strings.removeSuffix(right, "px")),
@@ -335,7 +339,8 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
                 Element fullscreenElement = DomGlobal.document.fullscreenElement;
                 boolean fullscreen = fullscreenElement != null;
                 // Setting the fullscreen JavaFX property
-                getPrimaryStage().fullScreenPropertyImpl().set(fullscreen);
+                Stage primaryStage = getPrimaryStage();
+                primaryStage.fullScreenPropertyImpl().set(fullscreen);
                 // Managing the fullscreen JavaFX node
                 if (fullscreenNode != null) {
                     if (fullscreen) {
@@ -348,11 +353,28 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
                         // In theory, we could use fullscreenElement.clientWidth and clientHeight to get that dimension,
                         // but it has been observed (on Chrome) that fullscreenElement.clientHeight is not returning the
                         // correct value for some reason, so we use the screen bounds instead.
-                        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-                        fullscreenNode.resize(screenBounds.getWidth(), screenBounds.getHeight());
+                        // In addition, on mobiles, the screen bounds may change if the user switches from portrait to
+                        // landscape or vice versa, so we need to do a binding to keep JavaFX dimensions correct.
+                        if (OperatingSystem.isMobile() && fullscreenNode instanceof Region fullscreenRegion /* very likely a region */) {
+                            // JavaFX doesn't provide Screen.boundsProperty() so we use the primary stage bounds instead,
+                            // assuming the stage is always fullscreen (which should be the case during this fullscreen
+                            // mode). TODO: investigate if we can integrate this case directly in TKStageListener instead
+                            fullscreenRegion.widthProperty().bind(primaryStage.widthProperty());
+                            fullscreenRegion.heightProperty().bind(primaryStage.heightProperty());
+                        } else { // Desktops
+                            Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+                            fullscreenNode.resize(screenBounds.getWidth(), screenBounds.getHeight());
+                        }
                     } else {
-                        // Re-establishing the managed state now that it "comes back" to the normal scene graph
+                        // Re-establishing the previous state when it "comes back" to the normal scene graph
+                        if (OperatingSystem.isMobile() && fullscreenNode instanceof Region fullscreenRegion /* very likely a region */) {
+                            // Unbinding the JavaFX dimensions that we forced when entering fullscreen
+                            fullscreenRegion.widthProperty().unbind();
+                            fullscreenRegion.heightProperty().unbind();
+                        }
+                        // Re-establishing the previous managed state
                         fullscreenNode.setManaged(fullscreenNodeWasManaged);
+                        // Now we can forget the node
                         fullscreenNode = null;
                     }
                 }
