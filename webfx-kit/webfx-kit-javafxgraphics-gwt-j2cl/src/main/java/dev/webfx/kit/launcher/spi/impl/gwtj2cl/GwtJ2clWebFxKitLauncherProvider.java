@@ -14,7 +14,6 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlFonts;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.console.Console;
-import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import dev.webfx.platform.useragent.UserAgent;
 import dev.webfx.platform.util.Numbers;
@@ -179,7 +178,7 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         DoubleProperty canvasPixelDensityProperty = (DoubleProperty) canvas.getProperties().get(key);
         if (canvasPixelDensityProperty == null) {
             canvas.getProperties().put(key, canvasPixelDensityProperty = new SimpleDoubleProperty(getDefaultCanvasPixelDensity()));
-            // Applying an immediate mapping between the JavaFX and HTML canvas, otherwise the default behaviour of the
+            // Applying an immediate mapping between the JavaFX and HTML canvas, otherwise the default behavior of the
             // WebFX mapper (which is to postpone and process the mapping in the next animation frame) wouldn't work for
             // canvas. The application will indeed probably draw in the canvas just after it is initialized (and sized).
             // If we were to wait for the mapper to resize the canvas in the next animation frame, it would be too late.
@@ -273,8 +272,8 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
             FXProperties.runNowAndOnPropertiesChange(this::updateSafeAreaInsets,
                 getPrimaryStage().widthProperty(), getPrimaryStage().heightProperty());
             // Workaround for a bug observed in the Gmail internal browser on iPad where the window width/height
-            // are still not final at the first opening. So we schedule a subsequent update to get final values.
-            UiScheduler.scheduleDelay(500, this::updateSafeAreaInsets); // 500ms seem enough
+            // are still not final at the first opening. So we schedule a later update to get final values.
+            UiScheduler.scheduleDelay(500, this::updateSafeAreaInsets); // 500 ms seem enough
         }
         return safeAreaInsetsProperty;
     }
@@ -313,10 +312,10 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
     public boolean requestNodeFullscreen(Node node) {
         if (!isFullscreenEnabled())
             return false;
-        NodePeer nodePeer = node == null ? null : node.getOrCreateAndBindNodePeer();
-        if (nodePeer instanceof HtmlNodePeer<?, ?, ?> hnp) {
+        NodePeer<?> nodePeer = node == null ? null : node.getOrCreateAndBindNodePeer();
+        if (nodePeer instanceof HtmlNodePeer<?, ?, ?> htmlNodePeer) {
             fullscreenNode = node;
-            hnp.getElement().requestFullscreen();
+            htmlNodePeer.getElement().requestFullscreen();
             return true;
         }
         return false;
@@ -355,10 +354,10 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
                         // correct value for some reason, so we use the screen bounds instead.
                         // In addition, on mobiles, the screen bounds may change if the user switches from portrait to
                         // landscape or vice versa, so we need to do a binding to keep JavaFX dimensions correct.
-                        if (OperatingSystem.isMobile() && fullscreenNode instanceof Region fullscreenRegion /* very likely a region */) {
+                        if (fullscreenNode instanceof Region fullscreenRegion /* very likely a region */) {
                             // JavaFX doesn't provide Screen.boundsProperty() so we use the primary stage bounds instead,
                             // assuming the stage is always fullscreen (which should be the case during this fullscreen
-                            // mode). TODO: investigate if we can integrate this case directly in TKStageListener instead
+                            // mode).
                             fullscreenRegion.widthProperty().bind(primaryStage.widthProperty());
                             fullscreenRegion.heightProperty().bind(primaryStage.heightProperty());
                         } else { // Desktops
@@ -367,7 +366,7 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
                         }
                     } else {
                         // Re-establishing the previous state when it "comes back" to the normal scene graph
-                        if (OperatingSystem.isMobile() && fullscreenNode instanceof Region fullscreenRegion /* very likely a region */) {
+                        if (fullscreenNode instanceof Region fullscreenRegion /* very likely a region */) {
                             // Unbinding the JavaFX dimensions that we forced when entering fullscreen
                             fullscreenRegion.widthProperty().unbind();
                             fullscreenRegion.heightProperty().unbind();
