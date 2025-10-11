@@ -65,7 +65,7 @@ public abstract class Labeled extends Control implements
         return textProperty;
     }
 
-    private final ObjectProperty<Node> graphicProperty = new SimpleObjectProperty<Node>() {
+    private final ObjectProperty<Node> graphicProperty = new SimpleObjectProperty<>() {
         @Override
         protected void invalidated() {
             setScene(getScene()); // This will propagate the scene reference into the graphic
@@ -77,7 +77,7 @@ public abstract class Labeled extends Control implements
         return graphicProperty;
     }
 
-    private final Property<String> imageUrlProperty = new SimpleObjectProperty<String>() {
+    private final Property<String> imageUrlProperty = new SimpleObjectProperty<>() {
         @Override
         protected void invalidated() {
             String url = getValue();
@@ -104,14 +104,14 @@ public abstract class Labeled extends Control implements
         return alignmentProperty;
     }
 
-    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
+    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(/* null for web CSS instead of TextAlignment.LEFT */);
 
     @Override
     public Property<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
     }
 
-    private final Property<Paint> textFillProperty = new SimpleObjectProperty<>(/* null for CSS */);
+    private final Property<Paint> textFillProperty = new SimpleObjectProperty<>(/* null for web CSS instead of Color.BLACK */);
 
     @Override
     public Property<Paint> textFillProperty() {
@@ -153,7 +153,7 @@ public abstract class Labeled extends Control implements
     }
 
     public final boolean isWrapText() {
-        return wrapText == null ? false : wrapText.getValue();
+        return wrapText != null && wrapText.getValue();
     }
 
     /**

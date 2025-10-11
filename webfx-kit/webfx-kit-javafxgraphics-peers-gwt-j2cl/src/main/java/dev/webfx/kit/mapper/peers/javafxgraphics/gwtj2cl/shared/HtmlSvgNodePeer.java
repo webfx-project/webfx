@@ -592,6 +592,11 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
+    @Override
+    public void updateStyle(String style) {
+
+    }
+
     private HtmlSvgNodePeer clipPeer;
 
     @Override

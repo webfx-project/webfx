@@ -50,7 +50,6 @@
         <module>webfx-kit-statusbar-gluon</module>
         <module>webfx-kit-statusbar-none</module>
         <module>webfx-kit-util</module>
-        <module>webfx-kit-javafxgraphics-fat-j2cl</module>
         <module>webfx-kit-util-aria</module>
         <module>webfx-kit-util-scene</module>
         <module>webfx-kit-webgl</module>

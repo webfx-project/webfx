@@ -137,4 +137,10 @@ public final class ObservableLists {
         return newObservableList(list -> onInvalidated.run());
     }
 
+    public static <T> ObservableList<T> newObservableListWithListener(ListChangeListener<? super T> changeListener) {
+        ObservableList<T> list = FXCollections.observableArrayList();
+        list.addListener(changeListener);
+        return list;
+    }
+
 }

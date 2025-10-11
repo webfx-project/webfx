@@ -121,18 +121,22 @@ public abstract class HtmlTextInputControlPeer
             int selectionStart = selectionForward ? anchor : caretPosition;
             int selectionEnd = selectionForward ? caretPosition : anchor;
             if (selectionStart != inputElement.selectionStart || selectionEnd != inputElement.selectionEnd) {
-                inputElement.setSelectionRange(selectionStart, selectionEnd);
-                if (selectionForward && "backward".equalsIgnoreCase(inputElement.selectionDirection))
-                    inputElement.selectionDirection = "forward";
-                // Note: the previous selection request may be ignored if it happens during a focus request.
-                // So let's double-check if the selection has been applied
-                if (inputElement.selectionStart != selectionStart || inputElement.selectionEnd != selectionEnd) {
-                    scheduledReapplying = true;
-                    // If not, we reapply the selection request later, after the focus request should have been completed
-                    UiScheduler.scheduleInAnimationFrame(() -> {
-                        inputElement.setSelectionRange(selectionStart, selectionEnd);
-                        scheduledReapplying = false;
-                    }, 1);
+                try { // some types such as 'number' do not support selection range
+                    inputElement.setSelectionRange(selectionStart, selectionEnd); // may raise an exception if not supported
+                    if (selectionForward && "backward".equalsIgnoreCase(inputElement.selectionDirection))
+                        inputElement.selectionDirection = "forward";
+                    // Note: the previous selection request may be ignored if it happens during a focus request.
+                    // So let's double-check if the selection has been applied
+                    if (inputElement.selectionStart != selectionStart || inputElement.selectionEnd != selectionEnd) {
+                        scheduledReapplying = true;
+                        // If not, we reapply the selection request later, after the focus request should have been completed
+                        UiScheduler.scheduleInAnimationFrame(() -> {
+                            inputElement.setSelectionRange(selectionStart, selectionEnd);
+                            scheduledReapplying = false;
+                        }, 1);
+                    }
+                } catch (Exception ignored) {
+                    // happens with types not supporting selection range, there's nothing we can do about it 🤷
                 }
             }
         }
@@ -158,16 +162,15 @@ public abstract class HtmlTextInputControlPeer
         String safeText = Strings.toSafeString(text);
         if (!Objects.areEquals(getValue(), safeText)) // To avoid caret position reset
             setValue(safeText);
-        // The "value" attribute (which normally refers to the initial value only of the text input) has no meaning for
-        // WebFX (there is no mapping with JavaFX), but we update it here for HTML CSS styling purpose. We set it either
-        // to "" or "not-empty". This is used, for example, in modality.css with input[type="password"]:not([value=""]) {
-        // font-size: 36px; ... } to increase the size of the dots for passwords (otherwise they are tiny), but we don't
-        // want this big font size to be applied to the prompt text (i.e. html placeholder) which should be displayed in
-        // the normal font size otherwise (when the password input is empty).
+        // We set an attribute called "data-text-empty" to "true" or "false" to tell if the text input is empty or not.
+        // This is used, for example, in Modality CSS with input[type="password"][data-text-empty="false"] { ... }
+        // to increase the size of the dots for passwords (otherwise they are tiny). But we don't want this big font
+        // size to be applied to the prompt text (i.e., the HTML placeholder) which should be displayed in the normal
+        // font size otherwise (when the password input is empty).
         Element focusableElement = getHtmlFocusableElement();
         if (focusableElement != null) {
-            String initialValue = Strings.isEmpty(safeText) ? "" : "not-empty";
-            setElementAttribute(focusableElement, "value", initialValue);
+            String initialValue = Strings.isEmpty(safeText) ? "true" : "false";
+            setElementAttribute(focusableElement, "data-text-empty", initialValue);
         }
     }
 
@@ -175,7 +178,8 @@ public abstract class HtmlTextInputControlPeer
     public void updatePromptText(String promptText) {
         String placeholder = Strings.toSafeString(promptText);
         // In JavaFX, the prompt text is not displayed when the text input has the focus (as opposed to HTML).
-        // So we reproduce this behaviour here, unless the application code requests not to do so (using )
+        // So we reproduce this behavior here, unless the application code requests not to do so (using
+        // webfx-keepHtmlPlaceholder property).
         if (isJavaFxFocusOwner() && Booleans.isNotTrue(getNode().getProperties().get("webfx-keepHtmlPlaceholder")))
             placeholder = ""; // Clearing the placeholder on focused nodes.
         Element focusableElement = getHtmlFocusableElement();

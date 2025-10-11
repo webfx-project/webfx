@@ -5,11 +5,10 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.base.StagePeerBas
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.HtmlScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.kit.util.properties.FXProperties;
+import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.UiScheduler;
-import elemental2.dom.Event;
-import elemental2.dom.EventListener;
-import elemental2.dom.MouseEvent;
+import elemental2.dom.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -29,7 +28,7 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
     // What WebFX expects from window.screenY is to return the position on the screen of the top-left corner of the
     // browser PAGE (good). However, browsers (at least on macOS) return the position of the top-left corner of the
     // browser WINDOW (bad). There can be a quite big difference between the 2, due to the presence of browser tabs,
-    // bookmarks bar, etc...
+    // bookmark bar, etc...
     static double windowScreenYCorrection;
 
     private Scheduled windowPositionWatcher;
@@ -50,10 +49,10 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
 
         // Considering the current window size
         changedWindowSize();
-        // And subsequent changes in the future
+        // And later changes in the future
         window.addEventListener("resize", e -> changedWindowSize());
-        // Now we are managing the window position, and also the correction on window.screenY. We can't have the correct
-        // value of the window position right now, before having computed the window.screenY correction, which requires
+        // Now we are managing the window position and also the correction on window.screenY. We can't have the correct
+        // value of the window position right now, before having computed the window.screenY correction. This requires
         // a mouse event, so we first set a one-time listener that will be called as soon as the user moves the mouse.
         document.addEventListener("mousemove", new EventListener() {
             @Override
@@ -66,26 +65,45 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
                 document.removeEventListener("mousemove", this);
             }
         });
-        // Now we are managing the subsequent window position changes. There is no listener in HTML for that, so we will
+        // Now we are managing the latest window position changes. There is no listener in HTML for that, so we will
         // need to set a periodic timer. However, we can assume that this is necessary only when the mouse is outside
         // the page. So we start that timer only when the mouse leaves the page.
         if (!SKIP_TRACK_WINDOW_POSITION_DEBUG_FLAG) {
-            document.addEventListener("mouseleave", e -> {
-                if (windowPositionWatcher == null)
-                    windowPositionWatcher = UiScheduler.schedulePeriodicInAnimationFrame(this::fireEventIfLocationChanged);
-            });
+            document.addEventListener("mouseleave", e ->
+                startPeriodicWindowPositionWatcher());
         }
         // And we stop that timer when the mouse enters the page again.
         document.addEventListener("mouseenter", e -> {
-            if (windowPositionWatcher != null) {
-                windowPositionWatcher.cancel();
-                windowPositionWatcher = null;
-            }
+            stopPeriodicWindowPositionWatcher();
             // We also compute the window.screenY correction again, just in case the user made a change that affected
             // the window.screenY correction when he was outside the page, such as showing or hiding the bookmark bar.
             computeWindowScreenYCorrection((MouseEvent) e);
             fireEventIfLocationChanged();
         });
+        // Without this code, the screen size change when switching from portrait to landscape or vice versa on mobiles
+        // would be detected a bit later, causing a non-elegant intermediate layout state (ex: video player not well
+        // centered until the end of the rotation).
+        if (OperatingSystem.isMobile()) {
+            FXProperties.runOnPropertyChange(fullscreen -> {
+                if (fullscreen)
+                    startPeriodicWindowPositionWatcher();
+                else
+                    stopPeriodicWindowPositionWatcher();
+            }, stage.fullScreenPropertyImpl());
+        }
+    }
+
+    public void startPeriodicWindowPositionWatcher() {
+        if (windowPositionWatcher == null) {
+            windowPositionWatcher = UiScheduler.schedulePeriodicInAnimationFrame(this::fireEventIfLocationChanged);
+        }
+    }
+
+    public void stopPeriodicWindowPositionWatcher() {
+        if (windowPositionWatcher != null) {
+            windowPositionWatcher.cancel();
+            windowPositionWatcher = null;
+        }
     }
 
     private static void computeWindowScreenYCorrection(MouseEvent me) {
@@ -100,6 +118,7 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
         if (screenX != getWindow().getX() || screenY != getWindow().getY()) { // Has the position changed?
             listener.changedLocation(screenX, screenY); // If yes, we notify JavaFX
         }
+        changedWindowSize();
     }
 
     @Override
@@ -110,11 +129,19 @@ public final class GwtJ2clPrimaryStagePeer extends StagePeerBase {
 
     @Override
     protected double getPeerWindowWidth() {
+        Element fullscreenElement = document.fullscreenElement;
+        if (fullscreenElement != null) {
+            return fullscreenElement.clientWidth;
+        }
         return window.innerWidth;
     }
 
     @Override
     protected double getPeerWindowHeight() {
+        Element fullscreenElement = document.fullscreenElement;
+        if (fullscreenElement != null) {
+            return fullscreenElement.clientHeight;
+        }
         return window.innerHeight;
     }
 

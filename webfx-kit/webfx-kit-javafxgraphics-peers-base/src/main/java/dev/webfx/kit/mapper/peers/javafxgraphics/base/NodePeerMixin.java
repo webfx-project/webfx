@@ -112,6 +112,8 @@ public interface NodePeerMixin
 
     void updateOnDragDone(EventHandler<? super DragEvent> eventHandler);
 
+    void updateStyle(String style);
+
     @Override
     default WritableImage snapshot(SnapshotParameters params, WritableImage image) {
         return getNodePeerBase().snapshot(params, image);

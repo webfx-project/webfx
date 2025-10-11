@@ -308,18 +308,21 @@ public class HtmlGraphicsContext implements GraphicsContext {
         return ctx.lineDashOffset;
     }
 
-    private Font font;
+    private Font javafxFont;
+    private String htmlFont;
+
     @Override
     public void setFont(Font f) {
-        if (f != font) {
-            ctx.setFont(HtmlFonts.getHtmlFontDefinition(f));
-            font = f; // Memorizing the value for getFont()
+        if (f != javafxFont) {
+            javafxFont = f; // Memorizing the value for getFont()
+            htmlFont = HtmlFonts.getHtmlFontDefinition(f);
         }
+        ctx.setFont(htmlFont);
     }
 
     @Override
     public Font getFont() {
-        return font;
+        return javafxFont;
     }
 
     private TextAlignment textAlign;
@@ -350,12 +353,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
 
     private static String toCssBaseLine(VPos baseline) {
         if (baseline != null) {
-            switch (baseline) {
-                case TOP: return "top";
-                case CENTER: return "middle";
-                case BASELINE: return "alphabetic";
-                case BOTTOM: return "bottom";
-            }
+            return switch (baseline) {
+                case TOP -> "top";
+                case CENTER -> "middle";
+                case BASELINE -> "alphabetic";
+                case BOTTOM -> "bottom";
+            };
         }
         return null; // Shouldn't be used for HTML canvas text baseline as this causes a warning in the browser console
     }
@@ -401,11 +404,12 @@ public class HtmlGraphicsContext implements GraphicsContext {
             VPos tbl = textBaseline;
             if (tbl == null)
                 tbl = VPos.BASELINE;
-            switch (tbl) {
-                case CENTER:   dy = height * 0.5; break;
-                case BASELINE: dy = height * 0.7; break; // Quick dirty approximation for now
-                case BOTTOM:   dy = height; break;
-            }
+            dy = switch (tbl) {
+                case CENTER -> height * 0.5;
+                case BASELINE -> height * 0.7; // Quick dirty approximation for now
+                case BOTTOM -> height;
+                default -> dy;
+            };
             //Logger.log("Text height = " + height + ", y = " + y + ", dy = " + y + ", new y = " + (y - dy));
             applyProportionalFillLinearGradiant(x, y - dy, width, height);
         }
@@ -793,8 +797,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
     @Override
     public void setEffect(Effect e) {
         effect = e;
-        if (e instanceof DropShadow) {
-            DropShadow dropShadow = (DropShadow) e;
+        if (e instanceof DropShadow dropShadow) {
             ctx.shadowBlur = dropShadow.getRadius();
             ctx.shadowOffsetX = dropShadow.getOffsetX();
             ctx.shadowOffsetY = dropShadow.getOffsetY();
