@@ -20,7 +20,7 @@
         <plugin-module scope="provided">webfx-platform-os</plugin-module>
         <plugin-module scope="provided">webfx-platform-uischeduler</plugin-module>
         <plugin-module scope="provided">webfx-platform-util</plugin-module>
-        <plugin-module scope="provided">webfx-platform-util-gwt-j2cl</plugin-module>
+        <plugin-module scope="provided">webfx-platform-util-elemental2</plugin-module>
         <plugin-module scope="provided">webfx-platform-scheduler</plugin-module>
         <plugin-module scope="provided">webfx-platform-useragent</plugin-module>
         <plugin-module scope="compile">jsinterop-base</plugin-module>

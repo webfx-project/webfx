@@ -19,8 +19,8 @@ import dev.webfx.platform.useragent.UserAgent;
 import dev.webfx.platform.util.Numbers;
 import dev.webfx.platform.util.Strings;
 import dev.webfx.platform.util.collection.Collections;
+import dev.webfx.platform.util.elemental2.Elemental2Util;
 import dev.webfx.platform.util.function.Factory;
-import dev.webfx.platform.util.gwtj2cl.GwtJ2clUtil;
 import elemental2.dom.*;
 import javafx.application.Application;
 import javafx.application.HostServices;
@@ -381,22 +381,22 @@ public final class GwtJ2clWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         );
 
         // PWA callbacks
-        GwtJ2clUtil.setPromptPwaInstallReadyCallback(appInstallPromptReadyProperty::set);
-        GwtJ2clUtil.setPwaInstalledCallback(appInstalledProperty::set);
+        Elemental2Util.setPromptPwaInstallReadyCallback(appInstallPromptReadyProperty::set);
+        Elemental2Util.setPwaInstalledCallback(appInstalledProperty::set);
     }
 
     @Override
     public boolean supportsAppInstall() {
-        return GwtJ2clUtil.supportsPwa();
+        return Elemental2Util.supportsPwa();
     }
 
     @Override
     public void promptAppInstall() {
-        GwtJ2clUtil.promptPwaInstall();
+        Elemental2Util.promptPwaInstall();
     }
 
     @Override
     public boolean isRunningAsInstalledApp() {
-        return GwtJ2clUtil.isRunningAsPWA();
+        return Elemental2Util.isRunningAsPWA();
     }
 }

@@ -6,7 +6,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlPaints;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.Objects;
-import dev.webfx.platform.util.gwtj2cl.GwtJ2clUtil;
+import dev.webfx.platform.util.elemental2.Elemental2Util;
 import elemental2.core.Function;
 import elemental2.core.JsArray;
 import elemental2.dom.*;
@@ -688,7 +688,7 @@ public class HtmlGraphicsContext implements GraphicsContext {
             }
             boolean loadImage = img.getUrl() != null;
             ImageData imageData = loadImage ? null : ImageDataHelper.getImageDataAssociatedWithImage(img);
-            boolean useSafariTiling = GwtJ2clUtil.isSafari() && isLargeImageOperation(sw, sh, dw, dh);
+            boolean useSafariTiling = Elemental2Util.isSafari() && isLargeImageOperation(sw, sh, dw, dh);
             if (imageData != null) {
                 HTMLCanvasElement canvasElement = CanvasElementHelper.getCanvasElementReadyToRenderImage(img);
                 if (useSafariTiling)

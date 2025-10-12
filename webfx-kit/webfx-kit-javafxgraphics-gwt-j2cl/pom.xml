@@ -97,7 +97,7 @@
 
         <dependency>
             <groupId>dev.webfx</groupId>
-            <artifactId>webfx-platform-util-gwt-j2cl</artifactId>
+            <artifactId>webfx-platform-util-elemental2</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 
