@@ -17,6 +17,7 @@
         <plugin-module scope="compile">webfx-kit-javafxbase-emul</plugin-module>
         <plugin-module scope="provided">webfx-platform-boot</plugin-module>
         <plugin-module scope="provided">webfx-platform-console</plugin-module>
+        <plugin-module scope="provided">webfx-platform-os</plugin-module>
         <plugin-module scope="provided">webfx-platform-uischeduler</plugin-module>
         <plugin-module scope="provided">webfx-platform-util</plugin-module>
         <plugin-module scope="provided">webfx-platform-util-gwt-j2cl</plugin-module>
