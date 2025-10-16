@@ -23,27 +23,27 @@
         <module>webfx-kit-javafxweb-emul</module>
         <module>webfx-kit-cssprotocol-openjfx-plugin</module>
         <module>webfx-kit-javafxcontrols-peers-base</module>
-        <module>webfx-kit-javafxcontrols-peers-gwt-j2cl</module>
+        <module>webfx-kit-javafxcontrols-peers-elemental2</module>
         <module>webfx-kit-javafxcontrols-registry</module>
-        <module>webfx-kit-javafxcontrols-registry-gwt-j2cl</module>
-        <module>webfx-kit-javafxgraphics-gwt-j2cl</module>
+        <module>webfx-kit-javafxcontrols-registry-elemental2</module>
+        <module>webfx-kit-javafxgraphics-elemental2</module>
         <module>webfx-kit-javafxgraphics-openjfx</module>
         <module>webfx-kit-javafxgraphics-peers</module>
         <module>webfx-kit-javafxgraphics-peers-base</module>
-        <module>webfx-kit-javafxgraphics-peers-gwt-j2cl</module>
+        <module>webfx-kit-javafxgraphics-peers-elemental2</module>
         <module>webfx-kit-javafxgraphics-registry</module>
-        <module>webfx-kit-javafxgraphics-registry-gwt-j2cl</module>
+        <module>webfx-kit-javafxgraphics-registry-elemental2</module>
         <module>webfx-kit-javafxmedia-gluon</module>
-        <module>webfx-kit-javafxmedia-peers-gwt-j2cl</module>
+        <module>webfx-kit-javafxmedia-peers-elemental2</module>
         <module>webfx-kit-javafxmedia-registry</module>
-        <module>webfx-kit-javafxmedia-registry-gwt-j2cl</module>
+        <module>webfx-kit-javafxmedia-registry-elemental2</module>
         <module>webfx-kit-javafxweb-enginepeer</module>
         <module>webfx-kit-javafxweb-peers-base</module>
-        <module>webfx-kit-javafxweb-peers-gwt-j2cl</module>
+        <module>webfx-kit-javafxweb-peers-elemental2</module>
         <module>webfx-kit-javafxweb-registry</module>
-        <module>webfx-kit-javafxweb-registry-gwt-j2cl</module>
+        <module>webfx-kit-javafxweb-registry-elemental2</module>
         <module>webfx-kit-launcher</module>
-        <module>webfx-kit-platform-audio-openjfx-gwt-j2cl</module>
+        <module>webfx-kit-platform-audio-openjfx-web</module>
         <module>webfx-kit-platform-browser-openjfx</module>
         <module>webfx-kit-platform-visibility-openjfx</module>
         <module>webfx-kit-statusbar</module>
@@ -54,7 +54,7 @@
         <module>webfx-kit-util-aria</module>
         <module>webfx-kit-util-scene</module>
         <module>webfx-kit-webgl</module>
-        <module>webfx-kit-webgl-gwt-j2cl</module>
+        <module>webfx-kit-webgl-elemental2</module>
     </modules>
 
 </project>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <exported-packages>
+        <source-packages/>
+    </exported-packages>
+
+    <dependencies>
+        <used-by-source-modules/>
+    </dependencies>
+
+    <providers>
+        <provider interface="dev.webfx.platform.audio.spi.AudioServiceProvider">dev.webfx.kit.platform.audio.spi.impl.openjfxweb.OpenJFXWebAudioServiceProvider</provider>
+    </providers>
+
+</project>

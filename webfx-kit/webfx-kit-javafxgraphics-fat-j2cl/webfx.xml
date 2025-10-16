@@ -2,8 +2,8 @@
 <project>
 
     <providers>
-        <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.gwtj2cl.GwtJ2clWebFxKitLauncherProvider</provider>
-        <provider interface="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.impl.gwtj2cl.GwtJ2clWebFxKitHtmlMapperProvider</provider>
+        <provider interface="dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider">dev.webfx.kit.launcher.spi.impl.elemental2.Elemental2WebFxKitLauncherProvider</provider>
+        <provider interface="dev.webfx.kit.mapper.spi.WebFxKitMapperProvider">dev.webfx.kit.mapper.spi.impl.elemental2.Elemental2WebFxKitHtmlMapperProvider</provider>
     </providers>
 
     <dependencies>
@@ -51,9 +51,9 @@
                             <phase>compile</phase>
                             <configuration>
                                 <target>
-                                    <!-- Copying the WebFX folder from webfx-kit-javafxgraphics-peers-gwt-j2cl (CSS file) -->
+                                    <!-- Copying the WebFX folder from webfx-kit-javafxgraphics-peers-elemental2 (CSS file) -->
                                     <sync todir="${project.basedir}/src/main/webfx">
-                                        <fileset dir="${project.basedir}/../webfx-kit-javafxgraphics-peers-gwt-j2cl/src/main/webfx"/>
+                                        <fileset dir="${project.basedir}/../webfx-kit-javafxgraphics-peers-elemental2/src/main/webfx"/>
                                     </sync>
                                 </target>
                             </configuration>
@@ -75,7 +75,7 @@
                                 <artifactItems>
                                     <artifactItem>
                                         <groupId>dev.webfx</groupId>
-                                        <artifactId>webfx-kit-javafxgraphics-gwt-j2cl</artifactId>
+                                        <artifactId>webfx-kit-javafxgraphics-elemental2</artifactId>
                                         <version>${webfx.version}</version>
                                     </artifactItem>
                                     <artifactItem>
@@ -100,12 +100,12 @@
                                     </artifactItem>
                                     <artifactItem>
                                         <groupId>dev.webfx</groupId>
-                                        <artifactId>webfx-kit-javafxgraphics-peers-gwt-j2cl</artifactId>
+                                        <artifactId>webfx-kit-javafxgraphics-peers-elemental2</artifactId>
                                         <version>${webfx.version}</version>
                                     </artifactItem>
                                     <artifactItem>
                                         <groupId>dev.webfx</groupId>
-                                        <artifactId>webfx-kit-javafxgraphics-registry-gwt-j2cl</artifactId>
+                                        <artifactId>webfx-kit-javafxgraphics-registry-elemental2</artifactId>
                                         <version>${webfx.version}</version>
                                     </artifactItem>
                                     <artifactItem>
