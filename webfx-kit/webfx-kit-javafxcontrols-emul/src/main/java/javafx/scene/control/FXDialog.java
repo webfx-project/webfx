@@ -1,8 +1,6 @@
 package javafx.scene.control;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.*;
 import javafx.scene.Node;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
@@ -109,7 +107,7 @@ abstract class FXDialog {
 
     public abstract Modality getModality();
 
-    public abstract ReadOnlyProperty<Boolean> showingProperty();
+    public abstract ReadOnlyBooleanProperty showingProperty();
 
     public abstract Window getWindow();
 
@@ -126,11 +124,11 @@ abstract class FXDialog {
     public abstract ReadOnlyDoubleProperty yProperty();
 
     // --- resizable
-    abstract Property<Boolean> resizableProperty();
+    abstract BooleanProperty resizableProperty();
 
 
     // --- focused
-    abstract ReadOnlyProperty<Boolean> focusedProperty();
+    abstract ReadOnlyBooleanProperty focusedProperty();
 
 
     // --- title

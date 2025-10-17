@@ -54,7 +54,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
     // reacting to the property changes to update the HTML mapping). The node may need to do something at this point.
     void onNodePeerBound() { }
 
-    private final Property<Parent> parentProperty = new SimpleObjectProperty<>(); {
+    private final ObjectProperty<Parent> parentProperty = new SimpleObjectProperty<>(); {
         parentProperty.addListener((observable, oldParent, newParent) -> {
             // If the node is transferred from one parent to another, we need to remove it from the previous parent
             if (oldParent != null)
@@ -65,7 +65,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         });
     }
     @Override
-    public Property<Parent> parentProperty() {
+    public ObjectProperty<Parent> parentProperty() {
         return parentProperty;
     }
 
@@ -92,7 +92,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         }
     };
 
-    public ObjectProperty<Scene> sceneProperty() {
+    public ReadOnlyObjectProperty<Scene> sceneProperty() {
         return scene;
     }
 
@@ -207,7 +207,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return opacityProperty;
     }
 
-    private final Property<Node> clipProperty = new SimpleObjectProperty<Node>() {
+    private final ObjectProperty<Node> clipProperty = new SimpleObjectProperty<Node>() {
         @Override
         protected void invalidated() {
             setScene(getScene()); // This will propagate the scene into the clip
@@ -215,19 +215,19 @@ public abstract class Node implements INode, EventTarget, Styleable {
     };
 
     @Override
-    public Property<Node> clipProperty() {
+    public ObjectProperty<Node> clipProperty() {
         return clipProperty;
     }
 
-    private final Property<BlendMode> blendModeProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<BlendMode> blendModeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<BlendMode> blendModeProperty() {
+    public ObjectProperty<BlendMode> blendModeProperty() {
         return blendModeProperty;
     }
 
-    private final Property<Effect> effectProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Effect> effectProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Effect> effectProperty() {
+    public ObjectProperty<Effect> effectProperty() {
         return effectProperty;
     }
 
@@ -1689,7 +1689,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      */
     private ObjectProperty<Bounds> layoutBounds = new SimpleObjectProperty<>();
 
-    public ReadOnlyProperty<Bounds> layoutBoundsProperty() {
+    public ReadOnlyObjectProperty<Bounds> layoutBoundsProperty() {
         return layoutBounds;
     }
 

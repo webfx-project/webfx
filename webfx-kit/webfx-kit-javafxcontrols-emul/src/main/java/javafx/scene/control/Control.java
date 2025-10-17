@@ -1,17 +1,16 @@
 package javafx.scene.control;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
+import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.Measurable;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.WritableValue;
 import javafx.collections.ObservableList;
 import javafx.css.StyleableProperty;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.Region;
-import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.measurable.Measurable;
 
 /**
  * @author Bruno Salmon
@@ -107,7 +106,7 @@ public abstract class Control extends Region implements Skinnable {
         // override. Initializing focusTraversable by calling applyStyle
         // with null for StyleOrigin ensures that css will be able to override
         // the value.
-        final StyleableProperty<Boolean> prop = (StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty();
+        final StyleableProperty<Boolean> prop = (StyleableProperty<Boolean>) focusTraversableProperty();
         prop.applyStyle(null, Boolean.TRUE);
 
         // we add a listener for menu request events to show the context menu

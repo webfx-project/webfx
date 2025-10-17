@@ -122,7 +122,7 @@ public class Window implements EventTarget,
         return WebFxKitMapper.createWindowPeer(this);
     }
 
-    private final Property<Scene> sceneProperty = new SimpleObjectProperty<Scene>() {
+    private final ObjectProperty<Scene> sceneProperty = new SimpleObjectProperty<Scene>() {
         @Override
         protected void invalidated() {
             onSceneChanged();
@@ -130,7 +130,7 @@ public class Window implements EventTarget,
         }
     };
     @Override
-    public Property<Scene> sceneProperty() {
+    public ObjectProperty<Scene> sceneProperty() {
         return sceneProperty;
     }
 
@@ -264,7 +264,7 @@ public class Window implements EventTarget,
      *
      * @defaultValue false
      */
-    private Property<Boolean> showing = new SimpleObjectProperty<Boolean>(false) {
+    private BooleanProperty showing = new SimpleBooleanProperty(false) {
         private boolean oldVisible;
         private Scheduled pulseScheduled;
         //private boolean firstShowing = true;
@@ -410,7 +410,7 @@ public class Window implements EventTarget,
         showing.setValue(value);
     }
     public final boolean isShowing() { return showing.getValue(); }
-    public final ReadOnlyProperty<Boolean> showingProperty() { return showing/*.getReadOnlyProperty()*/; }
+    public final ReadOnlyBooleanProperty showingProperty() { return showing/*.getReadOnlyProperty()*/; }
 
     // flag indicating whether this window has ever been made visible.
     boolean hasBeenVisible = false;
@@ -469,7 +469,7 @@ public class Window implements EventTarget,
      *
      * @profile common
      */
-    private Property<Boolean> focused = new SimpleObjectProperty<>(false)/* {
+    private BooleanProperty focused = new SimpleBooleanProperty(false)/* {
         @Override protected void invalidated() {
             focusChanged(get());
         }
@@ -503,7 +503,7 @@ public class Window implements EventTarget,
 */
     }
     public final boolean isFocused() { return focused.getValue(); }
-    public final ReadOnlyProperty<Boolean> focusedProperty() { return focused/*.getReadOnlyProperty()*/; }
+    public final ReadOnlyBooleanProperty focusedProperty() { return focused/*.getReadOnlyProperty()*/; }
 
     private void onSceneChanged() {
         Scene scene = getScene();

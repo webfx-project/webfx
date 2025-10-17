@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasStrokeWidthProperty {
 
     DoubleProperty strokeWidthProperty();
-    default void setStrokeWidth(Number strokeWidth) { strokeWidthProperty().setValue(strokeWidth); }
-    default Double getStrokeWidth() { return strokeWidthProperty().getValue(); }
+    default void setStrokeWidth(double strokeWidth) { strokeWidthProperty().setValue(strokeWidth); }
+    default double getStrokeWidth() { return strokeWidthProperty().getValue(); }
 
 }

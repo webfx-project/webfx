@@ -1,15 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
 
-import javafx.beans.property.Property;
+import javafx.beans.property.BooleanProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasSelectedProperty {
 
-    Property<Boolean> selectedProperty();
-    default void setSelected(Boolean selected) { selectedProperty().setValue(selected); }
-    default Boolean isSelected() { return selectedProperty().getValue(); }
+    BooleanProperty selectedProperty();
+    default void setSelected(boolean selected) { selectedProperty().setValue(selected); }
+    default boolean isSelected() { return selectedProperty().getValue(); }
 
 }

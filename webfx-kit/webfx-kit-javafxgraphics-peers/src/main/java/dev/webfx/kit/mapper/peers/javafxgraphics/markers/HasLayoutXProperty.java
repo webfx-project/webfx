@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasLayoutXProperty {
 
     DoubleProperty layoutXProperty();
-    default void setLayoutX(Number layoutX) { layoutXProperty().setValue(layoutX); }
-    default Double getLayoutX() { return layoutXProperty().getValue(); }
+    default void setLayoutX(double layoutX) { layoutXProperty().setValue(layoutX); }
+    default double getLayoutX() { return layoutXProperty().getValue(); }
 
 }

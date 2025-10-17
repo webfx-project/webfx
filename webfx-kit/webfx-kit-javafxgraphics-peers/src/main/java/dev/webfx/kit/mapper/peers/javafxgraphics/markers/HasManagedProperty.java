@@ -1,15 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
 
-import javafx.beans.property.Property;
+import javafx.beans.property.BooleanProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasManagedProperty {
 
-    Property<Boolean> managedProperty();
-    default void setManaged(Boolean managed) { managedProperty().setValue(managed); }
-    default Boolean isManaged() { return managedProperty().getValue(); }
+    BooleanProperty managedProperty();
+    default void setManaged(boolean managed) { managedProperty().setValue(managed); }
+    default boolean isManaged() { return managedProperty().getValue(); }
 
 }

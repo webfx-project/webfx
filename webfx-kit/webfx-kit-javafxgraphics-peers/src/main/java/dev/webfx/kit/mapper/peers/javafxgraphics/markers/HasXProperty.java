@@ -9,11 +9,11 @@ public interface HasXProperty {
 
     DoubleProperty xProperty();
 
-    default void setX(Number x) {
+    default void setX(double x) {
         xProperty().setValue(x);
     }
 
-    default Double getX() {
+    default double getX() {
         return xProperty().getValue();
     }
 }

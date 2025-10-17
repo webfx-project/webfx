@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasHgapProperty {
 
     DoubleProperty hgapProperty();
-    default void setHgap(Number hgap) { hgapProperty().setValue(hgap); }
-    default Double getHgap() { return hgapProperty().getValue(); }
+    default void setHgap(double hgap) { hgapProperty().setValue(hgap); }
+    default double getHgap() { return hgapProperty().getValue(); }
 
 }

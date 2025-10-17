@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasPrefHeightProperty {
 
     DoubleProperty prefHeightProperty();
-    default void setPrefHeight(Number prefHeight) { prefHeightProperty().setValue(prefHeight); }
-    default Double getPrefHeight() { return prefHeightProperty().getValue(); }
+    default void setPrefHeight(double prefHeight) { prefHeightProperty().setValue(prefHeight); }
+    default double getPrefHeight() { return prefHeightProperty().getValue(); }
 
 }

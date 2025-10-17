@@ -40,15 +40,15 @@ public class Text extends Shape implements
         return xProperty;
     }
 
-    private final Property<VPos> textOriginProperty = new SimpleObjectProperty<>(VPos.BASELINE);
+    private final ObjectProperty<VPos> textOriginProperty = new SimpleObjectProperty<>(VPos.BASELINE);
     @Override
-    public Property<VPos> textOriginProperty() {
+    public ObjectProperty<VPos> textOriginProperty() {
         return textOriginProperty;
     }
 
-    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(/* null for web CSS instead of TextAlignment.LEFT */);
+    private final ObjectProperty<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(/* null for web CSS instead of TextAlignment.LEFT */);
     @Override
-    public Property<TextAlignment> textAlignmentProperty() {
+    public ObjectProperty<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
     }
 
@@ -84,9 +84,9 @@ public class Text extends Shape implements
         return textProperty;
     }
 
-    private final Property<Font> fontProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Font> fontProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Font> fontProperty() {
+    public ObjectProperty<Font> fontProperty() {
         return fontProperty;
     }
 

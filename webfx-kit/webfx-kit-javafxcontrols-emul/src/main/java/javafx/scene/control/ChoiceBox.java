@@ -1,9 +1,6 @@
 package javafx.scene.control;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ObjectPropertyBase;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -169,7 +166,7 @@ public class ChoiceBox<T> extends Control {
      * user. This is a readonly property which should be manipulated by means of
      * the #show and #hide methods.
      */
-    private Property<Boolean> showing = new SimpleObjectProperty<Boolean>(false); /* {
+    private BooleanProperty showing = new SimpleBooleanProperty(false); /* {
         @Override protected void invalidated() {
             pseudoClassStateChanged(SHOWING_PSEUDOCLASS_STATE, get());
             notifyAccessibleAttributeChanged(AccessibleAttribute.EXPANDED);
@@ -186,7 +183,7 @@ public class ChoiceBox<T> extends Control {
         }
     };*/
     public final boolean isShowing() { return showing.getValue(); }
-    public final Property<Boolean> showingProperty() { return showing; }
+    public final BooleanProperty showingProperty() { return showing; }
     private void setShowing(boolean value) {
         // these events will not fire if the showing property is bound
         Event.fireEvent(this, value ? new Event(ComboBoxBase.ON_SHOWING) :

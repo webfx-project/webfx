@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.paint.Paint;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.paint.Paint;
  */
 public interface HasStrokeProperty {
 
-    Property<Paint> strokeProperty();
+    ObjectProperty<Paint> strokeProperty();
     default void setStroke(Paint stroke) {
         strokeProperty().setValue(stroke);
     }

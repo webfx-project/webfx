@@ -1,8 +1,8 @@
 package javafx.scene.control;
 
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -53,7 +53,7 @@ public class Button extends ButtonBase {
      * A default Button is the button that receives
      * a keyboard VK_ENTER press, if no other node in the scene consumes it.
      */
-    private Property<Boolean> defaultButton;
+    private BooleanProperty defaultButton;
     public final void setDefaultButton(boolean value) {
         defaultButtonProperty().setValue(value);
     }
@@ -61,9 +61,9 @@ public class Button extends ButtonBase {
         return defaultButton == null ? false : defaultButton.getValue();
     }
 
-    public final Property<Boolean> defaultButtonProperty() {
+    public final BooleanProperty defaultButtonProperty() {
         if (defaultButton == null) {
-            defaultButton = new SimpleObjectProperty<>(false)/* {
+            defaultButton = new SimpleBooleanProperty(false)/* {
                 @Override protected void invalidated() {
                     pseudoClassStateChanged(PSEUDO_CLASS_DEFAULT, get());
                 }
@@ -87,7 +87,7 @@ public class Button extends ButtonBase {
      * A Cancel Button is the button that receives
      * a keyboard VK_ESC press, if no other node in the scene consumes it.
      */
-    private Property<Boolean> cancelButton;
+    private BooleanProperty cancelButton;
     public final void setCancelButton(boolean value) {
         cancelButtonProperty().setValue(value);
     }
@@ -95,9 +95,9 @@ public class Button extends ButtonBase {
         return cancelButton == null ? false : cancelButton.getValue();
     }
 
-    public final Property<Boolean> cancelButtonProperty() {
+    public final BooleanProperty cancelButtonProperty() {
         if (cancelButton == null) {
-            cancelButton = new SimpleObjectProperty<>(false)/* {
+            cancelButton = new SimpleBooleanProperty(false)/* {
                 @Override protected void invalidated() {
                     pseudoClassStateChanged(PSEUDO_CLASS_CANCEL, get());
                 }

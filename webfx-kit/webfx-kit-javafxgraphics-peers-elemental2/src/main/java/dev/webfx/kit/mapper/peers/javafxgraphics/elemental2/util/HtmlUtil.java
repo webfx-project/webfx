@@ -3,6 +3,7 @@ package dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.util;
 import dev.webfx.platform.util.Strings;
 import elemental2.dom.*;
 import jsinterop.base.Js;
+import jsinterop.base.JsPropertyMap;
 
 import static elemental2.dom.DomGlobal.document;
 
@@ -167,7 +168,8 @@ public final class HtmlUtil {
     }
 
     public static void setJsAttribute(Object o, String name, String value) {
-        Js.asPropertyMap(o).set(name, value);
+        JsPropertyMap<Object> propertyMap = Js.asPropertyMap(o);
+        propertyMap.set(name, value);
     }
 
     public static void setJsJavaObjectAttribute(Object o, String name, Object value) {

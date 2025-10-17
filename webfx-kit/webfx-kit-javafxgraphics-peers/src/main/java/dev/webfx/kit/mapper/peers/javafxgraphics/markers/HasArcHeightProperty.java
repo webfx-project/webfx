@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasArcHeightProperty {
 
     DoubleProperty arcHeightProperty();
-    default void setArcHeight(Number arcHeight) { arcHeightProperty().setValue(arcHeight); }
-    default Double getArcHeight() { return arcHeightProperty().getValue(); }
+    default void setArcHeight(double arcHeight) { arcHeightProperty().setValue(arcHeight); }
+    default double getArcHeight() { return arcHeightProperty().getValue(); }
 
 }

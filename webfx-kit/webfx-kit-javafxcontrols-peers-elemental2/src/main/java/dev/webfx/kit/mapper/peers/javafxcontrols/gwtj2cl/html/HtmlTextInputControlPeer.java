@@ -81,8 +81,8 @@ public abstract class HtmlTextInputControlPeer
         int selectionStart = inputElement.selectionStart;
         int selectionEnd = inputElement.selectionEnd;
         if (!String.valueOf(selectionStart).equals("null")) {
-            node.anchorProperty().set(selectionBackward ? selectionEnd : selectionStart);
-            node.caretPositionProperty().set(selectionBackward ? selectionStart : selectionEnd);
+            node.anchorPropertyImpl().set(selectionBackward ? selectionEnd : selectionStart);
+            node.caretPositionPropertyImpl().set(selectionBackward ? selectionStart : selectionEnd);
         }
     }
 

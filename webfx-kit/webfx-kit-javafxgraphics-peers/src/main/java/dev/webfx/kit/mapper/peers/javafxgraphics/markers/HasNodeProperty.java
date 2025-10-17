@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.Node;
  */
 public interface HasNodeProperty {
 
-    Property<Node> nodeProperty();
+    ObjectProperty<Node> nodeProperty();
     default HasNodeProperty setNode(Node node) { nodeProperty().setValue(node); return this; }
     default Node getNode() { return nodeProperty().getValue(); }
 }

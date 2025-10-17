@@ -16,10 +16,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.ScenePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.emul_coupling.WindowPeer;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasFillProperty;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasHeightProperty;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasRootProperty;
-import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasWidthProperty;
+import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.AnimationFramePass;
@@ -248,7 +245,7 @@ public class Scene implements EventTarget,
     /**
      * The {@code Window} for this {@code Scene}
      */
-    private Property<Window> window;
+    private ObjectProperty<Window> window;
 
     private void setWindow(Window value) {
         windowPropertyImpl().setValue(value);
@@ -258,11 +255,11 @@ public class Scene implements EventTarget,
         return window == null ? null : window.getValue();
     }
 
-    public final ReadOnlyProperty<Window> windowProperty() {
+    public final ReadOnlyObjectProperty<Window> windowProperty() {
         return windowPropertyImpl()/*.getReadOnlyProperty()*/;
     }
 
-    private Property<Window> windowPropertyImpl() {
+    private ObjectProperty<Window> windowPropertyImpl() {
         if (window == null) {
             window = new SimpleObjectProperty<Window>() {
                 private Window oldWindow;
@@ -763,10 +760,10 @@ public class Scene implements EventTarget,
         // Binding to allow the button to respond to the original node layout
         nodeReplacer.layoutXProperty().bind(node.layoutXProperty());
         nodeReplacer.layoutYProperty().bind(node.layoutYProperty());
-        if (node instanceof HasWidthProperty)
-            nodeReplacer.widthProperty().bind(((HasWidthProperty) node).widthProperty());
-        if (node instanceof HasHeightProperty)
-            nodeReplacer.heightProperty().bind(((HasHeightProperty) node).heightProperty());
+        if (node instanceof HasReadOnlyWidthProperty wn)
+            nodeReplacer.widthPropertyImpl().bind(wn.widthProperty());
+        if (node instanceof HasHeightProperty hn)
+            nodeReplacer.heightPropertyImpl().bind(hn.heightProperty());
         return nodeReplacer;
     }
 

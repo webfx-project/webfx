@@ -1,8 +1,6 @@
 package javafx.scene.control;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
@@ -161,7 +159,7 @@ class HeavyweightDialog extends FXDialog {
         }
     }
 
-    @Override public ReadOnlyProperty<Boolean> showingProperty() {
+    @Override public ReadOnlyBooleanProperty showingProperty() {
         return stage.showingProperty();
     }
 
@@ -219,7 +217,8 @@ class HeavyweightDialog extends FXDialog {
         stage.setWidth(width);
     }
 
-    @Override Property<Boolean> resizableProperty() {
+    @Override
+    BooleanProperty resizableProperty() {
         return stage.resizableProperty();
     }
 
@@ -227,7 +226,7 @@ class HeavyweightDialog extends FXDialog {
         return stage.titleProperty();
     }
 
-    @Override ReadOnlyProperty<Boolean> focusedProperty() {
+    @Override ReadOnlyBooleanProperty focusedProperty() {
         return stage.focusedProperty();
     }
 

@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.layout.Background;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.layout.Background;
  */
 public interface HasBackgroundProperty {
 
-    Property<Background> backgroundProperty();
+    ObjectProperty<Background> backgroundProperty();
     default void setBackground(Background background) { backgroundProperty().setValue(background); }
     default Background getBackground() { return backgroundProperty().getValue(); }
 

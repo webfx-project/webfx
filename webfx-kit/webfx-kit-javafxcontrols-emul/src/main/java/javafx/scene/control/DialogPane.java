@@ -1,9 +1,7 @@
 package javafx.scene.control;
 
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -610,7 +608,7 @@ public class DialogPane extends Pane {
 
 
     // --- expanded
-    private final Property<Boolean> expandedProperty = new SimpleObjectProperty<Boolean>(this, "expanded", false) {
+    private final BooleanProperty expandedProperty = new SimpleBooleanProperty(this, "expanded", false) {
         protected void invalidated() {
             final Node expandableContent = getExpandableContent();
 
@@ -625,7 +623,7 @@ public class DialogPane extends Pane {
     /**
      * Represents whether the dialogPane is expanded.
      */
-    public final Property<Boolean> expandedProperty() {
+    public final BooleanProperty expandedProperty() {
         return expandedProperty;
     }
 

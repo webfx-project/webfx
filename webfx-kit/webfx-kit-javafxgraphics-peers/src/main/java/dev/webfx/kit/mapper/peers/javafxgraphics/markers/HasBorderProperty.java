@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.layout.Border;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.layout.Border;
  */
 public interface HasBorderProperty {
 
-    Property<Border> borderProperty();
+    ObjectProperty<Border> borderProperty();
     default void setBorder(Border border) { borderProperty().setValue(border); }
     default Border getBorder() { return borderProperty().getValue(); }
 

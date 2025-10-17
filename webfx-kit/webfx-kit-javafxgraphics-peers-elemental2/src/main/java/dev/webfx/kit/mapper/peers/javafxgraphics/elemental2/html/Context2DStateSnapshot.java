@@ -9,7 +9,7 @@ import jsinterop.base.Js;
  * @author Bruno Salmon
  */
 final class Context2DStateSnapshot {
-    private final CanvasRenderingContext2DWithMatrixSetTransform ctx;
+    private final CanvasRenderingContext2D ctx;
     private final BaseRenderingContext2D.FillStyleUnionType fillStyle;
     private final BaseRenderingContext2D.StrokeStyleUnionType strokeStyle;
     private final double lineWidth;

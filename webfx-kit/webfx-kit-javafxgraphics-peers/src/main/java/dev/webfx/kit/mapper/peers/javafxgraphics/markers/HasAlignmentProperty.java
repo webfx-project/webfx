@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Pos;
 
 /**
@@ -8,7 +8,7 @@ import javafx.geometry.Pos;
  */
 public interface HasAlignmentProperty {
 
-    Property<Pos> alignmentProperty();
+    ObjectProperty<Pos> alignmentProperty();
     default void setAlignment(Pos alignment) {
         alignmentProperty().setValue(alignment);
     }

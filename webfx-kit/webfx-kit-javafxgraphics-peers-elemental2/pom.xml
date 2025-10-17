@@ -52,12 +52,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.jsinterop</groupId>
-            <artifactId>jsinterop-annotations</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
             <groupId>dev.webfx</groupId>
             <artifactId>webfx-kit-javafxgraphics-peers</artifactId>
             <version>0.1.0-SNAPSHOT</version>

@@ -199,7 +199,7 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
         context.font = HtmlFonts.getHtmlFontDefinition(font);
         TextMetrics textMetrics = context.measureText(text);
         JsPropertyMap<?> tm = Js.asPropertyMap(textMetrics);
-        return new BoundingBox(0, 0, textMetrics.width, (double) tm.get("actualBoundingBoxAscent") + (double) tm.get("actualBoundingBoxDescent"));
+        return new BoundingBox(0, 0, textMetrics.width,(double) tm.get("actualBoundingBoxAscent") + (double) tm.get("actualBoundingBoxDescent"));
     }
 
     private static final HTMLElement baselineSample = HtmlUtil.createSpanElement();
@@ -358,8 +358,8 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
                             // JavaFX doesn't provide Screen.boundsProperty() so we use the primary stage bounds instead,
                             // assuming the stage is always fullscreen (which should be the case during this fullscreen
                             // mode).
-                            fullscreenRegion.widthProperty().bind(primaryStage.widthProperty());
-                            fullscreenRegion.heightProperty().bind(primaryStage.heightProperty());
+                            fullscreenRegion.widthPropertyImpl().bind(primaryStage.widthProperty());
+                            fullscreenRegion.heightPropertyImpl().bind(primaryStage.heightProperty());
                         } else { // Desktops
                             Rectangle2D screenBounds = Screen.getPrimary().getBounds();
                             fullscreenNode.resize(screenBounds.getWidth(), screenBounds.getHeight());
@@ -368,8 +368,8 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
                         // Re-establishing the previous state when it "comes back" to the normal scene graph
                         if (fullscreenNode instanceof Region fullscreenRegion /* very likely a region */) {
                             // Unbinding the JavaFX dimensions that we forced when entering fullscreen
-                            fullscreenRegion.widthProperty().unbind();
-                            fullscreenRegion.heightProperty().unbind();
+                            fullscreenRegion.widthPropertyImpl().unbind();
+                            fullscreenRegion.heightPropertyImpl().unbind();
                         }
                         // Re-establishing the previous managed state
                         fullscreenNode.setManaged(fullscreenNodeWasManaged);

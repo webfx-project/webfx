@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.effect.Effect;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.effect.Effect;
  */
 public interface HasEffectProperty {
 
-    Property<Effect> effectProperty();
+    ObjectProperty<Effect> effectProperty();
     default void setEffect(Effect effect) {
         effectProperty().setValue(effect);
     }

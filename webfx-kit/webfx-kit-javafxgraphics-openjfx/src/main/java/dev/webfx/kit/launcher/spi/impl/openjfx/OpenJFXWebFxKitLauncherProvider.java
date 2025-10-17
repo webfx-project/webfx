@@ -121,7 +121,7 @@ public final class OpenJFXWebFxKitLauncherProvider extends WebFxKitLauncherProvi
             OpenJFXWebFxKitLauncherProvider.primaryStage = primaryStage;
             onJavaFxToolkitReady();
             if (application != null) {
-                // WebFX CSS: automatically adding main.css style sheet to the scene when added to the stage
+                // WebFX CSS: automatically adding the main.css style sheet to the scene when added to the stage
                 primaryStage.sceneProperty().addListener((observable, oldValue, newScene) -> {
                     if (newScene != null) {
                         String webFxCssResourcePath = WebFxKitLauncher.getWebFxCssResourcePath("main.css");

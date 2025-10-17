@@ -48,7 +48,7 @@ abstract class HtmlShapePeer
     protected void updateStroke() {
         N shape = getNode();
         String color = HtmlPaints.toHtmlCssPaint(shape.getStroke());
-        Double strokeWidth = shape.getStrokeWidth();
+        double strokeWidth = shape.getStrokeWidth();
         boolean hasStroke = color != null && strokeWidth > 0;
         setElementStyleAttribute("border-color", hasStroke ? color : null);
         setElementStyleAttribute("border-style", hasStroke ? "solid" : null);

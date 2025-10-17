@@ -50,8 +50,16 @@ public class Region extends Parent implements
         }
     };
     @Override
-    public DoubleProperty widthProperty() {
+    public ReadOnlyDoubleProperty widthProperty() {
         return widthProperty;
+    }
+
+    public DoubleProperty widthPropertyImpl() {
+        return widthProperty;
+    }
+
+    public void setWidth(double value) {
+        widthProperty.set(value);
     }
 
     private final DoubleProperty heightProperty = new SimpleDoubleProperty(0d) {
@@ -66,8 +74,16 @@ public class Region extends Parent implements
         }
     };
     @Override
-    public DoubleProperty heightProperty() {
+    public ReadOnlyDoubleProperty heightProperty() {
         return heightProperty;
+    }
+
+    public DoubleProperty heightPropertyImpl() {
+        return heightProperty;
+    }
+
+    public void setHeight(double value) {
+        heightProperty.set(value);
     }
 
     private class MinPrefMaxProperty extends SimpleDoubleProperty {
@@ -190,7 +206,7 @@ public class Region extends Parent implements
         }
     };
 
-    private final Property<Insets> padding = new SimpleObjectProperty<Insets>(Insets.EMPTY) {
+    private final ObjectProperty<Insets> padding = new SimpleObjectProperty<Insets>(Insets.EMPTY) {
         // Keep track of the last valid value for the sake of
         // rollback in case padding is set to null. Note that
         // Richard really does not like this pattern because
@@ -227,7 +243,7 @@ public class Region extends Parent implements
         }
     };
     @Override
-    public Property<Insets> paddingProperty() {
+    public ObjectProperty<Insets> paddingProperty() {
         return padding;
     }
 
@@ -241,7 +257,7 @@ public class Region extends Parent implements
     // by other transforms such as rotate and scale.
     // UPDATE 21/07/2025: finally set it back to true to solve some trembling vertical position issues with nodes in
     // VBoxes during animation effects on the container height such as CollapsePane or TransitionPane with animated height
-    private final Property<Boolean> snapToPixelProperty = new SimpleBooleanProperty(true) {
+    private final BooleanProperty snapToPixelProperty = new SimpleBooleanProperty(true) {
         @Override
         protected void invalidated() {
             updateSnappedInsets();
@@ -250,24 +266,24 @@ public class Region extends Parent implements
     };
 
     @Override
-    public Property<Boolean> snapToPixelProperty() {
+    public BooleanProperty snapToPixelProperty() {
         return snapToPixelProperty;
     }
 
-    private final Property<Background> backgroundProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Background> backgroundProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Background> backgroundProperty() {
+    public ObjectProperty<Background> backgroundProperty() {
         return backgroundProperty;
     }
 
-    private final Property<Border> borderProperty = new SimpleObjectProperty<>() {
+    private final ObjectProperty<Border> borderProperty = new SimpleObjectProperty<>() {
         @Override
         protected void invalidated() {
             insets.fireValueChanged();
         }
     };
     @Override
-    public Property<Border> borderProperty() {
+    public ObjectProperty<Border> borderProperty() {
         return borderProperty;
     }
 

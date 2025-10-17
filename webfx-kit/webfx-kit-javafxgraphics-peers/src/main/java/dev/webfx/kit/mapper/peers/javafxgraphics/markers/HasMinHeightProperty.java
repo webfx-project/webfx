@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasMinHeightProperty {
 
     DoubleProperty minHeightProperty();
-    default void setMinHeight(Number minHeight) { minHeightProperty().setValue(minHeight); }
-    default Double getMinHeight() { return minHeightProperty().getValue(); }
+    default void setMinHeight(double minHeight) { minHeightProperty().setValue(minHeight); }
+    default double getMinHeight() { return minHeightProperty().getValue(); }
 
 }

@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasPrefWidthProperty {
 
     DoubleProperty prefWidthProperty();
-    default void setPrefWidth(Number prefWidth) { prefWidthProperty().setValue(prefWidth); }
-    default Double getPrefWidth() { return prefWidthProperty().getValue(); }
+    default void setPrefWidth(double prefWidth) { prefWidthProperty().setValue(prefWidth); }
+    default double getPrefWidth() { return prefWidthProperty().getValue(); }
 
 }

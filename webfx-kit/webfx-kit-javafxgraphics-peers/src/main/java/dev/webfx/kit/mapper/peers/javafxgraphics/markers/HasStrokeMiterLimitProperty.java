@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasStrokeMiterLimitProperty {
 
     DoubleProperty strokeMiterLimitProperty();
-    default void setStrokeMiterLimit(Number strokeMiterLimit) { strokeMiterLimitProperty().setValue(strokeMiterLimit); }
-    default Double getStrokeMiterLimit() { return strokeMiterLimitProperty().getValue(); }
+    default void setStrokeMiterLimit(double strokeMiterLimit) { strokeMiterLimitProperty().setValue(strokeMiterLimit); }
+    default double getStrokeMiterLimit() { return strokeMiterLimitProperty().getValue(); }
 
 }

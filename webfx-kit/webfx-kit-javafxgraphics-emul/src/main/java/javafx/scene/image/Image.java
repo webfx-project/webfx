@@ -333,7 +333,7 @@ public class Image implements
         return progress == null ? 0.0 : progress.get();
     }
 
-    public final DoubleProperty progressProperty() {
+    public final ReadOnlyDoubleProperty progressProperty() {
         return progressPropertyImpl();
     }
 

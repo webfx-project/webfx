@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasWrappingWidthProperty {
 
     DoubleProperty wrappingWidthProperty();
-    default void setWrappingWidth(Number wrappingWidth) { wrappingWidthProperty().setValue(wrappingWidth); }
-    default Double getWrappingWidth() { return wrappingWidthProperty().getValue(); }
+    default void setWrappingWidth(double wrappingWidth) { wrappingWidthProperty().setValue(wrappingWidth); }
+    default double getWrappingWidth() { return wrappingWidthProperty().getValue(); }
 
 }

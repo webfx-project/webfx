@@ -1,15 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
 
-import javafx.beans.property.Property;
+import javafx.beans.property.BooleanProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasSnapToPixelProperty {
 
-    Property<Boolean> snapToPixelProperty();
-    default void setSnapToPixel(Boolean snapToPixel) { snapToPixelProperty().setValue(snapToPixel); }
-    default Boolean isSnapToPixel() { return snapToPixelProperty().getValue(); }
+    BooleanProperty snapToPixelProperty();
+    default void setSnapToPixel(boolean snapToPixel) { snapToPixelProperty().setValue(snapToPixel); }
+    default boolean isSnapToPixel() { return snapToPixelProperty().getValue(); }
 
 }

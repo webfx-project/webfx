@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasMinProperty {
 
     DoubleProperty minProperty();
-    default void setMin(Number value) { minProperty().setValue(value); }
-    default Double getMin() { return minProperty().getValue(); }
+    default void setMin(double value) { minProperty().setValue(value); }
+    default double getMin() { return minProperty().getValue(); }
 
 }

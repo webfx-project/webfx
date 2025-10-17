@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasMaxWidthProperty {
 
     DoubleProperty maxWidthProperty();
-    default void setMaxWidth(Number maxWidth) { maxWidthProperty().setValue(maxWidth); }
-    default Double getMaxWidth() { return maxWidthProperty().getValue(); }
+    default void setMaxWidth(double maxWidth) { maxWidthProperty().setValue(maxWidth); }
+    default double getMaxWidth() { return maxWidthProperty().getValue(); }
 
 }

@@ -9,11 +9,11 @@ public interface HasEndYProperty {
 
     DoubleProperty endYProperty();
 
-    default void setEndY(Number endY) {
+    default void setEndY(double endY) {
         endYProperty().setValue(endY);
     }
 
-    default Double getEndY() {
+    default double getEndY() {
         return endYProperty().getValue();
     }
 }

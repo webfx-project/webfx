@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasAngleProperty {
 
     DoubleProperty angleProperty();
-    default void setAngle(Number angle) { angleProperty().setValue(angle); }
-    default Double getAngle() { return angleProperty().getValue(); }
+    default void setAngle(double angle) { angleProperty().setValue(angle); }
+    default double getAngle() { return angleProperty().getValue(); }
 
 }

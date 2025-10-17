@@ -3,7 +3,6 @@ package javafx.scene.control;
 import com.sun.javafx.geom.Point2D;
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import javafx.beans.property.*;
-import javafx.beans.value.WritableValue;
 import javafx.css.StyleableProperty;
 import javafx.geometry.*;
 import javafx.scene.IScrollPane;
@@ -30,7 +29,7 @@ public class ScrollPane extends Control implements IScrollPane {
             // same way as in OpenJFX (ex: if an ancestor of ScrollPane sets a mouse handler, it will be called)
             { consumeMouseEvents(false); }
         };*/
-        ((StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty()).applyStyle(null, Boolean.FALSE);
+        ((StyleableProperty<Boolean>) focusTraversableProperty()).applyStyle(null, Boolean.FALSE);
     }
 
     public ScrollPane(Node content) {
@@ -86,9 +85,9 @@ public class ScrollPane extends Control implements IScrollPane {
         pt.y += (float) viewportBounds.getMinY();
     }
 
-    private final Property<ScrollBarPolicy> hbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
+    private final ObjectProperty<ScrollBarPolicy> hbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
 
-    public Property<ScrollBarPolicy> hbarPolicyProperty() {
+    public ObjectProperty<ScrollBarPolicy> hbarPolicyProperty() {
         return hbarPolicyProperty;
     }
 
@@ -100,9 +99,9 @@ public class ScrollPane extends Control implements IScrollPane {
         return hbarPolicyProperty.getValue();
     }
 
-    private final Property<ScrollBarPolicy> vbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
+    private final ObjectProperty<ScrollBarPolicy> vbarPolicyProperty = new SimpleObjectProperty<>(ScrollBarPolicy.AS_NEEDED);
 
-    public Property<ScrollBarPolicy> vbarPolicyProperty() {
+    public ObjectProperty<ScrollBarPolicy> vbarPolicyProperty() {
         return vbarPolicyProperty;
     }
 

@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.VPos;
 
 /**
@@ -8,7 +8,7 @@ import javafx.geometry.VPos;
  */
 public interface HasRowValignmentProperty {
 
-    Property<VPos> rowValignmentProperty();
+    ObjectProperty<VPos> rowValignmentProperty();
     default void setRowValignment(VPos rowValignment) {
         rowValignmentProperty().setValue(rowValignment);
     }

@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.text.TextAlignment;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.text.TextAlignment;
  */
 public interface HasTextAlignmentProperty {
 
-    Property<TextAlignment> textAlignmentProperty();
+    ObjectProperty<TextAlignment> textAlignmentProperty();
     default void setTextAlignment(TextAlignment textAlignment) {
         textAlignmentProperty().setValue(textAlignment);
     }

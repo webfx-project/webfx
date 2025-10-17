@@ -17,9 +17,9 @@ public abstract class TextInputControl extends Control implements
         HasTextProperty,
         HasPromptTextProperty {
 
-    private final Property<Font> fontProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Font> fontProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Font> fontProperty() {
+    public ObjectProperty<Font> fontProperty() {
         return fontProperty;
     }
 
@@ -111,7 +111,8 @@ public abstract class TextInputControl extends Control implements
      */
     private IntegerProperty anchor = new SimpleIntegerProperty(this, "anchor", 0);
     public final int getAnchor() { return anchor.get(); }
-    public final IntegerProperty anchorProperty() { return anchor; }
+    public final ReadOnlyIntegerProperty anchorProperty() { return anchor; }
+    public final IntegerProperty anchorPropertyImpl() { return anchor; }
 
     /**
      * The current position of the caret within the text.
@@ -123,7 +124,8 @@ public abstract class TextInputControl extends Control implements
      */
     private IntegerProperty caretPosition = new SimpleIntegerProperty(this, "caretPosition", 0);
     public final int getCaretPosition() { return caretPosition.get(); }
-    public final IntegerProperty caretPositionProperty() { return caretPosition; }
+    public final ReadOnlyIntegerProperty caretPositionProperty() { return caretPosition; }
+    public final IntegerProperty caretPositionPropertyImpl() { return caretPosition; }
 
     /**
      * Positions the caret to the position indicated by {@code pos}. This

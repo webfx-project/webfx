@@ -9,11 +9,11 @@ public interface HasYProperty {
 
     DoubleProperty yProperty();
 
-    default void setY(Number y) {
+    default void setY(double y) {
         yProperty().setValue(y);
     }
 
-    default Double getY() {
+    default double getY() {
         return yProperty().getValue();
     }
 }

@@ -9,11 +9,11 @@ public interface HasRadiusProperty {
 
     DoubleProperty radiusProperty();
 
-    default void setRadius(Number height) {
+    default void setRadius(double height) {
         radiusProperty().setValue(height);
     }
 
-    default Double getRadius() {
+    default double getRadius() {
         return radiusProperty().getValue();
     }
 

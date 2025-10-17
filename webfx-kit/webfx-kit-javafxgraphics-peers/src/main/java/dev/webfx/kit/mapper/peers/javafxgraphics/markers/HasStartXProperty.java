@@ -9,11 +9,11 @@ public interface HasStartXProperty {
 
     DoubleProperty startXProperty();
 
-    default void setStartX(Number startX) {
+    default void setStartX(double startX) {
         startXProperty().setValue(startX);
     }
 
-    default Double getStartX() {
+    default double getStartX() {
         return startXProperty().getValue();
     }
 }

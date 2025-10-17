@@ -707,7 +707,7 @@ public class Dialog<R> implements EventTarget {
     /**
      * Represents whether the dialog is resizable.
      */
-    public final Property<Boolean> resizableProperty() {
+    public final BooleanProperty resizableProperty() {
         return dialog.resizableProperty();
     }
 

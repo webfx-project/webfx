@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasValueProperty {
 
     DoubleProperty valueProperty();
-    default void setValue(Number value) { valueProperty().setValue(value); }
-    default Double getValue() { return valueProperty().getValue(); }
+    default void setValue(double value) { valueProperty().setValue(value); }
+    default double getValue() { return valueProperty().getValue(); }
 
 }

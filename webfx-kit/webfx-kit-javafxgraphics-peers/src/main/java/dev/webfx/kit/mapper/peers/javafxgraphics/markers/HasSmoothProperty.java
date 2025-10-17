@@ -1,15 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
 
-import javafx.beans.property.Property;
+import javafx.beans.property.BooleanProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasSmoothProperty {
 
-    Property<Boolean> smoothProperty();
-    default void setSmooth(Boolean smooth) { smoothProperty().setValue(smooth); }
-    default Boolean isSmooth() { return smoothProperty().getValue(); }
+    BooleanProperty smoothProperty();
+    default void setSmooth(boolean smooth) { smoothProperty().setValue(smooth); }
+    default boolean isSmooth() { return smoothProperty().getValue(); }
 
 }

@@ -212,7 +212,8 @@ public abstract class HtmlSvgNodePeer
     }
 
     private EventListener updateHtmlEventListener(EventListener previousListener, String type, Object eventHandler, EventListener newListener) {
-        element.removeEventListener(type, previousListener);
+        if (previousListener != null) // Otherwise TeaVM JS output raises an exception
+            element.removeEventListener(type, previousListener);
         if (eventHandler == null)
             return null;
         element.addEventListener(type, newListener);

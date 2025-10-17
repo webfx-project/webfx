@@ -5,10 +5,9 @@ import javafx.beans.property.DoubleProperty;
 /**
  * @author Bruno Salmon
  */
-public interface HasHeightProperty {
+public interface HasHeightProperty extends HasReadOnlyHeightProperty {
 
     DoubleProperty heightProperty();
-    default void setHeight(Number height) { heightProperty().setValue(height); }
-    default double getHeight() { return heightProperty().getValue(); }
+    default void setHeight(double height) { heightProperty().setValue(height); }
 
 }

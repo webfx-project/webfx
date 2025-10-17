@@ -1,11 +1,11 @@
 package javafx.scene;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Bounds;
-import javafx.scene.layout.LayoutFlags;
 import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasAutoSizeChildrenProperty;
 import dev.webfx.kit.registry.javafxgraphics.JavaFxGraphicsRegistry;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.geometry.Bounds;
+import javafx.scene.layout.LayoutFlags;
 
 /**
  * @author Bruno Salmon
@@ -20,9 +20,9 @@ public class Group extends Parent implements
         super(nodes);
     }
 
-    private final Property<Boolean> autoSizeChildrenProperty = new SimpleObjectProperty<>(true);
+    private final BooleanProperty autoSizeChildrenProperty = new SimpleBooleanProperty(true);
     @Override
-    public Property<Boolean> autoSizeChildrenProperty() {
+    public BooleanProperty autoSizeChildrenProperty() {
         return autoSizeChildrenProperty;
     }
 
