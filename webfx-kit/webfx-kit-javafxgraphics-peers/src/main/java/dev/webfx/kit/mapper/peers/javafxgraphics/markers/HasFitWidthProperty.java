@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasFitWidthProperty {
 
     DoubleProperty fitWidthProperty();
-    default void setFitWidth(Number fitWidth) { fitWidthProperty().setValue(fitWidth); }
-    default Double getFitWidth() { return fitWidthProperty().getValue(); }
+    default void setFitWidth(double fitWidth) { fitWidthProperty().setValue(fitWidth); }
+    default double getFitWidth() { return fitWidthProperty().getValue(); }
 
 }

@@ -81,7 +81,7 @@ public class Rectangle extends Shape implements
 
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        bounds.setBoundsAndSort(getX().floatValue(), getY().floatValue(), 0, (float) (getX() + getWidth()), (float) (getY() + getHeight()), 0);
+        bounds.setBoundsAndSort((float) getX(), (float) getY(), 0, (float) (getX() + getWidth()), (float) (getY() + getHeight()), 0);
         return bounds;
     }
 

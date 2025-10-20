@@ -17,9 +17,9 @@ public abstract class TextInputControl extends Control implements
         HasTextProperty,
         HasPromptTextProperty {
 
-    private final Property<Font> fontProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Font> fontProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Font> fontProperty() {
+    public ObjectProperty<Font> fontProperty() {
         return fontProperty;
     }
 
@@ -90,15 +90,51 @@ public abstract class TextInputControl extends Control implements
      * @param caretPosition the caretPosition
      */
     public void selectRange(int anchor, int caretPosition) {
-        NodePeer peer = getOrCreateAndBindNodePeer();
-        if (peer instanceof SelectableTextInputControlPeer)
-            ((SelectableTextInputControlPeer) peer).selectRange(anchor, caretPosition);
+        NodePeer<?> peer = getOrCreateAndBindNodePeer();
+        if (peer instanceof SelectableTextInputControlPeer selectableTextInputControlPeer)
+            selectableTextInputControlPeer.selectRange(anchor, caretPosition);
     }
 
     public interface SelectableTextInputControlPeer {
 
         void selectRange(int anchor, int caretPosition);
 
+    }
+
+    /**
+     * The <code>anchor</code> of the text selection.
+     * The <code>anchor</code> and <code>caretPosition</code> make up the selection
+     * range. Selection must always be specified in terms of begin &lt;= end, but
+     * <code>anchor</code> may be less than, equal to, or greater than the
+     * <code>caretPosition</code>. Depending on how the user selects text,
+     * the anchor might represent the lower or upper bound of the selection.
+     */
+    private IntegerProperty anchor = new SimpleIntegerProperty(this, "anchor", 0);
+    public final int getAnchor() { return anchor.get(); }
+    public final ReadOnlyIntegerProperty anchorProperty() { return anchor; }
+    public final IntegerProperty anchorPropertyImpl() { return anchor; }
+
+    /**
+     * The current position of the caret within the text.
+     * The <code>anchor</code> and <code>caretPosition</code> make up the selection
+     * range. Selection must always be specified in terms of begin &lt;= end, but
+     * <code>anchor</code> may be less than, equal to, or greater than the
+     * <code>caretPosition</code>. Depending on how the user selects text,
+     * the caretPosition might represent the lower or upper bound of the selection.
+     */
+    private IntegerProperty caretPosition = new SimpleIntegerProperty(this, "caretPosition", 0);
+    public final int getCaretPosition() { return caretPosition.get(); }
+    public final ReadOnlyIntegerProperty caretPositionProperty() { return caretPosition; }
+    public final IntegerProperty caretPositionPropertyImpl() { return caretPosition; }
+
+    /**
+     * Positions the caret to the position indicated by {@code pos}. This
+     * function will also clear the selection.
+     * @param pos the position
+     */
+    public void positionCaret(int pos) {
+        final int p = Math.max(0, Math.min(pos, getLength())); // Utils.clamp(0, pos, getLength());
+        selectRange(p, p);
     }
 
     {

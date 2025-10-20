@@ -1,7 +1,7 @@
 package javafx.scene.control;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
 import javafx.collections.ObservableMap;
 
 /**
@@ -47,7 +47,7 @@ public interface Toggle {
     /**
      * The selected state for this {@code Toggle}.
      */
-    Property<Boolean> selectedProperty();
+    BooleanProperty selectedProperty();
 
     /**
      * Returns a previously set Object property, or null if no such property

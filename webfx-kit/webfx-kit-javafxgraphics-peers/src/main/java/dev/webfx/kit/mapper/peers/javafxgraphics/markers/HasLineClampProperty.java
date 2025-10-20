@@ -8,7 +8,7 @@ import javafx.beans.property.IntegerProperty;
 public interface HasLineClampProperty {
 
     IntegerProperty lineClampProperty();
-    default void setLineClamp(Number height) { lineClampProperty().setValue(height); }
+    default void setLineClamp(int height) { lineClampProperty().setValue(height); }
     default int getLineClamp() { return lineClampProperty().getValue(); }
 
 }

@@ -1,8 +1,8 @@
 package javafx.scene.control;
 
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -74,9 +74,9 @@ public class Hyperlink extends ButtonBase {
     /**
      * Indicates whether this link has already been "visited".
      */
-    public final Property<Boolean> visitedProperty() {
+    public final BooleanProperty visitedProperty() {
         if (visited == null) {
-            visited = new SimpleObjectProperty<>(false)/* {
+            visited = new SimpleBooleanProperty(false)/* {
                 @Override protected void invalidated() {
                     pseudoClassStateChanged(PSEUDO_CLASS_VISITED, get());
                 }
@@ -94,7 +94,7 @@ public class Hyperlink extends ButtonBase {
         }
         return visited;
     }
-    private Property<Boolean> visited;
+    private BooleanProperty visited;
     public final void setVisited(boolean value) {
         visitedProperty().setValue(value);
     }

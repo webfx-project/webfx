@@ -30,7 +30,7 @@ public class ImageView extends Node implements
     }
 
 
-    private final Property<Image> imageProperty = new SimpleObjectProperty<Image>() {
+    private final ObjectProperty<Image> imageProperty = new SimpleObjectProperty<Image>() {
         @Override
         protected void invalidated() {
             invalidateWidthHeight();
@@ -39,18 +39,18 @@ public class ImageView extends Node implements
         }
     };
     @Override
-    public Property<Image> imageProperty() {
+    public ObjectProperty<Image> imageProperty() {
         return imageProperty;
     }
 
-    private final Property<String> imageUrlProperty = new SimpleObjectProperty<String>() {
+    private final StringProperty imageUrlProperty = new SimpleStringProperty() {
         @Override
         protected void invalidated() {
             setImage(new Image(getImageUrl()));
         }
     };
     @Override
-    public Property<String> imageUrlProperty() {
+    public StringProperty imageUrlProperty() {
         return imageUrlProperty;
     }
 
@@ -164,7 +164,7 @@ public class ImageView extends Node implements
     @Override public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         recomputeWidthHeight();
 
-        bounds = bounds.deriveWithNewBounds(getX().floatValue(), getY().floatValue(), 0, (float) (getX() + destWidth), (float) (getY() + destHeight), 0);
+        bounds = bounds.deriveWithNewBounds((float) getX(), (float) getY(), 0, (float) (getX() + destWidth), (float) (getY() + destHeight), 0);
         bounds = tx.transform(bounds, bounds);
         return bounds;
     }

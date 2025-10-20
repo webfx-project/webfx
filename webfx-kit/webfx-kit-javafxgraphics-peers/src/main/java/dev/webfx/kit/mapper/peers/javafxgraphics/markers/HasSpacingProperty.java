@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasSpacingProperty {
 
     DoubleProperty spacingProperty();
-    default void setSpacing(Number value) { spacingProperty().setValue(value); }
-    default Double getSpacing() { return spacingProperty().getValue(); }
+    default void setSpacing(double value) { spacingProperty().setValue(value); }
+    default double getSpacing() { return spacingProperty().getValue(); }
 
 }

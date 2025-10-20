@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.shape.StrokeLineJoin;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.shape.StrokeLineJoin;
  */
 public interface HasStrokeLineJoinProperty {
 
-    Property<StrokeLineJoin> strokeLineJoinProperty();
+    ObjectProperty<StrokeLineJoin> strokeLineJoinProperty();
     default void setStrokeLineJoin(StrokeLineJoin strokeLineJoin) {
         strokeLineJoinProperty().setValue(strokeLineJoin);
     }

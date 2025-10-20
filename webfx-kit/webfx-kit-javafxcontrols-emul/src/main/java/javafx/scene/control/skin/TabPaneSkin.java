@@ -1627,12 +1627,12 @@ public class TabPaneSkin extends SkinBase<TabPane> {
             inner.relocate(snappedLeftInset(), snappedTopInset());
         }
 
-        @Override /*protected*/public void setWidth(/*double*/Number value) {
+        @Override /*protected*/public void setWidth(double value) {
             super.setWidth(value);
             clip.setWidth(value);
         }
 
-        @Override /*protected*/ public void setHeight(/*double*/Number value) {
+        @Override /*protected*/ public void setHeight(double value) {
             super.setHeight(value);
             clip.setHeight(value);
         }

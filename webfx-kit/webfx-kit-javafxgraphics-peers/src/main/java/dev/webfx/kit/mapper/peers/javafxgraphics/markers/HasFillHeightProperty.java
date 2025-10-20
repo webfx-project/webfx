@@ -1,15 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
 
-import javafx.beans.property.Property;
+import javafx.beans.property.BooleanProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasFillHeightProperty {
 
-    Property<Boolean> fillHeightProperty();
-    default void setFillHeight(Boolean fillHeight) { fillHeightProperty().setValue(fillHeight); }
-    default Boolean isFillHeight() { return fillHeightProperty().getValue(); }
+    BooleanProperty fillHeightProperty();
+    default void setFillHeight(boolean fillHeight) { fillHeightProperty().setValue(fillHeight); }
+    default boolean isFillHeight() { return fillHeightProperty().getValue(); }
 
 }

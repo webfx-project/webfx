@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.Parent;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.Parent;
  */
 public interface HasParentProperty {
 
-    Property<Parent> parentProperty();
+    ObjectProperty<Parent> parentProperty();
     default void setParent(Parent parent) {
         parentProperty().setValue(parent);
     }

@@ -132,10 +132,10 @@ public abstract class ComboBoxBase<T> extends Control {
      * <p>Note that when the editable property changes, the value property is
      * reset, along with any other relevant state.
      */
-    public Property<Boolean> editableProperty() { return editable; }
+    public BooleanProperty editableProperty() { return editable; }
     public final void setEditable(boolean value) { editableProperty().setValue(value); }
     public final boolean isEditable() { return editableProperty().getValue(); }
-    private Property<Boolean> editable = new SimpleObjectProperty<>(this, "editable", false)/* {
+    private BooleanProperty editable = new SimpleBooleanProperty(this, "editable", false)/* {
         @Override protected void invalidated() {
             pseudoClassStateChanged(PSEUDO_CLASS_EDITABLE, get());
         }
@@ -147,8 +147,8 @@ public abstract class ComboBoxBase<T> extends Control {
      * Represents the current state of the ComboBox popup, and whether it is
      * currently visible on screen (although it may be hidden behind other windows).
      */
-    private Property<Boolean> showing;
-    public ReadOnlyProperty<Boolean> showingProperty() { return showingPropertyImpl()/*.getReadOnlyProperty()*/; }
+    private BooleanProperty showing;
+    public ReadOnlyBooleanProperty showingProperty() { return showingPropertyImpl()/*.getReadOnlyProperty()*/; }
     public final boolean isShowing() { return showingPropertyImpl().getValue(); }
     private void setShowing(boolean value) {
         // these events will not fire if the showing property is bound
@@ -158,9 +158,9 @@ public abstract class ComboBoxBase<T> extends Control {
         Event.fireEvent(this, value ? new Event(ComboBoxBase.ON_SHOWN) :
                 new Event(ComboBoxBase.ON_HIDDEN));
     }
-    private Property<Boolean> showingPropertyImpl() {
+    private BooleanProperty showingPropertyImpl() {
         if (showing == null) {
-            showing = new SimpleObjectProperty<>(false)/* {
+            showing = new SimpleBooleanProperty(false)/* {
                 @Override protected void invalidated() {
                     pseudoClassStateChanged(PSEUDO_CLASS_SHOWING, get());
                     notifyAccessibleAttributeChanged(AccessibleAttribute.EXPANDED);
@@ -214,10 +214,10 @@ public abstract class ComboBoxBase<T> extends Control {
      * also takes into account whether the mouse is actually over the
      * ComboBox and pressed.
      */
-    public Property<Boolean> armedProperty() { return armed; }
+    public BooleanProperty armedProperty() { return armed; }
     private final void setArmed(boolean value) { armedProperty().setValue(value); }
     public final boolean isArmed() { return armedProperty().getValue(); }
-    private Property<Boolean> armed = new SimpleObjectProperty<>(this, "armed", false)/* {
+    private BooleanProperty armed = new SimpleBooleanProperty(this, "armed", false)/* {
         @Override protected void invalidated() {
             pseudoClassStateChanged(PSEUDO_CLASS_ARMED, get());
         }

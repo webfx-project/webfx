@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasMinWidthProperty {
 
     DoubleProperty minWidthProperty();
-    default void setMinWidth(Number minWidth) { minWidthProperty().setValue(minWidth); }
-    default Double getMinWidth() { return minWidthProperty().getValue(); }
+    default void setMinWidth(double minWidth) { minWidthProperty().setValue(minWidth); }
+    default double getMinWidth() { return minWidthProperty().getValue(); }
 
 }

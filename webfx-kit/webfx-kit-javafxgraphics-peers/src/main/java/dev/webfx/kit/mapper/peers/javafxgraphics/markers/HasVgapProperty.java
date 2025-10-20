@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasVgapProperty {
 
     DoubleProperty vgapProperty();
-    default void setVgap(Number vgap) { vgapProperty().setValue(vgap); }
-    default Double getVgap() { return vgapProperty().getValue(); }
+    default void setVgap(double vgap) { vgapProperty().setValue(vgap); }
+    default double getVgap() { return vgapProperty().getValue(); }
 
 }

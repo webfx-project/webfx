@@ -335,7 +335,7 @@ public class RowConstraints extends ConstraintsBase {
      * <p>
      * The default value is true.
      */
-    private Property<Boolean> fillHeight;
+    private BooleanProperty fillHeight;
 
     public final void setFillHeight(boolean value) {
         fillHeightProperty().setValue(value);
@@ -345,9 +345,9 @@ public class RowConstraints extends ConstraintsBase {
         return fillHeight == null ? true : fillHeight.getValue();
     }
 
-    public final Property<Boolean> fillHeightProperty() {
+    public final BooleanProperty fillHeightProperty() {
         if (fillHeight == null) {
-            fillHeight = new SimpleObjectProperty<Boolean>(true) {
+            fillHeight = new SimpleBooleanProperty(true) {
                 @Override
                 protected void invalidated() {
                     requestLayout();

@@ -7,11 +7,11 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.*;
  * @author Bruno Salmon
  */
 public interface PreferenceResizableNode extends INode,
-        HasWidthProperty,
+        HasReadOnlyWidthProperty,
         HasMinWidthProperty,
         HasPrefWidthProperty,
         HasMaxWidthProperty,
-        HasHeightProperty,
+        HasReadOnlyHeightProperty,
         HasMinHeightProperty,
         HasPrefHeightProperty,
         HasMaxHeightProperty {

@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.shape.StrokeLineCap;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.shape.StrokeLineCap;
  */
 public interface HasStrokeLineCapProperty {
 
-    Property<StrokeLineCap> strokeLineCapProperty();
+    ObjectProperty<StrokeLineCap> strokeLineCapProperty();
     default void setStrokeLineCap(StrokeLineCap strokeLineCap) {
         strokeLineCapProperty().setValue(strokeLineCap);
     }

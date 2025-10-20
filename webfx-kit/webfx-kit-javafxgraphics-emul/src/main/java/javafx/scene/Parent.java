@@ -9,8 +9,8 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextProperty;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.kit.util.properties.ObservableLists;
 import dev.webfx.platform.console.Console;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -160,7 +160,7 @@ public class Parent extends Node {
      * Indicates that this Node and its subnodes requires a layout pass on
      * the next pulse.
      */
-    private Property<Boolean> needsLayout;
+    private BooleanProperty needsLayout;
     LayoutFlags layoutFlag = LayoutFlags.CLEAN;
 
     protected final void setNeedsLayout(boolean value) {
@@ -184,9 +184,9 @@ public class Parent extends Node {
         return layoutFlag == LayoutFlags.NEEDS_LAYOUT;
     }
 
-    public final Property<Boolean> needsLayoutProperty() {
+    public final BooleanProperty needsLayoutProperty() {
         if (needsLayout == null)
-            needsLayout = new SimpleObjectProperty<>(layoutFlag == LayoutFlags.NEEDS_LAYOUT);
+            needsLayout = new SimpleBooleanProperty(layoutFlag == LayoutFlags.NEEDS_LAYOUT);
         return needsLayout;
     }
 

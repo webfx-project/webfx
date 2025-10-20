@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.effect.BlendMode;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.effect.BlendMode;
  */
 public interface HasBlendModeProperty {
 
-    Property<BlendMode> blendModeProperty();
+    ObjectProperty<BlendMode> blendModeProperty();
     default void setBlendMode(BlendMode blendMode) {
         blendModeProperty().setValue(blendMode);
     }

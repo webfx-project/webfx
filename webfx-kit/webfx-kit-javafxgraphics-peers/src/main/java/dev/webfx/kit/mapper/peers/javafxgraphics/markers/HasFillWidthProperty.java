@@ -1,15 +1,15 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
 
-import javafx.beans.property.Property;
+import javafx.beans.property.BooleanProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasFillWidthProperty {
 
-    Property<Boolean> fillWidthProperty();
-    default void setFillWidth(Boolean fillWidth) { fillWidthProperty().setValue(fillWidth); }
-    default Boolean isFillWidth() { return fillWidthProperty().getValue(); }
+    BooleanProperty fillWidthProperty();
+    default void setFillWidth(boolean fillWidth) { fillWidthProperty().setValue(fillWidth); }
+    default boolean isFillWidth() { return fillWidthProperty().getValue(); }
 
 }

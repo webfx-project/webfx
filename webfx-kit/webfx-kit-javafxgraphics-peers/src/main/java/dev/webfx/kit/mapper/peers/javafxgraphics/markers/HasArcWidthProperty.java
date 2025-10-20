@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasArcWidthProperty {
 
     DoubleProperty arcWidthProperty();
-    default void setArcWidth(Number arcWidth) { arcWidthProperty().setValue(arcWidth); }
-    default Double getArcWidth() { return arcWidthProperty().getValue(); }
+    default void setArcWidth(double arcWidth) { arcWidthProperty().setValue(arcWidth); }
+    default double getArcWidth() { return arcWidthProperty().getValue(); }
 
 }

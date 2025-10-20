@@ -486,7 +486,7 @@ public abstract class Animation {
      * running {@code Animation}, the animation has to be stopped and started again to pick
      * up the new value.
      */
-    private Property<Boolean> autoReverse;
+    private BooleanProperty autoReverse;
     private static final boolean DEFAULT_AUTO_REVERSE = false;
 
     public final void setAutoReverse(boolean value) {
@@ -498,9 +498,9 @@ public abstract class Animation {
         return (autoReverse == null)? DEFAULT_AUTO_REVERSE : autoReverse.getValue();
     }
 
-    public final Property<Boolean> autoReverseProperty() {
+    public final BooleanProperty autoReverseProperty() {
         if (autoReverse == null)
-            autoReverse = new SimpleObjectProperty<>(this, "autoReverse", DEFAULT_AUTO_REVERSE);
+            autoReverse = new SimpleBooleanProperty(this, "autoReverse", DEFAULT_AUTO_REVERSE);
         return autoReverse;
     }
 

@@ -65,7 +65,7 @@ public abstract class Labeled extends Control implements
         return textProperty;
     }
 
-    private final ObjectProperty<Node> graphicProperty = new SimpleObjectProperty<Node>() {
+    private final ObjectProperty<Node> graphicProperty = new SimpleObjectProperty<>() {
         @Override
         protected void invalidated() {
             setScene(getScene()); // This will propagate the scene reference into the graphic
@@ -77,7 +77,7 @@ public abstract class Labeled extends Control implements
         return graphicProperty;
     }
 
-    private final Property<String> imageUrlProperty = new SimpleObjectProperty<String>() {
+    private final StringProperty imageUrlProperty = new SimpleStringProperty() {
         @Override
         protected void invalidated() {
             String url = getValue();
@@ -86,35 +86,35 @@ public abstract class Labeled extends Control implements
     };
 
     @Override
-    public Property<String> imageUrlProperty() {
+    public StringProperty imageUrlProperty() {
         return imageUrlProperty;
     }
 
-    private final Property<Font> fontProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Font> fontProperty = new SimpleObjectProperty<>();
 
     @Override
-    public Property<Font> fontProperty() {
+    public ObjectProperty<Font> fontProperty() {
         return fontProperty;
     }
 
-    private final Property<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.CENTER_LEFT);
+    private final ObjectProperty<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.CENTER_LEFT);
 
     @Override
-    public Property<Pos> alignmentProperty() {
+    public ObjectProperty<Pos> alignmentProperty() {
         return alignmentProperty;
     }
 
-    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
+    private final ObjectProperty<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(/* null for web CSS instead of TextAlignment.LEFT */);
 
     @Override
-    public Property<TextAlignment> textAlignmentProperty() {
+    public ObjectProperty<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
     }
 
-    private final Property<Paint> textFillProperty = new SimpleObjectProperty<>(/* null for CSS */);
+    private final ObjectProperty<Paint> textFillProperty = new SimpleObjectProperty<>(/* null for web CSS instead of Color.BLACK */);
 
     @Override
-    public Property<Paint> textFillProperty() {
+    public ObjectProperty<Paint> textFillProperty() {
         return textFillProperty;
     }
 
@@ -123,9 +123,9 @@ public abstract class Labeled extends Control implements
      * If a run of text exceeds the width of the Labeled, then this variable
      * indicates whether the text should wrap onto another line.
      */
-    public final Property<Boolean> wrapTextProperty() {
+    public final BooleanProperty wrapTextProperty() {
         if (wrapText == null) {
-            wrapText = new SimpleObjectProperty<>(false)/* {
+            wrapText = new SimpleBooleanProperty(false)/* {
 
                 @Override
                 public CssMetaData<Labeled,Boolean> getCssMetaData() {
@@ -146,14 +146,14 @@ public abstract class Labeled extends Control implements
         return wrapText;
     }
 
-    private Property<Boolean> wrapText;
+    private BooleanProperty wrapText;
 
     public final void setWrapText(boolean value) {
         wrapTextProperty().setValue(value);
     }
 
     public final boolean isWrapText() {
-        return wrapText == null ? false : wrapText.getValue();
+        return wrapText != null && wrapText.getValue();
     }
 
     /**

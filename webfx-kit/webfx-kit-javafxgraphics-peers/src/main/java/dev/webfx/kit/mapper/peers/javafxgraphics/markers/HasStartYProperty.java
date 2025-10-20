@@ -9,11 +9,11 @@ public interface HasStartYProperty {
 
     DoubleProperty startYProperty();
 
-    default void setStartY(Number startY) {
+    default void setStartY(double startY) {
         startYProperty().setValue(startY);
     }
 
-    default Double getStartY() {
+    default double getStartY() {
         return startYProperty().getValue();
     }
 }

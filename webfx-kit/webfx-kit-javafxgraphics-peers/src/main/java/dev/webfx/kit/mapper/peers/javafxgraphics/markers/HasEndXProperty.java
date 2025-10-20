@@ -9,11 +9,11 @@ public interface HasEndXProperty {
 
     DoubleProperty endXProperty();
 
-    default void setEndX(Number endX) {
+    default void setEndX(double endX) {
         endXProperty().setValue(endX);
     }
 
-    default Double getEndX() {
+    default double getEndX() {
         return endXProperty().getValue();
     }
 }

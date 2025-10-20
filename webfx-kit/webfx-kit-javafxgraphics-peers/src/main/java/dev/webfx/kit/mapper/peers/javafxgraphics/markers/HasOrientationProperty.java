@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.geometry.Orientation;
 
 /**
@@ -8,7 +8,7 @@ import javafx.geometry.Orientation;
  */
 public interface HasOrientationProperty {
 
-    Property<Orientation> orientationProperty();
+    ObjectProperty<Orientation> orientationProperty();
     default void setOrientation(Orientation orientation) {
         orientationProperty().setValue(orientation);
     }

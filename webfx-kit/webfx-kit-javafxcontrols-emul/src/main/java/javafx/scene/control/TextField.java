@@ -5,7 +5,6 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.markers.HasTextAlignmentPropert
 import dev.webfx.kit.registry.javafxcontrols.JavaFxControlsRegistry;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,15 +37,15 @@ public class TextField extends TextInputControl implements HasAlignmentProperty,
         setText(text);
     }
 
-    private final Property<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.CENTER_LEFT);
+    private final ObjectProperty<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.CENTER_LEFT);
     @Override
-    public Property<Pos> alignmentProperty() {
+    public ObjectProperty<Pos> alignmentProperty() {
         return alignmentProperty;
     }
 
-    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
+    private final ObjectProperty<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
     @Override
-    public Property<TextAlignment> textAlignmentProperty() {
+    public ObjectProperty<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
     }
 

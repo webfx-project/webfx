@@ -338,7 +338,7 @@ public class ColumnConstraints extends ConstraintsBase {
      * The default value is true.
      *
      */
-    private Property<Boolean> fillWidth;
+    private BooleanProperty fillWidth;
 
     public final void setFillWidth(boolean value) {
         fillWidthProperty().setValue(value);
@@ -348,9 +348,9 @@ public class ColumnConstraints extends ConstraintsBase {
         return fillWidth == null ? true : fillWidth.getValue();
     }
 
-    public final Property<Boolean> fillWidthProperty() {
+    public final BooleanProperty fillWidthProperty() {
         if (fillWidth == null) {
-            fillWidth = new SimpleObjectProperty<Boolean>(true) {
+            fillWidth = new SimpleBooleanProperty(true) {
 
                 @Override
                 protected void invalidated() {

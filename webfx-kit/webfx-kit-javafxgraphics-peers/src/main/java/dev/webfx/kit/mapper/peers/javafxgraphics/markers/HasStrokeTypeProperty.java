@@ -1,6 +1,6 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.markers;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.shape.StrokeType;
 
 /**
@@ -8,7 +8,7 @@ import javafx.scene.shape.StrokeType;
  */
 public interface HasStrokeTypeProperty {
 
-    Property<StrokeType> strokeTypeProperty();
+    ObjectProperty<StrokeType> strokeTypeProperty();
     default void setStrokeType(StrokeType strokeType) {
         strokeTypeProperty().setValue(strokeType);
     }

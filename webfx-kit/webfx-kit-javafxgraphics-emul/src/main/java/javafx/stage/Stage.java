@@ -162,7 +162,7 @@ public class Stage extends Window implements HasTitleProperty {
         return WebFxKitMapper.createStagePeer(this);
     }
 
-    private final Property<String> titleProperty = new SimpleObjectProperty<String>() {
+    private final StringProperty titleProperty = new SimpleStringProperty() {
         @Override
         protected void invalidated() {
             impl_getPeer().setTitle(getValue());
@@ -170,7 +170,7 @@ public class Stage extends Window implements HasTitleProperty {
     };
 
     @Override
-    public Property<String> titleProperty() {
+    public StringProperty titleProperty() {
         return titleProperty;
     }
 
@@ -503,7 +503,7 @@ public class Stage extends Window implements HasTitleProperty {
      *
      * @defaultValue true
      */
-    private Property<Boolean> resizable;
+    private BooleanProperty resizable;
 
     public final void setResizable(boolean value) {
         resizableProperty().setValue(value);
@@ -513,7 +513,7 @@ public class Stage extends Window implements HasTitleProperty {
         return resizable == null ? true : resizable.getValue();
     }
 
-    public final Property<Boolean> resizableProperty() {
+    public final BooleanProperty resizableProperty() {
         if (resizable == null) {
             resizable = new ResizableProperty();
         }
@@ -523,7 +523,7 @@ public class Stage extends Window implements HasTitleProperty {
     //We cannot return ReadOnlyProperty in resizable, as this would be
     // backward incompatible. All we can do is to create this custom property
     // implementation that disallows binds
-    private class ResizableProperty extends SimpleObjectProperty<Boolean> {
+    private class ResizableProperty extends SimpleBooleanProperty {
         private boolean noInvalidate;
 
         public ResizableProperty() {

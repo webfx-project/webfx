@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasMaxHeightProperty {
 
     DoubleProperty maxHeightProperty();
-    default void setMaxHeight(Number maxHeight) { maxHeightProperty().setValue(maxHeight); }
-    default Double getMaxHeight() { return maxHeightProperty().getValue(); }
+    default void setMaxHeight(double maxHeight) { maxHeightProperty().setValue(maxHeight); }
+    default double getMaxHeight() { return maxHeightProperty().getValue(); }
 
 }

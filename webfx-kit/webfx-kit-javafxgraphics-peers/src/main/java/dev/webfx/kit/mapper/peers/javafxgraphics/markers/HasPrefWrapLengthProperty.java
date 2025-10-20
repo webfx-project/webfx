@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasPrefWrapLengthProperty {
 
     DoubleProperty prefWrapLengthProperty();
-    default void setPrefWrapLength(Number prefWrapLength) { prefWrapLengthProperty().setValue(prefWrapLength); }
-    default Double getPrefWrapLength() { return prefWrapLengthProperty().getValue(); }
+    default void setPrefWrapLength(double prefWrapLength) { prefWrapLengthProperty().setValue(prefWrapLength); }
+    default double getPrefWrapLength() { return prefWrapLengthProperty().getValue(); }
 
 }

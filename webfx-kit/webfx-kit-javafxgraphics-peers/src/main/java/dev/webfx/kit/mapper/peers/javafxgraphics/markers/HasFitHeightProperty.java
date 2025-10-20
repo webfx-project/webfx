@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasFitHeightProperty {
 
     DoubleProperty fitHeightProperty();
-    default void setFitHeight(Number fitHeight) { fitHeightProperty().setValue(fitHeight); }
-    default Double getFitHeight() { return fitHeightProperty().getValue(); }
+    default void setFitHeight(double fitHeight) { fitHeightProperty().setValue(fitHeight); }
+    default double getFitHeight() { return fitHeightProperty().getValue(); }
 
 }

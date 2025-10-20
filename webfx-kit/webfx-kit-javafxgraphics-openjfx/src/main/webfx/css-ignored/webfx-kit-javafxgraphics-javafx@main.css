@@ -1,0 +1,13 @@
+.root {
+    -fx-focus-color: #0096D6;
+    -fx-border-style-focus: dotted;
+    -fx-border-color-focus: -fx-focus-color;
+    -fx-border-width-focus: 1px;
+}
+
+/* General rule, commented for now as this interferes with WebFX extras material fields
+:focused {
+    -fx-border-style: dotted; !* -fx-border-style-focus not supported by JavaFX *!
+    -fx-border-color: -fx-border-color-focus;
+    -fx-border-width: 1px; !* -fx-border-width-focus not supported by JavaFX *!
+}*/

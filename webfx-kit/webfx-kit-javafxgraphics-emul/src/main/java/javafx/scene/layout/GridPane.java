@@ -752,9 +752,9 @@ public class GridPane extends Pane {
      * For debug purposes only: controls whether lines are displayed to show the gridpane's rows and columns.
      * Default is <code>false</code>.
      */
-    public final Property<Boolean> gridLinesVisibleProperty() {
+    public final BooleanProperty gridLinesVisibleProperty() {
         if (gridLinesVisible == null) {
-            gridLinesVisible = new SimpleObjectProperty<Boolean>(false) {
+            gridLinesVisible = new SimpleBooleanProperty(false) {
                 @Override
                 protected void invalidated() {
                     if (get()) {
@@ -772,7 +772,7 @@ public class GridPane extends Pane {
         return gridLinesVisible;
     }
 
-    private Property<Boolean> gridLinesVisible;
+    private BooleanProperty gridLinesVisible;
     public final void setGridLinesVisible(boolean value) { gridLinesVisibleProperty().setValue(value); }
     public final boolean isGridLinesVisible() { return gridLinesVisible == null ? false : gridLinesVisible.getValue(); }
 

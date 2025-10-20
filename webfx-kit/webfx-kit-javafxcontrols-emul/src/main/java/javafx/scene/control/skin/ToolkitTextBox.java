@@ -19,6 +19,8 @@ public class ToolkitTextBox extends TextField { // WebFX specific class (not par
         editableProperty().bind(embeddingTextField.editableProperty());
         textProperty().bindBidirectional(embeddingTextField.textProperty());
         promptTextProperty().bind(embeddingTextField.promptTextProperty());
+        anchorPropertyImpl().bindBidirectional(embeddingTextField.anchorPropertyImpl());
+        caretPositionPropertyImpl().bindBidirectional(embeddingTextField.caretPositionPropertyImpl());
         FXProperties.runNowAndOnPropertyChange(this::setDisabled, embeddingTextField.disabledProperty());
         // We set focusTraversal to false; so that when the user clicks on that ToolkitTextBox on the DOM side to get
         // the focus, the focus mapping from HTML to JavaFX will pass the focus to embeddingTextField on the JavaFX side

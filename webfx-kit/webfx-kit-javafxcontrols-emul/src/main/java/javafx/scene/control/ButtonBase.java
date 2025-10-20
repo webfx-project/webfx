@@ -36,10 +36,10 @@ public abstract class ButtonBase extends Labeled {
      * also takes into account whether the mouse is actually over the
      * button and pressed.
      */
-    public final ReadOnlyProperty<Boolean> armedProperty() { return armed/*.getReadOnlyProperty()*/; }
+    public final ReadOnlyBooleanProperty armedProperty() { return armed/*.getReadOnlyProperty()*/; }
     private void setArmed(boolean value) { armed.setValue(value); }
     public final boolean isArmed() { return armedProperty().getValue(); }
-    private Property<Boolean> armed = new SimpleObjectProperty<>(false)/* {
+    private BooleanProperty armed = new SimpleBooleanProperty(false)/* {
         @Override protected void invalidated() {
             pseudoClassStateChanged(ARMED_PSEUDOCLASS_STATE, get());
         }

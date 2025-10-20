@@ -9,11 +9,11 @@ public interface HasCenterXProperty {
 
     DoubleProperty centerXProperty();
 
-    default void setCenterX(Number centerX) {
+    default void setCenterX(double centerX) {
         centerXProperty().setValue(centerX);
     }
 
-    default Double getCenterX() {
+    default double getCenterX() {
         return centerXProperty().getValue();
     }
 

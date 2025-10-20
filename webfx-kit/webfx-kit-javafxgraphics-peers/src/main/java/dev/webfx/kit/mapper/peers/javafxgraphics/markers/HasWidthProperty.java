@@ -5,10 +5,9 @@ import javafx.beans.property.DoubleProperty;
 /**
  * @author Bruno Salmon
  */
-public interface HasWidthProperty {
+public interface HasWidthProperty extends HasReadOnlyWidthProperty {
 
     DoubleProperty widthProperty();
-    default void setWidth(Number width) { widthProperty().setValue(width); }
-    default double getWidth() { return widthProperty().getValue(); }
+    default void setWidth(double width) { widthProperty().setValue(width); }
 
 }

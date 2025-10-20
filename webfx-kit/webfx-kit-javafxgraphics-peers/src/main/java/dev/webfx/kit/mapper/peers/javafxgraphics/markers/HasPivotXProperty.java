@@ -8,7 +8,7 @@ import javafx.beans.property.DoubleProperty;
 public interface HasPivotXProperty {
 
     DoubleProperty pivotXProperty();
-    default void setPivotX(Number pivotX) { pivotXProperty().setValue(pivotX); }
-    default Double getPivotX() { return pivotXProperty().getValue(); }
+    default void setPivotX(double pivotX) { pivotXProperty().setValue(pivotX); }
+    default double getPivotX() { return pivotXProperty().getValue(); }
 
 }
