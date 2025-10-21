@@ -571,18 +571,16 @@ public class HtmlGraphicsContext implements GraphicsContext {
     }
 
     private static Boolean BROWSER_SUPPORTS_ROUND_RECT = null;
-    private static Function ROUND_RECT_FUNCTION;
 
     private void roundRect(double x, double y, double w, double h, double arcWidth, double arcHeight) {
         if (BROWSER_SUPPORTS_ROUND_RECT == null) {
-            ROUND_RECT_FUNCTION = (Function) Js.asPropertyMap(ctx).get("roundRect");
-            BROWSER_SUPPORTS_ROUND_RECT = ROUND_RECT_FUNCTION != null;
+            BROWSER_SUPPORTS_ROUND_RECT = Js.asPropertyMap(ctx).get("roundRect") != null;
             if (!BROWSER_SUPPORTS_ROUND_RECT) {
                 Console.log("WARNING: canvas roundRect() function is not supported by this browser - WebFX will use rect() instead");
             }
         }
         if (BROWSER_SUPPORTS_ROUND_RECT)
-            ROUND_RECT_FUNCTION.apply(ctx, JsArray.of(x, y, w, h, JsArray.of(arcWidth, arcHeight)));
+            ctx.roundRect(x, y, w, h, CanvasPathMethods.RoundRectRadiiUnionType.of(JsArray.of(arcWidth, arcHeight)));
         else
             ctx.rect(x, y, w, h);
     }
