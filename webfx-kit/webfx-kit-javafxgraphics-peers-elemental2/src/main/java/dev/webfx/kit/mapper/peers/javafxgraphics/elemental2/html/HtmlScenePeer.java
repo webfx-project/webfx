@@ -44,14 +44,17 @@ import static elemental2.dom.DomGlobal.document;
  */
 public final class HtmlScenePeer extends ScenePeerBase {
 
-    private static final boolean ENABLE_DEBUG_FOCUS_LOGS = false;
+    private static final boolean ENABLE_DEBUG_FOCUS_LOGS = true;
     private static int SCENE_SEQ = 0;
+    private static Scene PRIMARY_SCENE;
 
     private final int sceneNumber = SCENE_SEQ++;
     private final HTMLElement sceneHtmlElement = HtmlUtil.createElement("fx-scene");
 
     public HtmlScenePeer(Scene scene) {
         super(scene);
+        if (PRIMARY_SCENE == null && scene != Node.PHANTOM_SCENE)
+            PRIMARY_SCENE = scene;
         // CSS rules: width: 100%; height:100% for popup scenes and 100dvh for the main stage scene (dvh is better than
         // vh on mobiles because it keeps working when the navigation bar hides or reappears).
         FXProperties.runNowAndOnPropertyChange(this::updateContainerFill, scene.fillProperty());
@@ -298,7 +301,7 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     @Override
-    public NodePeer pickPeer(double sceneX, double sceneY) {
+    public NodePeer<?> pickPeer(double sceneX, double sceneY) {
         Element element = document.elementFromPoint(sceneX, sceneY);
         NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(element, true);
         // Checking that we pick it from the right scene (in case there are several windows/scenes within the DOM)
@@ -450,15 +453,19 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void registerKeyboardListener(String type) {
-        sceneHtmlElement.addEventListener(type, e -> {
+        // For the primary scene, it's better to install the listener on the document; otherwise, if the application
+        // doesn't request the initial focus on any element of the scene, we are not getting the key events at all
+        // (observed with the game FoodDice).
+        elemental2.dom.Node sceneKeyboardNode = scene == PRIMARY_SCENE ? document : sceneHtmlElement;
+        sceneKeyboardNode.addEventListener(type, e -> {
             Node focusOwner = scene.getFocusOwner();
             // Resetting the focus owner to scene initial when it's not valid, so in the following cases:
-            /*if (focusOwner == null // 1) No focus set yet
+            if (focusOwner == null // 1) No focus set yet
                 || focusOwner.getScene() != scene // 2) focus doesn't match the scene (probably removed from the scene)
                 || !focusOwner.impl_isTreeVisible()) { // 3) the focus is not visible in the scene graph (works also as a workaround when the scene is not reset to null by WebFX)
                 scene.focusInitial();
                 focusOwner = scene.getFocusOwner();
-            }*/
+            }
             javafx.event.EventTarget fxTarget = focusOwner != null ? focusOwner : scene;
             UserInteraction.setUserInteracting(true);
             boolean fxConsumed = passHtmlKeyEventOnToFx((KeyboardEvent) e, type, fxTarget);

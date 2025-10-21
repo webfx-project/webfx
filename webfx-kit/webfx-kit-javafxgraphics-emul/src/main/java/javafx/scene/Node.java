@@ -1309,7 +1309,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
 
     // Phantom scene used to temporarily create and bind peers when the application code is already working with nodes
     // before their insertion in the scene graph (ex: drawing in a canvas before it is inserted).
-    private final static Scene PHANTOM_SCENE = new Scene(null);
+    public final static Scene PHANTOM_SCENE = new Scene(null);
 
     public NodePeer getOrCreateAndBindNodePeer() {
         Scene scene = getScene();
