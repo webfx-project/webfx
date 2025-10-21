@@ -159,7 +159,7 @@ WebFX is still in the incubation phase. You can consult our roadmap below. At th
   - [x] ![GWT](https://img.shields.io/badge/GWT-compatible-brightgreen.svg)
   - [x] ![Vert.x compatible](https://img.shields.io/badge/Vert.x-compatible-brightgreen.svg) ⓼
   - [ ] <img src="plot.svg"></img> ![J2CL](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg) ![](https://geps.dev/progress/85) ⓸
-  - [ ] <img src="plot.svg"></img> ![TeaVM](https://img.shields.io/badge/TeaVM-compatible-brightgreen.svg) ![](https://geps.dev/progress/20) ⓹
+  - [ ] <img src="plot.svg"></img> ![TeaVM](https://img.shields.io/badge/TeaVM-compatible-brightgreen.svg) ![](https://geps.dev/progress/80) ⓹
   - [ ] ![Kotlin compatible](https://img.shields.io/badge/Kotlin-compatible-brightgreen.svg) (via J2CL or TeaVM)
   - [ ] ![Scala](https://img.shields.io/badge/Scala-compatible-brightgreen.svg) (via TeaVM only)
   - [ ] ![JxBrowser](https://img.shields.io/badge/JxBrowser-debug-brightgreen.svg) ⓺
