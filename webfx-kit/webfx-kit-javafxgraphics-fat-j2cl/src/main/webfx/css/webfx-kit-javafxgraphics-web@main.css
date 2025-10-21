@@ -73,6 +73,12 @@ body > fx-scene { /* main stage scene only */
     height: 100dvh;
 }
 
+/* Workaround for iOS Safari bug not returning the correct initial window height for PWA with 'black-translucent' status bar (such as SpaceFX PWA) */
+body { /* Although we don't want that padding, we apply it initially because this fixes the bug. GwtJ2clPrimaryStagePeer will then erase that padding */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
 /* Making disabled nodes semi-transparent */
 .disabled {
     opacity: 50%;
