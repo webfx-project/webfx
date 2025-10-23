@@ -1,10 +1,10 @@
 package dev.webfx.kit.registry.javafxcontrols;
 
 import com.sun.javafx.scene.control.LabeledText;
+import dev.webfx.kit.mapper.peers.javafxcontrols.elemental2.html.*;
 import javafx.scene.control.skin.ToolkitTextBox;
 import javafx.scene.control.*;
 import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.html.HtmlTextPeer;
-import dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html.*;
 
 import static dev.webfx.kit.mapper.peers.javafxgraphics.NodePeerFactoryRegistry.registerNodePeerFactory;
 

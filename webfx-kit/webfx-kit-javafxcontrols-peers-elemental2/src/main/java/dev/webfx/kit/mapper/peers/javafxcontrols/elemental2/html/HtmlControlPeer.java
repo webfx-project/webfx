@@ -1,4 +1,4 @@
-package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
+package dev.webfx.kit.mapper.peers.javafxcontrols.elemental2.html;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;

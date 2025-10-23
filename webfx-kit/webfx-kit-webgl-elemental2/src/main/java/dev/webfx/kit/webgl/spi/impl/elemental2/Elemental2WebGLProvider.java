@@ -1,4 +1,4 @@
-package dev.webfx.kit.webgl.spi.impl.gwtj2cl;
+package dev.webfx.kit.webgl.spi.impl.elemental2;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.html.CanvasElementHelper;

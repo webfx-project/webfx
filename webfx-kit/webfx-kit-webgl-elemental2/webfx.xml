@@ -13,7 +13,7 @@
     </dependencies>
 
     <providers>
-        <provider interface="dev.webfx.kit.webgl.spi.WebGLProvider">dev.webfx.kit.webgl.spi.impl.gwtj2cl.Elemental2WebGLProvider</provider>
+        <provider interface="dev.webfx.kit.webgl.spi.WebGLProvider">dev.webfx.kit.webgl.spi.impl.elemental2.Elemental2WebGLProvider</provider>
     </providers>
 
 </project>

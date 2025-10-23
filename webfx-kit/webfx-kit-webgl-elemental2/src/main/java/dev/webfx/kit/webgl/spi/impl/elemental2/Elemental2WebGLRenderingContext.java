@@ -1,4 +1,4 @@
-package dev.webfx.kit.webgl.spi.impl.gwtj2cl;
+package dev.webfx.kit.webgl.spi.impl.elemental2;
 
 import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.html.HtmlGraphicsContext;
 import dev.webfx.kit.mapper.peers.javafxmedia.spi.elemental2.Elemental2MediaPlayerPeer;

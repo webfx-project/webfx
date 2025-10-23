@@ -1,4 +1,4 @@
-package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
+package dev.webfx.kit.mapper.peers.javafxcontrols.elemental2.html;
 
 import dev.webfx.kit.util.aria.AriaRole;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.ButtonPeerBase;
