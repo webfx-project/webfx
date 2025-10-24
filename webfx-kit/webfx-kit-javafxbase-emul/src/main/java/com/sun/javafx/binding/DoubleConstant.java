@@ -25,24 +25,24 @@
 
 package com.sun.javafx.binding;
 
-import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.ObservableDoubleValue;
 
 /**
  * A simple IntegerExpression that represents a single constant value.
  */
-public final class IntegerConstant extends NumberConstant implements ObservableIntegerValue {
+public final class DoubleConstant extends NumberConstant implements ObservableDoubleValue {
 
-    private IntegerConstant(int value) {
+    private DoubleConstant(double value) {
         super(value);
     }
 
-    public static IntegerConstant valueOf(int value) {
-        return new IntegerConstant(value);
+    public static DoubleConstant valueOf(double value) {
+        return new DoubleConstant(value);
     }
 
     @Override
-    public int get() {
-        return value.intValue();
+    public double get() {
+        return value.doubleValue();
     }
 
 }

@@ -25,24 +25,67 @@
 
 package com.sun.javafx.binding;
 
-import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableNumberValue;
 
 /**
  * A simple IntegerExpression that represents a single constant value.
  */
-public final class IntegerConstant extends NumberConstant implements ObservableIntegerValue {
+public class NumberConstant implements ObservableNumberValue {
 
-    private IntegerConstant(int value) {
-        super(value);
+    protected final Number value;
+
+    protected NumberConstant(Number value) {
+        this.value = value;
     }
 
-    public static IntegerConstant valueOf(int value) {
-        return new IntegerConstant(value);
+    public static NumberConstant valueOf(int value) {
+        return new NumberConstant(value);
     }
 
     @Override
-    public int get() {
+    public Number getValue() {
+        return value;
+    }
+
+    @Override
+    public void addListener(InvalidationListener observer) {
+        // no-op
+    }
+
+    @Override
+    public void addListener(ChangeListener<? super Number> listener) {
+        // no-op
+    }
+
+    @Override
+    public void removeListener(InvalidationListener observer) {
+        // no-op
+    }
+
+    @Override
+    public void removeListener(ChangeListener<? super Number> listener) {
+        // no-op
+    }
+
+    @Override
+    public int intValue() {
         return value.intValue();
     }
 
+    @Override
+    public long longValue() {
+        return value.longValue();
+    }
+
+    @Override
+    public float floatValue() {
+        return value.floatValue();
+    }
+
+    @Override
+    public double doubleValue() {
+        return value.doubleValue();
+    }
 }

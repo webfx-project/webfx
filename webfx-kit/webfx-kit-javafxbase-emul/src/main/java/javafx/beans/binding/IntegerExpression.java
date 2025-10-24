@@ -32,4 +32,19 @@ public abstract class IntegerExpression extends NumberExpressionBase implements
     public Integer getValue() {
         return get();
     }
+
+    @Override
+    public DoubleBinding multiply(double other) {
+        return Bindings.multiply(this, other);
+    }
+
+    @Override
+    public LongBinding multiply(long other) {
+        return (LongBinding) Bindings.multiply(this, other);
+    }
+
+    @Override
+    public IntegerBinding multiply(int other) {
+        return (IntegerBinding) Bindings.multiply(this, other);
+    }
 }

@@ -212,16 +212,18 @@ public abstract class LongExpression extends NumberExpressionBase implements
     public LongBinding subtract(final int other) {
         return (LongBinding) Bindings.subtract(this, other);
     }
-
+*/
     @Override
     public DoubleBinding multiply(final double other) {
         return Bindings.multiply(this, other);
     }
 
+/*
     @Override
     public FloatBinding multiply(final float other) {
         return (FloatBinding) Bindings.multiply(this, other);
     }
+*/
 
     @Override
     public LongBinding multiply(final long other) {
@@ -232,7 +234,7 @@ public abstract class LongExpression extends NumberExpressionBase implements
     public LongBinding multiply(final int other) {
         return (LongBinding) Bindings.multiply(this, other);
     }
-
+/*
     @Override
     public DoubleBinding divide(final double other) {
         return Bindings.divide(this, other);

@@ -1,14 +1,15 @@
 package javafx.beans.binding;
 
 import javafx.beans.value.ObservableDoubleValue;
+import javafx.beans.value.ObservableNumberValue;
 
 /**
  * A {@code DoubleExpression} is a
- * {@link javafx.beans.value.ObservableDoubleValue} plus additional convenience
+ * {@link ObservableDoubleValue} plus additional convenience
  * methods to generate bindings in a fluent style.
  * <p>
  * A concrete sub-class of {@code DoubleExpression} has to implement the method
- * {@link javafx.beans.value.ObservableDoubleValue#get()}, which provides the
+ * {@link ObservableDoubleValue#get()}, which provides the
  * actual value of this expression.
  * @since JavaFX 2.0
  */
@@ -42,10 +43,10 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
 
     /**
      * Returns a {@code DoubleExpression} that wraps a
-     * {@link javafx.beans.value.ObservableDoubleValue}. If the
+     * {@link ObservableDoubleValue}. If the
      * {@code ObservableDoubleValue} is already a {@code DoubleExpression}, it
      * will be returned. Otherwise a new
-     * {@link javafx.beans.binding.DoubleBinding} is created that is bound to
+     * {@link DoubleBinding} is created that is bound to
      * the {@code ObservableDoubleValue}.
      *
      * @param value
@@ -91,7 +92,7 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
      * {@link javafx.beans.value.ObservableValue}. If the
      * {@code ObservableValue} is already a {@code DoubleExpression}, it
      * will be returned. Otherwise a new
-     * {@link javafx.beans.binding.DoubleBinding} is created that is bound to
+     * {@link DoubleBinding} is created that is bound to
      * the {@code ObservableValue}.
      *
      * <p>
@@ -200,7 +201,7 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
     public DoubleBinding subtract(final int other) {
         return (DoubleBinding) Bindings.subtract(this, other);
     }
-
+*/
     @Override
     public DoubleBinding multiply(final ObservableNumberValue other) {
         return (DoubleBinding) Bindings.multiply(this, other);
@@ -208,14 +209,14 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
 
     @Override
     public DoubleBinding multiply(final double other) {
-        return Bindings.multiply(this, other);
-    }
-
-    @Override
-    public DoubleBinding multiply(final float other) {
         return (DoubleBinding) Bindings.multiply(this, other);
     }
 
+    /*@Override
+    public DoubleBinding multiply(final float other) {
+        return (DoubleBinding) Bindings.multiply(this, other);
+    }
+*/
     @Override
     public DoubleBinding multiply(final long other) {
         return (DoubleBinding) Bindings.multiply(this, other);
@@ -225,7 +226,7 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
     public DoubleBinding multiply(final int other) {
         return (DoubleBinding) Bindings.multiply(this, other);
     }
-
+/*
     @Override
     public DoubleBinding divide(final ObservableNumberValue other) {
         return (DoubleBinding) Bindings.divide(this, other);
@@ -252,7 +253,7 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
     }
     */
     /**
-     * Creates an {@link javafx.beans.binding.ObjectExpression} that holds the value
+     * Creates an {@link ObjectExpression} that holds the value
      * of this {@code DoubleExpression}. If the
      * value of this {@code DoubleExpression} changes, the value of the
      * {@code ObjectExpression} will be updated automatically.
