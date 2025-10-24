@@ -176,7 +176,7 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
     public DoubleBinding add(final int other) {
         return (DoubleBinding) Bindings.add(this, other);
     }
-
+*/
     @Override
     public DoubleBinding subtract(final ObservableNumberValue other) {
         return (DoubleBinding) Bindings.subtract(this, other);
@@ -187,10 +187,10 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
         return Bindings.subtract(this, other);
     }
 
-    @Override
+    /*@Override
     public DoubleBinding subtract(final float other) {
         return (DoubleBinding) Bindings.subtract(this, other);
-    }
+    }*/
 
     @Override
     public DoubleBinding subtract(final long other) {
@@ -201,7 +201,7 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
     public DoubleBinding subtract(final int other) {
         return (DoubleBinding) Bindings.subtract(this, other);
     }
-*/
+
     @Override
     public DoubleBinding multiply(final ObservableNumberValue other) {
         return (DoubleBinding) Bindings.multiply(this, other);
@@ -209,7 +209,7 @@ public abstract class DoubleExpression extends NumberExpressionBase implements
 
     @Override
     public DoubleBinding multiply(final double other) {
-        return (DoubleBinding) Bindings.multiply(this, other);
+        return Bindings.multiply(this, other);
     }
 
     /*@Override

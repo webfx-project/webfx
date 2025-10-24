@@ -90,12 +90,12 @@ public abstract class NumberExpressionBase implements NumberExpression {
     public NumberBinding add(final ObservableNumberValue other) {
         return Bindings.add(this, other);
     }
-
+*/
     @Override
     public NumberBinding subtract(final ObservableNumberValue other) {
         return Bindings.subtract(this, other);
     }
-*/
+
     @Override
     public NumberBinding multiply(final ObservableNumberValue other) {
         return Bindings.multiply(this, other);

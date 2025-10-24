@@ -118,7 +118,7 @@ public interface NumberExpression extends ObservableNumberValue {
      * @throws NullPointerException
      *             if the other {@code ObservableNumberValue} is {@code null}
      */
-    //NumberBinding subtract(final ObservableNumberValue other);
+    NumberBinding subtract(final ObservableNumberValue other);
 
     /**
      * Creates a new {@link NumberBinding} that calculates
@@ -128,7 +128,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code NumberBinding}
      */
-    //NumberBinding subtract(final double other);
+    NumberBinding subtract(final double other);
 
     /**
      * Creates a new {@link NumberBinding} that calculates
@@ -148,7 +148,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code NumberBinding}
      */
-    //NumberBinding subtract(final long other);
+    NumberBinding subtract(final long other);
 
     /**
      * Creates a new {@link NumberBinding} that calculates
@@ -158,7 +158,7 @@ public interface NumberExpression extends ObservableNumberValue {
      *            the constant value
      * @return the new {@code NumberBinding}
      */
-    //NumberBinding subtract(final int other);
+    NumberBinding subtract(final int other);
 
     // ===============================================================
     // Times

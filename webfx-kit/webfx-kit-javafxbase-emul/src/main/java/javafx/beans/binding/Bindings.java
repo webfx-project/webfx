@@ -571,6 +571,34 @@ public final class Bindings {
         return multiply(op1, IntegerConstant.valueOf(op2), op1);
     }
 
+    private static NumberBinding subtract(final ObservableNumberValue op1, final ObservableNumberValue op2, final Observable... dependencies) {
+        checkNumberOperators(op1, op2, dependencies);
+
+        if ((op1 instanceof ObservableDoubleValue) || (op2 instanceof ObservableDoubleValue)) {
+            return createDoubleBinding(() -> op1.doubleValue() - op2.doubleValue(), dependencies);
+        } else if ((op1 instanceof ObservableLongValue) || (op2 instanceof ObservableLongValue)) {
+            return createLongBinding(() ->  op1.longValue() - op2.longValue(), dependencies);
+        } else {
+            return createIntegerBinding(() -> op1.intValue() - op2.intValue(), dependencies);
+        }
+    }
+
+    public static NumberBinding subtract(final ObservableNumberValue op1, ObservableNumberValue op2) {
+        return subtract(op1, op2, op1, op2);
+    }
+
+    public static DoubleBinding subtract(final ObservableNumberValue op1, double op2) {
+        return (DoubleBinding) subtract(op1, DoubleConstant.valueOf(op2), op1);
+    }
+
+    public static NumberBinding subtract(final ObservableNumberValue op1, long op2) {
+        return subtract(op1, DoubleConstant.valueOf(op2), op1);
+    }
+
+    public static NumberBinding subtract(final ObservableNumberValue op1, int op2) {
+        return subtract(op1, IntegerConstant.valueOf(op2), op1);
+    }
+
     /**
      * Creates a new {@link BooleanBinding} that holds {@code true}
      * if a given {@link ObservableList} is empty.
