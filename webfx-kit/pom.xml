@@ -43,6 +43,9 @@
         <module>webfx-kit-javafxweb-registry</module>
         <module>webfx-kit-javafxweb-registry-elemental2</module>
         <module>webfx-kit-launcher</module>
+        <module>webfx-kit-perfectscrollbar-elemental2</module>
+        <module>webfx-kit-perfectscrollbar-elemental2-gwt-j2cl</module>
+        <module>webfx-kit-perfectscrollbar-elemental2-teavm</module>
         <module>webfx-kit-platform-audio-openjfx-web</module>
         <module>webfx-kit-platform-browser-openjfx</module>
         <module>webfx-kit-platform-visibility-openjfx</module>
