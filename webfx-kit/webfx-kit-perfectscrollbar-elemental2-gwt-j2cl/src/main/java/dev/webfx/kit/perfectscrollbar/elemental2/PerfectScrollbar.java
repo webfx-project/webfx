@@ -1,4 +1,4 @@
-package dev.webfx.kit.mapper.peers.javafxcontrols.elemental2.html;
+package dev.webfx.kit.perfectscrollbar.elemental2;
 
 import elemental2.dom.Element;
 import jsinterop.annotations.JsConstructor;

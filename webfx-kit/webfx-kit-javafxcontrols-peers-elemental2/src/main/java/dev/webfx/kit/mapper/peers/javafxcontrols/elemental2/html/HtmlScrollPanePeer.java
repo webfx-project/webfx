@@ -5,6 +5,7 @@ import dev.webfx.kit.mapper.peers.javafxcontrols.base.ScrollPanePeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.html.HtmlRegionPeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.util.HtmlUtil;
+import dev.webfx.kit.perfectscrollbar.elemental2.PerfectScrollbar;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.os.OperatingSystem;
 import dev.webfx.platform.uischeduler.UiScheduler;

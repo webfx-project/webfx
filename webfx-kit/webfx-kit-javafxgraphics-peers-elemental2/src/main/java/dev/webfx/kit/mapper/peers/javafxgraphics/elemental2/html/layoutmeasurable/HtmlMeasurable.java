@@ -114,11 +114,11 @@ public interface HtmlMeasurable extends Measurable {
     }
 
     default double measureElement(HTMLElement e, boolean measureWidth) {
-        // offsetWidth & offsetHeight return the correct values (including transforms), unfortunately their precision is
-        // only integer... This diminution can cause problems (ex: text in Label wrapped to next line while it shouldn't).
+        // offsetWidth & offsetHeight return the correct values (including transforms); unfortunately, their precision is
+        // only integer... This diminution can cause problems (ex: text in Label wrapped to the next line while it shouldn't).
         int i = measureWidth ? e.offsetWidth : e.offsetHeight;
-        // So we try to get a better precision (double) using getBoundingClientRect(), unfortunately it doesn't consider
-        // transforms... But we will prefer it in case there is no transforms
+        // So we try to get better precision (double) using getBoundingClientRect(), unfortunately it doesn't consider
+        // transforms... But we will prefer it in case there are no transforms
         DOMRect bcr = e.getBoundingClientRect();
         double d = measureWidth ? bcr.width : bcr.height;
         if (i == (int) d) // If the double precision matches the integer precision, it's likely there is no transform,

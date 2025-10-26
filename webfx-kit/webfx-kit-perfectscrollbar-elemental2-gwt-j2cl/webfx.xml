@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <implements>
+        <module>webfx-kit-perfectscrollbar-elemental2</module>
+    </implements>
+
+    <exported-packages>
+        <source-packages/>
+        <resource-packages/>
+    </exported-packages>
+
+    <dependencies>
+        <used-by-source-modules/>
+    </dependencies>
+
+    <html if-uses-java-class="javafx.scene.control.ScrollPane">
+        <head>
+            <link rel="stylesheet" type="text/css" href="./dev/webfx/kit/perfectscrollbar/perfect-scrollbar.css"/>
+        </head>
+        <body>
+            <script type="text/javascript" charset="utf-8" src="./dev/webfx/kit/perfectscrollbar/perfect-scrollbar.min.js"/>
+        </body>
+    </html>
+
+</project>

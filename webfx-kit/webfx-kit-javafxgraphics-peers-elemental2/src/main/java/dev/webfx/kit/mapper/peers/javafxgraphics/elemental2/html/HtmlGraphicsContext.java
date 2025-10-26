@@ -7,7 +7,6 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.util.HtmlUtil;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.util.Objects;
 import dev.webfx.platform.util.elemental2.Elemental2Util;
-import elemental2.core.Function;
 import elemental2.core.JsArray;
 import elemental2.dom.*;
 import javafx.geometry.VPos;
