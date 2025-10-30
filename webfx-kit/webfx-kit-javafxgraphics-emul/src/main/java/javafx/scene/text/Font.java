@@ -181,29 +181,21 @@ public class Font {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object object) {
+        if (object == null || getClass() != object.getClass()) return false;
 
-        Font font = (Font) o;
-
-        if (Double.compare(font.size, size) != 0) return false;
-        if (!Objects.equals(name, font.name)) return false;
-        if (!Objects.equals(family, font.family)) return false;
-        if (weight != font.weight) return false;
-        if (posture != font.posture) return false;
-        return Objects.equals(url, font.url);
+        Font font = (Font) object;
+        return Double.compare(size, font.size) == 0 && Objects.equals(name, font.name) && Objects.equals(family, font.family) && weight == font.weight && posture == font.posture && Objects.equals(url, font.url);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        result = name != null ? name.hashCode() : 0;
-        result = family != null ? 31 * result + family.hashCode() : 0;
-        result = 31 * result + weight.hashCode();
-        result = 31 * result + posture.hashCode();
+        int result = Objects.hashCode(name);
+        result = 31 * result + Objects.hashCode(family);
+        result = 31 * result + Objects.hashCode(weight);
+        result = 31 * result + Objects.hashCode(posture);
         result = 31 * result + Double.hashCode(size);
-        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + Objects.hashCode(url);
         return result;
     }
 
