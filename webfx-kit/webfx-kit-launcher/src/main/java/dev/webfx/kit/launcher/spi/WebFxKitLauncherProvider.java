@@ -1,5 +1,7 @@
 package dev.webfx.kit.launcher.spi;
 
+import dev.webfx.platform.uischeduler.UiScheduler;
+import dev.webfx.platform.util.function.Factory;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.beans.property.DoubleProperty;
@@ -14,14 +16,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.Dragboard;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import dev.webfx.platform.uischeduler.UiScheduler;
-import dev.webfx.platform.util.function.Factory;
 
 /**
  * @author Bruno Salmon
@@ -65,8 +64,6 @@ public interface WebFxKitLauncherProvider {
     default boolean supportsSvgImageFormat() { return false; }
 
     default boolean supportsWebPImageFormat() { return false; }
-
-    FastPixelReaderWriter getFastPixelReaderWriter(Image image);
 
     default GraphicsContext getGraphicsContext2D(Canvas canvas, boolean willReadFrequently) {
         return canvas.getGraphicsContext2D();

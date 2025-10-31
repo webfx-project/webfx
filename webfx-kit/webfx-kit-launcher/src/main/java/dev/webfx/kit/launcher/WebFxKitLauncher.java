@@ -1,6 +1,5 @@
 package dev.webfx.kit.launcher;
 
-import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.launcher.spi.WebFxKitLauncherProvider;
 import dev.webfx.platform.console.Console;
 import dev.webfx.platform.service.SingleServiceProvider;
@@ -14,7 +13,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -66,10 +64,6 @@ public final class WebFxKitLauncher {
 
     public static boolean supportsWebPImageFormat() {
         return getProvider().supportsWebPImageFormat();
-    }
-
-    public static FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
-        return getProvider().getFastPixelReaderWriter(image);
     }
 
     public static Canvas createWillReadFrequentlyCanvas() {
