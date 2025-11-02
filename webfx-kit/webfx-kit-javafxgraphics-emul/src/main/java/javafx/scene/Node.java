@@ -381,6 +381,42 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return disableProperty; //getMiscProperties().disableProperty();
     }
 
+    /* ************************************************************************
+     *                                                                        *
+     *
+     *                                                                        *
+     *************************************************************************/
+    /**
+     * Defines how the picking computation is done for this node when
+     * triggered by a {@code MouseEvent} or a {@code contains} function call.
+     *
+     * If {@code pickOnBounds} is {@code true}, then picking is computed by
+     * intersecting with the bounds of this node, else picking is computed
+     * by intersecting with the geometric shape of this node.
+     *
+     * The default value of this property is {@code false} unless
+     * overridden by a subclass. The default value is {@code true}
+     * for {@link javafx.scene.layout.Region}.
+     *
+     * @defaultValue false; true for {@code Region}
+     */
+    private BooleanProperty pickOnBounds;
+
+    public final void setPickOnBounds(boolean value) {
+        pickOnBoundsProperty().set(value);
+    }
+
+    public final boolean isPickOnBounds() {
+        return pickOnBounds == null ? false : pickOnBounds.get();
+    }
+
+    public final BooleanProperty pickOnBoundsProperty() {
+        if (pickOnBounds == null) {
+            pickOnBounds = new SimpleBooleanProperty(this, "pickOnBounds");
+        }
+        return pickOnBounds;
+    }
+
     /**
      * Whether or not this {@code Node} is being hovered over. Typically this is
      * due to the mouse being over the node, though it could be due to a pen
