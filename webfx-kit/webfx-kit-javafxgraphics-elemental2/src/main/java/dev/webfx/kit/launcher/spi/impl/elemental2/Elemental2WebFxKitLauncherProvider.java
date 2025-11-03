@@ -1,7 +1,6 @@
 package dev.webfx.kit.launcher.spi.impl.elemental2;
 
 import com.sun.javafx.application.ParametersImpl;
-import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import dev.webfx.kit.launcher.spi.impl.base.WebFxKitLauncherProviderBase;
 import dev.webfx.kit.mapper.WebFxKitMapper;
 import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
@@ -34,7 +33,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.layout.Region;
@@ -158,11 +156,6 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
     @Override
     public boolean supportsWebPImageFormat() {
         return supportsWebPJS();
-    }
-
-    @Override
-    public FastPixelReaderWriter getFastPixelReaderWriter(Image image) {
-        return new Elemental2FastPixelReaderWriter(image);
     }
 
     @Override
