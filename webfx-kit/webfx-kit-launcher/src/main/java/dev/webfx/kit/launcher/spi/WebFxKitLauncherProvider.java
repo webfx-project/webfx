@@ -17,6 +17,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.Dragboard;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -105,6 +106,9 @@ public interface WebFxKitLauncherProvider {
 
     default Insets getSafeAreaInsets() {
         return safeAreaInsetsProperty().get();
+    }
+
+    default void readPaddingFromCSS(Region region, boolean canChange) {
     }
 
     default boolean isFullscreenEnabled() {
