@@ -66,6 +66,45 @@ public final class ObservableLists {
         return runNowAndOnListChange(c -> setAllConverted(bList, bToAConverter, aList), bList);
     }
 
+    public static <A, B> Unregisterable bindConvertedOptimized(ObservableList<A> aList, ObservableList<B> bList, Converter<B, A> bToAConverter) {
+        // Initial sync
+        setAllConverted(bList, bToAConverter, aList);
+
+        // Smart incremental updates instead of full recreation
+        ListChangeListener<B> listener = change -> {
+            while (change.next()) {
+                if (change.wasPermutated()) {
+                    // Handle permutation
+                    List<A> permutatedSublist = new java.util.ArrayList<>(change.getTo() - change.getFrom());
+                    for (int i = change.getFrom(); i < change.getTo(); i++) {
+                        permutatedSublist.add(bToAConverter.convert(change.getList().get(i)));
+                    }
+                    aList.subList(change.getFrom(), change.getTo()).clear();
+                    aList.addAll(change.getFrom(), permutatedSublist);
+                } else if (change.wasUpdated()) {
+                    // Handle update - replace items at the updated positions
+                    for (int i = change.getFrom(); i < change.getTo(); i++) {
+                        aList.set(i, bToAConverter.convert(change.getList().get(i)));
+                    }
+                } else {
+                    // Handle add/remove
+                    if (change.wasRemoved()) {
+                        aList.subList(change.getFrom(), change.getFrom() + change.getRemovedSize()).clear();
+                    }
+                    if (change.wasAdded()) {
+                        List<A> addedItems = new java.util.ArrayList<>(change.getAddedSize());
+                        for (B item : change.getAddedSubList()) {
+                            addedItems.add(bToAConverter.convert(item));
+                        }
+                        aList.addAll(change.getFrom(), addedItems);
+                    }
+                }
+            }
+        };
+
+        return runOnListChange(listener, bList);
+    }
+
     public static <A, B> ObservableList<A> map(ObservableList<B> bList, Converter<B, A> bToAConverter) {
         ObservableList<A> aList = FXCollections.observableArrayList();
         bindConverted(aList, bList, bToAConverter);
