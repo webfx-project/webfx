@@ -196,3 +196,17 @@ fx-radiobutton.pseudo-selected .radio .dot {
     --fx-background-radius: 50%;
     --fx-background-color: var(--fx-radiobutton-background-color);
 }
+
+fx-tabheaderskin {
+    --fx-background-color: #e5e5e5;
+    --fx-border-radius: 5px 5px 0 0;
+    --fx-border-style: solid;
+    --fx-border-color: #808080;
+    --fx-border-width: 1px;
+    cursor: pointer;
+}
+
+fx-tabheaderskin.selected {
+    --fx-background-color: #f5f5f5;
+    --fx-border-width: 1px 1px 0 1px;
+}

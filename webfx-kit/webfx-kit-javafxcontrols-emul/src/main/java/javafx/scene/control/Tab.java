@@ -869,4 +869,7 @@ public class Tab implements EventTarget, Styleable {
     /*public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
         return Collections.emptyList();
     }*/
+
+    // WebFX addition
+    public Node skin; // will be a TabPaneSkin instance
 }

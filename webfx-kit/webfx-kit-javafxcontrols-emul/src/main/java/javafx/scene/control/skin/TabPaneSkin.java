@@ -28,6 +28,7 @@ package javafx.scene.control.skin;
 import com.sun.javafx.scene.control.LambdaMultiplePropertyChangeListenerHandler;
 import com.sun.javafx.scene.control.Properties;
 import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
+import dev.webfx.platform.util.collection.Collections;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -53,7 +54,10 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.SwipeEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
@@ -189,11 +193,8 @@ public class TabPaneSkin extends SkinBase<TabPane> {
     }
 
     private void updateSelectedTabBorderAndBackground() { // WebFX addition
-        if (selectedTab != null) {
-            TabHeaderSkin skin = (TabHeaderSkin) selectedTab.getProperties().get("skin");
-            if (skin != null)
-                skin.updateBorderAndBackground();
-        }
+        if (selectedTab != null && selectedTab.skin instanceof TabHeaderSkin skin)
+            skin.updateBorderAndBackground();
     }
 
 
@@ -1528,6 +1529,7 @@ public class TabPaneSkin extends SkinBase<TabPane> {
             pseudoClassStateChanged(LEFT_PSEUDOCLASS_STATE, (side == Side.LEFT));*/
 
             // WebFX addition
+            tab.skin = this;
             setPadding(new Insets(3, 10, 3, 10));
             StackPane.setMargin(inner, new Insets(0, MARGIN_BETWEEN_TABS, 0, 0));
             label.setTextAlignment(TextAlignment.CENTER); // tab-label
@@ -1536,11 +1538,7 @@ public class TabPaneSkin extends SkinBase<TabPane> {
 
         void updateBorderAndBackground() { // WebFX addition
             boolean selected = tab == selectedTab;
-            CornerRadii radii = new CornerRadii(5, 5, 0, 0, false);
-            setBackground(new Background(new BackgroundFill(Color.grayRgb(selected ? 0xF5 : 0xE5), radii, null)));
-            Color borderColor = Color.GRAY;
-            BorderStrokeStyle borderStyle = BorderStrokeStyle.SOLID;
-            setBorder(new Border(new BorderStroke(borderColor, borderColor, selected ? Color.TRANSPARENT : borderColor, borderColor, borderStyle, borderStyle, borderStyle, borderStyle, radii, BorderStroke.THIN, Insets.EMPTY)));
+            Collections.addIfNotContainsOrRemove(getStyleClass(),  selected,"selected");
         }
 
         private void updateTabDisabledState() {
