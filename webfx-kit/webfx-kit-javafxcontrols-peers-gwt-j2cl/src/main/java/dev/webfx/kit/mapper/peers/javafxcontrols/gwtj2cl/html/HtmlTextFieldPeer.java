@@ -1,11 +1,11 @@
 package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
-import dev.webfx.kit.util.aria.AriaRole;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextFieldPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.html.layoutmeasurable.HtmlLayoutMeasurable;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.util.HtmlUtil;
+import dev.webfx.kit.util.aria.AriaRole;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
@@ -14,7 +14,6 @@ import javafx.collections.ObservableMap;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
 import javafx.scene.control.skin.TextFieldSkin;
 import javafx.scene.control.skin.ToolkitTextBox;
@@ -89,14 +88,14 @@ public class HtmlTextFieldPeer
     @Override
     protected Element getHtmlFocusableElement() {
         Node n = getNode();
-        Skin skin = getNode().getSkin();
-        if (skin instanceof TextFieldSkin) {
-            ObservableList<Node> children = ((TextFieldSkin) skin).getChildren();
+        if (getNode().getSkin() instanceof TextFieldSkin textFieldSkin) {
+            ObservableList<Node> children = textFieldSkin.getChildren();
             if (!children.isEmpty())
                 n = children.get(0); // Should be the ToolkitTextBox
         }
-        HtmlSvgNodePeer nodePeer = n == null ? null : (HtmlSvgNodePeer) n.getNodePeer();
-        return nodePeer == null ? null : nodePeer.getElement();
+        if (n.getNodePeer() instanceof HtmlSvgNodePeer<?,?,?,?> htmlSvgNodePeer)
+            return htmlSvgNodePeer.getElement();
+        return null;
     }
 
     @Override
@@ -109,7 +108,7 @@ public class HtmlTextFieldPeer
 
     public static HtmlTextFieldPeer createHtmlTextBoxPeer() {
         HTMLInputElement textInput = HtmlUtil.createTextInput();
-        HtmlUtil.setStyleAttribute(textInput,"text-align","inherit"); // so that it inherits text-align attribute set on element
+        HtmlUtil.setStyleAttribute(textInput,"text-align","inherit"); // so that it inherits the text-align attribute set on the element
         return new HtmlTextFieldPeer(textInput);
     }
 }

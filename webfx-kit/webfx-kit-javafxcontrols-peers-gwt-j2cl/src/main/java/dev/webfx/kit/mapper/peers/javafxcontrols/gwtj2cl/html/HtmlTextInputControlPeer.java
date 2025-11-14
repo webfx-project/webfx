@@ -2,7 +2,6 @@ package dev.webfx.kit.mapper.peers.javafxcontrols.gwtj2cl.html;
 
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerBase;
 import dev.webfx.kit.mapper.peers.javafxcontrols.base.TextInputControlPeerMixin;
-import dev.webfx.kit.mapper.peers.javafxgraphics.NodePeer;
 import dev.webfx.kit.mapper.peers.javafxgraphics.SceneRequester;
 import dev.webfx.kit.mapper.peers.javafxgraphics.gwtj2cl.shared.HtmlSvgNodePeer;
 import dev.webfx.kit.util.properties.FXProperties;
@@ -33,16 +32,15 @@ public abstract class HtmlTextInputControlPeer
     static {
         // We listen to the global selection changes on the document and eventually forward them to the matching peer
         DomGlobal.document.addEventListener("selectionchange", e -> {
-            if (e.target instanceof HTMLInputElement inputElement) {
-                NodePeer<?> peer = HtmlSvgNodePeer.getPeerFromElementOrParents(inputElement, true);
-                if (peer instanceof HtmlTextInputControlPeer<?, ?, ?> textInputPeer) {
-                    textInputPeer.onSelectionChanged(inputElement);
-                }
+            if (e.target instanceof HTMLInputElement inputElement && HtmlSvgNodePeer.getPeerFromElementOrParents(inputElement, true) instanceof HtmlTextInputControlPeer<?, ?, ?> textInputPeer) {
+                textInputPeer.onSelectionChanged(inputElement, textInputPeer);
             }
         });
     }
 
     private boolean scheduledReapplying;
+    private boolean syncingAnchorPropertyFromPeer;
+    private boolean syncingCaretPositionPropertyFromPeer;
 
     public HtmlTextInputControlPeer(NB base, HTMLElement textInputElement, String containerTag) {
         super(base, textInputElement);
@@ -62,11 +60,10 @@ public abstract class HtmlTextInputControlPeer
         };
     }
 
-    private void onSelectionChanged(HTMLInputElement inputElement) {
-        N node = getNode();
+    private void onSelectionChanged(HTMLInputElement inputElement, HtmlTextInputControlPeer<?, ?, ?> originalPeer) {
         // Forwarding to the embedding TextField in the case of a ToolkitTextBox
-        if (node instanceof ToolkitTextBox ttb && ttb.getEmbeddingTextField().getNodePeer() instanceof HtmlTextInputControlPeer<?, ?, ?> textInputPeer) {
-            textInputPeer.onSelectionChanged(inputElement);
+        if (getNode() instanceof ToolkitTextBox ttb && ttb.getEmbeddingTextField().getNodePeer() instanceof HtmlTextInputControlPeer<?, ?, ?> textInputPeer) {
+            textInputPeer.onSelectionChanged(inputElement, originalPeer);
             return;
         }
         // If we scheduled a selection reapplying, we ignore the later changes until the selection has actually been reapplied.
@@ -81,8 +78,16 @@ public abstract class HtmlTextInputControlPeer
         int selectionStart = inputElement.selectionStart;
         int selectionEnd = inputElement.selectionEnd;
         if (!String.valueOf(selectionStart).equals("null")) {
-            node.anchorProperty().set(selectionBackward ? selectionEnd : selectionStart);
-            node.caretPositionProperty().set(selectionBackward ? selectionStart : selectionEnd);
+            int newAnchorPosition = selectionBackward ? selectionEnd : selectionStart;
+            if (newAnchorPosition != getNode().getAnchor()) {
+                syncingAnchorPropertyFromPeer = originalPeer.syncingAnchorPropertyFromPeer = true;
+                getNode().anchorProperty().set(newAnchorPosition);
+            }
+            int newCaretPosition = selectionBackward ? selectionStart : selectionEnd;
+            if (newCaretPosition != getNode().getCaretPosition()) {
+                syncingCaretPositionPropertyFromPeer = originalPeer.syncingCaretPositionPropertyFromPeer = true;
+                getNode().caretPositionProperty().set(newCaretPosition);
+            }
         }
     }
 
@@ -144,12 +149,18 @@ public abstract class HtmlTextInputControlPeer
 
     @Override
     public void updateAnchorPosition(Number anchorPosition) {
-        selectRange(anchorPosition.intValue(), getNode().getCaretPosition());
+        if (syncingAnchorPropertyFromPeer)
+            syncingAnchorPropertyFromPeer = false;
+        else
+            selectRange(anchorPosition.intValue(), getNode().getCaretPosition());
     }
 
     @Override
     public void updateCaretPosition(Number caretPosition) {
-        selectRange(getNode().getAnchor(), caretPosition.intValue());
+        if (syncingCaretPositionPropertyFromPeer)
+            syncingCaretPositionPropertyFromPeer = false;
+        else
+            selectRange(getNode().getAnchor(), caretPosition.intValue());
     }
 
     @Override
