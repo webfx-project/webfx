@@ -9,6 +9,6 @@ import javafx.scene.Node;
 public interface HasGraphicProperty {
 
     ObjectProperty<Node> graphicProperty();
-    default HasGraphicProperty setGraphic(Node graphic) { graphicProperty().setValue(graphic); return this; }
+    default void setGraphic(Node graphic) { graphicProperty().setValue(graphic); }
     default Node getGraphic() { return graphicProperty().getValue(); }
 }

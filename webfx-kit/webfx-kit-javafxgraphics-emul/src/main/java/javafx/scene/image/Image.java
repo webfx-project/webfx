@@ -360,7 +360,7 @@ public class Image implements
         return error != null && error.get();
     }
 
-    public final BooleanProperty errorProperty() {
+    public final ReadOnlyBooleanProperty errorProperty() {
         return errorPropertyImpl();
     }
 
