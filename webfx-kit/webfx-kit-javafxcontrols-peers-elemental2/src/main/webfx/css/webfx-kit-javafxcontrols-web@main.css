@@ -33,6 +33,25 @@
     --fx-togglebutton-background-color-hover: var(--fx-togglebutton-background-color-selected);
     --fx-togglebutton-border-color-hover: var(--fx-togglebutton-border-color-selected);
 
+    --fx-tabheaderarea-background-color: #D3D3D3;
+    --fx-tabheaderarea-border-radius: 0;
+    --fx-tabheaderarea-padding-top: 5px;
+    --fx-tabheaderarea-padding-bottom: 0;
+    --fx-tabheaderarea-padding-left: 10px;
+    --fx-tabheaderarea-padding-right: 0;
+    --fx-tabheader-background-color: #e5e5e5;
+    --fx-tabheader-background-color-selected: #f5f5f5;
+    --fx-tabheader-border-radius: 5px 5px 0 0;
+    --fx-tabheader-border-style: solid;
+    --fx-tabheader-border-color: darkgray;
+    --fx-tabheader-border-width: 1px;
+    --fx-tabheader-border-width-selected: 1px 1px 0 1px;
+    --fx-tabheader-padding-top: 3px;
+    --fx-tabheader-padding-bottom: 3px;
+    --fx-tabheader-padding-left: 10px;
+    --fx-tabheader-padding-right: 10px;
+    --fx-tabheader-text-fill-selected: var(--fx-text-fill);
+
     --fx-theme-color: #0095cb;
     --fx-placholder-color: #888;
     --fx-progress-indicator-color: var(--fx-theme-color);
@@ -195,4 +214,36 @@ fx-radiobutton .radio .dot {
 fx-radiobutton.pseudo-selected .radio .dot {
     --fx-background-radius: 50%;
     --fx-background-color: var(--fx-radiobutton-background-color);
+}
+
+fx-tabheaderarea {
+    --fx-background-color: var(--fx-tabheaderarea-background-color);
+    --fx-border-radius: var(--fx-tabheaderarea-border-radius);
+}
+
+/* Web padding that is read back by WebFX to JavaFX padding */
+fx-tabheaderarea > fx-children {
+    padding: var(--fx-tabheaderarea-padding-top) var(--fx-tabheaderarea-padding-right) var(--fx-tabheaderarea-padding-bottom) var(--fx-tabheaderarea-padding-left);
+}
+
+
+fx-tabheaderskin {
+    --fx-background-color: var(--fx-tabheader-background-color);
+    --fx-border-radius: var(--fx-tabheader-border-radius);
+    --fx-border-style: var(--fx-tabheader-border-style);
+    --fx-border-color: var(--fx-tabheader-border-color);
+    --fx-border-width: var(--fx-tabheader-border-width);
+    --fx-text-fill: var(--fx-tabheader-text-fill);
+    cursor: pointer;
+}
+
+fx-tabheaderskin.selected {
+    --fx-tabheader-background-color: var(--fx-tabheader-background-color-selected);
+    --fx-tabheader-border-width: var(--fx-tabheader-border-width-selected);
+    --fx-text-fill: var(--fx-tabheader-text-fill-selected);
+}
+
+/* Web padding that is read back by WebFX to JavaFX padding */
+fx-tabheaderskin > fx-children {
+    padding: var(--fx-tabheader-padding-top) var(--fx-tabheader-padding-right) var(--fx-tabheader-padding-bottom) var(--fx-tabheader-padding-left);
 }
