@@ -91,13 +91,13 @@ public abstract class HtmlTextInputControlPeer
             int newAnchorPosition = selectionBackward ? selectionEnd : selectionStart;
             if (newAnchorPosition != getNode().getAnchor()) {
                 syncingAnchorPropertyFromPeer = originalPeer.syncingAnchorPropertyFromPeer = true;
-                getNode().anchorProperty().set(newAnchorPosition); // will call updateAnchorPosition() synchronously
+                getNode().anchorPropertyImpl().set(newAnchorPosition); // will call updateAnchorPosition() synchronously
                 syncingAnchorPropertyFromPeer = originalPeer.syncingAnchorPropertyFromPeer = false;
             }
             int newCaretPosition = selectionBackward ? selectionStart : selectionEnd;
             if (newCaretPosition != getNode().getCaretPosition()) {
                 syncingCaretPositionPropertyFromPeer = originalPeer.syncingCaretPositionPropertyFromPeer = true;
-                getNode().caretPositionProperty().set(newCaretPosition); // will call updateCaretPosition() synchronously
+                getNode().caretPositionPropertyImpl().set(newCaretPosition); // will call updateCaretPosition() synchronously
                 syncingCaretPositionPropertyFromPeer = originalPeer.syncingCaretPositionPropertyFromPeer = false;
             }
         }
