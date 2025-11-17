@@ -74,6 +74,16 @@ public abstract class HtmlTextInputControlPeer
         // selection has actually been reapplied to the text field.
         if (scheduledReapplying)
             return;
+        // We ensure the code is executed in the animation frame. The reason is that we want to synchronize the JavaFX
+        // anchorProperty and caretPositionProperty without a loop back to HTML. This is done using the boolean flags
+        // syncingAnchorPropertyFromPeer and syncingCaretPositionPropertyFromPeer which make the WebFX callback methods
+        // doing nothing updateAnchorPosition() and updateCaretPosition(). But this works only if these callbacks methods
+        // are called synchronously with the anchor or caretPosition property update, which happens only if we are in the
+        // animation frame (otherwise the callback methods are postponed to the next animation frame).
+        if (!UiScheduler.isAnimationFrameNow()) {
+            UiScheduler.scheduleInAnimationFrame(() -> onSelectionChanged(inputElement, originalPeer));
+            return;
+        }
         boolean selectionBackward = "backward".equalsIgnoreCase(inputElement.selectionDirection);
         int selectionStart = inputElement.selectionStart;
         int selectionEnd = inputElement.selectionEnd;
@@ -81,12 +91,14 @@ public abstract class HtmlTextInputControlPeer
             int newAnchorPosition = selectionBackward ? selectionEnd : selectionStart;
             if (newAnchorPosition != getNode().getAnchor()) {
                 syncingAnchorPropertyFromPeer = originalPeer.syncingAnchorPropertyFromPeer = true;
-                getNode().anchorProperty().set(newAnchorPosition);
+                getNode().anchorProperty().set(newAnchorPosition); // will call updateAnchorPosition() synchronously
+                syncingAnchorPropertyFromPeer = originalPeer.syncingAnchorPropertyFromPeer = false;
             }
             int newCaretPosition = selectionBackward ? selectionStart : selectionEnd;
             if (newCaretPosition != getNode().getCaretPosition()) {
                 syncingCaretPositionPropertyFromPeer = originalPeer.syncingCaretPositionPropertyFromPeer = true;
-                getNode().caretPositionProperty().set(newCaretPosition);
+                getNode().caretPositionProperty().set(newCaretPosition); // will call updateCaretPosition() synchronously
+                syncingCaretPositionPropertyFromPeer = originalPeer.syncingCaretPositionPropertyFromPeer = false;
             }
         }
     }
@@ -149,17 +161,13 @@ public abstract class HtmlTextInputControlPeer
 
     @Override
     public void updateAnchorPosition(Number anchorPosition) {
-        if (syncingAnchorPropertyFromPeer)
-            syncingAnchorPropertyFromPeer = false;
-        else
+        if (!syncingAnchorPropertyFromPeer)
             selectRange(anchorPosition.intValue(), getNode().getCaretPosition());
     }
 
     @Override
     public void updateCaretPosition(Number caretPosition) {
-        if (syncingCaretPositionPropertyFromPeer)
-            syncingCaretPositionPropertyFromPeer = false;
-        else
+        if (!syncingCaretPositionPropertyFromPeer)
             selectRange(getNode().getAnchor(), caretPosition.intValue());
     }
 
