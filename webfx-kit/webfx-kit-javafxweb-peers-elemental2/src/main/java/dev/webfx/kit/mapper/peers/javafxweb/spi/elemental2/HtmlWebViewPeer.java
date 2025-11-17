@@ -63,7 +63,7 @@ public class HtmlWebViewPeer
                 N webView = getNode();
                 Scene scene = webView == null ? null : webView.getScene();
                 if (scene != null)
-                    scene.focusOwnerProperty().setValue(webView);
+                    scene.focusOwnerPropertyImpl().setValue(webView);
             }
         });
         // 2) Detecting when the iFrame lost focus
@@ -72,7 +72,7 @@ public class HtmlWebViewPeer
             N webView = getNode();
             Scene scene = webView == null ? null : webView.getScene();
             if (scene != null && scene.getFocusOwner() == webView) {
-                scene.focusOwnerProperty().setValue(null);
+                scene.focusOwnerPropertyImpl().setValue(null);
             }
         });
         // Note: webViewElement.connectedCallback & webViewElement.disconnectedCallback don't work
