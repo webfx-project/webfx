@@ -13,6 +13,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -137,6 +139,10 @@ public final class WebFxKitLauncher {
 
     public static Insets getSafeAreaInsets() {
         return getProvider().getSafeAreaInsets();
+    }
+
+    public static void readPaddingFromCSS(Region region, boolean immutable) {
+        getProvider().readPaddingFromCSS(region, immutable);
     }
 
     public static boolean isFullscreenEnabled() {

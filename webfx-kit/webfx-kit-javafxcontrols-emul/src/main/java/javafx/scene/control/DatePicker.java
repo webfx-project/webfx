@@ -80,10 +80,11 @@ public class DatePicker extends TextField {
      * either the value input by the user, or the last selected item.
      */
     public ObjectProperty<LocalDate> valueProperty() { return value; }
-    private ObjectProperty<LocalDate> value = new SimpleObjectProperty<>(this, "value");
+    private final ObjectProperty<LocalDate> value = new SimpleObjectProperty<>(this, "value");
 
-    public final void setValue(LocalDate value) { valueProperty().set(value); }
-    public final LocalDate getValue() { return valueProperty().get(); }
+    // Choosing a signature that matches JavaFX ComboBox<T> for successful TeaVM compilation
+    public final <T> T getValue() { return (T) valueProperty().get(); }
+    public final void setValue(Object value) { valueProperty().set((LocalDate) value); }
 
     public final Property<StringConverter<LocalDate>> converterProperty() { return converter; }
     private final Property<StringConverter<LocalDate>> converter =

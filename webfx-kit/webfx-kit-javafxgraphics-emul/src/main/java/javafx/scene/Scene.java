@@ -170,11 +170,12 @@ public class Scene implements EventTarget,
         return fill;
     }
 
-    private final Property<Parent> rootProperty = new SimpleObjectProperty<Parent>() {
+    private final ObjectProperty<Parent> rootProperty = new SimpleObjectProperty<>() {
         // Temporary code to automatically assume the following behavior:
         // - the root node width is bound to the scene width
         // - the scene height is bound to the root node height (which eventually is bound to the preferred height)
         private Parent oldRoot;
+
         @Override
         protected void invalidated() {
             Parent root = getValue();
@@ -238,7 +239,7 @@ public class Scene implements EventTarget,
     }
 
     @Override
-    public Property<Parent> rootProperty() {
+    public ObjectProperty<Parent> rootProperty() {
         return rootProperty;
     }
 
@@ -443,8 +444,12 @@ public class Scene implements EventTarget,
         return focusOwner.getValue();
     }
 
-    public final Property<Node> focusOwnerProperty() {
+    public final ReadOnlyObjectProperty<Node> focusOwnerProperty() {
         return focusOwner/*.getReadOnlyProperty()*/;
+    }
+
+    public final ObjectProperty<Node> focusOwnerPropertyImpl() {
+        return focusOwner;
     }
 
     private Node retryingRequestFocusNode;

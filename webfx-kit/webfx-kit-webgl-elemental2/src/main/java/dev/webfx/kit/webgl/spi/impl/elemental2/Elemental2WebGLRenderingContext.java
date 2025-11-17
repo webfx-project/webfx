@@ -4,7 +4,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.html.HtmlGraphicsCon
 import dev.webfx.kit.mapper.peers.javafxmedia.spi.elemental2.Elemental2MediaPlayerPeer;
 import dev.webfx.kit.webgl.*;
 import dev.webfx.platform.typedarray.TypedArray;
-import dev.webfx.platform.typedarray.spi.impl.elemental2.Elemental2TypedArray;
+import elemental2.core.ArrayBufferView;
 import elemental2.dom.HTMLImageElement;
 import elemental2.dom.HTMLVideoElement;
 import javafx.scene.image.Image;
@@ -98,11 +98,7 @@ public class Elemental2WebGLRenderingContext implements WebGLRenderingContext {
 
     @Override
     public void bufferData(int target, TypedArray data, int usage) {
-        Elemental2TypedArray gwtArrayBuffer = (Elemental2TypedArray) data;
-        if (gwtArrayBuffer.jsArrayBuffer != null)
-            gl.bufferData(target, gwtArrayBuffer.jsArrayBuffer, usage);
-        else
-            gl.bufferData(target, gwtArrayBuffer.jsArrayBufferView, usage);
+        gl.bufferData(target, (ArrayBufferView) data.getTransferableBuffer(), usage);
     }
 
     @Override
@@ -183,8 +179,7 @@ public class Elemental2WebGLRenderingContext implements WebGLRenderingContext {
 
     @Override
     public void texImage2D(int target, int level, int internalformat, int format, int type, int img, int format0, int type0, TypedArray pixels) {
-        Elemental2TypedArray gwtArrayBuffer = (Elemental2TypedArray) pixels;
-        gl.texImage2D(target, level, internalformat, format, type, img, format0, type0, gwtArrayBuffer == null ? null : gwtArrayBuffer.jsArrayBufferView);
+        gl.texImage2D(target, level, internalformat, format, type, img, format0, type0, pixels == null ? null : (ArrayBufferView) pixels.getNativeArray());
     }
 
     @Override

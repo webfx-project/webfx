@@ -26,6 +26,7 @@
 package javafx.beans.binding;
 
 import com.sun.javafx.binding.BidirectionalBinding;
+import com.sun.javafx.binding.DoubleConstant;
 import com.sun.javafx.binding.IntegerConstant;
 import com.sun.javafx.collections.ImmutableObservableList;
 import dev.webfx.platform.util.Numbers;
@@ -66,12 +67,12 @@ import java.util.concurrent.Callable;
  * methods in this class is that the Fluent API requires that at least one of
  * the operands is an Expression (see {@link javafx.beans.binding}). (Every
  * Expression contains a static method that generates an Expression from an
- * {@link javafx.beans.value.ObservableValue}.)
+ * {@link ObservableValue}.)
  * <p>
  * Also if you watched closely, you might have noticed that the return type of
  * the Fluent API is different in the examples above. In a lot of cases the
  * Fluent API allows to be more specific about the returned type (see
- * {@link javafx.beans.binding.NumberExpression} for more details about implicit
+ * {@link NumberExpression} for more details about implicit
  * casting.
  *
  * @see Binding
@@ -228,8 +229,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a {@link javafx.beans.binding.BooleanBinding} that calculates the inverse of the value
-     * of a {@link javafx.beans.value.ObservableBooleanValue}.
+     * Creates a {@link BooleanBinding} that calculates the inverse of the value
+     * of a {@link ObservableBooleanValue}.
      *
      * @param op
      *            the {@code ObservableBooleanValue}
@@ -246,7 +247,7 @@ public final class Bindings {
 
     /**
      * Generates a bidirectional binding (or "bind with inverse") between two
-     * instances of {@link javafx.beans.property.Property}.
+     * instances of {@link Property}.
      * <p>
      * A bidirectional binding is a binding that works in both directions. If
      * two properties {@code a} and {@code b} are linked with a bidirectional
@@ -301,7 +302,7 @@ public final class Bindings {
     /**
      * Delete a bidirectional binding that was previously defined with
      * {@link #bindBidirectional(Property, Property)} or
-     * {@link #bindBidirectional(javafx.beans.property.Property, javafx.beans.property.Property, java.text.Format)}.
+     * {@link #bindBidirectional(Property, Property, java.text.Format)}.
      *
      * @param property1
      *            the first {@code Property<T>}
@@ -319,8 +320,8 @@ public final class Bindings {
 
     /**
      * Generates a bidirectional binding (or "bind with inverse") between a
-     * {@code String}-{@link javafx.beans.property.Property} and another {@code Property}
-     * using the specified {@link javafx.util.StringConverter} for conversion.
+     * {@code String}-{@link Property} and another {@code Property}
+     * using the specified {@link StringConverter} for conversion.
      * <p>
      * A bidirectional binding is a binding that works in both directions. If
      * two properties {@code a} and {@code b} are linked with a bidirectional
@@ -433,7 +434,7 @@ public final class Bindings {
     /**
      * Creates a {@link BooleanBinding} that calculates the conditional-AND
      * operation on the value of two instance of
-     * {@link javafx.beans.value.ObservableBooleanValue}.
+     * {@link ObservableBooleanValue}.
      *
      * @param op1
      *            first {@code ObservableBooleanValue}
@@ -465,7 +466,7 @@ public final class Bindings {
     /**
      * Creates a {@link BooleanBinding} that calculates the conditional-AND
      * operation on the value of two instance of
-     * {@link javafx.beans.value.ObservableBooleanValue}.
+     * {@link ObservableBooleanValue}.
      *
      * @param op1
      *            first {@code ObservableBooleanValue}
@@ -482,11 +483,15 @@ public final class Bindings {
     // =================================================================================================================
     // Divide
 
-    private static NumberBinding divide(final ObservableNumberValue op1, final ObservableNumberValue op2, final Observable... dependencies) {
+    private static void checkNumberOperators(final ObservableNumberValue op1, final ObservableNumberValue op2, final Observable... dependencies) {
         if ((op1 == null) || (op2 == null)) {
             throw new NullPointerException("Operands cannot be null.");
         }
         assert (dependencies != null) && (dependencies.length > 0);
+    }
+
+    private static NumberBinding divide(final ObservableNumberValue op1, final ObservableNumberValue op2, final Observable... dependencies) {
+        checkNumberOperators(op1, op2, dependencies);
 
         if ((op1 instanceof ObservableDoubleValue) || (op2 instanceof ObservableDoubleValue)) {
             return createDoubleBinding(() -> op1.doubleValue() / op2.doubleValue(), dependencies);
@@ -519,10 +524,11 @@ public final class Bindings {
             return createIntegerBinding(() -> op1.intValue() / op2.intValue(), dependencies);
         }
     }
+
     /**
-     * Creates a new {@link javafx.beans.binding.NumberBinding} that calculates
+     * Creates a new {@link NumberBinding} that calculates
      * the division of the value of a
-     * {@link javafx.beans.value.ObservableNumberValue} and a constant value.
+     * {@link ObservableNumberValue} and a constant value.
      *
      * @param op1
      *            the constant value
@@ -534,12 +540,68 @@ public final class Bindings {
      */
 
     public static NumberBinding divide(final ObservableNumberValue op1, int op2) {
-        return Bindings.divide(op1, IntegerConstant.valueOf(op2), op1);
+        return divide(op1, IntegerConstant.valueOf(op2), op1);
+    }
+
+    private static NumberBinding multiply(final ObservableNumberValue op1, final ObservableNumberValue op2, final Observable... dependencies) {
+        checkNumberOperators(op1, op2, dependencies);
+
+        if ((op1 instanceof ObservableDoubleValue) || (op2 instanceof ObservableDoubleValue)) {
+            return createDoubleBinding(() -> op1.doubleValue() * op2.doubleValue(), dependencies);
+        } else if ((op1 instanceof ObservableLongValue) || (op2 instanceof ObservableLongValue)) {
+            return createLongBinding(() ->  op1.longValue() * op2.longValue(), dependencies);
+        } else {
+            return createIntegerBinding(() -> op1.intValue() * op2.intValue(), dependencies);
+        }
+    }
+
+    public static NumberBinding multiply(final ObservableNumberValue op1, ObservableNumberValue op2) {
+        return multiply(op1, op2, op1, op2);
+    }
+
+    public static DoubleBinding multiply(final ObservableNumberValue op1, double op2) {
+        return (DoubleBinding) multiply(op1, DoubleConstant.valueOf(op2), op1);
+    }
+
+    public static NumberBinding multiply(final ObservableNumberValue op1, long op2) {
+        return multiply(op1, DoubleConstant.valueOf(op2), op1);
+    }
+
+    public static NumberBinding multiply(final ObservableNumberValue op1, int op2) {
+        return multiply(op1, IntegerConstant.valueOf(op2), op1);
+    }
+
+    private static NumberBinding subtract(final ObservableNumberValue op1, final ObservableNumberValue op2, final Observable... dependencies) {
+        checkNumberOperators(op1, op2, dependencies);
+
+        if ((op1 instanceof ObservableDoubleValue) || (op2 instanceof ObservableDoubleValue)) {
+            return createDoubleBinding(() -> op1.doubleValue() - op2.doubleValue(), dependencies);
+        } else if ((op1 instanceof ObservableLongValue) || (op2 instanceof ObservableLongValue)) {
+            return createLongBinding(() ->  op1.longValue() - op2.longValue(), dependencies);
+        } else {
+            return createIntegerBinding(() -> op1.intValue() - op2.intValue(), dependencies);
+        }
+    }
+
+    public static NumberBinding subtract(final ObservableNumberValue op1, ObservableNumberValue op2) {
+        return subtract(op1, op2, op1, op2);
+    }
+
+    public static DoubleBinding subtract(final ObservableNumberValue op1, double op2) {
+        return (DoubleBinding) subtract(op1, DoubleConstant.valueOf(op2), op1);
+    }
+
+    public static NumberBinding subtract(final ObservableNumberValue op1, long op2) {
+        return subtract(op1, DoubleConstant.valueOf(op2), op1);
+    }
+
+    public static NumberBinding subtract(final ObservableNumberValue op1, int op2) {
+        return subtract(op1, IntegerConstant.valueOf(op2), op1);
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if a given {@link javafx.collections.ObservableList} is empty.
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if a given {@link ObservableList} is empty.
      *
      * @param op
      *            the {@code ObservableList}
@@ -554,8 +616,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if a given {@link javafx.collections.ObservableList} is not empty.
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if a given {@link ObservableList} is not empty.
      *
      * @param op
      *            the {@code ObservableList}
@@ -570,8 +632,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.IntegerBinding} that contains the size
-     * of an {@link javafx.collections.ObservableList}.
+     * Creates a new {@link IntegerBinding} that contains the size
+     * of an {@link ObservableList}.
      *
      * @param op
      *            the {@code ObservableList}
@@ -586,8 +648,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link javafx.beans.value.ObservableStringValue} is empty.
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if the value of a {@link ObservableStringValue} is empty.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered to be empty.
@@ -604,8 +666,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of a {@link javafx.beans.value.ObservableStringValue} is not empty.
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if the value of a {@link ObservableStringValue} is not empty.
      * <p>
      * Note: In this comparison a {@code String} that is {@code null} is
      * considered to be empty.
@@ -622,9 +684,9 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link javafx.beans.value.ObservableObjectValue} are equal.
+     * {@link ObservableObjectValue} are equal.
      *
      * @param op1
      *            the first operand
@@ -639,8 +701,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if the value of an {@link ObservableObjectValue} is
      * equal to a constant value.
      *
      * @param op1
@@ -656,8 +718,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if the value of an {@link ObservableObjectValue} is
      * equal to a constant value.
      *
      * @param op1
@@ -673,9 +735,9 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
+     * Creates a new {@link BooleanBinding} that holds {@code true}
      * if the values of two instances of
-     * {@link javafx.beans.value.ObservableObjectValue} are not equal.
+     * {@link ObservableObjectValue} are not equal.
      *
      * @param op1
      *            the first operand
@@ -690,8 +752,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if the value of an {@link ObservableObjectValue} is
      * not equal to a constant value.
      *
      * @param op1
@@ -707,8 +769,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if the value of an {@link ObservableObjectValue} is
      * not equal to a constant value.
      *
      * @param op1
@@ -724,8 +786,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if the value of an {@link ObservableObjectValue} is
      * {@code null}.
      *
      * @param op
@@ -739,8 +801,8 @@ public final class Bindings {
     }
 
     /**
-     * Creates a new {@link javafx.beans.binding.BooleanBinding} that holds {@code true}
-     * if the value of an {@link javafx.beans.value.ObservableObjectValue} is
+     * Creates a new {@link BooleanBinding} that holds {@code true}
+     * if the value of an {@link ObservableObjectValue} is
      * not {@code null}.
      *
      * @param op

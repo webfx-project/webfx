@@ -32,7 +32,7 @@ public class WebView extends Parent {
      * Width of this {@code WebView}.
      * @return the width property
      */
-    public DoubleProperty widthProperty() {
+    public ReadOnlyDoubleProperty widthProperty() {
         return width;
     }
 
@@ -46,7 +46,7 @@ public class WebView extends Parent {
      * Height of this {@code WebView}.
      * @return the height property
      */
-    public DoubleProperty heightProperty() {
+    public ReadOnlyDoubleProperty heightProperty() {
         return height;
     }
 

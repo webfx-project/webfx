@@ -337,7 +337,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setJavaFxFocusOwner(Node focusOwner) {
-        getNode().getScene().focusOwnerProperty().setValue(focusOwner);
+        getNode().getScene().focusOwnerPropertyImpl().setValue(focusOwner);
     }
 
     /**************************************** End of "Focus mapping" section ******************************************/

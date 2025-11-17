@@ -28,6 +28,8 @@ package javafx.scene.control.skin;
 import com.sun.javafx.scene.control.LambdaMultiplePropertyChangeListenerHandler;
 import com.sun.javafx.scene.control.Properties;
 import com.sun.javafx.scene.control.behavior.TabPaneBehavior;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.platform.util.collection.Collections;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -36,6 +38,7 @@ import javafx.beans.WeakInvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -53,8 +56,9 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.SwipeEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
@@ -63,6 +67,7 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 //import static com.sun.javafx.scene.control.skin.resources.ControlResources.getString;
 
@@ -183,17 +188,14 @@ public class TabPaneSkin extends SkinBase<TabPane> {
             getSkinnable().getSelectionModel().selectFirst();
         }
         selectedTab = getSkinnable().getSelectionModel().getSelectedItem();
-        updateSelectedTabBorderAndBackground(); // WebFX addition
+        updateSelectedTabStyleClass(); // WebFX addition
 
         initializeSwipeHandlers();
     }
 
-    private void updateSelectedTabBorderAndBackground() { // WebFX addition
-        if (selectedTab != null) {
-            TabHeaderSkin skin = (TabHeaderSkin) selectedTab.getProperties().get("skin");
-            if (skin != null)
-                skin.updateBorderAndBackground();
-        }
+    private void updateSelectedTabStyleClass() { // WebFX addition
+        if (selectedTab != null && selectedTab.skin instanceof TabHeaderSkin skin)
+            skin.updateSelectedStyleClass();
     }
 
 
@@ -932,9 +934,8 @@ public class TabPaneSkin extends SkinBase<TabPane> {
 
             });*/
 
-            // WebFX addition (styling tab-header-area)
-            headerBackground.setBackground(Background.fill(Color.LIGHTGRAY)); // TODO: move this to CSS
-            setPadding(new Insets(5, 0, 0, 10)); // 10 px LEFT & 5 px TOP
+            // WebFX addition: reading padding back from web CSS for fx-tabheaderarea
+            WebFxKitLauncher.readPaddingFromCSS(this, true);
         }
 
         private void updateHeaderClip() {
@@ -1423,7 +1424,7 @@ public class TabPaneSkin extends SkinBase<TabPane> {
                 // changed.
                 inner.requestLayout();
                 requestLayout();
-                Platform.runLater(this::updateBorderAndBackground); // WebFX addition
+                Platform.runLater(this::updateSelectedStyleClass); // WebFX addition
             });
             listener.registerChangeListener(tab.textProperty(),e -> label.setText(getTab().getText()));
             listener.registerChangeListener(tab.graphicProperty(), e -> label.setGraphic(getTab().getGraphic()));
@@ -1465,22 +1466,15 @@ public class TabPaneSkin extends SkinBase<TabPane> {
                 }
             });
             listener.registerChangeListener(getSkinnable().rotateGraphicProperty(), e -> updateGraphicRotation());
-            listener.registerChangeListener(getSkinnable().tabMinWidthProperty(), e -> {
+            Consumer<ObservableValue<?>> layoutRequester = e -> {
                 requestLayout();
                 getSkinnable().requestLayout();
-            });
-            listener.registerChangeListener(getSkinnable().tabMaxWidthProperty(), e -> {
-                requestLayout();
-                getSkinnable().requestLayout();
-            });
-            listener.registerChangeListener(getSkinnable().tabMinHeightProperty(), e -> {
-                requestLayout();
-                getSkinnable().requestLayout();
-            });
-            listener.registerChangeListener(getSkinnable().tabMaxHeightProperty(), e -> {
-                requestLayout();
-                getSkinnable().requestLayout();
-            });
+            };
+            listener.registerChangeListener(getSkinnable().tabMinWidthProperty(), layoutRequester);
+            listener.registerChangeListener(getSkinnable().tabMaxWidthProperty(), layoutRequester);
+            listener.registerChangeListener(getSkinnable().tabMinHeightProperty(), layoutRequester);
+            listener.registerChangeListener(getSkinnable().tabMaxHeightProperty(), layoutRequester);
+            listener.registerChangeListener(paddingProperty(), layoutRequester); // WebFX addition
 
             getProperties().put(Tab.class, tab);
             //getProperties().put(ContextMenu.class, tab.getContextMenu());
@@ -1528,19 +1522,17 @@ public class TabPaneSkin extends SkinBase<TabPane> {
             pseudoClassStateChanged(LEFT_PSEUDOCLASS_STATE, (side == Side.LEFT));*/
 
             // WebFX addition
-            setPadding(new Insets(3, 10, 3, 10));
+            tab.skin = this;
+            // Reading padding back from web CSS for fx-tabheaderskin
+            WebFxKitLauncher.readPaddingFromCSS(this, true);
             StackPane.setMargin(inner, new Insets(0, MARGIN_BETWEEN_TABS, 0, 0));
             label.setTextAlignment(TextAlignment.CENTER); // tab-label
-            updateBorderAndBackground();
+            updateSelectedStyleClass();
         }
 
-        void updateBorderAndBackground() { // WebFX addition
+        void updateSelectedStyleClass() { // WebFX addition
             boolean selected = tab == selectedTab;
-            CornerRadii radii = new CornerRadii(5, 5, 0, 0, false);
-            setBackground(new Background(new BackgroundFill(Color.grayRgb(selected ? 0xF5 : 0xE5), radii, null)));
-            Color borderColor = Color.GRAY;
-            BorderStrokeStyle borderStyle = BorderStrokeStyle.SOLID;
-            setBorder(new Border(new BorderStroke(borderColor, borderColor, selected ? Color.TRANSPARENT : borderColor, borderColor, borderStyle, borderStyle, borderStyle, borderStyle, radii, BorderStroke.THIN, Insets.EMPTY)));
+            Collections.addIfNotContainsOrRemove(getStyleClass(),  selected,"selected");
         }
 
         private void updateTabDisabledState() {

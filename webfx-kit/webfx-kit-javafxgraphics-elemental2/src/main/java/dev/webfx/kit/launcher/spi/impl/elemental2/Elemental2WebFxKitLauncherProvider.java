@@ -280,17 +280,44 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
             --safe-area-inset-left:   env(safe-area-inset-left);
         }
          */
-        CSSStyleDeclaration computedStyle = Js.<ViewCSS>uncheckedCast(DomGlobal.window).getComputedStyle(DomGlobal.document.documentElement);
+        CSSStyleDeclaration computedStyle = getComputedStyle(DomGlobal.document.documentElement);
         String top = computedStyle.getPropertyValue("--safe-area-inset-top");
         String right = computedStyle.getPropertyValue("--safe-area-inset-right");
         String bottom = computedStyle.getPropertyValue("--safe-area-inset-bottom");
         String left = computedStyle.getPropertyValue("--safe-area-inset-left");
         safeAreaInsetsProperty.set(new Insets(
-            Numbers.doubleValue(Strings.removeSuffix(top, "px")),
-            Numbers.doubleValue(Strings.removeSuffix(right, "px")),
-            Numbers.doubleValue(Strings.removeSuffix(bottom, "px")),
-            Numbers.doubleValue(Strings.removeSuffix(left, "px"))
+            pxAsDouble(top),
+            pxAsDouble(right),
+            pxAsDouble(bottom),
+            pxAsDouble(left)
         ));
+    }
+
+    private static CSSStyleDeclaration getComputedStyle(Element element) {
+        return Js.<ViewCSS>uncheckedCast(DomGlobal.window).getComputedStyle(element);
+    }
+
+    private static double pxAsDouble(String px) {
+        return Numbers.doubleValue(Strings.removeSuffix(px, "px"));
+    }
+
+    @Override
+    public void readPaddingFromCSS(Region region, boolean immutable) {
+        // TODO: investigate if we can use ResizeObserver instead in modern browsers
+        UiScheduler.schedulePeriodicInAnimationFrame(scheduled -> {
+            if (region.getNodePeer() instanceof HtmlNodePeer<?, ?, ?> htmlNodePeer) {
+                CSSStyleDeclaration style = Js.<ViewCSS>uncheckedCast(DomGlobal.window).getComputedStyle(htmlNodePeer.getContainer().lastElementChild);
+                Insets padding = new Insets(
+                    pxAsDouble(style.paddingTop.asString()),
+                    pxAsDouble(style.paddingRight.asString()),
+                    pxAsDouble(style.paddingBottom.asString()),
+                    pxAsDouble(style.paddingLeft.asString())
+                );
+                FXProperties.setIfNotEquals(region.paddingProperty(), padding);
+                if (immutable)
+                    scheduled.cancel();
+            }
+        });
     }
 
     @Override
