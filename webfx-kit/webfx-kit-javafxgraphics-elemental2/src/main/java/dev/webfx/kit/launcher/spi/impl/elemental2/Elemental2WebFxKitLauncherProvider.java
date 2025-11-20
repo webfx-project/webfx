@@ -42,6 +42,8 @@ import javafx.stage.Stage;
 import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -82,7 +84,33 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
         return new javafx.scene.input.Clipboard() {
             @Override
             public boolean setContent(Map<DataFormat, Object> content) {
-                setClipboardContent((String) content.get(DataFormat.PLAIN_TEXT));
+                List<ClipboardItem> clipboardItems = new ArrayList<>();
+                for (Map.Entry<DataFormat, Object> entry : content.entrySet()) {
+                    JsPropertyMap<ClipboardItem.ConstructorItemsJsPropertyMapTypeParameterUnionType> items = JsPropertyMap.of();
+                    boolean hasItems = false;
+                    for (String identifier : entry.getKey().getIdentifiers()) {
+                        if (entry.getValue() instanceof String text) {
+                            // Only write standard MIME types supported by browsers to avoid "Type not supported" errors
+                            if ("text/plain".equals(identifier) || "text/html".equals(identifier)) {
+                                Blob.ConstructorBlobPartsArrayUnionType[] textArray = { Blob.ConstructorBlobPartsArrayUnionType.of(text) };
+                                BlobPropertyBag options = BlobPropertyBag.create();
+                                options.setType(identifier);
+                                items.set(identifier, ClipboardItem.ConstructorItemsJsPropertyMapTypeParameterUnionType.of(new Blob(textArray, options)));
+                                hasItems = true;
+                            }
+                        }
+                    }
+                    if (hasItems)
+                        clipboardItems.add(new ClipboardItem(items));
+                }
+                if (!clipboardItems.isEmpty()) {
+                    // Note: we assume the document is focused, otherwise the browser sandbox will make this fail
+                    DomGlobal.navigator.clipboard.write(clipboardItems.toArray(new ClipboardItem[0]))
+                        .catch_(e -> {
+                            DomGlobal.console.error("Clipboard write failed", e);
+                            return null;
+                        });
+                }
                 super.setContent(content);
                 return true;
             }
@@ -96,13 +124,9 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
         };
     }
 
-    private static void setClipboardContent(String text) {
-        Clipboard.writeText(text);
-    }
-
     private static String getClipboardContent() {
         String[] content = {null};
-        Clipboard.readText().then(text -> {
+        DomGlobal.navigator.clipboard.readText().then(text -> {
             content[0] = text;
             return null;
         });
