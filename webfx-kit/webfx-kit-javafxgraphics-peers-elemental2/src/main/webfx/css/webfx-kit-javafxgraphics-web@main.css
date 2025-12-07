@@ -42,6 +42,7 @@
 .unset-variables { /* Dummy selector used just to list unset CSS variables that can be overridden by App CSS */
     --fx-line-height: 1;
     --fx-svg-path-stroke: transparent;
+    --fx-svg-path-stroke-width: 1;
 }
 
 /* Mocking some basic JavaFX behaviours */
@@ -160,4 +161,8 @@ fx-svgpath svg path:not([fill]):not([stroke]) { /* if the application code didn'
 fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the stroke but not the fill */
     --fx-svg-path-fill: transparent; /* then the fill is transparent */
     fill: var(--fx-svg-path-fill);
+}
+
+fx-svgpath svg path:not([stroke-width]) { /* if the application code set the stroke but not the fill */
+    stroke-width: var(--fx-svg-path-stroke-width);
 }
