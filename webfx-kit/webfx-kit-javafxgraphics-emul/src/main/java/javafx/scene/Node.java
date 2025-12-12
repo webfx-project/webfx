@@ -2635,7 +2635,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      * @since JavaFX 2.2
      */
     public WritableImage snapshot(SnapshotParameters params, WritableImage image) {
-        return getNodePeer().snapshot(params, image);
+        return getOrCreateAndBindNodePeer().snapshot(params, image);
     }
 
     /* *************************************************************************
