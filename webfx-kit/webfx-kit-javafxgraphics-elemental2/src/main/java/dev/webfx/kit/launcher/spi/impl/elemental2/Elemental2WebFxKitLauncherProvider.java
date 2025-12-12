@@ -330,7 +330,7 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
         // TODO: investigate if we can use ResizeObserver instead in modern browsers
         UiScheduler.schedulePeriodicInAnimationFrame(scheduled -> {
             if (region.getNodePeer() instanceof HtmlNodePeer<?, ?, ?> htmlNodePeer) {
-                CSSStyleDeclaration style = Js.<ViewCSS>uncheckedCast(DomGlobal.window).getComputedStyle(htmlNodePeer.getContainer().lastElementChild);
+                CSSStyleDeclaration style = Js.<ViewCSS>uncheckedCast(DomGlobal.window).getComputedStyle(htmlNodePeer.getContainer());
                 Insets padding = new Insets(
                     pxAsDouble(style.paddingTop.asString()),
                     pxAsDouble(style.paddingRight.asString()),

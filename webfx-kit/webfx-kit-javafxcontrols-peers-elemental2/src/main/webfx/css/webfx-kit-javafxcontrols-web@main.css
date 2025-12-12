@@ -50,6 +50,7 @@
     --fx-tabheader-padding-bottom: 3px;
     --fx-tabheader-padding-left: 10px;
     --fx-tabheader-padding-right: 10px;
+    --fx-tabheader-text-fill: var(--fx-text-fill);
     --fx-tabheader-text-fill-selected: var(--fx-text-fill);
 
     --fx-theme-color: #0095cb;
@@ -222,8 +223,11 @@ fx-tabheaderarea {
 }
 
 /* Web padding that is read back by WebFX to JavaFX padding */
-fx-tabheaderarea > fx-children {
-    padding: var(--fx-tabheaderarea-padding-top) var(--fx-tabheaderarea-padding-right) var(--fx-tabheaderarea-padding-bottom) var(--fx-tabheaderarea-padding-left);
+fx-tabheaderarea {
+    --fx-padding-top: var(--fx-tabheaderarea-padding-top);
+    --fx-padding-right: var(--fx-tabheaderarea-padding-right);
+    --fx-padding-bottom: var(--fx-tabheaderarea-padding-bottom);
+    --fx-padding-left: var(--fx-tabheaderarea-padding-left);
 }
 
 
@@ -244,6 +248,9 @@ fx-tabheaderskin.selected {
 }
 
 /* Web padding that is read back by WebFX to JavaFX padding */
-fx-tabheaderskin > fx-children {
-    padding: var(--fx-tabheader-padding-top) var(--fx-tabheader-padding-right) var(--fx-tabheader-padding-bottom) var(--fx-tabheader-padding-left);
+fx-tabheaderskin {
+    --fx-padding-top: var(--fx-tabheader-padding-top);
+    --fx-padding-right: var(--fx-tabheader-padding-right);
+    --fx-padding-bottom: var(--fx-tabheader-padding-bottom);
+    --fx-padding-left: var(--fx-tabheader-padding-left);
 }

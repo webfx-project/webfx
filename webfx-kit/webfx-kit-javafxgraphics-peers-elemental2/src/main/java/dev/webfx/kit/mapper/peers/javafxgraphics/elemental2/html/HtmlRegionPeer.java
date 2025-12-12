@@ -1,6 +1,5 @@
 package dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.html;
 
-import dev.webfx.kit.mapper.peers.javafxgraphics.HasNoChildrenPeers;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerBase;
 import dev.webfx.kit.mapper.peers.javafxgraphics.base.RegionPeerMixin;
 import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.util.DomType;
@@ -31,17 +30,16 @@ public abstract class HtmlRegionPeer
 
     protected HtmlRegionPeer(NB base, HTMLElement element) {
         super(base, element);
-        if (this instanceof HasNoChildrenPeers) {
-            fxBackground = element;
-            fxBorder = element;
-        } else {
-            fxBackground = createBehindElement("fx-background");
-            fxBorder = createBehindElement("fx-border");
-            fxBorder.style.boxSizing = "border-box";
-            HTMLElement fxChildren = createBehindElement("fx-children");
-            setChildrenContainer(fxChildren);
-            HtmlUtil.setChildren(element, fxBackground, fxBorder, fxChildren);
-        }
+        // Single-host strategy: use the element itself for background/border and children
+        fxBackground = element;
+        fxBorder = element;
+        // Mark element so CSS can apply ::before overlay border and child variable reset
+        element.setAttribute("fx-border-overlay", "");
+        // Ensure containing block for ::before
+        if (element.style.position == null || element.style.position.isEmpty())
+            element.style.position = "relative";
+        // Children are direct
+        setChildrenContainer(element);
     }
 
     private static HTMLElement createBehindElement(String tag) {
@@ -80,14 +78,14 @@ public abstract class HtmlRegionPeer
         style.background = toCssBackground(background);
         CornerRadii radii = null;
         if (background != null) {
-            // Note: for now, we support only one border that we take from the first background fill
+            // Note: for now, we support only one background that we take from the first background fill
             BackgroundFill firstFill = Collections.get(background.getFills(), 0);
             if (firstFill != null)
                 radii = firstFill.getRadii();
         }
-        if (radii == null)
-            style.border = null;
-        applyBorderRadii(radii, style);
+        // Do not set native border radius here; expose it via CSS variable for background
+        if (radii == null) style.removeProperty("--fx-background-radius");
+        else style.setProperty("--fx-background-radius", radiiToCss(radii));
     }
 
     protected HTMLElement getBackgroundElement() {
@@ -106,25 +104,47 @@ public abstract class HtmlRegionPeer
     @Override
     public void updateBorder(Border border) {
         CSSStyleDeclaration style = getBorderElement().style;
+        // Clear any native border usage; we render via ::before using variables
+        style.border = style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
+
         // Note: for now, we support only one border that we take from the first border stroke
         BorderStroke firstStroke = border == null ? null : Collections.get(border.getStrokes(), 0);
         if (firstStroke == null) {
-            style.border = style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
-        } else if (firstStroke.isStrokeUniform()) { // this includes gradients
-            BorderWidths widths = firstStroke.getWidths();
-            style.borderLeft = style.borderTop = style.borderRight = style.borderBottom = null;
-            // TODO: consider non-uniform border widths
-            style.border = toCssBorder(firstStroke.getLeftStroke(), firstStroke.getLeftStyle(), widths.getLeft(), widths.isLeftAsPercentage());
-            applyBorderRadii(firstStroke.getRadii(), style);
-        } else { // Should be only plain colors (CSS style.borderLeft, etc... don't work with gradients)
-            BorderWidths widths = firstStroke.getWidths();
-            style.border = null;
-            style.borderLeft = toCssBorder(firstStroke.getLeftStroke(), firstStroke.getLeftStyle(), widths.getLeft(), widths.isLeftAsPercentage());
-            style.borderTop = toCssBorder(firstStroke.getTopStroke(), firstStroke.getTopStyle(), widths.getTop(), widths.isTopAsPercentage());
-            style.borderRight = toCssBorder(firstStroke.getRightStroke(), firstStroke.getRightStyle(), widths.getRight(), widths.isRightAsPercentage());
-            style.borderBottom = toCssBorder(firstStroke.getBottomStroke(), firstStroke.getBottomStyle(), widths.getBottom(), widths.isBottomAsPercentage());
-            applyBorderRadii(firstStroke.getRadii(), style);
+            // Clear variables
+            clearBorderVars(style);
+            return;
         }
+
+        BorderWidths widths = firstStroke.getWidths();
+
+        // Compute 1–4 values shorthands for width, style, color
+        String cssTopStyle = toCssBorderStyle(firstStroke.getTopStyle());
+        String cssRightStyle = toCssBorderStyle(firstStroke.getRightStyle());
+        String cssBottomStyle = toCssBorderStyle(firstStroke.getBottomStyle());
+        String cssLeftStyle = toCssBorderStyle(firstStroke.getLeftStyle());
+
+        String cssStyles = join4(cssTopStyle, cssRightStyle, cssBottomStyle, cssLeftStyle);
+
+        String cssTopWidth = borderWidthToCss(widths.getTop(), widths.isTopAsPercentage());
+        String cssRightWidth = borderWidthToCss(widths.getRight(), widths.isRightAsPercentage());
+        String cssBottomWidth = borderWidthToCss(widths.getBottom(), widths.isBottomAsPercentage());
+        String cssLeftWidth = borderWidthToCss(widths.getLeft(), widths.isLeftAsPercentage());
+        String cssWidths = join4(cssTopWidth, cssRightWidth, cssBottomWidth, cssLeftWidth);
+
+        String cssTopColor = HtmlPaints.toCssPaint(firstStroke.getTopStroke(), DomType.HTML);
+        String cssRightColor = HtmlPaints.toCssPaint(firstStroke.getRightStroke(), DomType.HTML);
+        String cssBottomColor = HtmlPaints.toCssPaint(firstStroke.getBottomStroke(), DomType.HTML);
+        String cssLeftColor = HtmlPaints.toCssPaint(firstStroke.getLeftStroke(), DomType.HTML);
+        String cssColors = join4(cssTopColor, cssRightColor, cssBottomColor, cssLeftColor);
+
+        // Apply via CSS custom properties consumed by base CSS on ::before
+        setVar(style, "--fx-border-style", cssStyles);
+        setVar(style, "--fx-border-width", cssWidths);
+        setVar(style, "--fx-border-color", cssColors);
+
+        CornerRadii radii = firstStroke.getRadii();
+        if (radii == null) style.removeProperty("--fx-border-radius");
+        else style.setProperty("--fx-border-radius", radiiToCss(radii));
     }
 
     @Override
@@ -154,6 +174,29 @@ public abstract class HtmlRegionPeer
         }
     }
 
+    private static String radiiToCss(CornerRadii radii) {
+        if (radii == null)
+            return null;
+        double tl = Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius());
+        double tr = Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius());
+        double br = Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius());
+        double bl = Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius());
+
+        String sTL = toPx(tl);
+        String sTR = toPx(tr);
+        String sBR = toPx(br);
+        String sBL = toPx(bl);
+
+        // Compress if possible
+        if (sTL.equals(sTR) && sTL.equals(sBR) && sTL.equals(sBL))
+            return sTL;
+        if (sTL.equals(sBR) && sTR.equals(sBL))
+            return sTL + " " + sTR; // vertical | horizontal
+        if (sTR.equals(sBL))
+            return sTL + " " + sTR + " " + sBR; // top-left | top-right/bottom-left | bottom-right
+        return sTL + " " + sTR + " " + sBR + " " + sBL;
+    }
+
     private static String toCssBorder(Paint stroke, BorderStrokeStyle style, double width, boolean isPercentage) {
         return toCssBorder(stroke, style, width, isPercentage, new StringBuilder()).toString();
     }
@@ -172,6 +215,38 @@ public abstract class HtmlRegionPeer
         if (style == BorderStrokeStyle.NONE)
             return "none";
         return null;
+    }
+
+    private static String borderWidthToCss(double width, boolean isPercentage) {
+        return isPercentage ? (width + "%") : (width + "px");
+    }
+
+    private static String join4(String top, String right, String bottom, String left) {
+        boolean trblEqual = equalsOrNull(top, right) && equalsOrNull(top, bottom) && equalsOrNull(top, left);
+        if (trblEqual)
+            return top;
+        boolean tbEqual = equalsOrNull(top, bottom);
+        boolean rlEqual = equalsOrNull(right, left);
+        if (tbEqual && rlEqual)
+            return top + " " + right; // 2 values: vertical | horizontal
+        if (equalsOrNull(right, left))
+            return top + " " + right + " " + bottom; // 3 values: top | horizontal | bottom
+        return top + " " + right + " " + bottom + " " + left; // 4 values
+    }
+
+    private static boolean equalsOrNull(String a, String b) {
+        if (a == null) return b == null;
+        return a.equals(b);
+    }
+
+    private static void clearBorderVars(CSSStyleDeclaration style) {
+        style.removeProperty("--fx-border-style");
+        style.removeProperty("--fx-border-color");
+        style.removeProperty("--fx-border-width");
+    }
+
+    private static void setVar(CSSStyleDeclaration style, String name, String value) {
+        if (value == null || value.isEmpty()) style.removeProperty(name); else style.setProperty(name, value);
     }
 
     private static String toCssBackground(Background bg) {
