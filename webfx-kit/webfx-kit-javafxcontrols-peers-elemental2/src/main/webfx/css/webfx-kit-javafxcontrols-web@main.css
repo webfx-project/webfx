@@ -1,38 +1,5 @@
 /***** Global variables *****/
 :root {
-    --fx-button-background-color: white;
-    --fx-button-background-image: none;
-    --fx-button-background-radius: var(--fx-button-border-radius);
-    /* Next 3 necessary? (probably never used) */
-    --fx-button-background-position: none;
-    --fx-button-background-repeat: none;
-    --fx-button-background-size: none;
-
-    --fx-button-border-style: solid;
-    --fx-button-border-color: #c0c0c0;
-    --fx-button-border-radius: 5px;
-    --fx-button-border-width: 1px;
-
-    --fx-textfield-background-color: white;
-    --fx-textfield-background-radius: 0;
-    --fx-textfield-border-style: solid;
-    --fx-textfield-border-color: var(--fx-button-border-color);
-    --fx-textfield-border-width: 1px;
-    --fx-textfield-border-radius: var(--fx-button-border-radius);
-
-    --fx-textarea-background-color: var(--fx-textfield-border-style);
-    --fx-textarea-border-style: var(--fx-textfield-border-style);
-    --fx-textarea-border-color: var(--fx-textfield-border-color);
-    --fx-textarea-border-width: var(--fx-textfield-border-width);
-    --fx-textarea-border-radius: var(--fx-textfield-border-radius);
-
-    --fx-button-border-color-focus: var(--fx-border-color-focus);
-
-    --fx-togglebutton-background-color-selected: lightgray;
-    --fx-togglebutton-border-color-selected: darkgray;
-    --fx-togglebutton-background-color-hover: var(--fx-togglebutton-background-color-selected);
-    --fx-togglebutton-border-color-hover: var(--fx-togglebutton-border-color-selected);
-
     --fx-tabheaderarea-background-color: #D3D3D3;
     --fx-tabheaderarea-border-radius: 0;
     --fx-tabheaderarea-padding-top: 5px;
@@ -77,34 +44,6 @@ fx-label, fx-button, fx-togglebutton {
     --fx-svg-path-fill: var(--fx-text-fill);
 }
 
-fx-button, fx-togglebutton {
-    --fx-border-style: var(--fx-button-border-style);
-    --fx-border-color: var(--fx-button-border-color);
-    --fx-border-radius: var(--fx-button-border-radius);
-    --fx-border-width: var(--fx-button-border-width);
-    --fx-background-color: var(--fx-button-background-color);
-    --fx-background-radius: var(--fx-button-background-radius);
-    --fx-background-image: var(--fx-button-background-image);
-    --fx-background-position: var(--fx-button-background-position);
-    --fx-background-repeat: var(--fx-button-background-repeat);
-    --fx-background-size: var(--fx-button-background-size);
-}
-
-fx-button:focus-within, fx-togglebutton:focus-within {
-    --fx-button-border-color: var(--fx-button-border-color-focus);
-}
-
-fx-togglebutton:hover {
-    --fx-button-background-color: var(--fx-togglebutton-background-color-hover);
-    --fx-button-border-color: var(--fx-togglebutton-border-color-hover);
-}
-
-fx-togglebutton.pseudo-selected {
-    --fx-button-background-color: var(--fx-togglebutton-background-color-selected);
-    --fx-button-border-color: var(--fx-togglebutton-border-color-selected);
-}
-
-
 fx-hyperlink {
     --fx-text-fill: var(--fx-hyperlink-text-fill);
 }
@@ -133,37 +72,41 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-
-fx-textfield {
-    --fx-border-style: var(--fx-textfield-border-style);
-    --fx-border-color: var(--fx-textfield-border-color);
-    --fx-border-width: var(--fx-textfield-border-width);
-    --fx-border-radius: var(--fx-textfield-border-radius);
-    --fx-background-color: var(--fx-textfield-background-color);
-    --fx-background-radius: var(--fx-textfield-background-radius);
+fx-button, fx-togglebutton {
+    --fx-background-color: white;
+    --fx-border-style: solid;
+    --fx-border-color: #c0c0c0;
+    --fx-border-width: 1px;
+    --fx-border-radius: 5px;
+    --text-user-select: none;
 }
 
-fx-textfield:focus-within {
-    --fx-textfield-border-color: var(--fx-border-color-focus);
+.text-field {
+    --fx-background-color: white;
+    --fx-border-style: solid;
+    --fx-border-color: #c0c0c0;
+    --fx-border-width: 1px;
+    --fx-border-radius: 5px;
 }
 
-textarea {
+textarea.text-field {
     padding: 8px;
     box-sizing: border-box;
     outline: none;
-    background-color: var(--fx-textarea-background-color);
-    border-style: var(--fx-textarea-border-style);
-    border-color: var(--fx-textarea-border-color);
-    border-width: var(--fx-textarea-border-width);
-    border-radius: var(--fx-textarea-border-radius);
+
+    /* :before border doesn't work on textarea for some reason, so we apply to it directly */
+    border-style: var(--fx-border-style);
+    border-color: var(--fx-border-color);
+    border-width: var(--fx-border-width);
+    border-radius: var(--fx-border-radius, inherit);
 }
 
-textarea:focus {
-    --fx-textarea-border-color: var(--fx-border-color-focus);
+textarea.text-field:focus {
+    --fx-border-color: var(--fx-focus-color);
 }
 
-fx-titledpane textarea {
-    --fx-textarea-border-radius: 0 0 5px 5px;
+fx-titledpane textarea.text-field {
+    --fx-border-radius: 0 0 5px 5px;
 }
 
 /* Cross for the tab close button */
@@ -171,9 +114,9 @@ fx-titledpane textarea {
     --fx-background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' stroke='%23444' stroke-width='2' stroke-linejoin='round' viewBox=\'0 0 16 16\'%3E%3Cpath d=\'M 4,4 L 12,12 Z M 4,12 L 12,4 Z\'/%3E%3C/svg%3E");
 }
 
-fx-menuitemcontainer {
-    --fx-background-color-focus: var(--fx-focus-color);
-    --fx-text-fill-focus: white;
+fx-menuitemcontainer:focus {
+    --fx-background-color: var(--fx-focus-color);
+    --fx-text-fill: white;
 }
 
 /* Ellipsis management for wrapped text inside a label with restricted height */
