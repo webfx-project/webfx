@@ -26,7 +26,7 @@
     /* CSS variables for text fill and svg path fill */
     --fx-text-fill: black;
 
-    --fx-svg-path-fill: var(--fx-fill, var(--fx-text-fill));
+    --fx-svg-path-fill: var(--fx-fill);
 
     /* CSS variable for focus appearance */
     --fx-focus-color: #0096D6;
@@ -151,19 +151,7 @@ body { /* Although we don't want that padding, we apply it initially because thi
    By resetting variables on any descendant host, we break inheritance at each Region boundary.
    Control/skin/app rules can still override these defaults on the child element. */
 /* Use :where() to keep specificity at 0 so component/control rules can override */
-:where([fx-border-overlay]) :where([fx-border-overlay]) {
-    --fx-background-color: transparent;
-    --fx-background-radius: var(--fx-border-radius);
-    --fx-background-image: none;
-    --fx-background-position: none;
-    --fx-background-repeat: none;
-    --fx-background-size: none;
-    --fx-border-style: none;
-    --fx-border-color: transparent;
-    --fx-border-radius: 0;
-    --fx-border-width: 0;
-}
-
+:where([fx-border-overlay]) :where([fx-border-overlay]),
 /* Stop propagation of background/border variables to non-host children (replacement for fx-children)
    Do NOT reset variables on child elements that are themselves Region hosts (they carry fx-border-overlay). */
 [fx-border-overlay] > :not([fx-border-overlay]) {
@@ -173,8 +161,8 @@ body { /* Although we don't want that padding, we apply it initially because thi
     --fx-background-position: none;
     --fx-background-repeat: none;
     --fx-background-size: none;
-    --fx-border-style: none;
-    --fx-border-color: none;
+    --fx-border-style: solid;
+    --fx-border-color: transparent;
     --fx-border-radius: 0;
     --fx-border-width: 0;
 }
