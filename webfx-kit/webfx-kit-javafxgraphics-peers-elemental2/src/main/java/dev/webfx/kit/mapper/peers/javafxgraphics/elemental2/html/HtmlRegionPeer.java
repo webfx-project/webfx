@@ -9,6 +9,7 @@ import dev.webfx.platform.util.collection.Collections;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLTextAreaElement;
 import javafx.geometry.Insets;
 import javafx.geometry.Side;
 import javafx.scene.layout.*;
@@ -33,11 +34,15 @@ public abstract class HtmlRegionPeer
         // Single-host strategy: use the element itself for background/border and children
         fxBackground = element;
         fxBorder = element;
-        // Mark element so CSS can apply ::before overlay border and child variable reset
-        element.setAttribute("fx-border-overlay", "");
-        // Ensure containing block for ::before
-        if (element.style.position == null || element.style.position.isEmpty())
-            element.style.position = "relative";
+        boolean borderOverlay = !(element instanceof HTMLTextAreaElement);
+        if (borderOverlay) {
+            // Mark element so CSS can apply ::before overlay border and child variable reset
+            element.setAttribute("fx-border-overlay", "");
+            // Ensure containing block for ::before
+            if (element.style.position == null || element.style.position.isEmpty())
+                element.style.position = "relative";
+        } else
+            element.setAttribute("fx-no-border-overlay", ""); //
         // Children are direct
         setChildrenContainer(element);
     }

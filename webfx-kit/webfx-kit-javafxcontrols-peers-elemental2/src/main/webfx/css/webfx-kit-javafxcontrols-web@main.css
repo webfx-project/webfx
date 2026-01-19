@@ -89,23 +89,23 @@ fx-button, fx-togglebutton {
     --fx-border-radius: 5px;
 }
 
-textarea.text-field {
+textarea {
     padding: 8px;
     box-sizing: border-box;
     outline: none;
 
-    /* :before border doesn't work on textarea for some reason, so we apply to it directly */
+    /* textarea has fx-no-border-overlay instead of fx-border-overlay (because :before for borders doesn't work on textarea), so we apply the border styles directly to it */
     border-style: var(--fx-border-style);
     border-color: var(--fx-border-color);
     border-width: var(--fx-border-width);
     border-radius: var(--fx-border-radius, inherit);
 }
 
-textarea.text-field:focus {
+textarea:focus {
     --fx-border-color: var(--fx-focus-color);
 }
 
-fx-titledpane textarea.text-field {
+fx-titledpane textarea {
     --fx-border-radius: 0 0 5px 5px;
 }
 

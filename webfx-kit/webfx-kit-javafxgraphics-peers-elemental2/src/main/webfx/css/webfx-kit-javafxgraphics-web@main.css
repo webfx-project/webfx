@@ -154,7 +154,7 @@ body { /* Although we don't want that padding, we apply it initially because thi
 :where([fx-border-overlay]) :where([fx-border-overlay]),
 /* Stop propagation of background/border variables to non-host children (replacement for fx-children)
    Do NOT reset variables on child elements that are themselves Region hosts (they carry fx-border-overlay). */
-[fx-border-overlay] > :not([fx-border-overlay]) {
+[fx-border-overlay] > :not([fx-border-overlay]):not([fx-no-border-overlay]) { /* fx-no-border-overlay is for regions where :before border doesn't work (e.g. textarea) */
     --fx-background-color: transparent;
     --fx-background-radius: var(--fx-border-radius);
     --fx-background-image: none;
