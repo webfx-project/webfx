@@ -8,6 +8,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.util.HtmlUtil;
 import dev.webfx.kit.perfectscrollbar.elemental2.PerfectScrollbar;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.os.OperatingSystem;
+import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.dom.AddEventListenerOptions;
 import elemental2.dom.Element;
@@ -186,11 +187,12 @@ public final class HtmlScrollPanePeer
         syncing = false;
     }
 
-    private boolean pending, psInitialized;
+    private boolean psInitialized;
+    private Scheduled uiUpdateScheduled;
+
     private void scheduleUiUpdate() {
-        if (!pending) {
-            pending = true;
-            UiScheduler.scheduleDeferred(() -> {
+        if (uiUpdateScheduled == null) {
+            uiUpdateScheduled = UiScheduler.scheduleDeferred(() -> {
                 if (USE_PERFECT_SCROLLBAR) {
                     Element psContainer = getChildrenContainer();
                     if (!psInitialized) {
@@ -204,7 +206,7 @@ public final class HtmlScrollPanePeer
                     element.scrollTop = scrollTop;
                     element.scrollLeft = scrollLeft;
                 }
-                pending = false;
+                uiUpdateScheduled = null;
             });
         }
     }
