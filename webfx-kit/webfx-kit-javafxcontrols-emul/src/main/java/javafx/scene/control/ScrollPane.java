@@ -105,7 +105,7 @@ public class ScrollPane extends Control implements IScrollPane {
         return vbarPolicyProperty;
     }
 
-    public final void setvbarPolicy(ScrollBarPolicy value) {
+    public final void setVbarPolicy(ScrollBarPolicy value) {
         vbarPolicyProperty.setValue(value);
     }
 

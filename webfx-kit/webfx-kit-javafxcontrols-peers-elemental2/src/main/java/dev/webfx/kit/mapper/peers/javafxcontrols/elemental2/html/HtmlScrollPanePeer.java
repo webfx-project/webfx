@@ -8,6 +8,7 @@ import dev.webfx.kit.mapper.peers.javafxgraphics.elemental2.util.HtmlUtil;
 import dev.webfx.kit.perfectscrollbar.elemental2.PerfectScrollbar;
 import dev.webfx.kit.util.properties.FXProperties;
 import dev.webfx.platform.os.OperatingSystem;
+import dev.webfx.platform.scheduler.Scheduled;
 import dev.webfx.platform.uischeduler.UiScheduler;
 import elemental2.dom.AddEventListenerOptions;
 import elemental2.dom.Element;
@@ -54,12 +55,24 @@ public final class HtmlScrollPanePeer
         } else { // CSS mode which relies on the overflow-x & overflow-y values, better on mobiles (much smoother)
             AddEventListenerOptions passiveOption = AddEventListenerOptions.create();
             passiveOption.setPassive(true);
-            // We intercept the JS scroll events to update the ScrollPane position in JavaFX when the html one changes
+            // We intercept the JS scroll events to update the ScrollPane position in JavaFX when the HTML one changes
             element.addEventListener("scroll", e -> {
-                if (element.scrollTop != scrollTop)
-                    setScrollTop(element.scrollTop);
-                if (element.scrollLeft != scrollLeft)
-                    setScrollLeft(element.scrollLeft);
+                if (element.scrollTop != scrollTop) {
+                    // If the vertical scroll is disabled, the browser might still do some automatic scroll if the
+                    // content is higher than the viewport, but this is not the JavaFX behavior, so we prevent this:
+                    if (node.getvbarPolicy() == ScrollPane.ScrollBarPolicy.NEVER)
+                        element.scrollTop = scrollTop; // reverting the vertical scroll made by the browser
+                    else // otherwise (general case), the scroll was initiated by the user and we consider it
+                        setScrollTop(element.scrollTop); // this will update the vertical position in the JavaFX model
+                }
+                if (element.scrollLeft != scrollLeft) {
+                    // If the horizontal scroll is disabled, the browser might still do some automatic scroll if the
+                    // content is wider than the viewport, but this is not the JavaFX behavior, so we prevent this:
+                    if (node.getHbarPolicy() == ScrollPane.ScrollBarPolicy.NEVER)
+                        element.scrollLeft = scrollLeft; // reverting the horizontal scroll made by the browser
+                    else // otherwise (general case), the scroll was initiated by the user and we consider it
+                        setScrollLeft(element.scrollLeft); // this will update the horizontal position in the JavaFX model
+                }
             }, passiveOption);
         }
         node.setOnChildrenLayout(HtmlScrollPanePeer.this::scheduleUiUpdate);
@@ -174,11 +187,12 @@ public final class HtmlScrollPanePeer
         syncing = false;
     }
 
-    private boolean pending, psInitialized;
+    private boolean psInitialized;
+    private Scheduled uiUpdateScheduled;
+
     private void scheduleUiUpdate() {
-        if (!pending) {
-            pending = true;
-            UiScheduler.scheduleDeferred(() -> {
+        if (uiUpdateScheduled == null) {
+            uiUpdateScheduled = UiScheduler.scheduleDeferred(() -> {
                 if (USE_PERFECT_SCROLLBAR) {
                     Element psContainer = getChildrenContainer();
                     if (!psInitialized) {
@@ -192,7 +206,7 @@ public final class HtmlScrollPanePeer
                     element.scrollTop = scrollTop;
                     element.scrollLeft = scrollLeft;
                 }
-                pending = false;
+                uiUpdateScheduled = null;
             });
         }
     }

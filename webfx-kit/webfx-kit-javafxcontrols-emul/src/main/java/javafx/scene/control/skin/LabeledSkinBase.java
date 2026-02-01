@@ -9,7 +9,10 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.OverrunStyle;
+import javafx.scene.control.SkinBase;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -1263,7 +1266,7 @@ public abstract class LabeledSkinBase<C extends Labeled> extends SkinBase<C> {
         FXProperties.setIfNotEquals(textToMeasure.textProperty(), text);
         // Measuring the text width or height. Note: prefHeight(-1) alone may cause a wrong value at initialization (use Podcasts page to test)
         double measure = width ? textToMeasure.prefWidth(-1) : textToMeasure.prefHeight(wrappingWidth > 0 ? wrappingWidth : -1);
-        if (width && wrappingWidth == 0) // Memorizing the width for the noWrappingText when it was measured
+        if (width && wrappingWidth == 0 && text != getSkinnable().getEllipsisString()) // Memorizing the width for the noWrappingText when it was measured (ignoring ellipsis measurement)
             noWrappingTextWidth = measure;
         if (oldWrappingWidth >= 0) { // Restoring the wrapping width after measurement if necessary
             textToMeasure.setWrappingWidth(oldWrappingWidth);

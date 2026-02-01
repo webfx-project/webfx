@@ -170,7 +170,7 @@ public final class OpenJFXWebFxKitLauncherProvider extends WebFxKitLauncherProvi
         if (fullscreenNode == node && primaryStage.isFullScreen()) // already fullscreen
             return true;
         if (node == null || !(node.getParent() instanceof Pane)) {
-            Console.log("⚠️ requestNodeFullscreen() is supported only for nodes inside a Pane (or derived classes)");
+            Console.warn("requestNodeFullscreen() is supported only for nodes inside a Pane (or derived classes)");
             return false;
         }
         moveBackFullscreenNode();

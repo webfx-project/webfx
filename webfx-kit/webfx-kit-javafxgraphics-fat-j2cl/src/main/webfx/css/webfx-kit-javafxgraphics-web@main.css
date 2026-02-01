@@ -25,23 +25,33 @@
 
     /* CSS variables for text fill and svg path fill */
     --fx-text-fill: black;
-    --fx-svg-path-fill: var(--fx-text-fill);
+
+    --fx-svg-path-fill: var(--fx-fill);
 
     /* CSS variable for focus appearance */
     --fx-focus-color: #0096D6;
-    --fx-background-color-focus: unset;
-    --fx-border-style-focus: dashed;
-    --fx-border-color-focus: var(--fx-focus-color);
-    --fx-border-width-focus: 1px;
-    --fx-text-fill-focus: unset;
 
     --fx-kit-line-height: 1; /* Default variable for text line height managed by the webfx kit. App CSS can't override
     it (because it's set at the text element level), but can set --fx-line-height which precedes --fx-kit-line-height */
 }
 
 .unset-variables { /* Dummy selector used just to list unset CSS variables that can be overridden by App CSS */
+    --fx-padding: 0;
+    --fx-padding-top: 0;
+    --fx-padding-right: 0;
+    --fx-padding-bottom: 0;
+    --fx-padding-left: 0;
     --fx-line-height: 1;
+    --fx-fill: transparent;
+    --fx-stroke: transparent;
+    --fx-stroke-width: 1px;
+    --fx-stroke-style: solid;
+    --fx-stroke-linecap: round;
+    --fx-stroke-linejoin: round;
     --fx-svg-path-stroke: transparent;
+    --fx-svg-path-stroke-width: 1;
+    --fx-svg-path-stroke-linecap: round;
+    --fx-svg-path-stroke-linejoin: round;
 }
 
 /* Mocking some basic JavaFX behaviours */
@@ -90,43 +100,79 @@ body { /* Although we don't want that padding, we apply it initially because thi
     outline: none;
 }
 
-fx-background {
+/* === New: Single-host Region rendering without intermediate fx-* nodes === */
+/* Apply background on the host and draw the border on ::before using the SAME variables */
+[fx-border-overlay] {
+    /* Background from existing variables */
     background-color: var(--fx-background-color);
-    border-radius: var(--fx-background-radius);
     background-image: var(--fx-background-image);
     background-position: var(--fx-background-position);
     background-repeat: var(--fx-background-repeat);
     background-size: var(--fx-background-size);
+    border-radius: var(--fx-background-radius);
+
+    /* Anchor ::before */
+    position: relative;
+    /* Ensure width/height include padding set via variables (outer size stable) */
+    box-sizing: border-box;
+    /* Ensure native border is not used (we overlay instead) */
+    border: none;
+
+    /* WebFX padding: allow CSS to communicate padding to Java without shifting the visual border
+       (the ::before overlay will expand back out to the border box using negative insets) */
+    padding: var(--fx-padding-top, var(--fx-padding, 0px)) var(--fx-padding-right, var(--fx-padding, 0px)) var(--fx-padding-bottom, var(--fx-padding, 0px)) var(--fx-padding-left, var(--fx-padding, 0px));
 }
 
-:focus > fx-background, :focus-visible > fx-background {
-    background-color: var(--fx-background-color-focus, var(--fx-background-color));
-}
+[fx-border-overlay]::before {
+    content: "";
+    position: absolute;
+    /* Draw inside the host padding box to avoid clipping issues */
+    inset: 0;
+    box-sizing: border-box;
+    pointer-events: none;
 
-fx-border {
     border-style: var(--fx-border-style);
     border-color: var(--fx-border-color);
     border-width: var(--fx-border-width);
-    border-radius: var(--fx-border-radius);
+    border-radius: var(--fx-border-radius, inherit);
 }
 
-:focus > fx-border, :focus-visible > fx-border {
-    --fx-border-style: var(--fx-border-style-focus);
-    --fx-border-color: var(--fx-border-color-focus);
-    --fx-border-width: var(--fx-border-width-focus);
+/* Optional: opt-in to draw the border at the outer edge (outside padding) when safe.
+   Use only on elements that are not clipped by ancestors and don’t need the border
+   to be inside padding. */
+[fx-border-overlay][data-fx-border-outside=""]::before {
+    inset: calc(0px - var(--fx-padding-top,    var(--fx-padding, 0px)))
+           calc(0px - var(--fx-padding-right,  var(--fx-padding, 0px)))
+           calc(0px - var(--fx-padding-bottom, var(--fx-padding, 0px)))
+           calc(0px - var(--fx-padding-left,   var(--fx-padding, 0px)));
 }
 
-fx-children { /* Stopping propagation of background and border CSS variables to children */
+/* Prevent parent Region variables from leaking into nested Region hosts.
+   By resetting variables on any descendant host, we break inheritance at each Region boundary.
+   Control/skin/app rules can still override these defaults on the child element. */
+/* Use :where() to keep specificity at 0 so component/control rules can override */
+:where([fx-border-overlay]) :where([fx-border-overlay]),
+/* Stop propagation of background/border variables to non-host children (replacement for fx-children)
+   Do NOT reset variables on child elements that are themselves Region hosts (they carry fx-border-overlay). */
+[fx-border-overlay] > :not([fx-border-overlay]) {
     --fx-background-color: transparent;
     --fx-background-radius: var(--fx-border-radius);
     --fx-background-image: none;
     --fx-background-position: none;
     --fx-background-repeat: none;
     --fx-background-size: none;
-    --fx-border-style: none;
-    --fx-border-color: none;
+    --fx-border-style: solid;
+    --fx-border-color: transparent;
     --fx-border-radius: 0;
     --fx-border-width: 0;
+}
+
+/* Optional fast path: uniform solid border via inset box-shadow */
+[fx-border-overlay][data-fx-border-solid=""] {
+    box-shadow: inset 0 0 0 var(--fx-border-width) var(--fx-border-color);
+}
+[fx-border-overlay][data-fx-border-solid=""]::before {
+    border-width: 0;
 }
 
 /* The default JavaFX behaviour for Text wrapping is equivalent to HTML "break-word", which is not the default in HTML
@@ -144,20 +190,35 @@ fx-text {
     line-height: var(--fx-line-height, var(--fx-kit-line-height));
 }
 
-:focus fx-text, :focus-visible fx-text {
-    color: var(--fx-text-fill-focus, var(--fx-text-fill));
-}
-
-fx-svgpath svg path:not([stroke]) {
-    stroke: var(--fx-svg-path-stroke); /* unset by default */
+fx-circle, fx-rectangle {
+    background-color: var(--fx-fill);
+    border-color: var(--fx-stroke, transparent);
+    border-width: var(--fx-stroke-width, 1px);
+    border-style: var(--fx-stroke-style, solid);
 }
 
 /* Applying the default JavaFX behaviour for SVGPath - Note that CSS fill is prioritized over SVG fill! */
 fx-svgpath svg path:not([fill]):not([stroke]) { /* if the application code didn't set neither fill nor stroke */
-    fill: var(--fx-svg-path-fill);
+    fill: var(--fx-svg-path-fill, var(--fx-fill));
 }
 
 fx-svgpath svg path:not([fill])[stroke] { /* if the application code set the stroke but not the fill */
     --fx-svg-path-fill: transparent; /* then the fill is transparent */
-    fill: var(--fx-svg-path-fill);
+    fill: var(--fx-svg-path-fill, var(--fx-fill));
+}
+
+fx-svgpath svg path:not([stroke]) {
+    stroke: var(--fx-svg-path-stroke, var(--fx-stroke)); /* unset by default */
+}
+
+fx-svgpath svg path:not([stroke-width]) {
+    stroke-width: var(--fx-svg-path-stroke-width, var(--fx-stroke-width));
+}
+
+fx-svgpath svg path:not([stroke-linecap]) {
+    stroke-linecap: var(--fx-svg-path-stroke-linecap, var(--fx-stroke-linecap));
+}
+
+fx-svgpath svg path:not([stroke-linejoin]) {
+    stroke-linejoin: var(--fx-svg-path-stroke-linejoin, var(--fx-stroke-linejoin));
 }

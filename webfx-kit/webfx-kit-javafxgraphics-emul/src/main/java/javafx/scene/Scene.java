@@ -91,7 +91,7 @@ public class Scene implements EventTarget,
         @Override
         protected void invalidated() {
             Parent _root = getRoot();
-            if (_root.isResizable()) {
+            if (_root != null && _root.isResizable()) {
                 resizeRootOnSceneSizeChange(get() - _root.getLayoutX() /*- _root.getTranslateX()*/, _root.getLayoutBounds().getHeight());
             }
         }
@@ -106,7 +106,7 @@ public class Scene implements EventTarget,
         @Override
         protected void invalidated() {
             Parent _root = getRoot();
-            if (_root.isResizable()) {
+            if (_root != null && _root.isResizable()) {
                 resizeRootOnSceneSizeChange(_root.getLayoutBounds().getWidth(), get() - _root.getLayoutY() /*- _root.getTranslateY()*/);
             }
         }
@@ -2331,7 +2331,7 @@ public class Scene implements EventTarget,
         if (nodePeer != null) {
             Node node = nodePeer.getNode();
             if (node == null) // Happens for any reason with HtmlPathNodePeer
-                Console.log("⚠️ Scene.pick() detected that nodePeer.getNode() is null for nodePeer " + nodePeer);
+                Console.warn("Scene.pick() detected that nodePeer.getNode() is null for nodePeer " + nodePeer);
             else
                 pickResult = new PickResult(node, x, y);
         }

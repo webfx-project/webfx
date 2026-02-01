@@ -295,14 +295,20 @@ public abstract class HtmlSvgNodePeer
     private boolean requestHtmlFocus() {
         // We call focus() on the focus element associated with this node
         Element focusableElement = getHtmlFocusableElement();
-        focusableElement.focus();
+        // We prevent the autoscroll to the focused element to happen, the reason being that in JavaFX the focus is
+        // always required (you can't set the scene focus owner to null once initially set - as opposed to the web).
+        // So any focus lost (ex: node removed from the scene) will result in another node gaining focus - which can be
+        // anywhere on the page and result in unwanted and irritating scrolling if the autoscroll is enabled.
+        Element.FocusOptionsType preventScrollFocus = Element.FocusOptionsType.create();
+        preventScrollFocus.setPreventScroll(true);
+        focusableElement.focus(preventScrollFocus); // Note: preventScoll is considered only by modern browsers
         // We check if that element now has the focus and return the test result.
         boolean success = focusableElement.ownerDocument.activeElement == focusableElement;
         if (!success && !focusableElement.hasAttribute("tabindex")) {
             focusableElement.setAttribute("tabindex", "0");
-            focusableElement.focus();
+            focusableElement.focus(preventScrollFocus); // Note: preventScoll is considered only by modern browsers
             if (focusableElement.ownerDocument.activeElement == focusableElement) {
-                Console.log("⚠️ tabindex='0' has automatically been added to fulfill requestHtmlFocus() on node = " + getNode());
+                Console.warn("tabindex='0' has automatically been added to fulfill requestHtmlFocus() on node = " + getNode());
                 return true;
             }
         }

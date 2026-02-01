@@ -85,7 +85,7 @@ public interface HtmlMeasurable extends Measurable {
         double measure = prepareAndMeasureElement(e, measureWidth, otherSizeValue);
         if (cache != null && e.isConnected) { // no cache for non-connected elements (as explained above)
             if (DETECT_WRONG_CACHE && cachedSize >= 0 && cachedSize != measure) {
-                Console.log("⚠️ Warning: cached " + (measureWidth ? "width" : "height") + " differs from measured: " + cachedSize + " != " + measure + " for " + this + ", style = " + e.style.cssText);
+                Console.warn("cached " + (measureWidth ? "width" : "height") + " differs from measured: " + cachedSize + " != " + measure + " for " + this + ", style = " + e.style.cssText);
             }
             cache.setCachedSize(otherSizeValue, measureWidth, measure);
         }
