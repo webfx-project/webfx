@@ -308,7 +308,7 @@ public abstract class HtmlSvgNodePeer
             focusableElement.setAttribute("tabindex", "0");
             focusableElement.focus(preventScrollFocus); // Note: preventScoll is considered only by modern browsers
             if (focusableElement.ownerDocument.activeElement == focusableElement) {
-                Console.log("⚠️ tabindex='0' has automatically been added to fulfill requestHtmlFocus() on node = " + getNode());
+                Console.warn("tabindex='0' has automatically been added to fulfill requestHtmlFocus() on node = " + getNode());
                 return true;
             }
         }

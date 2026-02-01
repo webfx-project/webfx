@@ -191,7 +191,7 @@ public class MediaPlayer {
                             Console.log("[WebFX Platform]: File size: " + Files.size(file));
                             UiScheduler.runInUiThread(() -> loadGluonMusicNow(extForm));
                         } catch (IOException e) {
-                            Console.log("[WebFX Platform]: Error while downloading " + extForm, e);
+                            Console.error("[WebFX Platform]: Error while downloading " + extForm, e);
                             statusProperty.set(Status.HALTED);
                         }
                     });

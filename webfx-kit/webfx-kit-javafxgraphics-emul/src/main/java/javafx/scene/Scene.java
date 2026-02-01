@@ -2331,7 +2331,7 @@ public class Scene implements EventTarget,
         if (nodePeer != null) {
             Node node = nodePeer.getNode();
             if (node == null) // Happens for any reason with HtmlPathNodePeer
-                Console.log("⚠️ Scene.pick() detected that nodePeer.getNode() is null for nodePeer " + nodePeer);
+                Console.warn("Scene.pick() detected that nodePeer.getNode() is null for nodePeer " + nodePeer);
             else
                 pickResult = new PickResult(node, x, y);
         }

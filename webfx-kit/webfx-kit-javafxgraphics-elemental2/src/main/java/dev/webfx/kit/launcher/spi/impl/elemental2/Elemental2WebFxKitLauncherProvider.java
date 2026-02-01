@@ -271,7 +271,7 @@ public final class Elemental2WebFxKitLauncherProvider extends WebFxKitLauncherPr
                 application.init();
                 application.start(getPrimaryStage());
             } catch (Exception e) {
-                Console.log("Error while launching the JavaFX application", e);
+                Console.error("Error while launching the JavaFX application", e);
             }
     }
 

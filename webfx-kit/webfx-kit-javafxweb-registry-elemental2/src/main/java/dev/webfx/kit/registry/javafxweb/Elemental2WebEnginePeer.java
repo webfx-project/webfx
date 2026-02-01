@@ -34,7 +34,7 @@ final class Elemental2WebEnginePeer extends WebEnginePeerBase {
         try {
             return iFrame == null ? null : iFrame.contentWindow;
         } catch (Exception e) {
-            Console.log("⚠️ Browser is blocking access to iFrame.contentWindow | " + this);
+            Console.warn("Browser is blocking access to iFrame.contentWindow | " + this);
             return null;
         }
     }
@@ -43,7 +43,7 @@ final class Elemental2WebEnginePeer extends WebEnginePeerBase {
         try {
             return iFrame == null ? null : iFrame.contentDocument;
         } catch (Exception e) {
-            Console.log("⚠️ Browser is blocking access to iFrame.contentDocument | " + this);
+            Console.warn("Browser is blocking access to iFrame.contentDocument | " + this);
             return null;
         }
     }
@@ -72,7 +72,7 @@ final class Elemental2WebEnginePeer extends WebEnginePeerBase {
             return Elemental2JSObject.eval(scriptWindow, script);
         }
         HTMLIFrameElement iFrame = getIFrame();
-        Console.log("⚠️ Couldn't execute script because the webEngine window is not ready (" + (iFrame == null ? "iFrame is null)" : getSafeContentWindow(iFrame) == null ? "iFrame.contentWindow is null)" : "???)"));
+        Console.warn("Couldn't execute script because the webEngine window is not ready (" + (iFrame == null ? "iFrame is null)" : getSafeContentWindow(iFrame) == null ? "iFrame.contentWindow is null)" : "???)"));
         return null;
     }
 
