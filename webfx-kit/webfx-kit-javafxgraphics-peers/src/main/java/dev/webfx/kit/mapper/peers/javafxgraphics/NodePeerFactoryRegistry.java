@@ -41,11 +41,12 @@ public final class NodePeerFactoryRegistry {
     }
 
     public static String classTag(Node node) {
-        String nodeClass = node.getClass().getSimpleName().toLowerCase();
-        if (Character.isDigit(nodeClass.charAt(0))) // Happens with anonymous classes - Ex: 1
-            // In that case, we put the name of the super class. Ex: fx-pane-1 instead of fx-1
-            nodeClass = node.getClass().getSuperclass().getSimpleName().toLowerCase() + "-" + nodeClass;
-        return "fx-" + nodeClass;
+        String nodeClass = node.getClass().getSimpleName();
+        // Detecting anonymous classes
+        if (nodeClass == null || nodeClass.isEmpty() /* happens with TeaVM */ || Character.isDigit(nodeClass.charAt(0)) /* happens with GWT - Ex: 1 */)
+            // In that case, we put the name of the super class. Ex: fx-pane instead of fx-1
+            nodeClass = node.getClass().getSuperclass().getSimpleName();
+        return "fx-" + nodeClass.toLowerCase();
     }
 
     public static <N extends Node, V extends NodePeer<N>> V createNodePeer(N node) {
