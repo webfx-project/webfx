@@ -3,7 +3,6 @@
 
 [![JavaFX compatible](https://img.shields.io/badge/JavaFX-compatible-brightgreen.svg)](https://openjfx.io)
 [![GWT compatible](https://img.shields.io/badge/GWT-compatible-brightgreen.svg)][gwt-website]
-[![J2CL compatible](https://img.shields.io/badge/J2CL-compatible-brightgreen.svg)][j2cl-repo]
 [![TeaVM compatible](https://img.shields.io/badge/TeaVM-compatible-brightgreen.svg)][teavm-website]
 [![Gluon compatible](https://img.shields.io/badge/Gluon-compatible-brightgreen.svg)](https://gluonhq.com)
 [![Vert.x compatible](https://img.shields.io/badge/Vert.x-compatible-brightgreen.svg)][vertx-website]
@@ -11,14 +10,14 @@
 <a href="https://webfx.dev"><img src="WebFX.png"/></a>
 &nbsp;
 
-[![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white)](https://www.jfx-central.com/tools/webfx)
-[![Twitter](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=x)](https://twitter.com/WebFXProject) 
-[![Discord](https://img.shields.io/badge/join-support_chat-0f80c0?logo=discord&logoColor=white)][webfx-discord]
+[![JFXCentral](https://img.shields.io/badge/Find_me_on-JFXCentral-blue?logo=googlechrome&logoColor=white&color=7289DA)](https://www.jfx-central.com/tools/webfx)
+[![Twitter](https://img.shields.io/badge/follow-%40WebFXProject-0f80c0?logo=x&color=7289DA)](https://twitter.com/WebFXProject) 
+[![Discord](https://img.shields.io/discord/1205089571835088907?logo=discord&color=7289DA&logoColor=white)][webfx-discord]
 
 </div>
 
 # WebFX
-WebFX is a JavaFX application transpiler powered by [GWT][gwt-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript web app (with no plugin or server required for its execution in the browser).
+WebFX is a JavaFX application transpiler powered by [GWT][gwt-website] or [TeaVM][teavm-website]. It can transpile a JavaFX application into a traditional self-contained pure JavaScript or WebAssembly web app (with no plugin or server required for its execution in the browser).
 
 For more explanation, please visit the [website][webfx-website].
 
@@ -231,21 +230,6 @@ Some redesign work is also necessary to transit from the current patching proces
 For any questions or requests for help, feel free to open a GitHub [discussion](https://github.com/webfx-project/webfx/discussions), or use our [#general][webfx-discord] chat channel on Discord. You can open an [issue](https://github.com/webfx-project/webfx/issues) to report a bug, or request a feature.
 
 
-## Keep updated
-
-Depending on how often you would like to receive updates, you can subscribe to our [blog][webfx-blog] (RSS - low traffic), follow  [@WebFXProject][webfx-twitter] (X - medium traffic), or join our [#news][webfx-discord] channel (Discord - higher traffic).
-
-## Get involved!
-
-You can greatly help the project by:
-
-- Following the [guide][webfx-guide] and start experimenting with WebFX
-- Reporting any issues you may have with the [WebFX CLI][webfx-cli-repo], which we will try to fix
-- Giving us feedback in our GitHub [discussions][webfx-discussions]
-- Sharing your first WebFX applications (we can add it to our [demo list][webfx-demos] if you wish)
-
-You want to get involved in the development as well? You are very welcome! Please read our [contributing guide](CONTRIBUTING.md).
-
 ## License
 
 WebFX is a free, open-source software licensed under the [Apache License 2.0](../LICENSE)
@@ -265,4 +249,4 @@ Special thanks to JetBrains for supporting WebFX by generously providing a free 
 [webfx-discussions]: https://github.com/webfx-project/webfx/discussions
 [webfx-contact]: mailto:maintainer@webfx.dev
 [webfx-cli-repo]: https://github.com/webfx-project/webfx-cli
-[gwt-website]: http://www.gwtproject.org
+[gwt-website]: https://www.gwtproject.org
