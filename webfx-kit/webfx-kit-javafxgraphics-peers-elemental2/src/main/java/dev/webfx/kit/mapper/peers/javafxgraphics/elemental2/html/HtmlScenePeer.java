@@ -166,11 +166,11 @@ public final class HtmlScenePeer extends ScenePeerBase {
                 deferredMouseReleased = fxMouseEvent;
                 UiScheduler.scheduleInAnimationFrame(this::processDeferredMouseReleased, 1);
             } else {
-                // A deferred mouse released must reach JavaFX before the next mouse pressed, otherwise the JavaFX
-                // scene would see 2 presses followed by 2 releases on a quick double click or double tap, and count
-                // 2 clicks for both releases (instead of 1 and then 2).
-                if (isMousePressed)
-                    processDeferredMouseReleased();
+                // A deferred mouse released must reach JavaFX before any next mouse event, otherwise the JavaFX scene
+                // would see the events out of order. Ex: on a quick double tap (or when a long frame delays the events),
+                // 2 presses followed by 2 releases (2 clicks counted for both releases instead of 1 and then 2), or the
+                // pointerenter of the second tap (sent with the button down by iOS) before the first release.
+                processDeferredMouseReleased();
                 scene.impl_processMouseEvent(fxMouseEvent);
                 if (isMousePressed) {
                     atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
