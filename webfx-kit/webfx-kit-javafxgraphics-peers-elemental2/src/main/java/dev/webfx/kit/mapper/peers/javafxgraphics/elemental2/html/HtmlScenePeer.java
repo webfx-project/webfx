@@ -135,6 +135,15 @@ public final class HtmlScenePeer extends ScenePeerBase {
     }
 
     private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
+    private javafx.scene.input.MouseEvent deferredMouseReleased; // mouse released waiting for the next animation frame
+
+    private void processDeferredMouseReleased() {
+        javafx.scene.input.MouseEvent mouseReleased = deferredMouseReleased;
+        if (mouseReleased != null) {
+            deferredMouseReleased = null;
+            scene.impl_processMouseEvent(mouseReleased);
+        }
+    }
 
     private void passHtmlPointerEventOnToFx(MouseEvent e, String type) { // PointerEvent extends MouseEvent (will be available in elemental2 1.2.3)
         javafx.scene.input.MouseEvent fxMouseEvent = FxEvents.toFxMouseEvent(e, type);
@@ -148,9 +157,16 @@ public final class HtmlScenePeer extends ScenePeerBase {
             // treated in the same animation frame, which prevents the button `pressed` state (ex: a background bound to
             // the button pressedProperty) to appear before the action (which might be time-consuming) is fired, so the
             // user doesn't know if the button has been successfully pressed or not during the action execution.
-            if (isMouseReleased && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
-                UiScheduler.scheduleInAnimationFrame(() -> scene.impl_processMouseEvent(fxMouseEvent), 1);
-            else {
+            if (isMouseReleased && !atLeastOneAnimationFrameOccurredSinceLastMousePressed) {
+                processDeferredMouseReleased(); // (shouldn't happen, but just in case)
+                deferredMouseReleased = fxMouseEvent;
+                UiScheduler.scheduleInAnimationFrame(this::processDeferredMouseReleased, 1);
+            } else {
+                // A deferred mouse released must reach JavaFX before the next mouse pressed, otherwise the JavaFX
+                // scene would see 2 presses followed by 2 releases on a quick double click or double tap, and count
+                // 2 clicks for both releases (instead of 1 and then 2).
+                if (isMousePressed)
+                    processDeferredMouseReleased();
                 scene.impl_processMouseEvent(fxMouseEvent);
                 if (isMousePressed) {
                     atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
