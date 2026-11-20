@@ -1780,8 +1780,12 @@ public class Scene implements EventTarget,
         private static final double MULTI_TAP_TOLERANCE = 50;
 
         private MouseEvent preProcess(MouseEvent e) {
+            EventType<? extends MouseEvent> type = e.getEventType();
             boolean betweenTaps = e.isSynthesized() // mouse event generated from a touch event (see FxEvents)
-                    && (e.getEventType() == MouseEvent.MOUSE_PRESSED || !e.isPrimaryButtonDown() && !e.isSecondaryButtonDown() && !e.isMiddleButtonDown());
+                    // Note: entered & exited are sent when the finger touches & leaves the screen, and iOS sends the
+                    // entered event with the button already down, so they are not considered as drag events.
+                    && (type == MouseEvent.MOUSE_PRESSED || type == MouseEvent.MOUSE_ENTERED || type == MouseEvent.MOUSE_EXITED
+                        || !e.isPrimaryButtonDown() && !e.isSecondaryButtonDown() && !e.isMiddleButtonDown());
             double tolerance = betweenTaps ? MULTI_TAP_TOLERANCE : MULTI_CLICK_TOLERANCE;
             for (ClickCounter cc : counters.values()) {
                 cc.moved(e.getSceneX(), e.getSceneY(), tolerance);
