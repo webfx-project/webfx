@@ -57,12 +57,15 @@ public final class FxEvents {
                 return null;
         }
         lastDownButton = downButton;
+        // As in JavaFX, the mouse events generated from touch events are synthesized (this lets the scene apply a
+        // tolerance suited to fingers when counting clicks, for example)
+        boolean synthesized = "touch".equals(HtmlUtil.getJsJavaObjectAttribute(me, "pointerType"));
         return new MouseEvent(null, null, eventType, me.pageX, me.pageY, me.screenX, me.screenY, downButton,
             1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey,
             newPrimaryButtonDown,
             newMiddleButtonDown,
             newSecondaryButtonDown,
-            false,
+            synthesized,
             false,
             false,
             null);

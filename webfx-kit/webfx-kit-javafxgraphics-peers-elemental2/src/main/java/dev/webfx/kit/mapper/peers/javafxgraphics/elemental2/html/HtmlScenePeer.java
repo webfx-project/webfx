@@ -86,6 +86,10 @@ public final class HtmlScenePeer extends ScenePeerBase {
         registerPointerListener("pointerenter");
         registerPointerListener("pointerleave");
         registerPointerListener("pointermove");
+        // Disabling the browser double-tap-to-zoom (iOS Safari ignores user-scalable=no in the viewport meta), as it
+        // cancels the pointer events of the second tap (pointercancel instead of pointerup), so JavaFX would miss the
+        // double tap. Panning and pinch-zooming are still allowed.
+        sceneHtmlElement.style.setProperty("touch-action", "manipulation");
         // Note: not necessary to register "clicked", as the JavaFX Scene has its own way to generate mouse click events
         // (based on the pressed and released events).
         sceneHtmlElement.oncontextmenu = e -> {
