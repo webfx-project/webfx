@@ -1721,9 +1721,9 @@ public class Scene implements EventTarget,
             out = false;
         }
 
-        private void moved(double x, double y) {
-            if (Math.abs(x - pressedX) > 10 /*toolkit.getMultiClickMaxX()*/ ||
-                    Math.abs(y - pressedY) > 10 /*toolkit.getMultiClickMaxY()*/) {
+        private void moved(double x, double y, double tolerance) {
+            if (Math.abs(x - pressedX) > tolerance /*toolkit.getMultiClickMaxX()*/ ||
+                    Math.abs(y - pressedY) > tolerance /*toolkit.getMultiClickMaxY()*/) {
                 out();
                 still = false;
             }
@@ -1773,9 +1773,18 @@ public class Scene implements EventTarget,
             }
         }
 
+        // WebFX: tolerance (in pixels) for the mouse position between 2 clicks, or while the button is down
+        private static final double MULTI_CLICK_TOLERANCE = 10;
+        // WebFX: tolerance between 2 taps for a double tap (fingers are less precise than a mouse; Android uses 100 dp
+        // for the double tap slop). While the finger is down, MULTI_CLICK_TOLERANCE still applies (a move is a drag).
+        private static final double MULTI_TAP_TOLERANCE = 50;
+
         private MouseEvent preProcess(MouseEvent e) {
+            boolean betweenTaps = e.isSynthesized() // mouse event generated from a touch event (see FxEvents)
+                    && (e.getEventType() == MouseEvent.MOUSE_PRESSED || !e.isPrimaryButtonDown() && !e.isSecondaryButtonDown() && !e.isMiddleButtonDown());
+            double tolerance = betweenTaps ? MULTI_TAP_TOLERANCE : MULTI_CLICK_TOLERANCE;
             for (ClickCounter cc : counters.values()) {
-                cc.moved(e.getSceneX(), e.getSceneY());
+                cc.moved(e.getSceneX(), e.getSceneY(), tolerance);
             }
 
             ClickCounter cc = counters.get(e.getButton());
