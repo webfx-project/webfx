@@ -44,6 +44,13 @@ public final class OpenJFXUiSchedulerProvider extends UiSchedulerProviderBase {
         return WebFxKitLauncher.isReady() && Platform.isFxApplicationThread();
     }
 
+    @Override
+    public boolean isUiThreadReady() {
+        // The one place that still asks the kit, and the right one: this provider IS the JavaFX scheduler, and
+        // its module already requires webfx-kit-launcher for the two calls above.
+        return WebFxKitLauncher.isReady();
+    }
+
     private Runnable animationRunnable;
     private final AnimationTimer animationTimer = new AnimationTimer() {
         @Override

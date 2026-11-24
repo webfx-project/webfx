@@ -48,7 +48,32 @@ public interface WebFxKitLauncherProvider {
 
     Application getApplication();
 
-    void launchApplication(Factory<Application> applicationFactory, String... args);
+    /**
+     * Launches the JavaFX application, if this kit can launch one. Does nothing by default.
+     *
+     * <p><b>The default is a no-op because a boot calls this unconditionally.</b>
+     * {@link dev.webfx.kit.launcher.WebFxKitLauncherModuleBooter} runs at {@code APPLICATION_LAUNCH_LEVEL} in
+     * every WebFX executable and calls it on whatever provider is registered, with a factory that yields the
+     * registered {@code Application} service — of which there may be none. A headless or command-line
+     * executable has nothing to launch, and that is an ordinary state rather than a misuse: such a provider
+     * simply does not override this.
+     *
+     * <p><b>A provider must not throw from here.</b> {@code APPLICATION_LAUNCH_LEVEL} sits between the jobs
+     * initializer and the jobs starter, and {@link dev.webfx.kit.launcher.WebFxKitLauncher#launchApplication}
+     * guards only the provider LOOKUP with a try/catch, not this call — so a throw aborts the boot before any
+     * application job can start. That is how it was found: a command-line tool's provider raised
+     * {@code UnsupportedOperationException} here on the reasoning that reaching it would be a bug, and killed
+     * the boot of every command it had.
+     *
+     * <p>Note that "nothing to launch" was already handled once, per-kit rather than here:
+     * {@code Elemental2WebFxKitLauncherProvider} creates from the factory and proceeds only
+     * {@code if (application != null)}. Saying it in the interface means the next provider does not have to
+     * rediscover it. The OpenJFX provider cannot make that check itself — it stores the factory and invokes it
+     * later, on the FX thread once the toolkit is up — which is also why this cannot be checked in
+     * {@code WebFxKitLauncher} on the caller's behalf.
+     */
+    default void launchApplication(Factory<Application> applicationFactory, String... args) {
+    }
 
     default boolean isReady() {
         return true;
