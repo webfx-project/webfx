@@ -3,6 +3,7 @@ name: Sonatype
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy:
